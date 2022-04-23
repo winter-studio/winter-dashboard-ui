@@ -1,5 +1,9 @@
 {
-  "singleQuote": true,
   "semi": false,
-  "vueIndentScriptAndStyle": true
+  "vueIndentScriptAndStyle": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "proseWrap": "never",
+  "htmlWhitespaceSensitivity": "strict",
+  "endOfLine": "auto"
 }
