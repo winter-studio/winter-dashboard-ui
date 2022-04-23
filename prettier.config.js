@@ -3,8 +3,7 @@ module.exports = {
   semi: false,
   vueIndentScriptAndStyle: false,
   singleQuote: true,
-  trailingComma: 'all',
-  proseWrap: 'never',
+  trailingComma: 'none',
   htmlWhitespaceSensitivity: 'strict',
-  endOfLine: 'auto',
+  endOfLine: 'auto'
 }

@@ -38,8 +38,17 @@
 </template>
 
 <script>
-export default {
-  name: 'Home',
+import Vue from 'vue'
+import Component from 'vue-class-component'
+
+@Component
+export default class Home extends Vue {
+  Search = 'el-icon-search'
+  Edit = 'el-icon-edit'
+  Check = 'el-icon-check'
+  Message = 'el-icon-message'
+  Star = 'el-icon-star-on'
+  Delete = 'el-icon-delete'
 }
 </script>
 
