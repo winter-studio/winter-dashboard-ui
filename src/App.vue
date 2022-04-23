@@ -1,7 +1,5 @@
 <template>
-  <AppSkeleton />
+  <router-view />
 </template>
 
-<script setup lang="ts">
-import AppSkeleton from '@/components/AppSkeleton.vue'
-</script>
+<script setup lang="ts"></script>

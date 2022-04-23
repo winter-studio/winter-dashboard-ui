@@ -1,9 +1,10 @@
 import { RouteRecordRaw } from 'vue-router'
+import { AppSkeleton } from '@/router/constant'
 
 const PAGE_NOT_FOUND_ROUTE: RouteRecordRaw = {
   path: '/:path(.*)*',
   name: 'PageNotFound',
-  component: () => import('@/layouts/AppSkeleton.vue'),
+  component: AppSkeleton,
   meta: {
     title: 'ErrorPage',
     hideBreadcrumb: true,
@@ -35,6 +36,7 @@ const LoginRoute: RouteRecordRaw = {
 const HomeRoute: RouteRecordRaw = {
   path: '/home',
   name: 'Home',
+  component: AppSkeleton,
   redirect: '/home/dashboard',
   meta: {
     title: 'Home'
@@ -43,7 +45,7 @@ const HomeRoute: RouteRecordRaw = {
     {
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('/@/views/public/Home.vue'),
+      component: () => import('@/views/public/Home.vue'),
       meta: {
         // affix: true,
         title: 'Home'
