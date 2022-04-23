@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "dev:mock": "cross-env USE_MOCK=true vite",
+    "dev:mock": "cross-env MOCK_ENABLED=true vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint:eslint": "eslint --cache --max-warnings 0  \"{src,mock}/**/*.{js,vue,ts,tsx}\" --fix",

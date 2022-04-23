@@ -6,7 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { viteMockServe } from 'vite-plugin-mock'
 
-const localEnabled = process.env.USE_MOCK === 'true'
+const mockEnabled = process.env.MOCK_ENABLED === 'true'
 
 export default defineConfig({
   resolve: {
@@ -24,7 +24,7 @@ export default defineConfig({
     }),
     viteMockServe({
       mockPath: './mock',
-      localEnabled: localEnabled,
+      localEnabled: mockEnabled,
       prodEnabled: false,
       injectCode: `
          import { setupProdMockServer } from './mockProdServer';
@@ -34,4 +34,15 @@ export default defineConfig({
       supportTs: true,
     }),
   ],
+  server: {
+    proxy: mockEnabled
+      ? {}
+      : {
+          '/api': {
+            target: 'http://localhost:8080',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/api/, ''),
+          },
+        },
+  },
 })
