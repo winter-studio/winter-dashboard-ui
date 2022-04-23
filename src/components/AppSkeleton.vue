@@ -16,9 +16,10 @@
 </template>
 
 <script>
-  export default {
-    name: 'AppSkeleton',
-  }
+import { Vue } from 'vue-class-component'
+
+@Component()
+export default class AppSkeleton extends Vue {}
 </script>
 
 <style scoped lang="scss"></style>
