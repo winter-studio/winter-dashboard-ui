@@ -1,5 +1,9 @@
 <template>
-  <el-header>Header</el-header>
+    <el-header>
+        <app-logo />
+    </el-header>
 </template>
 
-<script lang="ts"></script>
+<script setup lang="ts">
+import AppLogo from '@/components/app/AppLogo.vue'
+</script>
