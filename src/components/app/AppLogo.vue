@@ -1,5 +1,5 @@
 <template>
-    <el-image style="width: 50px; height: 50px" :src="logo" />
+  <el-image style="width: 50px; height: 50px" :src="logo" />
 </template>
 
 <script setup lang="ts">
