@@ -6,14 +6,16 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { viteMockServe } from 'vite-plugin-mock'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 declare interface ViteEnv {
   VITE_USE_MOCK: boolean
   VITE_PUBLIC_PATH: string
   VITE_USE_PROXY: boolean
+  VITE_APP_TITLE: string
 }
 
-function createVitePlugins(VITE_USE_MOCK: boolean, isBuild: boolean) {
+function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const plugins = [
     vue(),
     AutoImport({
@@ -21,17 +23,26 @@ function createVitePlugins(VITE_USE_MOCK: boolean, isBuild: boolean) {
     }),
     Components({
       resolvers: [ElementPlusResolver()]
+    }),
+    createHtmlPlugin({
+      minify: true,
+      template: 'index.html',
+      inject: {
+        data: {
+          title: viteEnv.VITE_APP_TITLE
+        }
+      }
     })
   ]
 
-  VITE_USE_MOCK &&
+  viteEnv.VITE_USE_MOCK &&
     plugins.push(
       viteMockServe({
         mockPath: './mock',
         localEnabled: !isBuild,
         prodEnabled: isBuild,
         injectCode: `
-         import { setupProdMockServer } from './mockProdServer';
+         import { setupProdMockServer } from '../mock/mockProdServer';
          setupProdMockServer();
       `,
         logger: true,
@@ -41,8 +52,8 @@ function createVitePlugins(VITE_USE_MOCK: boolean, isBuild: boolean) {
   return plugins
 }
 
-function createProxy(VITE_UES_PROXY: boolean) {
-  return VITE_UES_PROXY
+function createProxy(viteEnv) {
+  return viteEnv.VITE_UES_PROXY
     ? {}
     : {
         '/api': {
@@ -54,18 +65,19 @@ function createProxy(VITE_UES_PROXY: boolean) {
 }
 
 function loadAndConvertEnv(mode: string, root: string): ViteEnv {
-  const { VITE_USE_MOCK, VITE_UES_PROXY, VITE_PUBLIC_PATH } = loadEnv(mode, root)
+  const env = loadEnv(mode, root)
 
   return {
-    VITE_PUBLIC_PATH: VITE_PUBLIC_PATH,
-    VITE_USE_MOCK: VITE_USE_MOCK === 'true',
-    VITE_USE_PROXY: VITE_UES_PROXY === 'true'
+    VITE_PUBLIC_PATH: env.VITE_PUBLIC_PATH,
+    VITE_USE_MOCK: env.VITE_USE_MOCK === 'true',
+    VITE_USE_PROXY: env.VITE_UES_PROXY === 'true',
+    VITE_APP_TITLE: env.VITE_APP_TITLE
   }
 }
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   const root = process.cwd()
-  const { VITE_USE_MOCK, VITE_USE_PROXY } = loadAndConvertEnv(mode, root)
+  const viteEnv = loadAndConvertEnv(mode, root)
   const isBuild = command === 'build'
 
   return {
@@ -74,9 +86,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         '@': resolve(__dirname, 'src')
       }
     },
-    plugins: createVitePlugins(VITE_USE_MOCK, isBuild),
+    plugins: createVitePlugins(viteEnv, isBuild),
     server: {
-      proxy: createProxy(VITE_USE_PROXY)
+      open: true,
+      proxy: createProxy(viteEnv)
     }
   }
 }

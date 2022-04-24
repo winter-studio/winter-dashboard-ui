@@ -2,11 +2,9 @@
   <div>Login</div>
 </template>
 
-<script>
-import Vue from 'vue'
-import Component from 'vue-class-component'
+<script lang="ts">
+import { Vue } from 'vue-property-decorator'
 
-@Component
 export default class Login extends Vue {}
 </script>
 

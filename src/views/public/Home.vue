@@ -37,11 +37,9 @@
   </el-row>
 </template>
 
-<script>
-import Vue from 'vue'
-import Component from 'vue-class-component'
+<script lang="ts">
+import { Vue } from 'vue-property-decorator'
 
-@Component
 export default class Home extends Vue {
   Search = 'el-icon-search'
   Edit = 'el-icon-edit'

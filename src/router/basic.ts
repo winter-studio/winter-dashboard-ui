@@ -14,7 +14,7 @@ const PAGE_NOT_FOUND_ROUTE: RouteRecordRaw = {
     {
       path: '/:path(.*)*',
       name: 'PageNotFound',
-      component: () => import('@/views/sys/exception/PageNotFound.vue'),
+      component: () => import('@/views/public/PageNotFound.vue'),
       meta: {
         title: 'ErrorPage',
         hideBreadcrumb: true,
