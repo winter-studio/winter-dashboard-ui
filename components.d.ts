@@ -5,7 +5,11 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AppSkeleton: typeof import('./src/layouts/AppSkeleton.vue')['default']
+    AppHeader: typeof import('./src/components/app/AppHeader.vue')['default']
+    AppLayout: typeof import('./src/layouts/AppLayout.vue')['default']
+    AppLogo: typeof import('./src/components/app/AppLogo.vue')['default']
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElRow: typeof import('element-plus/es')['ElRow']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

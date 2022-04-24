@@ -1,1 +1,1 @@
-export const AppSkeleton = () => import('@/layouts/AppSkeleton.vue')
+export const AppLayout = () => import('@/layouts/AppLayout.vue')

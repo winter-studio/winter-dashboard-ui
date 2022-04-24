@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { viteMockServe } from 'vite-plugin-mock'
 import { createHtmlPlugin } from 'vite-plugin-html'
+import vuetify from '@vuetify/vite-plugin'
 
 declare interface ViteEnv {
   VITE_USE_MOCK: boolean
@@ -18,6 +19,9 @@ declare interface ViteEnv {
 function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const plugins = [
     vue(),
+    vuetify({
+      autoImport: true
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()]
     }),

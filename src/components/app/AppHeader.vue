@@ -1,7 +1,5 @@
 <template>
-  <el-header>
-    <app-logo />
-  </el-header>
+  <app-logo />
 </template>
 
 <script setup lang="ts">

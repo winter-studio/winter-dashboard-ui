@@ -1,11 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import './styles/reset.css'
-import './styles/layout.css'
 import { setupStore } from '@/store'
 import { setupRouter } from '@/router'
+import vuetify from '@/plugins/vuetify'
+import { loadFonts } from '@/plugins/webfontloader'
 
 async function bootstrap() {
   const app = createApp(App)
@@ -16,10 +14,11 @@ async function bootstrap() {
   // Configure router
   setupRouter(app)
 
-  app.use(ElementPlus, {
-    size: 'small',
-    zIndex: 3000
-  })
+  // Load fonts
+  loadFonts()
+
+  // Configure vuetify
+  app.use(vuetify)
 
   app.mount('#app')
 }
