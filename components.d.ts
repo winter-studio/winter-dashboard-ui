@@ -4,21 +4,11 @@
 import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
-    export interface GlobalComponents {
-        AppHeader: typeof import('./src/components/app/AppHeader.vue')['default']
-        AppLogo: typeof import('./src/components/app/AppLogo.vue')['default']
-        AppSkeleton: typeof import('./src/layouts/AppSkeleton.vue')['default']
-        ElAside: typeof import('element-plus/es')['ElAside']
-        ElButton: typeof import('element-plus/es')['ElButton']
-        ElContainer: typeof import('element-plus/es')['ElContainer']
-        ElFooter: typeof import('element-plus/es')['ElFooter']
-        ElHeader: typeof import('element-plus/es')['ElHeader']
-        ElImage: typeof import('element-plus/es')['ElImage']
-        ElMain: typeof import('element-plus/es')['ElMain']
-        ElRow: typeof import('element-plus/es')['ElRow']
-        RouterLink: typeof import('vue-router')['RouterLink']
-        RouterView: typeof import('vue-router')['RouterView']
-    }
+  export interface GlobalComponents {
+    AppSkeleton: typeof import('./src/layouts/AppSkeleton.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
+  }
 }
 
 export {}
