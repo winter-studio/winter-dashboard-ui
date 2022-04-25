@@ -1,28 +1,21 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { setupStore } from '@/store'
-import { setupRouter } from '@/router'
-import vuetify from '@/plugins/vuetify'
-import { loadFonts } from '@/plugins/webfontloader'
+import { router, setupRouter } from '@/router'
+import setupVuetify from '@/plugins/vuetify'
 
-async function bootstrap() {
-  const app = createApp(App)
+const app = createApp(App)
 
-  // Configure store
-  setupStore(app)
+// Configure store
+setupStore(app)
 
-  // Configure router
-  setupRouter(app)
+// Configure router
+setupRouter(app)
 
-  // Load fonts
-  loadFonts()
+// Configure vuetify
+setupVuetify(app)
 
-  // Configure vuetify
-  app.use(vuetify)
-
+// Run!
+router.isReady().then(() => {
   app.mount('#app')
-}
-
-bootstrap().then(() => {
-  console.log('started')
 })

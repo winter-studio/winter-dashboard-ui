@@ -1,9 +1,11 @@
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
   root: true,
   env: {
     browser: true,
     node: true,
-    es6: true,
+    es6: true
   },
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -12,15 +14,29 @@ module.exports = {
     sourceType: 'module',
     jsxPragma: 'React',
     ecmaFeatures: {
-      jsx: true,
-    },
+      jsx: true
+    }
   },
   extends: [
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    '@vue/eslint-config-prettier'
   ],
   rules: {
+    'max-len': [
+      'error',
+      {
+        code: 100,
+        tabWidth: 2,
+        comments: 100,
+        ignoreComments: false,
+        ignoreTrailingComments: false,
+        ignoreStrings: false,
+        ignoreTemplateLiterals: false,
+        ignoreRegExpLiterals: false
+      }
+    ],
     'vue/script-setup-uses-vars': 'error',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -38,39 +54,32 @@ module.exports = {
       'error',
       {
         argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      },
+        varsIgnorePattern: '^_'
+      }
     ],
     'no-unused-vars': [
       'error',
       {
         argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      },
+        varsIgnorePattern: '^_'
+      }
     ],
     'space-before-function-paren': 'off',
-
-    'vue/attributes-order': 'off',
-    'vue/one-component-per-file': 'off',
-    'vue/html-closing-bracket-newline': 'off',
-    'vue/max-attributes-per-line': 'off',
-    'vue/multiline-html-element-content-newline': 'off',
-    'vue/singleline-html-element-content-newline': 'off',
-    'vue/attribute-hyphenation': 'off',
-    'vue/require-default-prop': 'off',
-    'vue/require-explicit-emits': 'off',
-    'vue/html-self-closing': [
+    'vue/max-len': [
       'error',
       {
-        html: {
-          void: 'always',
-          normal: 'never',
-          component: 'always',
-        },
-        svg: 'always',
-        math: 'always',
-      },
-    ],
-    'vue/multi-word-component-names': 'off',
-  },
-};
+        code: 100,
+        template: 100,
+        tabWidth: 2,
+        comments: 100,
+        ignoreComments: false,
+        ignoreTrailingComments: false,
+        ignoreStrings: false,
+        ignoreTemplateLiterals: false,
+        ignoreRegExpLiterals: false,
+        ignoreHTMLAttributeValues: false,
+        ignoreHTMLTextContents: false
+      }
+    ]
+  }
+}

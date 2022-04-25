@@ -91,6 +91,18 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       }
     },
     plugins: createVitePlugins(viteEnv, isBuild),
+    css: {
+      // https://vitejs.dev/config/#css-preprocessoroptions
+      preprocessorOptions: {
+        sass: {
+          additionalData: [
+            // vuetify variable overrides
+            '@import "@/styles/variables.scss"',
+            ''
+          ].join('\n')
+        }
+      }
+    },
     server: {
       open: true,
       proxy: createProxy(viteEnv)
