@@ -6,7 +6,18 @@
       class="app-drawer"
       color="grey-lighten-5"
       elevation="3"
-    />
+    >
+      <v-list>
+        <v-list-group>
+          <template #activator="{ props }">
+            <v-list-item v-bind="props" prepend-icon="mdi-home" title="Home"></v-list-item>
+          </template>
+          <v-list-item class="pa-0" prepend-icon="mdi-home" title="Home1"></v-list-item>
+          <v-list-item class="pa-0" prepend-icon="mdi-home" title="Home2"></v-list-item>
+          <v-list-item class="pa-0" prepend-icon="mdi-home" title="Home3"></v-list-item>
+        </v-list-group>
+      </v-list>
+    </v-navigation-drawer>
 
     <v-app-bar color="primary" elevation="0" :priority="-1" class="justify-start">
       <v-app-bar-nav-icon @click="drawer = !drawer" />
@@ -76,15 +87,19 @@ html {
 .v-application {
   height: 100vh;
   overflow-y: auto;
-}
 
-.app-drawer {
-  height: calc((100% - 64px) - 36px);
-  margin-bottom: 36px;
-}
+  .app-drawer {
+    height: calc((100% - 64px) - 36px);
+    margin-bottom: 36px;
+  }
 
-.app-footer {
-  z-index: 1008;
+  .app-footer {
+    z-index: 1008;
+  }
+
+  .v-list-group--prepend {
+    --parent-padding: calc(var(--indent-padding) + 0px);
+  }
 }
 
 /*

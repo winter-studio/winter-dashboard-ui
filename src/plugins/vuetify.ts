@@ -1,6 +1,7 @@
 import '@mdi/font/css/materialdesignicons.css'
 import { loadFonts } from './webfontloader'
 import 'vuetify/styles'
+// @ts-ignore
 import colors from 'vuetify/lib/util/colors'
 
 // Vuetify
