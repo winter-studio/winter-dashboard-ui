@@ -7,7 +7,6 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { viteMockServe } from 'vite-plugin-mock'
 import { createHtmlPlugin } from 'vite-plugin-html'
-import vuetify from '@vuetify/vite-plugin'
 
 declare interface ViteEnv {
   VITE_USE_MOCK: boolean
@@ -19,9 +18,6 @@ declare interface ViteEnv {
 function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const plugins = [
     vue(),
-    vuetify({
-      autoImport: true
-    }),
     AutoImport({
       resolvers: [ElementPlusResolver()]
     }),
@@ -91,18 +87,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       }
     },
     plugins: createVitePlugins(viteEnv, isBuild),
-    css: {
-      // https://vitejs.dev/config/#css-preprocessoroptions
-      preprocessorOptions: {
-        sass: {
-          additionalData: [
-            // vuetify variable overrides
-            '@import "@/styles/variables.scss"',
-            ''
-          ].join('\n')
-        }
-      }
-    },
     server: {
       open: true,
       proxy: createProxy(viteEnv)

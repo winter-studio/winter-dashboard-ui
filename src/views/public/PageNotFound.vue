@@ -2,10 +2,6 @@
   <div>404</div>
 </template>
 
-<script lang="ts">
-import { Vue } from 'vue-property-decorator'
-
-export default class PageNotFound extends Vue {}
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

@@ -10,7 +10,6 @@ declare module '@vue/runtime-core' {
     AppLogo: typeof import('./src/components/application/AppLogo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    VToast: typeof import('./src/components/utils/VToast.vue')['default']
   }
 }
 

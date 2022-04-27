@@ -24,7 +24,7 @@ const PAGE_NOT_FOUND_ROUTE: RouteRecordRaw = {
   ]
 }
 
-const LoginRoute: RouteRecordRaw = {
+const LOGIN_ROUTE: RouteRecordRaw = {
   path: '/login',
   name: 'Login',
   component: () => import('@/views/public/Login.vue'),
@@ -33,7 +33,7 @@ const LoginRoute: RouteRecordRaw = {
   }
 }
 
-const HomeRoute: RouteRecordRaw = {
+const HOME_ROUTE: RouteRecordRaw = {
   path: '/home',
   name: 'Home',
   component: AppLayout,
@@ -54,7 +54,7 @@ const HomeRoute: RouteRecordRaw = {
   ]
 }
 
-const RootRoute: RouteRecordRaw = {
+const ROOT_ROUTE: RouteRecordRaw = {
   path: '/',
   name: 'Root',
   redirect: '/home',
@@ -63,4 +63,4 @@ const RootRoute: RouteRecordRaw = {
   }
 }
 
-export const basicRoutes = [LoginRoute, RootRoute, HomeRoute, PAGE_NOT_FOUND_ROUTE]
+export const basicRoutes = [LOGIN_ROUTE, ROOT_ROUTE, HOME_ROUTE, PAGE_NOT_FOUND_ROUTE]
