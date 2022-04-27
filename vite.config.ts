@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { viteMockServe } from 'vite-plugin-mock'
 import { createHtmlPlugin } from 'vite-plugin-html'
 
@@ -19,10 +19,10 @@ function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const plugins = [
     vue(),
     AutoImport({
-      resolvers: [ElementPlusResolver()]
+      resolvers: [NaiveUiResolver()]
     }),
     Components({
-      resolvers: [ElementPlusResolver()]
+      resolvers: [NaiveUiResolver()]
     }),
     createHtmlPlugin({
       minify: true,
