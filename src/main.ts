@@ -1,19 +1,22 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { setupStore } from '@/store'
-import { router, setupRouter } from '@/router'
-import setupVuetify from '@/plugins/vuetify'
+import store from '@/store'
+import { router } from '@/router'
+import vuetify from '@/plugins/vuetify'
+import { loadFonts } from '@/plugins/webfontloader'
+import toast from '@/plugins/toast'
 
 const app = createApp(App)
 
 // Configure store
-setupStore(app)
-
+app.use(store)
 // Configure router
-setupRouter(app)
-
+app.use(router)
 // Configure vuetify
-setupVuetify(app)
+loadFonts()
+app.use(vuetify)
+// toast
+app.use(toast)
 
 // Run!
 router.isReady().then(() => {

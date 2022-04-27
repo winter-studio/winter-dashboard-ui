@@ -8,6 +8,8 @@
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "declaration": true,
+    "declarationMap": true,
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,

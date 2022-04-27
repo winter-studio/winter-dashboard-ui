@@ -1,18 +1,43 @@
-// @ts-ignore
-import VSnackbar from 'vuetify/components/VSnackbar'
+import VToast from '@/components/utils/VToast.vue'
 import { App, createApp } from 'vue'
+import { Toast, ToastOptions } from '@/types/toast'
 
-const plugin = {
-  install(app: App, options: any) {
-    options.global = options.global || {}
+const mountId = 'toast-mount-point'
 
-    const appEl = document.getElementById('app')
-    const mountPoint = document.createElement('div')
-    appEl!.appendChild(mountPoint)
-    const notifier = createApp(VSnackbar).mount(mountPoint)
-
-    app.provide('toast', notifier)
+const vuetifyToast: Toast = {
+  error(message: string, options: ToastOptions | undefined): void {
+    this.show(message, Object.assign(options || {}, { color: 'error' }))
+  },
+  info(message: string, options: ToastOptions | undefined): void {
+    this.show(message, Object.assign(options || {}, { color: 'info' }))
+  },
+  success(message: string, options: ToastOptions | undefined): void {
+    this.show(message, Object.assign(options || {}, { color: 'success' }))
+  },
+  warn(message: string, options: ToastOptions | undefined): void {
+    this.show(message, Object.assign(options || {}, { color: 'warn' }))
+  },
+  show(message: string, options: ToastOptions | undefined): void {
+    if (options) {
+    }
+    let mountPoint = document.getElementById(mountId)
+    if (!mountPoint) {
+      mountPoint = document.createElement('div')
+      mountPoint.id = mountId
+    }
+    createApp(VToast, { message }).mount(mountPoint)
   }
 }
 
-export default plugin
+const toast = {
+  install(app: App) {
+    // mount a div to #app
+    const appEl = document.getElementById('app')
+    const mountPoint = document.createElement('div')
+    mountPoint.id = mountId
+    appEl!.appendChild(mountPoint)
+    app.config.globalProperties.$toast = vuetifyToast
+  }
+}
+
+export default toast

@@ -65,6 +65,7 @@ module.exports = {
       }
     ],
     'space-before-function-paren': 'off',
+    'vue/multi-word-component-names': 'off',
     'vue/max-len': [
       'error',
       {

@@ -33,8 +33,3 @@ export function resetRouter() {
     }
   })
 }
-
-// config router
-export function setupRouter(app: App<Element>) {
-  app.use(router)
-}
