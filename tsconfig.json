@@ -28,6 +28,10 @@
       "vue",
       "naive-ui/volar"
     ],
+    "typeRoots": [
+      "./node_modules/@types/",
+      "./src/types"
+    ],
     "baseUrl": ".",
     "paths": {
       "@/*": [

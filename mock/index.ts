@@ -3,6 +3,6 @@ import testMock from '../mock/test'
 
 export const mockModules = [...testMock]
 
-export function setupProdMockServer() {
+export function setupMockServer() {
   createProdMockServer(mockModules)
 }

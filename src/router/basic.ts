@@ -1,6 +1,15 @@
 import { RouteRecordRaw } from 'vue-router'
 import { AppLayout } from '@/router/constant'
 
+const ROOT_ROUTE: RouteRecordRaw = {
+  path: '/',
+  name: 'Root',
+  redirect: '/dashboard',
+  meta: {
+    title: 'Root'
+  }
+}
+
 const PAGE_NOT_FOUND_ROUTE: RouteRecordRaw = {
   path: '/:path(.*)*',
   name: 'PageNotFound',
@@ -27,25 +36,25 @@ const PAGE_NOT_FOUND_ROUTE: RouteRecordRaw = {
 const LOGIN_ROUTE: RouteRecordRaw = {
   path: '/login',
   name: 'Login',
-  component: () => import('@/views/public/Login.vue'),
+  component: () => import('@/views/auth/Login.vue'),
   meta: {
     title: 'login'
   }
 }
 
-const HOME_ROUTE: RouteRecordRaw = {
-  path: '/home',
+const DASHBOARD_ROUTE: RouteRecordRaw = {
+  path: '/dashboard',
   name: 'Home',
   component: AppLayout,
-  redirect: '/home/dashboard',
+  redirect: '/dashboard/home',
   meta: {
     title: 'Home'
   },
   children: [
     {
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/public/Home.vue'),
+      path: 'home',
+      name: 'Home',
+      component: () => import('@/views/dashboard/Home.vue'),
       meta: {
         // affix: true,
         title: 'Home'
@@ -54,13 +63,9 @@ const HOME_ROUTE: RouteRecordRaw = {
   ]
 }
 
-const ROOT_ROUTE: RouteRecordRaw = {
-  path: '/',
-  name: 'Root',
-  redirect: '/home',
-  meta: {
-    title: 'Home'
-  }
-}
-
-export const basicRoutes = [LOGIN_ROUTE, ROOT_ROUTE, HOME_ROUTE, PAGE_NOT_FOUND_ROUTE]
+export const basicRoutes: RouteRecordRaw[] = [
+  LOGIN_ROUTE,
+  ROOT_ROUTE,
+  DASHBOARD_ROUTE,
+  PAGE_NOT_FOUND_ROUTE
+]
