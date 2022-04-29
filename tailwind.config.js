@@ -4,9 +4,5 @@ module.exports = {
   theme: {
     extend: {}
   },
-  plugins: [],
-  purge: {
-    enable: process.env.NODE_ENV === 'production',
-    content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}']
-  }
+  plugins: []
 }
