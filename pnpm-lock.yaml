@@ -40,7 +40,6 @@ specifiers:
   stylelint-order: ^5.0.0
   tailwindcss: ^3.0.24
   typescript: ^4.5.4
-  unplugin-auto-import: ^0.7.1
   unplugin-vue-components: ^0.19.3
   vfonts: ^0.0.3
   vite: ^2.9.5
@@ -90,7 +89,6 @@ devDependencies:
   stylelint-order: registry.npmmirror.com/stylelint-order/5.0.0_stylelint@14.7.1
   tailwindcss: registry.npmmirror.com/tailwindcss/3.0.24
   typescript: registry.npmmirror.com/typescript/4.6.3
-  unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.7.1_rollup@2.70.2+vite@2.9.5
   unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.19.3_c6dd246e44f6b00279edbaed253bbc84
   vfonts: registry.npmmirror.com/vfonts/0.0.3
   vite: registry.npmmirror.com/vite/2.9.5_sass@1.50.1
@@ -4325,31 +4323,6 @@ packages:
     name: unpipe
     version: 1.0.0
     engines: {node: '>= 0.8'}
-    dev: true
-
-  registry.npmmirror.com/unplugin-auto-import/0.7.1_rollup@2.70.2+vite@2.9.5:
-    resolution: {integrity: sha512-9865OV9eP99PNxHR2mtTDExeN01m4M9boT5U2BtIwsU1wDRsaFIYWLwcCBEjvXzXfTTC2NNMskhHGVAMfL2WgA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unplugin-auto-import/-/unplugin-auto-import-0.7.1.tgz}
-    id: registry.npmmirror.com/unplugin-auto-import/0.7.1
-    name: unplugin-auto-import
-    version: 0.7.1
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@vueuse/core': '*'
-    peerDependenciesMeta:
-      '@vueuse/core':
-        optional: true
-    dependencies:
-      '@antfu/utils': registry.npmmirror.com/@antfu/utils/0.5.1
-      '@rollup/pluginutils': registry.npmmirror.com/@rollup/pluginutils/4.2.1
-      local-pkg: registry.npmmirror.com/local-pkg/0.4.1
-      magic-string: registry.npmmirror.com/magic-string/0.26.1
-      resolve: registry.npmmirror.com/resolve/1.22.0
-      unplugin: registry.npmmirror.com/unplugin/0.6.2_rollup@2.70.2+vite@2.9.5
-    transitivePeerDependencies:
-      - esbuild
-      - rollup
-      - vite
-      - webpack
     dev: true
 
   registry.npmmirror.com/unplugin-vue-components/0.19.3_c6dd246e44f6b00279edbaed253bbc84:
