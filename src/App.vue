@@ -1,11 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
-    <router-view />
-  </n-config-provider>
+  <router-view />
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const darkTheme = ref(false)
-</script>
+<script setup lang="ts"></script>

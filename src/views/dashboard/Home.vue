@@ -1,5 +1,5 @@
 <template>
-  <n-button>naive-ui</n-button>
+  <div></div>
 </template>
 
 <script setup lang="ts"></script>

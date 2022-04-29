@@ -8,7 +8,6 @@ declare module '@vue/runtime-core' {
     AppHeader: typeof import('./src/components/application/AppHeader.vue')['default']
     AppLayout: typeof import('./src/layouts/AppLayout.vue')['default']
     AppLogo: typeof import('./src/components/application/AppLogo.vue')['default']
-    NButton: typeof import('naive-ui')['NButton']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
