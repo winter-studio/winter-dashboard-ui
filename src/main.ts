@@ -1,10 +1,10 @@
-import './styles/tailwind.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router, { setupRouter } from './router'
 import { setupStore } from '@/store'
 import { setupNaive, setupDirectives } from '@/plugins'
 import { AppProvider } from '@/components/Application'
+import './styles/tailwind.css'
 
 async function bootstrap() {
   const appProvider = createApp(AppProvider)
@@ -34,6 +34,10 @@ async function bootstrap() {
 
   // 路由准备就绪后挂载APP实例
   await router.isReady()
+
+  const meta = document.createElement('meta')
+  meta.name = 'naive-ui-style'
+  document.head.appendChild(meta)
 
   app.mount('#app', true)
 }
