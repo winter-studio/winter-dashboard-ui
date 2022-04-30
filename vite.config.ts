@@ -1,91 +1,103 @@
-import type { ConfigEnv, UserConfig } from 'vite'
+import type { UserConfig, ConfigEnv } from 'vite'
 import { loadEnv } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-import Components from 'unplugin-vue-components/vite'
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
-import { viteMockServe } from 'vite-plugin-mock'
-import { createHtmlPlugin } from 'vite-plugin-html'
+import { createVitePlugins } from './build/vite/plugin'
+import { OUTPUT_DIR } from './build/constant'
+import { createProxy } from './build/vite/proxy'
+import pkg from './package.json'
+import { format } from 'date-fns'
+const { dependencies, devDependencies, name, version } = pkg
 
-declare interface ViteEnv {
-  VITE_USE_MOCK: boolean
-  VITE_PUBLIC_PATH: string
-  VITE_USE_PROXY: boolean
-  VITE_APP_TITLE: string
-}
-
-function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
-  const plugins = [
-    vue(),
-    Components({
-      resolvers: [NaiveUiResolver()]
-    }),
-    createHtmlPlugin({
-      minify: true,
-      template: 'index.html',
-      inject: {
-        data: {
-          title: viteEnv.VITE_APP_TITLE
-        }
-      }
-    })
-  ]
-
-  viteEnv.VITE_USE_MOCK &&
-    plugins.push(
-      viteMockServe({
-        mockPath: './mock',
-        localEnabled: !isBuild,
-        prodEnabled: isBuild,
-        injectCode: `
-         import { setupProdMockServer } from '../mock';
-         setupMockServer();
-      `,
-        logger: true,
-        supportTs: true
-      })
-    )
-  return plugins
-}
-
-function createProxy(viteEnv) {
-  return viteEnv.VITE_UES_PROXY
-    ? {}
-    : {
-        '/api': {
-          target: 'http://localhost:8080',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
-        }
-      }
-}
-
-function loadAndConvertEnv(mode: string, root: string): ViteEnv {
-  const env = loadEnv(mode, root)
-
-  return {
-    VITE_PUBLIC_PATH: env.VITE_PUBLIC_PATH,
-    VITE_USE_MOCK: env.VITE_USE_MOCK === 'true',
-    VITE_USE_PROXY: env.VITE_UES_PROXY === 'true',
-    VITE_APP_TITLE: env.VITE_APP_TITLE
-  }
+const __APP_INFO__ = {
+  pkg: { dependencies, devDependencies, name, version },
+  lastBuildTime: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
 }
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
-  const root = process.cwd()
-  const viteEnv = loadAndConvertEnv(mode, root)
+  const viteEnv = loadViteEnv(mode)
+  const { VITE_PUBLIC_PATH, VITE_DROP_CONSOLE, VITE_GLOB_PROD_MOCK, VITE_PROXY } = viteEnv
+  const prodMock = VITE_GLOB_PROD_MOCK
   const isBuild = command === 'build'
-
   return {
+    base: VITE_PUBLIC_PATH,
+    esbuild: {},
     resolve: {
-      alias: {
-        '@': resolve(__dirname, 'src')
+      alias: [
+        {
+          find: '@',
+          replacement: pathResolve('src') + '/'
+        }
+      ],
+      dedupe: ['vue']
+    },
+    plugins: createVitePlugins(viteEnv, isBuild, prodMock),
+    define: {
+      __APP_INFO__: JSON.stringify(__APP_INFO__)
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          modifyVars: {},
+          javascriptEnabled: true,
+          additionalData: `@import "src/styles/var.scss";`
+        }
       }
     },
-    plugins: createVitePlugins(viteEnv, isBuild),
     server: {
-      open: true,
-      proxy: createProxy(viteEnv)
+      host: true,
+      proxy: createProxy(VITE_PROXY)
+      // proxy: {
+      //     '/api': {
+      //         target: '',
+      //         changeOrigin: true,
+      //         rewrite: (path) => path.replace(/^\/api/, '/api/v1')
+      //     }
+      // }
+    },
+    optimizeDeps: {
+      include: [],
+      exclude: ['vue-demi']
+    },
+    build: {
+      target: 'es2015',
+      outDir: OUTPUT_DIR,
+      terserOptions: {
+        compress: {
+          keep_infinity: true,
+          drop_console: VITE_DROP_CONSOLE
+        }
+      },
+      brotliSize: false,
+      chunkSizeWarningLimit: 2000
     }
   }
+}
+
+// Read all environment variable configuration files to process.env
+function loadViteEnv(mode: string): ViteEnv {
+
+  const root = process.cwd()
+  const envConf = loadEnv(mode, root)
+
+  const ret: any = {}
+
+  for (const envName of Object.keys(envConf)) {
+    let envValue = envConf[envName].replace(/\\n/g, '\n')
+    let viteEnvValue :      string|boolean|number|undefined
+
+    if (envName === 'VITE_PROXY') {
+      try {
+        viteEnvValue = JSON.parse(envValue)
+      } catch (error) {}
+    }else{
+      viteEnvValue = envValue === 'true' ? true : envValue === 'false' ? false : envValue
+    }
+    ret[envName] = viteEnvValue
+    // process.env[envName] = viteEnvValue
+  }
+  return ret
+}
+
+function pathResolve(dir: string) {
+  return resolve(process.cwd(),    '.', dir)
 }

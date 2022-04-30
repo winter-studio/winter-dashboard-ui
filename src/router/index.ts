@@ -1,32 +1,60 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import { basicRoutes } from './basic'
+import { App } from 'vue'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { RedirectRoute } from '@/router/base'
+import { PageEnum } from '@/enums/pageEnum'
+import { createRouterGuards } from './router-guards'
 
-// 白名单应该包含基本静态路由
-const WHITE_NAME_LIST: string[] = []
+const modules = import.meta.globEager('./modules/**/*.ts')
 
-const getRouteNames = (array: any[]) => {
-  array.forEach((item) => {
-    WHITE_NAME_LIST.push(item.name)
-    getRouteNames(item.children || [])
-  })
+const routeModuleList: RouteRecordRaw[] = []
+
+Object.keys(modules).forEach((key) => {
+  const mod = modules[key].default || {}
+  const modList = Array.isArray(mod) ? [...mod] : [mod]
+  routeModuleList.push(...modList)
+})
+
+function sortRoute(a, b) {
+  return (a.meta?.sort || 0) - (b.meta?.sort || 0)
 }
 
-getRouteNames(basicRoutes)
+routeModuleList.sort(sortRoute)
 
-// app router
-export const router = createRouter({
-  history: createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH),
-  routes: basicRoutes,
+export const RootRoute: RouteRecordRaw = {
+  path: '/',
+  name: 'Root',
+  redirect: PageEnum.BASE_HOME,
+  meta: {
+    title: 'Root'
+  }
+}
+
+export const LoginRoute: RouteRecordRaw = {
+  path: '/login',
+  name: 'Login',
+  component: () => import('@/views/login/index.vue'),
+  meta: {
+    title: '登录'
+  }
+}
+
+//需要验证权限
+export const asyncRoutes = [...routeModuleList]
+
+//普通路由 无需验证权限
+export const constantRouter: any[] = [LoginRoute, RootRoute, RedirectRoute]
+
+const router = createRouter({
+  history: createWebHashHistory(''),
+  routes: constantRouter,
   strict: true,
   scrollBehavior: () => ({ left: 0, top: 0 })
 })
 
-// reset router
-export function resetRouter() {
-  router.getRoutes().forEach((route) => {
-    const { name } = route
-    if (name && !WHITE_NAME_LIST.includes(name as string)) {
-      router.hasRoute(name) && router.removeRoute(name)
-    }
-  })
+export function setupRouter(app: App) {
+  app.use(router)
+  // 创建路由守卫
+  createRouterGuards(router)
 }
+
+export default router
