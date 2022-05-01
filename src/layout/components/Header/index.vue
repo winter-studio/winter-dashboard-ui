@@ -6,14 +6,15 @@
       class="layout-header-left"
     >
       <div v-if="navMode === 'horizontal'" class="logo">
-        <img src="~@/assets/images/logo.png" alt="" />
-        <h2 v-show="!collapsed" class="title">NaiveUiAdmin</h2>
+        <img src="@/assets/images/logo.png" alt="" />
+        <h2 v-show="!collapsed" class="m-0">Winter Dashboard</h2>
       </div>
       <AsideMenu
-        v-model:collapsed="collapsed"
         v-model:location="getMenuLocation"
+        :collapsed="collapsed"
         :inverted="getInverted"
         mode="horizontal"
+        @update:collapsed="$emit('update:collapsed', collapsed)"
       />
     </div>
     <!--左侧菜单-->
@@ -147,6 +148,7 @@ export default defineComponent({
       type: Boolean
     }
   },
+  emits: ['update:collapsed'],
   setup(props) {
     const userStore = useUserStore()
     const useLockscreen = useLockscreenStore()
@@ -371,10 +373,6 @@ export default defineComponent({
         width: auto;
         height: 32px;
         margin-right: 10px;
-      }
-
-      .title {
-        margin-bottom: 0;
       }
     }
 

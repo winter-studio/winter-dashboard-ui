@@ -267,7 +267,7 @@ export default defineComponent({
     watch(
       () => designStore.darkTheme,
       (to) => {
-        settingStore.navTheme = to ? 'header-dark' : 'dark'
+        settingStore.navTheme = to ? 'header-dark' : 'light'
       }
     )
 

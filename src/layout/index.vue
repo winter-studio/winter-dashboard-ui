@@ -27,7 +27,7 @@
       class="layout-side-drawer"
     >
       <Logo :collapsed="collapsed" />
-      <AsideMenu @clickMenuItem="collapsed = false" />
+      <AsideMenu @click-menu-item="collapsed = false" />
     </n-drawer>
 
     <n-layout :inverted="inverted">
@@ -193,8 +193,6 @@ onMounted(() => {
 
 <style lang="scss">
 .layout-side-drawer {
-  background-color: rgb(0, 20, 40);
-
   .layout-sider {
     min-height: 100vh;
     box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
@@ -216,7 +214,7 @@ onMounted(() => {
 
   .layout-sider {
     min-height: 100vh;
-    box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
+    box-shadow: 2px 0 8px 0 rgb(29 35 41 / 10%);
     position: relative;
     z-index: 13;
     transition: all 0.2s ease-in-out;

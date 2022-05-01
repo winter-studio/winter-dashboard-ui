@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
-    <img src="~@/assets/images/logo.png" alt="" :class="{ 'mr-2': !collapsed }" />
-    <h2 v-show="!collapsed" class="title">NaiveUiAdmin</h2>
+    <img src="@/assets/images/logo.png" alt="" :class="{ 'mr-2': !collapsed }" />
+    <h2 v-show="!collapsed" class="m-0">Winter Dashboard</h2>
   </div>
 </template>
 
