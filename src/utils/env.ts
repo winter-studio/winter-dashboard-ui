@@ -2,7 +2,6 @@ import type { GlobEnvConfig } from '@/types/config'
 
 import { warn } from '@/utils/log'
 import pkg from '../../package.json'
-import { getConfigFileName } from '../../build/getConfigFileName'
 
 export function getCommonStoragePrefix() {
   const { VITE_GLOB_APP_SHORT_NAME } = getAppEnvConfig()
@@ -12,6 +11,12 @@ export function getCommonStoragePrefix() {
 // Generate cache key according to version
 export function getStorageShortName() {
   return `${getCommonStoragePrefix()}${`__${pkg.version}`}__`.toUpperCase()
+}
+
+export const getConfigFileName = (env: Record<string, any>) => {
+  return `__PRODUCTION__${env.VITE_GLOB_APP_SHORT_NAME || '__APP'}__CONF__`
+    .toUpperCase()
+    .replace(/\s/g, '')
 }
 
 export function getAppEnvConfig() {
