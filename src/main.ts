@@ -35,10 +35,6 @@ async function bootstrap() {
   // 路由准备就绪后挂载APP实例
   await router.isReady()
 
-  const meta = document.createElement('meta')
-  meta.name = 'naive-ui-style'
-  document.head.appendChild(meta)
-
   app.mount('#app', true)
 }
 

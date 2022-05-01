@@ -75,21 +75,20 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 
 // Read all environment variable configuration files to process.env
 function loadViteEnv(mode: string): ViteEnv {
-
   const root = process.cwd()
   const envConf = loadEnv(mode, root)
 
   const ret: any = {}
 
   for (const envName of Object.keys(envConf)) {
-    let envValue = envConf[envName].replace(/\\n/g, '\n')
-    let viteEnvValue :      string|boolean|number|undefined
+    const envValue = envConf[envName].replace(/\\n/g, '\n')
+    let viteEnvValue: string | boolean | number | undefined
 
     if (envName === 'VITE_PROXY') {
       try {
         viteEnvValue = JSON.parse(envValue)
       } catch (error) {}
-    }else{
+    } else {
       viteEnvValue = envValue === 'true' ? true : envValue === 'false' ? false : envValue
     }
     ret[envName] = viteEnvValue
@@ -99,5 +98,5 @@ function loadViteEnv(mode: string): ViteEnv {
 }
 
 function pathResolve(dir: string) {
-  return resolve(process.cwd(),    '.', dir)
+  return resolve(process.cwd(), '.', dir)
 }
