@@ -52,7 +52,7 @@ const getThemeOverrides = computed(() => {
 
 const getDarkTheme = computed(() => (designStore.darkTheme ? darkTheme : undefined))
 
-let timer
+let timer: any
 
 const timekeeping = () => {
   clearInterval(timer)
