@@ -9,11 +9,9 @@ Object.keys(allModules).forEach((path) => {
 import asyncRoute from './async-route'
 import user from './user'
 import tabsView from './tabs-view'
-import lockscreen from './lockscreen'
 
 export default {
   asyncRoute,
   user,
-  tabsView,
-  lockscreen
+  tabsView
 }

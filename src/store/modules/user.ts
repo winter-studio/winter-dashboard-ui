@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { createStorage } from '@/utils/Storage'
 import { store } from '@/store'
-import { ACCESS_TOKEN, CURRENT_USER, IS_LOCKSCREEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, CURRENT_USER } from '@/store/mutation-types'
 import { ResultEnum } from '@/enums/httpEnum'
 
 const Storage = createStorage({ storage: localStorage })
@@ -66,7 +66,6 @@ export const useUserStore = defineStore({
           const ex = 7 * 24 * 60 * 60 * 1000
           storage.set(ACCESS_TOKEN, result.token, ex)
           storage.set(CURRENT_USER, result, ex)
-          storage.set(IS_LOCKSCREEN, false)
           this.setToken(result.token)
           this.setUserInfo(result)
         }
@@ -78,19 +77,18 @@ export const useUserStore = defineStore({
 
     // 获取用户信息
     GetInfo() {
-      const that = this
       return new Promise((resolve, reject) => {
         getUserInfo()
           .then((res) => {
             const result = res
             if (result.permissions && result.permissions.length) {
               const permissionsList = result.permissions
-              that.setPermissions(permissionsList)
-              that.setUserInfo(result)
+              this.setPermissions(permissionsList)
+              this.setUserInfo(result)
             } else {
               reject(new Error('getInfo: permissionsList must be a non-null array !'))
             }
-            that.setAvatar(result.avatar)
+            this.setAvatar(result.avatar)
             resolve(res)
           })
           .catch((error) => {

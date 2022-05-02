@@ -132,7 +132,6 @@ import components from './components'
 import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
 import { TABS_ROUTES } from '@/store/mutation-types'
 import { useUserStore } from '@/store/modules/user'
-import { useLockscreenStore } from '@/store/modules/lockscreen'
 import ProjectSetting from './ProjectSetting.vue'
 import { AsideMenu } from '@/layout/components/Menu'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
@@ -151,7 +150,6 @@ export default defineComponent({
   emits: ['update:collapsed'],
   setup(props) {
     const userStore = useUserStore()
-    const useLockscreen = useLockscreenStore()
     const message = useMessage()
     const dialog = useDialog()
     const { getNavMode, getNavTheme, getHeaderSetting, getMenuSetting, getCrumbsSetting } =
@@ -283,13 +281,6 @@ export default defineComponent({
         tips: 'github',
         eventObject: {
           click: () => window.open('https://github.com/jekip/naive-ui-admin')
-        }
-      },
-      {
-        icon: 'LockOutlined',
-        tips: '锁屏',
-        eventObject: {
-          click: () => useLockscreen.setLock(true)
         }
       }
     ]
