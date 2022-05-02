@@ -1,12 +1,14 @@
 <template>
   <div class="view-account">
-    <div class="view-account-header"></div>
-    <div class="view-account-container">
-      <div class="view-account-top">
-        <div class="view-account-top-logo">
-          <img src="~@/assets/images/account-logo.png" alt="" />
+    <div class="flex items-end h-1/5 pb-5">
+      <div class="flex flex-row items-center">
+        <div>
+          <img class="w-16" src="@/assets/images/logo.png" alt="" />
         </div>
+        <div class="text-4xl font-bold mx-4">Winter Dashboard</div>
       </div>
+    </div>
+    <div class="view-account-container">
       <div class="view-account-form">
         <n-form
           ref="formRef"
@@ -87,7 +89,7 @@
 import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
-import { useMessage } from 'naive-ui'
+import { FormValidationError, useMessage } from 'naive-ui'
 import { ResultEnum } from '@/enums/httpEnum'
 import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5'
 import { PageEnum } from '@/enums/pageEnum'
@@ -119,9 +121,9 @@ const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
-const handleSubmit = (e) => {
+const handleSubmit = (e: MouseEvent) => {
   e.preventDefault()
-  formRef.value.validate(async (errors) => {
+  formRef.value.validate(async (errors: Array<FormValidationError>) => {
     if (!errors) {
       const { username, password } = formInline
       message.loading('登录中...')
@@ -158,24 +160,13 @@ const handleSubmit = (e) => {
 .view-account {
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100vh;
   overflow: auto;
 
   &-container {
     flex: 1;
-    padding: 32px 0;
-    width: 384px;
-    margin: 0 auto;
-  }
-
-  &-top {
-    padding: 32px 0;
-    text-align: center;
-
-    &-desc {
-      font-size: 14px;
-      color: #808695;
-    }
+    width: 400px;
   }
 
   &-other {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { createStorage } from '@/utils/Storage'
 import { store } from '@/store'
-import { ACCESS_TOKEN, CURRENT_USER } from '@/store/mutation-types'
+import StorageType from '@/enums/StorageType'
 import { ResultEnum } from '@/enums/httpEnum'
 
 const Storage = createStorage({ storage: localStorage })
@@ -20,12 +20,12 @@ export interface IUserState {
 export const useUserStore = defineStore({
   id: 'app-user',
   state: (): IUserState => ({
-    token: Storage.get(ACCESS_TOKEN, ''),
+    token: Storage.get(StorageType.ACCESS_TOKEN, ''),
     username: '',
     welcome: '',
     avatar: '',
     permissions: [],
-    info: Storage.get(CURRENT_USER, {})
+    info: Storage.get(StorageType.CURRENT_USER, {})
   }),
   getters: {
     getToken(): string {
@@ -51,21 +51,21 @@ export const useUserStore = defineStore({
     setAvatar(avatar: string) {
       this.avatar = avatar
     },
-    setPermissions(permissions) {
+    setPermissions(permissions: [any][]) {
       this.permissions = permissions
     },
-    setUserInfo(info) {
+    setUserInfo(info: any) {
       this.info = info
     },
     // 登录
-    async login(userInfo) {
+    async login(userInfo: any) {
       try {
         const response = await login(userInfo)
         const { result, code } = response
         if (code === ResultEnum.SUCCESS) {
           const ex = 7 * 24 * 60 * 60 * 1000
-          storage.set(ACCESS_TOKEN, result.token, ex)
-          storage.set(CURRENT_USER, result, ex)
+          storage.set(StorageType.ACCESS_TOKEN, result.token, ex)
+          storage.set(StorageType.CURRENT_USER, result, ex)
           this.setToken(result.token)
           this.setUserInfo(result)
         }
@@ -101,8 +101,8 @@ export const useUserStore = defineStore({
     async logout() {
       this.setPermissions([])
       this.setUserInfo('')
-      storage.remove(ACCESS_TOKEN)
-      storage.remove(CURRENT_USER)
+      storage.remove(StorageType.ACCESS_TOKEN)
+      storage.remove(StorageType.CURRENT_USER)
       return Promise.resolve('')
     }
   }

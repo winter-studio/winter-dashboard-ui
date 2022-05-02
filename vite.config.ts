@@ -67,10 +67,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     build: {
       target: 'es2015',
       outDir: OUTPUT_DIR,
+      minify: 'terser',
       terserOptions: {
         compress: {
           keep_infinity: true,
-          drop_console: viteEnv.VITE_DROP_CONSOLE
+          drop_console: viteEnv.VITE_DROP_CONSOLE,
+          drop_debugger: viteEnv.VITE_DROP_DEBUGGER
         }
       },
       brotliSize: false,
@@ -143,7 +145,6 @@ export function configHtmlPlugin(env: ViteEnv, isBuild: boolean) {
   }
 
   const htmlPlugin: PluginOption[] = createHtmlPlugin({
-    minify: isBuild,
     inject: {
       // Inject data into ejs template
       data: {

@@ -90,10 +90,9 @@ import {
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storage } from '@/utils/Storage'
-import { TABS_ROUTES } from '@/store/mutation-types'
-import { useTabsViewStore } from '@/store/modules/tabsView'
+import StorageType from '@/enums/StorageType'
+import { useTabsViewStore, RouteItem } from '@/store/modules/tabsView'
 import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
-import { RouteItem } from '@/store/modules/tabsView'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useMessage } from 'naive-ui'
 import Draggable from 'vuedraggable'
@@ -236,7 +235,7 @@ export default defineComponent({
     let cacheRoutes: RouteItem[] = []
     const simpleRoute = getSimpleRoute(route)
     try {
-      const routesStr = storage.get(TABS_ROUTES) as string | null | undefined
+      const routesStr = storage.get(StorageType.TABS_ROUTES) as string | null | undefined
       cacheRoutes = routesStr ? JSON.parse(routesStr) : [simpleRoute]
     } catch (e) {
       cacheRoutes = [simpleRoute]
@@ -305,7 +304,7 @@ export default defineComponent({
 
     // 在页面关闭或刷新之前，保存数据
     window.addEventListener('beforeunload', () => {
-      storage.set(TABS_ROUTES, JSON.stringify(tabsList.value))
+      storage.set(StorageType.TABS_ROUTES, JSON.stringify(tabsList.value))
     })
 
     // 关闭当前页面

@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import { isNavigationFailure, Router } from 'vue-router'
 import { useUserStoreWidthOut } from '@/store/modules/user'
 import { useAsyncRouteStoreWidthOut } from '@/store/modules/asyncRoute'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import StorageType from '@/enums/StorageType'
 import { storage } from '@/utils/Storage'
 import { PageEnum } from '@/enums/pageEnum'
 import { ErrorPageRoute } from '@/router/base'
@@ -28,7 +28,7 @@ export function createRouterGuards(router: Router) {
       return
     }
 
-    const token = storage.get(ACCESS_TOKEN)
+    const token = storage.get(StorageType.ACCESS_TOKEN)
 
     if (!token) {
       // You can access without permissions. You need to set the routing meta.ignoreAuth to true
