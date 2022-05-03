@@ -1,14 +1,14 @@
 <template>
-  <NConfigProvider
+  <n-config-provider
     :locale="zhCN"
     :theme="getDarkTheme"
     :theme-overrides="getThemeOverrides"
     :date-locale="dateZhCN"
   >
-    <AppProvider>
+    <app-provider>
       <RouterView />
-    </AppProvider>
-  </NConfigProvider>
+    </app-provider>
+  </n-config-provider>
 </template>
 
 <script lang="ts" setup>
@@ -16,7 +16,7 @@ import { computed } from 'vue'
 import { zhCN, dateZhCN, darkTheme } from 'naive-ui'
 import { AppProvider } from '@/components/Application'
 import { useDesignSettingStore } from '@/store/modules/designSetting'
-import { lighten } from '@/utils/index'
+import { lighten } from '@/utils'
 
 const designStore = useDesignSettingStore()
 

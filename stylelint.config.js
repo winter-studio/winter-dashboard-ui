@@ -94,7 +94,7 @@ module.exports = {
     },
     {
       files: ['*.sass', '**/*.sass', '*.scss', '**/*.scss'],
-      customSyntax: 'postcss-sass',
+      customSyntax: 'postcss-scss',
       extends: ['stylelint-config-standard', 'stylelint-config-recommended-vue']
     }
   ]
