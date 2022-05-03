@@ -280,7 +280,7 @@ export default defineComponent({
         icon: 'GithubOutlined',
         tips: 'github',
         eventObject: {
-          click: () => window.open('https://github.com/jekip/naive-ui-admin')
+          click: () => window.open('https://github.com/winter-studio/winter-dashboard-ui')
         }
       }
     ]

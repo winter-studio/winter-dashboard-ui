@@ -20,8 +20,6 @@ export function useProjectSetting() {
 
   const getPermissionMode = computed(() => projectStore.permissionMode)
 
-  const getShowFooter = computed(() => projectStore.showFooter)
-
   const getIsPageAnimate = computed(() => projectStore.isPageAnimate)
 
   const getPageAnimateType = computed(() => projectStore.pageAnimateType)
@@ -35,7 +33,6 @@ export function useProjectSetting() {
     getMenuSetting,
     getCrumbsSetting,
     getPermissionMode,
-    getShowFooter,
     getIsPageAnimate,
     getPageAnimateType
   }

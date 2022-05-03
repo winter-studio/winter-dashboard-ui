@@ -14,8 +14,6 @@ const setting = {
     //显示重载按钮
     isReload: true
   },
-  //页脚
-  showFooter: true,
   //多标签
   multiTabsSetting: {
     //背景色

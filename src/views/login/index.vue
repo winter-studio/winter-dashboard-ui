@@ -186,7 +186,7 @@ const handleSubmit = (e: MouseEvent) => {
   .view-account {
     background-image: url('../../assets/images/login.svg');
     background-repeat: no-repeat;
-    background-position: 50%;
+    background-position: 100% 100%;
     background-size: 100%;
   }
 

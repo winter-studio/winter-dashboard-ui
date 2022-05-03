@@ -195,13 +195,6 @@
             <n-switch v-model:value="settingStore.multiTabsSetting.show" />
           </div>
         </div>
-        <!--1.15废弃，没啥用，占用操作空间-->
-        <!--        <div class="drawer-setting-item">-->
-        <!--          <div class="drawer-setting-item-title"> 显示页脚 </div>-->
-        <!--          <div class="drawer-setting-item-action">-->
-        <!--            <n-switch v-model:value="settingStore.showFooter" />-->
-        <!--          </div>-->
-        <!--        </div>-->
 
         <n-divider title-placement="center">动画</n-divider>
 

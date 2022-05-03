@@ -13,7 +13,6 @@ const {
   navTheme,
   isMobile,
   headerSetting,
-  showFooter,
   menuSetting,
   multiTabsSetting,
   crumbsSetting,
@@ -26,7 +25,6 @@ interface ProjectSettingState {
   navMode: string //导航模式
   navTheme: string //导航风格
   headerSetting: IheaderSetting //顶部设置
-  showFooter: boolean //页脚
   menuSetting: ImenuSetting //多标签
   multiTabsSetting: ImultiTabsSetting //多标签
   crumbsSetting: IcrumbsSetting //面包屑
@@ -43,7 +41,6 @@ export const useProjectSettingStore = defineStore({
     navTheme,
     isMobile,
     headerSetting,
-    showFooter,
     menuSetting,
     multiTabsSetting,
     crumbsSetting,
@@ -63,9 +60,6 @@ export const useProjectSettingStore = defineStore({
     },
     getHeaderSetting(): object {
       return this.headerSetting
-    },
-    getShowFooter(): boolean {
-      return this.showFooter
     },
     getMenuSetting(): object {
       return this.menuSetting
