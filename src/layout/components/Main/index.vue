@@ -1,5 +1,5 @@
 <template>
-  <RouterView>
+  <router-view>
     <template #default="{ Component, route }">
       <transition :name="getTransitionName" mode="out-in" appear>
         <keep-alive v-if="keepAliveComponents" :include="keepAliveComponents">
@@ -8,7 +8,7 @@
         <component :is="Component" v-else :key="route.fullPath" />
       </transition>
     </template>
-  </RouterView>
+  </router-view>
 </template>
 
 <script>

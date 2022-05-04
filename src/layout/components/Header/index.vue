@@ -38,7 +38,7 @@
         @click="reloadPage"
       >
         <n-icon size="18">
-          <ReloadOutlined />
+          <refresh />
         </n-icon>
       </div>
       <!-- 面包屑 -->
@@ -126,7 +126,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, ref, computed, unref } from 'vue'
+import { defineComponent, reactive, toRefs, ref, computed, unref, inject } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import components from './components'
 import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
@@ -135,10 +135,11 @@ import { useUserStore } from '@/store/modules/user'
 import ProjectSetting from './ProjectSetting.vue'
 import { AsideMenu } from '@/layout/components/Menu'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+import { Refresh } from '@vicons/tabler'
 
 export default defineComponent({
   name: 'PageHeader',
-  components: { ...components, NDialogProvider, ProjectSetting, AsideMenu },
+  components: { ...components, NDialogProvider, ProjectSetting, AsideMenu, Refresh },
   props: {
     collapsed: {
       type: Boolean
@@ -218,11 +219,14 @@ export default defineComponent({
       router.push({ name: key })
     }
 
+    const reloadRouter: VoidFunction = inject('reloadRouter')!
+
     // 刷新页面
     const reloadPage = () => {
-      router.push({
+      /* router.push({
         path: '/redirect' + unref(route).fullPath
-      })
+      }) */
+      reloadRouter()
     }
 
     // 退出登录

@@ -91,7 +91,7 @@ export function createRouterGuards(router: Router) {
     if (currentComName && !keepAliveComponents.includes(currentComName) && to.meta?.keepAlive) {
       // 需要缓存的组件
       keepAliveComponents.push(currentComName)
-    } else if (!to.meta?.keepAlive || to.name == 'Redirect') {
+    } else if (!to.meta?.keepAlive) {
       // 不需要缓存的组件
       const index = asyncRouteStore.keepAliveComponents.findIndex((name) => name == currentComName)
       if (index != -1) {

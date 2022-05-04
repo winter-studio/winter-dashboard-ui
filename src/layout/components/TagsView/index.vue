@@ -86,7 +86,8 @@ import {
   provide,
   watch,
   onMounted,
-  nextTick
+  nextTick,
+  inject
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storage } from '@/utils/Storage'
@@ -285,11 +286,7 @@ export default defineComponent({
 
     // 标签页列表
     const tabsList: any = computed(() => tabsViewStore.tabsList)
-    const whiteList: string[] = [
-      PageEnum.BASE_LOGIN_NAME,
-      PageEnum.REDIRECT_NAME,
-      PageEnum.ERROR_PAGE_NAME
-    ]
+    const whiteList: string[] = [PageEnum.BASE_LOGIN_NAME, PageEnum.ERROR_PAGE_NAME]
 
     watch(
       () => route.fullPath,
@@ -324,11 +321,10 @@ export default defineComponent({
     }
 
     // 刷新页面
+    const reloadRouter: VoidFunction = inject('reloadRouter')!
     const reloadPage = () => {
       delKeepAliveCompName()
-      router.push({
-        path: '/redirect' + unref(route).fullPath
-      })
+      reloadRouter()
     }
 
     // 注入刷新页面方法

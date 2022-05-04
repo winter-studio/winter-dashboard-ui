@@ -6,17 +6,25 @@
     :date-locale="dateZhCN"
   >
     <app-provider>
-      <RouterView />
+      <router-view v-if="isRouterActive" />
     </app-provider>
   </n-config-provider>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { zhCN, dateZhCN, darkTheme } from 'naive-ui'
 import { AppProvider } from '@/components/Application'
 import { useDesignSettingStore } from '@/store/modules/designSetting'
 import { lighten } from '@/utils'
+import { ref, provide, nextTick, computed } from 'vue'
+
+const isRouterActive = ref(true)
+provide('reloadRouter', () => {
+  isRouterActive.value = false
+  nextTick(() => {
+    isRouterActive.value = true
+  })
+})
 
 const designStore = useDesignSettingStore()
 
