@@ -11,8 +11,9 @@ export default defineComponent({
     onBeforeMount(() => {
       const { params, query } = route
       const { path } = params
+      const toPath = '/' + (Array.isArray(path) ? path.join('/') : path)
       router.replace({
-        path: '/' + (Array.isArray(path) ? path.join('/') : path),
+        path: toPath,
         query
       })
     })

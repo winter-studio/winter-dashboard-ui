@@ -10,6 +10,7 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteMockServe } from 'vite-plugin-mock'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import compressPlugin from 'vite-plugin-compression'
 
 export const GLOB_CONFIG_FILE_NAME = 'app.config.js'
@@ -109,6 +110,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean, prodMock: 
   const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     // have to
     vue(),
+    vueJsx(),
     // 按需引入NaiveUi且自动创建组件声明
     Components({
       dts: true,
