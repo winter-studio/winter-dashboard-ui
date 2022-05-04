@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
-import { createStorage } from '@/utils/Storage'
-import { store } from '@/store'
-import StorageType from '@/enums/StorageType'
+import { createStorage } from '@/utils/storage'
+import StorageType from '@/enums/storageType'
 import { ResultEnum } from '@/enums/httpEnum'
 
 const Storage = createStorage({ storage: localStorage })
 import { getUserInfo, login } from '@/api/system/user'
-import { storage } from '@/utils/Storage'
+import { storage } from '@/utils/storage'
 
 export interface IUserState {
   token: string
@@ -107,8 +106,3 @@ export const useUserStore = defineStore({
     }
   }
 })
-
-// Need to be used outside the setup
-export function useUserStoreWidthOut() {
-  return useUserStore(store)
-}

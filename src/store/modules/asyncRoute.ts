@@ -1,8 +1,7 @@
 import { toRaw, unref } from 'vue'
 import { defineStore } from 'pinia'
 import { RouteRecordRaw } from 'vue-router'
-import { store } from '@/store'
-import { asyncRoutes, constantRouter } from '@/router/index'
+import { asyncRoutes, constantRouter } from '@/router'
 import { generatorDynamicRouter } from '@/router/generator-routers'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 
@@ -74,22 +73,22 @@ export const useAsyncRouteStore = defineStore({
       this.isDynamicAddedRoute = added
     },
     // 设置动态路由
-    setRouters(routers) {
+    setRouters(routers: RouteRecordRaw[]) {
       this.addRouters = routers
       this.routers = constantRouter.concat(routers)
     },
-    setMenus(menus) {
+    setMenus(menus: RouteRecordRaw[]) {
       // 设置动态路由
       this.menus = menus
     },
-    setKeepAliveComponents(compNames) {
+    setKeepAliveComponents(compNames: string[]) {
       // 设置需要缓存的组件
       this.keepAliveComponents = compNames
     },
-    async generateRoutes(data) {
-      let accessedRouters
-      const permissionsList = data.permissions || []
-      const routeFilter = (route) => {
+    async generateRoutes(data: any) {
+      let accessedRouters: RouteRecordRaw[]
+      const permissionsList: [] = data.permissions || []
+      const routeFilter = (route: RouteRecordRaw) => {
         const { meta } = route
         const { permissions } = meta || {}
         if (!permissions) return true
@@ -119,8 +118,3 @@ export const useAsyncRouteStore = defineStore({
     }
   }
 })
-
-// Need to be used outside the setup
-export function useAsyncRouteStoreWidthOut() {
-  return useAsyncRouteStore(store)
-}

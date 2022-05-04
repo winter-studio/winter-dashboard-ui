@@ -1,8 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router, { setupRouter } from './router'
-import { setupStore } from '@/store'
-import { setupNaive, setupDirectives } from '@/plugins'
+import store from '@/store'
+import { setupDirectives } from '@/plugins'
+import naive from 'naive-ui'
+
 import { AppProvider } from '@/components/Application'
 import './styles/tailwind.css'
 
@@ -10,8 +12,8 @@ const appProvider = createApp(AppProvider)
 
 const app = createApp(App)
 
-// 注册全局常用的 naive-ui 组件
-setupNaive(app)
+// naive-ui
+app.use(naive)
 
 // 注册全局自定义组件
 //setupCustomComponents();
@@ -23,7 +25,7 @@ setupDirectives(app)
 //setupGlobalMethods(app);
 
 // 挂载状态管理
-setupStore(app)
+app.use(store)
 
 //优先挂载一下 Provider 解决路由守卫，Axios中可使用，Dialog，Message 等之类组件
 appProvider.mount('#appProvider', true)

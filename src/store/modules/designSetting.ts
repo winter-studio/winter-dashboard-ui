@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { store } from '@/store'
+import store from '@/store'
 import designSetting from '@/settings/designSetting'
 
 const { darkTheme, appTheme, appThemeList } = designSetting
@@ -33,8 +33,3 @@ export const useDesignSettingStore = defineStore({
   },
   actions: {}
 })
-
-// Need to be used outside the setup
-export function useDesignSettingWithOut() {
-  return useDesignSettingStore(store)
-}

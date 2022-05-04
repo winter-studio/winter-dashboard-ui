@@ -130,7 +130,7 @@ import { defineComponent, reactive, toRefs, ref, computed, unref, inject } from 
 import { useRouter, useRoute } from 'vue-router'
 import components from './components'
 import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
-import StorageType from '@/enums/StorageType'
+import StorageType from '@/enums/storageType'
 import { useUserStore } from '@/store/modules/user'
 import ProjectSetting from './ProjectSetting.vue'
 import { AsideMenu } from '@/layout/components/Menu'

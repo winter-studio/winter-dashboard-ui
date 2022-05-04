@@ -1,9 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { isNavigationFailure, Router } from 'vue-router'
-import { useUserStoreWidthOut } from '@/store/modules/user'
-import { useAsyncRouteStoreWidthOut } from '@/store/modules/asyncRoute'
-import StorageType from '@/enums/StorageType'
-import { storage } from '@/utils/Storage'
+import { useUserStore } from '@/store/modules/user'
+import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
+import StorageType from '@/enums/storageType'
+import { storage } from '@/utils/storage'
 import { PageEnum } from '@/enums/pageEnum'
 import { ErrorPageRoute } from '@/router/base'
 
@@ -12,8 +12,6 @@ const LOGIN_PATH = PageEnum.BASE_LOGIN
 const whitePathList = [LOGIN_PATH] // no redirect whitelist
 
 export function createRouterGuards(router: Router) {
-  const userStore = useUserStoreWidthOut()
-  const asyncRouteStore = useAsyncRouteStoreWidthOut()
   router.beforeEach(async (to, from, next) => {
     const Loading = window['$loading'] || null
     Loading && Loading.start()
@@ -51,6 +49,9 @@ export function createRouterGuards(router: Router) {
       return
     }
 
+    const asyncRouteStore = useAsyncRouteStore()
+    const userStore = useUserStore()
+
     if (asyncRouteStore.getIsDynamicAddedRoute) {
       next()
       return
@@ -84,7 +85,7 @@ export function createRouterGuards(router: Router) {
     if (isNavigationFailure(failure)) {
       //console.log('failed navigation', failure)
     }
-    const asyncRouteStore = useAsyncRouteStoreWidthOut()
+    const asyncRouteStore = useAsyncRouteStore()
     // 在这里设置需要缓存的组件名称
     const keepAliveComponents = asyncRouteStore.keepAliveComponents
     const currentComName: any = to.matched.find((item) => item.name == to.name)?.name

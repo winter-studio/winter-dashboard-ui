@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { store } from '@/store'
 import projectSetting from '@/settings/projectSetting'
 import type {
   IheaderSetting,
@@ -90,8 +89,3 @@ export const useProjectSettingStore = defineStore({
     }
   }
 })
-
-// Need to be used outside the setup
-export function useProjectSettingStoreWithOut() {
-  return useProjectSettingStore(store)
-}

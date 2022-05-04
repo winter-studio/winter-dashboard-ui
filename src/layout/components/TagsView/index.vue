@@ -90,8 +90,8 @@ import {
   inject
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { storage } from '@/utils/Storage'
-import StorageType from '@/enums/StorageType'
+import { storage } from '@/utils/storage'
+import StorageType from '@/enums/storageType'
 import { useTabsViewStore, RouteItem } from '@/store/modules/tabsView'
 import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
