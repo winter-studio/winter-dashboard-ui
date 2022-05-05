@@ -192,11 +192,6 @@ export default defineComponent({
       state.tableSize = e
     }
 
-    //选中行
-    function updateCheckedRowKeys(rowKeys) {
-      emit('update:checked-row-keys', rowKeys)
-    }
-
     //获取表格大小
     const getTableSize = computed(() => state.tableSize)
 

@@ -57,13 +57,7 @@ module.exports = {
         varsIgnorePattern: '^_'
       }
     ],
-    'no-unused-vars': [
-      'error',
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_'
-      }
-    ],
+    'no-unused-vars': 'off',
     'space-before-function-paren': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/max-len': [
@@ -80,6 +74,14 @@ module.exports = {
         ignoreRegExpLiterals: false,
         ignoreHTMLAttributeValues: false,
         ignoreHTMLTextContents: false
+      }
+    ],
+    'vue/v-on-event-hyphenation': [
+      'warn',
+      'always',
+      {
+        autofix: true,
+        ignore: []
       }
     ]
   }

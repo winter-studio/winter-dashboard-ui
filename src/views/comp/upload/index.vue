@@ -31,7 +31,7 @@
                 :width="100"
                 :height="100"
                 help-text="单个文件不超过2MB，最多只能上传10个文件"
-                @uploadChange="uploadChange"
+                @upload-change="uploadChange"
               />
             </n-form-item>
             <div style="margin-left: 80px">

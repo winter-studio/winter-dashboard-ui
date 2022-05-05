@@ -1,8 +1,9 @@
-import { ref, onUnmounted, unref, getCurrentInstance, watch, nextTick } from 'vue'
+import { getCurrentInstance, ref, unref, watch } from 'vue'
 import { isProdMode } from '@/utils/env'
 import { ModalMethods, UseModalReturnType } from '../type'
 import { getDynamicProps } from '@/utils'
 import { tryOnUnmounted } from '@vueuse/core'
+
 export function useModal(props): UseModalReturnType {
   const modalRef = ref<Nullable<ModalMethods>>(null)
   const currentInstance = getCurrentInstance()

@@ -1,12 +1,12 @@
 <template>
   <n-modal id="basic-modal" v-bind="getBindValue" v-model:show="isModal" @close="onCloseModal">
     <template #header>
-      <div class="w-full cursor-move" id="basic-modal-bar">{{ getBindValue.title }}</div>
+      <div id="basic-modal-bar" class="w-full cursor-move">{{ getBindValue.title }}</div>
     </template>
     <template #default>
       <slot name="default"></slot>
     </template>
-    <template #action v-if="!$slots.action">
+    <template v-if="!$slots.action" #action>
       <n-space>
         <n-button @click="closeModal">取消</n-button>
         <n-button type="primary" :loading="subLoading" @click="handleSubmit">{{

@@ -52,7 +52,7 @@ function reloadTable() {
 }
 
 function editEnd({ record, index, key, value }) {
-  console.log(value)
+  console.log(record, index, key, value)
 }
 </script>
 

@@ -17,7 +17,7 @@
           :rule="getRule"
           :class="getWrapperClass"
           @options-change="handleOptionsChange"
-          @pressEnter="handleEnter"
+          @press-enter="handleEnter"
         />
       </div>
       <div v-if="!getRowEditable" class="editable-cell-action">
@@ -65,7 +65,8 @@ export default defineComponent({
       default: ''
     },
     record: {
-      type: Object as PropType<EditRecordRow>
+      type: Object as PropType<EditRecordRow>,
+      default: () => ({})
     },
     column: {
       type: Object as PropType<BasicColumn>,
