@@ -23,18 +23,13 @@ const __APP_INFO__ = {
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   const viteEnv = loadViteEnv(mode)
-  const prodMock = viteEnv.VITE_GLOB_PROD_MOCK
+  const prodMock = viteEnv.VITE_APP_PROD_MOCK
   const isBuild = command === 'build'
   return {
     base: viteEnv.VITE_PUBLIC_PATH,
     esbuild: {},
     resolve: {
-      alias: [
-        {
-          find: '@',
-          replacement: pathResolve('src') + '/'
-        }
-      ],
+      alias: [{ find: '@', replacement: resolve(__dirname, './src') }],
       dedupe: ['vue']
     },
     plugins: createVitePlugins(viteEnv, isBuild, prodMock),
@@ -138,7 +133,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean, prodMock: 
 }
 
 export function configHtmlPlugin(env: ViteEnv, isBuild: boolean) {
-  const { VITE_GLOB_APP_TITLE, VITE_PUBLIC_PATH } = env
+  const { VITE_APP_TITLE, VITE_PUBLIC_PATH } = env
 
   const path = VITE_PUBLIC_PATH.endsWith('/') ? VITE_PUBLIC_PATH : `${VITE_PUBLIC_PATH}/`
 
@@ -150,7 +145,7 @@ export function configHtmlPlugin(env: ViteEnv, isBuild: boolean) {
     inject: {
       // Inject data into ejs template
       data: {
-        title: VITE_GLOB_APP_TITLE
+        title: VITE_APP_TITLE
       },
       // Embed the generated app.config.js file
       tags: isBuild
@@ -234,8 +229,4 @@ export function configCompressPlugin(
     )
   }
   return plugins
-}
-
-function pathResolve(dir: string) {
-  return resolve(process.cwd(), '.', dir)
 }

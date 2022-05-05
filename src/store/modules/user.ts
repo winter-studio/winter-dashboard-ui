@@ -1,11 +1,8 @@
 import { defineStore } from 'pinia'
-import { createStorage } from '@/utils/storage'
+import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
 import { ResultEnum } from '@/enums/httpEnum'
-
-const Storage = createStorage({ storage: localStorage })
 import { getUserInfo, login } from '@/api/system/user'
-import { storage } from '@/utils/storage'
 
 export interface IUserState {
   token: string
@@ -19,12 +16,12 @@ export interface IUserState {
 export const useUserStore = defineStore({
   id: 'app-user',
   state: (): IUserState => ({
-    token: Storage.get(StorageType.ACCESS_TOKEN, ''),
+    token: storage.get(StorageType.ACCESS_TOKEN, ''),
     username: '',
     welcome: '',
     avatar: '',
     permissions: [],
-    info: Storage.get(StorageType.CURRENT_USER, {})
+    info: storage.get(StorageType.CURRENT_USER, {})
   }),
   getters: {
     getToken(): string {
