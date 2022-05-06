@@ -1,0 +1,137 @@
+[
+  {
+    "id": "dashboard",
+    "path": "/dashboard",
+    "title": "Dashboard",
+    "icon": "DashboardOutlined",
+    "badge": null,
+    "type": "dir",
+    "component": null,
+    "children": [
+      {
+        "id": "dashboard_console",
+        "path": "console",
+        "title": "主控台",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "component": "@/views/dashboard/console/console.vue"
+      },
+      {
+        "id": "dashboard_workplace",
+        "path": "workplace",
+        "title": "工作台",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "component": "@/views/dashboard/workplace/workplace.vue"
+      }
+    ]
+  },
+  {
+    "id": "comp",
+    "path": "/comp",
+    "title": "组件示例",
+    "icon": "WalletOutlined",
+    "badge": null,
+    "type": "dir",
+    "component": null,
+    "children": [
+      {
+        "id": "comp_table",
+        "path": "table",
+        "title": "表格",
+        "icon": null,
+        "badge": null,
+        "type": "dir",
+        "component": null,
+        "children": [
+          {
+            "id": "comp_table_basic",
+            "path": "basic",
+            "title": "基础表格",
+            "icon": null,
+            "badge": null,
+            "type": "view",
+            "component": "@/views/comp/table/basic.vue"
+          },
+          {
+            "id": "comp_table_editCell",
+            "path": "editCell",
+            "title": "单元格编辑",
+            "icon": null,
+            "badge": null,
+            "type": "view",
+            "component": "@/views/comp/table/editCell.vue"
+          },
+          {
+            "id": "comp_table_editRow",
+            "path": "editRow",
+            "title": "整行编辑",
+            "icon": null,
+            "badge": null,
+            "type": "view",
+            "component": "@/views/comp/table/editRow.vue"
+          }
+        ]
+      },
+      {
+        "id": "comp_form",
+        "path": "form",
+        "title": "表单",
+        "icon": null,
+        "badge": null,
+        "type": "dir",
+        "component": null,
+        "children": [
+          {
+            "id": "comp_table_basic",
+            "path": "basic",
+            "title": "基础表格",
+            "icon": null,
+            "badge": null,
+            "type": "view",
+            "component": "@/views/comp/table/basic.vue"
+          },
+          {
+            "id": "comp_table_editCell",
+            "path": "editCell",
+            "title": "单元格编辑",
+            "icon": null,
+            "badge": null,
+            "type": "view",
+            "component": "@/views/comp/table/editCell.vue"
+          },
+          {
+            "id": "comp_table_editRow",
+            "path": "editRow",
+            "title": "整行编辑",
+            "icon": null,
+            "badge": null,
+            "type": "view",
+            "component": "@/views/comp/table/editRow.vue"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "about",
+    "path": "/about",
+    "title": "关于",
+    "icon": "ProjectOutlined",
+    "badge": "new",
+    "type": "view",
+    "component": "@/views/about/index.vue"
+  },
+  {
+    "id": null,
+    "path": null,
+    "title": null,
+    "icon": null,
+    "badge": null,
+    "type": null,
+    "component": null,
+    "children": []
+  }
+]
