@@ -60,7 +60,7 @@ export interface GlobEnvConfig {
   // 接口地址
   VITE_GLOB_API_URL: string
   // 接口前缀
-  VITE_GLOB_API_URL_PREFIX?: string
+  VITE_APP_API_PREFIX?: string
   // Project abbreviation
   VITE_APP_SHORT_NAME: string
   // 图片上传地址

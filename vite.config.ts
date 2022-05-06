@@ -1,10 +1,8 @@
-import type { UserConfig, ConfigEnv, ProxyOptions } from 'vite'
+import type { ConfigEnv, Plugin, PluginOption, ProxyOptions, UserConfig } from 'vite'
 import { loadEnv } from 'vite'
 import { resolve } from 'path'
 import pkg from './package.json'
 import { format } from 'date-fns'
-const { dependencies, devDependencies, name, version } = pkg
-import type { Plugin, PluginOption } from 'vite'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { createHtmlPlugin } from 'vite-plugin-html'
@@ -12,6 +10,8 @@ import { viteMockServe } from 'vite-plugin-mock'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import compressPlugin from 'vite-plugin-compression'
+
+const { dependencies, devDependencies, name, version } = pkg
 
 export const GLOB_CONFIG_FILE_NAME = 'app.config.js'
 export const OUTPUT_DIR = 'dist'
@@ -47,14 +47,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       host: true,
-      proxy: createProxy(viteEnv.VITE_PROXY)
-      // proxy: {
-      //     '/api': {
-      //         target: '',
-      //         changeOrigin: true,
-      //         rewrite: (path) => path.replace(/^\/api/, '/api/v1')
-      //     }
-      // }
+      proxy: {
+        '/api': {
+          target: '',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '/api/v1')
+        }
+      }
     },
     optimizeDeps: {
       include: [],
@@ -86,16 +85,7 @@ function loadViteEnv(mode: string): ViteEnv {
 
   for (const envName of Object.keys(envConf)) {
     const envValue = envConf[envName].replace(/\\n/g, '\n')
-    let viteEnvValue: string | boolean | number | undefined
-
-    if (envName === 'VITE_PROXY') {
-      try {
-        viteEnvValue = JSON.parse(envValue)
-      } catch (error) {}
-    } else {
-      viteEnvValue = envValue === 'true' ? true : envValue === 'false' ? false : envValue
-    }
-    ret[envName] = viteEnvValue
+    ret[envName] = envValue === 'true' ? true : envValue === 'false' ? false : envValue
     // process.env[envName] = viteEnvValue
   }
   return ret

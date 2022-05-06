@@ -66,7 +66,6 @@ declare global {
     VITE_DROP_DEBUGGER: boolean
     VITE_APP_PROD_MOCK: boolean
     VITE_APP_IMG_URL: string
-    VITE_PROXY: [string, string][]
     VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'none'
     VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean
   }
