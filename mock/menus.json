@@ -6,7 +6,7 @@
     "icon": "DashboardOutlined",
     "badge": null,
     "type": "dir",
-    "component": null,
+    "data": null,
     "children": [
       {
         "id": "dashboard_console",
@@ -15,7 +15,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "component": "@/views/dashboard/console/console.vue"
+        "data": "@/views/dashboard/console/console.vue"
       },
       {
         "id": "dashboard_workplace",
@@ -24,7 +24,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "component": "@/views/dashboard/workplace/workplace.vue"
+        "data": "@/views/dashboard/workplace/workplace.vue"
       }
     ]
   },
@@ -35,7 +35,7 @@
     "icon": "WalletOutlined",
     "badge": null,
     "type": "dir",
-    "component": null,
+    "data": null,
     "children": [
       {
         "id": "comp_table",
@@ -44,7 +44,7 @@
         "icon": null,
         "badge": null,
         "type": "dir",
-        "component": null,
+        "data": null,
         "children": [
           {
             "id": "comp_table_basic",
@@ -53,7 +53,7 @@
             "icon": null,
             "badge": null,
             "type": "view",
-            "component": "@/views/comp/table/basic.vue"
+            "data": "@/views/comp/table/basic.vue"
           },
           {
             "id": "comp_table_editCell",
@@ -62,7 +62,7 @@
             "icon": null,
             "badge": null,
             "type": "view",
-            "component": "@/views/comp/table/editCell.vue"
+            "data": "@/views/comp/table/editCell.vue"
           },
           {
             "id": "comp_table_editRow",
@@ -71,7 +71,7 @@
             "icon": null,
             "badge": null,
             "type": "view",
-            "component": "@/views/comp/table/editRow.vue"
+            "data": "@/views/comp/table/editRow.vue"
           }
         ]
       },
@@ -82,36 +82,293 @@
         "icon": null,
         "badge": null,
         "type": "dir",
-        "component": null,
+        "data": null,
         "children": [
           {
-            "id": "comp_table_basic",
+            "id": "comp_form_basic",
             "path": "basic",
-            "title": "基础表格",
+            "title": "基础使用",
             "icon": null,
             "badge": null,
             "type": "view",
-            "component": "@/views/comp/table/basic.vue"
+            "data": "@/views/comp/form/basic.vue"
           },
           {
-            "id": "comp_table_editCell",
-            "path": "editCell",
-            "title": "单元格编辑",
+            "id": "comp_table_useForm",
+            "path": "useForm",
+            "title": "useForm",
             "icon": null,
             "badge": null,
             "type": "view",
-            "component": "@/views/comp/table/editCell.vue"
-          },
-          {
-            "id": "comp_table_editRow",
-            "path": "editRow",
-            "title": "整行编辑",
-            "icon": null,
-            "badge": null,
-            "type": "view",
-            "component": "@/views/comp/table/editRow.vue"
+            "data": "@/views/comp/form/useForm.vue"
           }
         ]
+      },
+      {
+        "id": "comp_upload",
+        "path": "upload",
+        "title": null,
+        "icon": null,
+        "badge": null,
+        "type": null,
+        "data": null
+      },
+      {
+        "id": "comp_modal",
+        "path": "modal",
+        "title": null,
+        "icon": null,
+        "badge": null,
+        "type": null,
+        "data": "@/views/comp/modal/index.vue"
+      },
+      {
+        "id": "comp_richtext",
+        "path": "richtext",
+        "title": null,
+        "icon": null,
+        "badge": null,
+        "type": null,
+        "data": "@/views/comp/richtext/vue-quill.vue"
+      },
+      {
+        "id": "comp_drag",
+        "path": "drag",
+        "title": null,
+        "icon": null,
+        "badge": null,
+        "type": null,
+        "data": "@/views/comp/drag/index.vue"
+      }
+    ]
+  },
+  {
+    "id": "external",
+    "path": "/external",
+    "title": "项目文档",
+    "icon": "DocumentTextOutline",
+    "badge": null,
+    "type": "link",
+    "data": "https://github.com/winter-studio/winter-dashboard-ui"
+  },
+  {
+    "id": "exception",
+    "path": "/exception",
+    "title": "异常页面",
+    "icon": "ExclamationCircleOutlined",
+    "badge": null,
+    "type": "dir",
+    "data": null,
+    "children": [
+      {
+        "id": "exception_403",
+        "path": "403",
+        "title": "403",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/exception/403.vue"
+      },
+      {
+        "id": "exception_404",
+        "path": "404",
+        "title": "404",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/exception/404.vue"
+      },
+      {
+        "id": "exception_500",
+        "path": "500",
+        "title": "500",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/exception/500.vue"
+      }
+    ]
+  },
+  {
+    "id": "form",
+    "path": "form",
+    "title": "表单页面",
+    "icon": "ProfileOutlined",
+    "badge": null,
+    "type": "dir",
+    "data": null,
+    "children": [
+      {
+        "id": "form_basic",
+        "path": "basic-form",
+        "title": "基础表单",
+        "icon": null,
+        "badge": null,
+        "type": null,
+        "data": "@/views/form/basicForm/index.vue"
+      },
+      {
+        "id": "form_step",
+        "path": "step-form",
+        "title": "分步表单",
+        "icon": null,
+        "badge": null,
+        "type": null,
+        "data": "@/views/form/stepForm/stepForm.vue"
+      },
+      {
+        "id": "form_detail",
+        "path": "detail-form",
+        "title": "表单详情",
+        "icon": null,
+        "badge": null,
+        "type": null,
+        "data": "@/views/form/detail/index.vue"
+      }
+    ]
+  },
+  {
+    "id": "frame",
+    "path": "/frame",
+    "title": "外部页面",
+    "icon": "DesktopOutline",
+    "badge": null,
+    "type": "dir",
+    "data": null,
+    "children": [
+      {
+        "id": "naive-ui",
+        "path": "naive-ui",
+        "title": "NaiveUi",
+        "icon": null,
+        "badge": null,
+        "type": "iframe",
+        "data": "https://www.naiveui.com"
+      }
+    ]
+  },
+  {
+    "id": "list",
+    "path": "/list",
+    "title": "列表页面",
+    "icon": "TableOutlined",
+    "badge": null,
+    "type": "dir",
+    "data": null,
+    "children": [
+      {
+        "id": "basic-list",
+        "path": "basic-list",
+        "title": "基础列表",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/list/basicList/index.vue"
+      },
+      {
+        "id": "basic-info",
+        "path": "basic-info/:id?",
+        "title": "基础详情",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/list/basicList/info.vue"
+      }
+    ]
+  },
+  {
+    "id": "result",
+    "path": "/result",
+    "title": "结果页面",
+    "icon": "CheckCircleOutlined",
+    "badge": null,
+    "type": "dir",
+    "data": null,
+    "children": [
+      {
+        "id": "success",
+        "path": "success",
+        "title": "成功页",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/result/success.vue"
+      },
+      {
+        "id": "fail",
+        "path": "fail",
+        "title": "失败页",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/result/fail.vue"
+      },
+      {
+        "id": "info",
+        "path": "info",
+        "title": "信息页",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/result/info.vue"
+      }
+    ]
+  },
+  {
+    "id": "setting",
+    "path": "/setting",
+    "title": "设置页面",
+    "icon": "SettingOutlined",
+    "badge": null,
+    "type": "dir",
+    "data": null,
+    "children": [
+      {
+        "id": "account",
+        "path": "account",
+        "title": "个人设置",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/setting/account/account.vue"
+      },
+      {
+        "id": "system",
+        "path": "system",
+        "title": "系统设置",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/setting/system/system.vue"
+      }
+    ]
+  },
+  {
+    "id": "system",
+    "path": "/system",
+    "title": "系统设置",
+    "icon": "OptionsSharp",
+    "badge": null,
+    "type": "dir",
+    "data": null,
+    "children": [
+      {
+        "id": "menu",
+        "path": "menu",
+        "title": "菜单权限管理",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/system/menu/menu.vue"
+      },
+      {
+        "id": "role",
+        "path": "role",
+        "title": "角色权限管理",
+        "icon": null,
+        "badge": null,
+        "type": "view",
+        "data": "@/views/system/role/role.vue"
       }
     ]
   },
@@ -122,16 +379,6 @@
     "icon": "ProjectOutlined",
     "badge": "new",
     "type": "view",
-    "component": "@/views/about/index.vue"
-  },
-  {
-    "id": null,
-    "path": null,
-    "title": null,
-    "icon": null,
-    "badge": null,
-    "type": null,
-    "component": null,
-    "children": []
+    "data": "@/views/about/index.vue"
   }
 ]
