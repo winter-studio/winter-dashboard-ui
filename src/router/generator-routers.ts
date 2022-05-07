@@ -1,13 +1,13 @@
 import { adminMenus } from '@/api/system/menu'
 import { constantRouterIcon } from './router-icons'
 import { RouteRecordRaw } from 'vue-router'
-import { Layout, ParentLayout } from '@/router/constant'
+import { AppLayout, EmptyLayout } from '@/router/constant'
 import type { AppRouteRecordRaw } from '@/router/types'
 
 const Iframe = () => import('@/views/iframe/index.vue')
 const LayoutMap = new Map<string, () => Promise<typeof import('*.vue')>>()
 
-LayoutMap.set('LAYOUT', Layout)
+LayoutMap.set('LAYOUT', AppLayout)
 LayoutMap.set('IFRAME', Iframe)
 
 /**
@@ -89,7 +89,7 @@ export const asyncImportRoute = (routes: AppRouteRecordRaw[] | undefined): void 
         item.component = dynamicImport(viewsModules, component as string)
       }
     } else if (name) {
-      item.component = ParentLayout
+      item.component = EmptyLayout
     }
     children && asyncImportRoute(children)
   })

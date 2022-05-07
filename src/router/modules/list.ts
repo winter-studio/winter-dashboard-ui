@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { Layout } from '@/router/constant'
+import { AppLayout } from '@/router/constant'
 import { TableOutlined } from '@vicons/antd'
 import { renderIcon } from '@/utils/index'
 
@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/list',
     name: 'List',
     redirect: '/list/basic-list',
-    component: Layout,
+    component: AppLayout,
     meta: {
       title: '列表页面',
       icon: renderIcon(TableOutlined),

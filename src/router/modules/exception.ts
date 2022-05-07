@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { Layout } from '@/router/constant'
+import { AppLayout } from '@/router/constant'
 import { ExclamationCircleOutlined } from '@vicons/antd'
 import { renderIcon } from '@/utils/index'
 
@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/exception',
     name: 'Exception',
     redirect: '/exception/403',
-    component: Layout,
+    component: AppLayout,
     meta: {
       title: '异常页面',
       icon: renderIcon(ExclamationCircleOutlined),

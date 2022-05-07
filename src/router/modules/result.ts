@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { Layout } from '@/router/constant'
+import { AppLayout } from '@/router/constant'
 import { CheckCircleOutlined } from '@vicons/antd'
 import { renderIcon } from '@/utils/index'
 
@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/result',
     name: 'Result',
     redirect: '/result/success',
-    component: Layout,
+    component: AppLayout,
     meta: {
       title: '结果页面',
       icon: renderIcon(CheckCircleOutlined),

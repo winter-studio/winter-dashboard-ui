@@ -1,4 +1,5 @@
 import { resultSuccess } from '../_util'
+import menus from './menus.json'
 
 const menusList = [
   {
@@ -47,6 +48,14 @@ export default [
     method: 'get',
     response: () => {
       return resultSuccess(menusList)
+    }
+  },
+  {
+    url: '/api/menus/mine',
+    timeout: 1000,
+    method: 'get',
+    response: () => {
+      return resultSuccess(menus)
     }
   }
 ]

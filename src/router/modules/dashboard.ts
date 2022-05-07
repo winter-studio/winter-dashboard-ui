@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { Layout } from '@/router/constant'
+import { AppLayout } from '@/router/constant'
 import { DashboardOutlined } from '@vicons/antd'
 import { renderIcon } from '@/utils/index'
 
@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/dashboard',
     name: routeName,
     redirect: '/dashboard/console',
-    component: Layout,
+    component: AppLayout,
     meta: {
       title: 'Dashboard',
       icon: renderIcon(DashboardOutlined),

@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { Layout, ParentLayout } from '@/router/constant'
+import { AppLayout, EmptyLayout } from '@/router/constant'
 import { WalletOutlined } from '@vicons/antd'
 import { renderIcon, renderNew } from '@/utils'
 
@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/comp',
     name: routeName,
-    component: Layout,
+    component: AppLayout,
     redirect: '/comp/table',
     meta: {
       title: '组件示例',
@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'table',
         name: `${routeName}_table`,
         redirect: '/comp/table/basic',
-        component: ParentLayout,
+        component: EmptyLayout,
         meta: {
           title: '表格'
         },
@@ -67,7 +67,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'form',
         name: `${routeName}_form`,
         redirect: '/comp/form/basic',
-        component: ParentLayout,
+        component: EmptyLayout,
         meta: {
           title: '表单'
         },

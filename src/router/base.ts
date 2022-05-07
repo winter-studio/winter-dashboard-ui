@@ -1,11 +1,11 @@
 import type { AppRouteRecordRaw } from '@/router/types'
-import { ErrorPage, Layout } from '@/router/constant'
+import { ErrorPage, AppLayout } from '@/router/constant'
 
 // 404 on a page
 export const ErrorPageRoute: AppRouteRecordRaw = {
   path: '/:path(.*)*',
   name: 'ErrorPage',
-  component: Layout,
+  component: AppLayout,
   meta: {
     title: 'ErrorPage',
     hideBreadcrumb: true

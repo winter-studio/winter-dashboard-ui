@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { Layout } from '@/router/constant'
+import { AppLayout } from '@/router/constant'
 import { OptionsSharp } from '@vicons/ionicons5'
 import { renderIcon } from '@/utils/index'
 
@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/system',
     name: 'System',
     redirect: '/system/menu',
-    component: Layout,
+    component: AppLayout,
     meta: {
       title: '系统设置',
       icon: renderIcon(OptionsSharp),

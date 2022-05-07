@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { Layout } from '@/router/constant'
+import { AppLayout } from '@/router/constant'
 import { ProfileOutlined } from '@vicons/antd'
 import { renderIcon } from '@/utils/index'
 
@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/form',
     name: 'Form',
     redirect: '/form/basic-form',
-    component: Layout,
+    component: AppLayout,
     meta: {
       title: '表单页面',
       icon: renderIcon(ProfileOutlined),
