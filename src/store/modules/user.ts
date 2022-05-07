@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
-import { ResultEnum } from '@/enums/httpEnum'
-import { getUserInfo, login } from '@/api/system/user'
+import { getUserInfo } from '@/api/system/user'
 
 export interface IUserState {
   token: string
@@ -54,21 +53,12 @@ export const useUserStore = defineStore({
       this.info = info
     },
     // 登录
-    async login(userInfo: any) {
-      try {
-        const response = await login(userInfo)
-        const { result, code } = response
-        if (code === ResultEnum.SUCCESS) {
-          const ex = 7 * 24 * 60 * 60 * 1000
-          storage.set(StorageType.ACCESS_TOKEN, result.token, ex)
-          storage.set(StorageType.CURRENT_USER, result, ex)
-          this.setToken(result.token)
-          this.setUserInfo(result)
-        }
-        return Promise.resolve(response)
-      } catch (e) {
-        return Promise.reject(e)
-      }
+    login(result: any) {
+      const ex = 7 * 24 * 60 * 60 * 1000
+      storage.set(StorageType.ACCESS_TOKEN, result.token, ex)
+      storage.set(StorageType.CURRENT_USER, result, ex)
+      this.setToken(result.token)
+      this.setUserInfo(result)
     },
 
     // 获取用户信息

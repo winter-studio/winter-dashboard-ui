@@ -93,6 +93,7 @@ import { FormValidationError, useMessage } from 'naive-ui'
 import { ResultEnum } from '@/enums/httpEnum'
 import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5'
 import { PageEnum } from '@/enums/pageEnum'
+import { login } from '@/api/system/user'
 
 interface FormState {
   username: string
@@ -135,14 +136,19 @@ const handleSubmit = (e: MouseEvent) => {
       }
 
       try {
-        const { code, message: msg } = await userStore.login(params)
-        message.destroyAll()
-        if (code == ResultEnum.SUCCESS) {
-          const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
+        const response = await login(params)
+        const { result, code, message: msg } = response
+        if (code === ResultEnum.SUCCESS) {
+          userStore.login(result)
+          message.destroyAll()
           message.success('登录成功，即将进入系统')
+          //TODO 加载路由
+          const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
           if (route.name === LOGIN_NAME) {
             router.replace('/')
-          } else router.replace(toPath)
+          } else {
+            router.replace(toPath)
+          }
         } else {
           message.info(msg || '登录失败')
         }
