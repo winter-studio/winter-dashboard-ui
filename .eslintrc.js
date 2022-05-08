@@ -21,8 +21,15 @@ module.exports = {
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    '@vue/eslint-config-prettier'
+    '@vue/eslint-config-prettier',
+    'plugin:import/recommended',
+    'plugin:import/typescript'
   ],
+  settings: {
+    'import/resolver': {
+      typescript: {}
+    }
+  },
   rules: {
     'max-len': [
       'error',

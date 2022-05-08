@@ -1,7 +1,7 @@
 [
   {
     "id": "dashboard",
-    "path": "/dashboard",
+    "path": "dashboard",
     "title": "Dashboard",
     "icon": "DashboardOutlined",
     "badge": null,
@@ -15,7 +15,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/dashboard/console/console.vue"
+        "data": "views/dashboard/console/console.vue"
       },
       {
         "id": "dashboard_workplace",
@@ -24,13 +24,13 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/dashboard/workplace/workplace.vue"
+        "data": "views/dashboard/workplace/workplace.vue"
       }
     ]
   },
   {
     "id": "comp",
-    "path": "/comp",
+    "path": "comp",
     "title": "组件示例",
     "icon": "WalletOutlined",
     "badge": null,
@@ -53,7 +53,7 @@
             "icon": null,
             "badge": null,
             "type": "view",
-            "data": "@/views/comp/table/basic.vue"
+            "data": "views/comp/table/basic.vue"
           },
           {
             "id": "comp_table_editCell",
@@ -62,7 +62,7 @@
             "icon": null,
             "badge": null,
             "type": "view",
-            "data": "@/views/comp/table/editCell.vue"
+            "data": "views/comp/table/editCell.vue"
           },
           {
             "id": "comp_table_editRow",
@@ -71,7 +71,7 @@
             "icon": null,
             "badge": null,
             "type": "view",
-            "data": "@/views/comp/table/editRow.vue"
+            "data": "views/comp/table/editRow.vue"
           }
         ]
       },
@@ -91,7 +91,7 @@
             "icon": null,
             "badge": null,
             "type": "view",
-            "data": "@/views/comp/form/basic.vue"
+            "data": "views/comp/form/basic.vue"
           },
           {
             "id": "comp_table_useForm",
@@ -100,7 +100,7 @@
             "icon": null,
             "badge": null,
             "type": "view",
-            "data": "@/views/comp/form/useForm.vue"
+            "data": "views/comp/form/useForm.vue"
           }
         ]
       },
@@ -120,7 +120,7 @@
         "icon": null,
         "badge": null,
         "type": null,
-        "data": "@/views/comp/modal/index.vue"
+        "data": "views/comp/modal/index.vue"
       },
       {
         "id": "comp_richtext",
@@ -129,7 +129,7 @@
         "icon": null,
         "badge": null,
         "type": null,
-        "data": "@/views/comp/richtext/vue-quill.vue"
+        "data": "views/comp/richtext/vue-quill.vue"
       },
       {
         "id": "comp_drag",
@@ -138,13 +138,13 @@
         "icon": null,
         "badge": null,
         "type": null,
-        "data": "@/views/comp/drag/index.vue"
+        "data": "views/comp/drag/index.vue"
       }
     ]
   },
   {
     "id": "external",
-    "path": "/external",
+    "path": "external",
     "title": "项目文档",
     "icon": "DocumentTextOutline",
     "badge": null,
@@ -153,7 +153,7 @@
   },
   {
     "id": "exception",
-    "path": "/exception",
+    "path": "exception",
     "title": "异常页面",
     "icon": "ExclamationCircleOutlined",
     "badge": null,
@@ -167,7 +167,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/exception/403.vue"
+        "data": "views/exception/403.vue"
       },
       {
         "id": "exception_404",
@@ -176,7 +176,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/exception/404.vue"
+        "data": "views/exception/404.vue"
       },
       {
         "id": "exception_500",
@@ -185,7 +185,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/exception/500.vue"
+        "data": "views/exception/500.vue"
       }
     ]
   },
@@ -205,7 +205,7 @@
         "icon": null,
         "badge": null,
         "type": null,
-        "data": "@/views/form/basicForm/index.vue"
+        "data": "views/form/basicForm/index.vue"
       },
       {
         "id": "form_step",
@@ -214,7 +214,7 @@
         "icon": null,
         "badge": null,
         "type": null,
-        "data": "@/views/form/stepForm/stepForm.vue"
+        "data": "views/form/stepForm/stepForm.vue"
       },
       {
         "id": "form_detail",
@@ -223,13 +223,13 @@
         "icon": null,
         "badge": null,
         "type": null,
-        "data": "@/views/form/detail/index.vue"
+        "data": "views/form/detail/index.vue"
       }
     ]
   },
   {
     "id": "frame",
-    "path": "/frame",
+    "path": "frame",
     "title": "外部页面",
     "icon": "DesktopOutline",
     "badge": null,
@@ -249,7 +249,7 @@
   },
   {
     "id": "list",
-    "path": "/list",
+    "path": "list",
     "title": "列表页面",
     "icon": "TableOutlined",
     "badge": null,
@@ -263,7 +263,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/list/basicList/index.vue"
+        "data": "views/list/basicList/index.vue"
       },
       {
         "id": "basic-info",
@@ -272,13 +272,13 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/list/basicList/info.vue"
+        "data": "views/list/basicList/info.vue"
       }
     ]
   },
   {
     "id": "result",
-    "path": "/result",
+    "path": "result",
     "title": "结果页面",
     "icon": "CheckCircleOutlined",
     "badge": null,
@@ -292,7 +292,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/result/success.vue"
+        "data": "views/result/success.vue"
       },
       {
         "id": "fail",
@@ -301,7 +301,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/result/fail.vue"
+        "data": "views/result/fail.vue"
       },
       {
         "id": "info",
@@ -310,13 +310,13 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/result/info.vue"
+        "data": "views/result/info.vue"
       }
     ]
   },
   {
     "id": "setting",
-    "path": "/setting",
+    "path": "setting",
     "title": "设置页面",
     "icon": "SettingOutlined",
     "badge": null,
@@ -330,7 +330,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/setting/account/account.vue"
+        "data": "views/setting/account/account.vue"
       },
       {
         "id": "system",
@@ -339,13 +339,13 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/setting/system/system.vue"
+        "data": "views/setting/system/system.vue"
       }
     ]
   },
   {
     "id": "system",
-    "path": "/system",
+    "path": "system",
     "title": "系统设置",
     "icon": "OptionsSharp",
     "badge": null,
@@ -359,7 +359,7 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/system/menu/menu.vue"
+        "data": "views/system/menu/menu.vue"
       },
       {
         "id": "role",
@@ -368,17 +368,17 @@
         "icon": null,
         "badge": null,
         "type": "view",
-        "data": "@/views/system/role/role.vue"
+        "data": "views/system/role/role.vue"
       }
     ]
   },
   {
     "id": "about",
-    "path": "/about",
+    "path": "about",
     "title": "关于",
     "icon": "ProjectOutlined",
     "badge": "new",
     "type": "view",
-    "data": "@/views/about/index.vue"
+    "data": "views/about/index.vue"
   }
 ]

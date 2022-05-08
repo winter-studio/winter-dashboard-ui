@@ -13,7 +13,6 @@
 
 <script>
 import { defineComponent, computed, unref } from 'vue'
-import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 
 export default defineComponent({
@@ -31,9 +30,10 @@ export default defineComponent({
   },
   setup() {
     const { getIsPageAnimate, getPageAnimateType } = useProjectSetting()
-    const asyncRouteStore = useAsyncRouteStore()
+    // const asyncRouteStore = useAsyncRouteStore()
     // 需要缓存的路由组件
-    const keepAliveComponents = computed(() => asyncRouteStore.keepAliveComponents)
+    // const keepAliveComponents = computed(() => asyncRouteStore.keepAliveComponents)
+    const keepAliveComponents = []
 
     const getTransitionName = computed(() => {
       return unref(getIsPageAnimate) ? unref(getPageAnimateType) : ''

@@ -93,7 +93,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
 import { useTabsViewStore, RouteItem } from '@/store/modules/tabsView'
-import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useMessage } from 'naive-ui'
 import Draggable from 'vuedraggable'
@@ -107,12 +106,12 @@ import {
   LeftOutlined,
   RightOutlined
 } from '@vicons/antd'
-import { renderIcon } from '@/utils'
 import elementResizeDetectorMaker from 'element-resize-detector'
 import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useThemeVars } from 'naive-ui'
 import { useGo } from '@/hooks/web/usePage'
+import { renderIcon } from '@/utils/iconUtils'
 
 export default defineComponent({
   name: 'TabsView',
@@ -138,7 +137,6 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const tabsViewStore = useTabsViewStore()
-    const asyncRouteStore = useAsyncRouteStore()
     const navScroll: any = ref(null)
     const navWrap: any = ref(null)
     const isCurrent = ref(false)
@@ -271,8 +269,8 @@ export default defineComponent({
 
     window.addEventListener('scroll', onScroll, true)
 
-    // 移除缓存组件名称
-    const delKeepAliveCompName = () => {
+    // TODO 移除缓存组件名称
+    /* const delKeepAliveCompName = () => {
       if (route.meta.keepAlive) {
         const name = router.currentRoute.value.matched.find((item) => item.name == route.name)
           ?.components?.default.name
@@ -282,7 +280,7 @@ export default defineComponent({
           )
         }
       }
-    }
+    } */
 
     // 标签页列表
     const tabsList: any = computed(() => tabsViewStore.tabsList)
@@ -309,7 +307,7 @@ export default defineComponent({
       if (tabsList.value.length === 1) {
         return message.warning('这已经是最后一页，不能再关闭了！')
       }
-      delKeepAliveCompName()
+      // delKeepAliveCompName()
       tabsViewStore.closeCurrentTab(route)
       // 如果关闭的是当前页
       if (state.activeKey === route.fullPath) {
@@ -323,7 +321,7 @@ export default defineComponent({
     // 刷新页面
     const reloadRouter: VoidFunction = inject('reloadRouter')!
     const reloadPage = () => {
-      delKeepAliveCompName()
+      // delKeepAliveCompName()
       reloadRouter()
     }
 

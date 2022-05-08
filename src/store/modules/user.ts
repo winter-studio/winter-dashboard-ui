@@ -1,26 +1,27 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
-import { getUserInfo } from '@/api/system/user'
+import { getUserInfo, getUserMenus } from '@/api/system/user'
+import { Menu } from '@/router/types'
 
-export interface IUserState {
+export interface UserState {
   token: string
   username: string
   welcome: string
   avatar: string
-  permissions: any[]
   info: any
+  menus: Menu[]
 }
 
 export const useUserStore = defineStore({
   id: 'app-user',
-  state: (): IUserState => ({
+  state: (): UserState => ({
     token: storage.get(StorageType.ACCESS_TOKEN, ''),
     username: '',
     welcome: '',
     avatar: '',
-    permissions: [],
-    info: storage.get(StorageType.CURRENT_USER, {})
+    info: storage.get(StorageType.CURRENT_USER, {}),
+    menus: storage.get(StorageType.CURRENT_USER_MENUS, {})
   }),
   getters: {
     getToken(): string {
@@ -32,11 +33,11 @@ export const useUserStore = defineStore({
     getNickname(): string {
       return this.username
     },
-    getPermissions(): [any][] {
-      return this.permissions
-    },
     getUserInfo(): object {
       return this.info
+    },
+    getMenus(): Menu[] {
+      return this.menus
     }
   },
   actions: {
@@ -46,11 +47,11 @@ export const useUserStore = defineStore({
     setAvatar(avatar: string) {
       this.avatar = avatar
     },
-    setPermissions(permissions: [any][]) {
-      this.permissions = permissions
-    },
     setUserInfo(info: any) {
       this.info = info
+    },
+    setMenus(menus: Menu[]) {
+      this.menus = menus
     },
     // 登录
     login(result: any) {
@@ -60,16 +61,13 @@ export const useUserStore = defineStore({
       this.setToken(result.token)
       this.setUserInfo(result)
     },
-
     // 获取用户信息
     GetInfo() {
       return new Promise((resolve, reject) => {
         getUserInfo()
           .then((res) => {
             const result = res
-            if (result.permissions && result.permissions.length) {
-              const permissionsList = result.permissions
-              this.setPermissions(permissionsList)
+            if (result) {
               this.setUserInfo(result)
             } else {
               reject(new Error('getInfo: permissionsList must be a non-null array !'))
@@ -82,13 +80,25 @@ export const useUserStore = defineStore({
           })
       })
     },
-
+    // 获取用户菜单
+    async fetchMenus() {
+      getUserMenus()
+        .then((res) => {
+          const { result } = res
+          if (result) {
+            this.setMenus(result)
+          }
+        })
+        .catch((error) => {
+          throw new Error(error)
+        })
+    },
     // 登出
     async logout() {
-      this.setPermissions([])
       this.setUserInfo('')
       storage.remove(StorageType.ACCESS_TOKEN)
       storage.remove(StorageType.CURRENT_USER)
+      storage.remove(StorageType.CURRENT_USER_MENUS)
       return Promise.resolve('')
     }
   }

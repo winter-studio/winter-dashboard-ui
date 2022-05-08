@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router, { setupRouter } from './router'
+import router from './router'
 import store from '@/store'
 import { setupDirectives } from '@/plugins'
 import naive from 'naive-ui'
@@ -31,7 +31,7 @@ app.use(store)
 appProvider.mount('#appProvider', true)
 
 // 挂载路由
-await setupRouter(app)
+app.use(router)
 
 // 路由准备就绪后挂载APP实例
 await router.isReady()

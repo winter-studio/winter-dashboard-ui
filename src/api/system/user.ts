@@ -64,3 +64,13 @@ export function logout(params) {
     params
   })
 }
+
+/**
+ * @description: 获取用户信息
+ */
+export function getUserMenus() {
+  return http.request({
+    url: '/users/me/menus',
+    method: 'get'
+  })
+}

@@ -51,7 +51,7 @@ export default [
     }
   },
   {
-    url: '/api/menus/mine',
+    url: '/api/users/me/menus',
     timeout: 1000,
     method: 'get',
     response: () => {

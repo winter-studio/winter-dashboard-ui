@@ -1,21 +1,15 @@
-import type { RouteRecordRaw } from 'vue-router'
-import { isNavigationFailure, Router } from 'vue-router'
-import { useUserStore } from '@/store/modules/user'
-import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
-import StorageType from '@/enums/storageType'
-import { storage } from '@/utils/storage'
 import { PageEnum } from '@/enums/pageEnum'
-import { ErrorPageRoute } from '@/router/base'
+import { storage } from '@/utils/storage'
+import StorageType from '@/enums/storageType'
+import { isNavigationFailure, Router } from 'vue-router'
 
-const LOGIN_PATH = PageEnum.BASE_LOGIN
+const whitePathList = [PageEnum.BASE_LOGIN] // no redirect whitelist
 
-const whitePathList = [LOGIN_PATH] // no redirect whitelist
-
-export function createRouterGuards(router: Router) {
+export function setupGuards(router: Router) {
   router.beforeEach(async (to, from, next) => {
-    const Loading = window['$loading'] || null
+    const Loading = (window as { [key: string]: any })['$loading'] || null
     Loading && Loading.start()
-    if (from.path === LOGIN_PATH && to.name === 'errorPage') {
+    if (from.path === PageEnum.BASE_LOGIN && to.name === 'errorPage') {
       next(PageEnum.BASE_HOME)
       return
     }
@@ -36,7 +30,7 @@ export function createRouterGuards(router: Router) {
       }
       // redirect login page
       const redirectData: { path: string; replace: boolean; query?: Recordable<string> } = {
-        path: LOGIN_PATH,
+        path: PageEnum.BASE_LOGIN,
         replace: true
       }
       if (to.path) {
@@ -49,35 +43,9 @@ export function createRouterGuards(router: Router) {
       return
     }
 
-    const asyncRouteStore = useAsyncRouteStore()
-    const userStore = useUserStore()
-
-    if (asyncRouteStore.getIsDynamicAddedRoute) {
-      next()
-      return
-    }
-
-    const userInfo = await userStore.GetInfo()
-
-    const routes = await asyncRouteStore.generateRoutes(userInfo)
-
-    // 动态添加可访问路由表
-    routes.forEach((item) => {
-      router.addRoute(item as unknown as RouteRecordRaw)
-    })
-
-    //添加404
-    const isErrorPage = router.getRoutes().findIndex((item) => item.name === ErrorPageRoute.name)
-    if (isErrorPage === -1) {
-      router.addRoute(ErrorPageRoute as unknown as RouteRecordRaw)
-    }
-
-    const redirectPath = (from.query.redirect || to.path) as string
-    const redirect = decodeURIComponent(redirectPath)
-    const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
-    asyncRouteStore.setDynamicAddedRoute(true)
-    next(nextData)
     Loading && Loading.finish()
+    next()
+    return
   })
 
   router.afterEach((to, _, failure) => {
@@ -85,7 +53,7 @@ export function createRouterGuards(router: Router) {
     if (isNavigationFailure(failure)) {
       //console.log('failed navigation', failure)
     }
-    const asyncRouteStore = useAsyncRouteStore()
+    /* const asyncRouteStore = useAsyncRouteStore()
     // 在这里设置需要缓存的组件名称
     const keepAliveComponents = asyncRouteStore.keepAliveComponents
     const currentComName: any = to.matched.find((item) => item.name == to.name)?.name
@@ -100,8 +68,8 @@ export function createRouterGuards(router: Router) {
       }
     }
     asyncRouteStore.setKeepAliveComponents(keepAliveComponents)
-    const Loading = window['$loading'] || null
-    Loading && Loading.finish()
+    const Loading = (window as { [key: string]: any })['$loading'] || null
+    Loading && Loading.finish() */
   })
 
   router.onError((error) => {

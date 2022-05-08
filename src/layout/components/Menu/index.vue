@@ -17,10 +17,10 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, reactive, computed, watch, toRefs, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAsyncRouteStore } from '@/store/modules/asyncRoute'
-import { generatorMenu, generatorMenuMix } from '@/utils'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+import { useUserStore } from '@/store/modules/user'
+import { generatorMenu, generatorMenuMix } from '@/utils/menuUtils'
 
 export default defineComponent({
   name: 'Menu',
@@ -46,8 +46,8 @@ export default defineComponent({
     // 当前路由
     const currentRoute = useRoute()
     const router = useRouter()
-    const asyncRouteStore = useAsyncRouteStore()
     const settingStore = useProjectSettingStore()
+    const userStore = useUserStore()
     const menus = ref<any[]>([])
     const selectedKeys = ref<string>(currentRoute.name as string)
     const headerMenuSelectKey = ref<string>('')
@@ -87,13 +87,6 @@ export default defineComponent({
       }
     )
 
-    // 监听菜单收缩状态
-    // watch(
-    //   () => props.collapsed,
-    //   (newVal) => {
-    //   }
-    // );
-
     // 跟随页面路由变化，切换菜单选中状态
     watch(
       () => currentRoute.fullPath,
@@ -108,11 +101,11 @@ export default defineComponent({
 
     function updateMenu() {
       if (!settingStore.menuSetting.mixMenu) {
-        menus.value = generatorMenu(asyncRouteStore.getMenus)
+        menus.value = generatorMenu(userStore.getMenus)
       } else {
         //混合菜单
         const firstRouteName: string = (currentRoute.matched[0].name as string) || ''
-        menus.value = generatorMenuMix(asyncRouteStore.getMenus, firstRouteName, props.location)
+        menus.value = generatorMenuMix(userStore.getMenus, firstRouteName, props.location)
         const activeMenu: string = currentRoute?.matched[0].meta?.activeMenu as string
         headerMenuSelectKey.value = (activeMenu ? activeMenu : firstRouteName) || ''
       }
