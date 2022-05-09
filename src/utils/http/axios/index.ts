@@ -54,8 +54,8 @@ const transform: AxiosTransform = {
 
     const { data } = res
 
-    const $dialog = window['$dialog']
-    const $message = window['$message']
+    const $dialog = window.$dialog
+    const $message = window.$message
 
     if (!data) {
       // return '[HTTP] Request has no return value';
@@ -192,8 +192,8 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (error: any) => {
-    const $dialog = window['$dialog']
-    const $message = window['$message']
+    const $dialog = window.$dialog
+    const $message = window.$message
     const { response, code, message } = error || {}
     // TODO 此处要根据后端接口返回格式修改
     const msg: string =

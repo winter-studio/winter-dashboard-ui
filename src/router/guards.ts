@@ -6,8 +6,7 @@ const whitePathList = [PageEnum.BASE_LOGIN] // no redirect whitelist
 
 export function setupGuards(router: Router) {
   router.beforeEach(async (to, from, next) => {
-    const Loading = (window as { [key: string]: any })['$loading'] || null
-    Loading && Loading.start()
+    window.$loading?.start()
     if (from.path === PageEnum.BASE_LOGIN && to.name === 'errorPage') {
       next(PageEnum.BASE_HOME)
       return
@@ -52,7 +51,7 @@ export function setupGuards(router: Router) {
       }
     }
 
-    Loading && Loading.finish()
+    window.$loading?.finish()
     next()
     return
   })
@@ -77,8 +76,7 @@ export function setupGuards(router: Router) {
       }
     }
     asyncRouteStore.setKeepAliveComponents(keepAliveComponents)*/
-    const Loading = (window as { [key: string]: any })['$loading'] || null
-    Loading && Loading.finish()
+    window.$loading?.finish()
   })
 
   router.onError((error) => {

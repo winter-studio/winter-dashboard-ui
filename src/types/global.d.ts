@@ -6,8 +6,17 @@ import type {
   FunctionalComponent,
   PropType as VuePropType
 } from 'vue'
+import { LoadingBarProviderInst } from 'naive-ui/lib/loading-bar/src/LoadingBarProvider'
+import { MessageProviderInst } from 'naive-ui/lib/message/src/MessageProvider'
+import { DialogProviderInst } from 'naive-ui/lib/dialog/src/DialogProvider'
 
 declare global {
+  interface Window {
+    $loading: LoadingBarProviderInst
+    $message: MessageProviderInst
+    $dialog: DialogProviderInst
+  }
+
   const __APP_INFO__: {
     pkg: {
       name: string

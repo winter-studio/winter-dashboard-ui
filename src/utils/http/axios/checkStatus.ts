@@ -1,5 +1,5 @@
 export function checkStatus(status: number, msg: string): void {
-  const $message = window['$message']
+  const $message = window.$message
   switch (status) {
     case 400:
       $message.error(msg)
