@@ -3,6 +3,7 @@ import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
 import { getUserInfo, getUserMenus } from '@/api/system/user'
 import { Menu } from '@/router/types'
+import { setupDynamicRoutes } from '@/router/dynamic'
 
 export interface UserState {
   token: string
@@ -10,7 +11,7 @@ export interface UserState {
   welcome: string
   avatar: string
   info: any
-  menus: Menu[]
+  menus?: Menu[]
 }
 
 export const useUserStore = defineStore({
@@ -21,7 +22,7 @@ export const useUserStore = defineStore({
     welcome: '',
     avatar: '',
     info: storage.get(StorageType.CURRENT_USER, {}),
-    menus: []
+    menus: undefined
   }),
   getters: {
     getToken(): string {
@@ -80,18 +81,17 @@ export const useUserStore = defineStore({
           })
       })
     },
-    // 获取用户菜单
-    async fetchMenus() {
-      getUserMenus()
-        .then((res) => {
-          const { result } = res
-          if (result) {
-            this.setMenus(result)
-          }
-        })
-        .catch((error) => {
-          throw new Error(error)
-        })
+    // 登录成功后
+    async afterLogin() {
+      try {
+        // 获取用户菜单
+        const res = await getUserMenus()
+        this.setMenus(res)
+        // 更新路由
+        setupDynamicRoutes(res)
+      } catch (e) {
+        throw e
+      }
     },
     // 登出
     async logout() {

@@ -2,6 +2,7 @@ import { PageEnum } from '@/enums/pageEnum'
 import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
 import { isNavigationFailure, Router } from 'vue-router'
+import { useUserStore } from '@/store/modules/user'
 
 const whitePathList = [PageEnum.BASE_LOGIN] // no redirect whitelist
 
@@ -19,8 +20,8 @@ export function setupGuards(router: Router) {
       next()
       return
     }
-
-    const token = storage.get(StorageType.ACCESS_TOKEN)
+    const userStore = useUserStore()
+    const token = userStore.getToken
 
     if (!token) {
       // You can access without permissions. You need to set the routing meta.ignoreAuth to true
@@ -41,6 +42,11 @@ export function setupGuards(router: Router) {
       }
       next(redirectData)
       return
+    } else {
+      //may need to fetch menu data
+      if (userStore.menus === undefined) {
+        await userStore.afterLogin()
+      }
     }
 
     Loading && Loading.finish()

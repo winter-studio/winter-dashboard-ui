@@ -107,16 +107,16 @@
       {
         "id": "comp_upload",
         "path": "upload",
-        "title": null,
+        "title": "上传图片",
         "icon": null,
-        "badge": null,
+        "badge": "new",
         "type": null,
         "data": null
       },
       {
         "id": "comp_modal",
         "path": "modal",
-        "title": null,
+        "title": "弹窗扩展",
         "icon": null,
         "badge": null,
         "type": null,
@@ -125,7 +125,7 @@
       {
         "id": "comp_richtext",
         "path": "richtext",
-        "title": null,
+        "title": "富文本",
         "icon": null,
         "badge": null,
         "type": null,
@@ -134,7 +134,7 @@
       {
         "id": "comp_drag",
         "path": "drag",
-        "title": null,
+        "title": "拖拽",
         "icon": null,
         "badge": null,
         "type": null,

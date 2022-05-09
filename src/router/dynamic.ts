@@ -1,8 +1,9 @@
-import { Router, RouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 import { AppRouteRecordRaw, Component, Menu, MenuType } from './types'
 import { AppLayout, EmptyLayout, IFrameLayout } from './constant'
+import router from '@/router'
 
-export function setupDynamicRoutes(router: Router, menus: Menu[]) {
+export function setupDynamicRoutes(menus: Menu[]) {
   const appRoutes: AppRouteRecordRaw[] = generatorAppRoutes(menus, 1)
   appRoutes.forEach((route) => {
     router.addRoute(route as unknown as RouteRecordRaw)

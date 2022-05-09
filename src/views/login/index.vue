@@ -142,13 +142,14 @@ const handleSubmit = (e: MouseEvent) => {
           userStore.login(result)
           message.destroyAll()
           message.success('登录成功，即将进入系统')
-          await userStore.fetchMenus()
+          await userStore.afterLogin()
           const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
           if (route.name === LOGIN_NAME) {
             router.replace('/')
           } else {
             router.replace(toPath)
           }
+          message.destroyAll()
         } else {
           message.info(msg || '登录失败')
         }
