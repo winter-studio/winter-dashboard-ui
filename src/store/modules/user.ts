@@ -21,7 +21,7 @@ export const useUserStore = defineStore({
     welcome: '',
     avatar: '',
     info: storage.get(StorageType.CURRENT_USER, {}),
-    menus: storage.get(StorageType.CURRENT_USER_MENUS, {})
+    menus: []
   }),
   getters: {
     getToken(): string {
@@ -98,7 +98,6 @@ export const useUserStore = defineStore({
       this.setUserInfo('')
       storage.remove(StorageType.ACCESS_TOKEN)
       storage.remove(StorageType.CURRENT_USER)
-      storage.remove(StorageType.CURRENT_USER_MENUS)
       return Promise.resolve('')
     }
   }
