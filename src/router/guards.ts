@@ -1,6 +1,4 @@
 import { PageEnum } from '@/enums/pageEnum'
-import { storage } from '@/utils/storage'
-import StorageType from '@/enums/storageType'
 import { isNavigationFailure, Router } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 
@@ -46,6 +44,11 @@ export function setupGuards(router: Router) {
       //may need to fetch menu data
       if (userStore.menus === undefined) {
         await userStore.afterLogin()
+        next({
+          path: to.path,
+          replace: true
+        })
+        return
       }
     }
 
@@ -73,9 +76,9 @@ export function setupGuards(router: Router) {
         keepAliveComponents.splice(index, 1)
       }
     }
-    asyncRouteStore.setKeepAliveComponents(keepAliveComponents)
+    asyncRouteStore.setKeepAliveComponents(keepAliveComponents)*/
     const Loading = (window as { [key: string]: any })['$loading'] || null
-    Loading && Loading.finish() */
+    Loading && Loading.finish()
   })
 
   router.onError((error) => {

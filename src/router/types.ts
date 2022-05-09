@@ -19,6 +19,7 @@ export interface AppRouteMeta {
   icon?: string
   virtualDir?: boolean
   url?: string
+  hideBreadcrumb?: boolean
 }
 
 export enum MenuType {

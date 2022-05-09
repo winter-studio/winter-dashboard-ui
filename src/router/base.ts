@@ -1,13 +1,14 @@
 import { ErrorPage, AppLayout } from '@/router/constant'
 import { PageEnum } from '@/enums/pageEnum'
-import { AppRouteRecordRaw } from '@/router/types'
+import { AppRouteRecordRaw, MenuType } from '@/router/types'
 
 export const RootRoute: AppRouteRecordRaw = {
   path: '/',
   name: 'Root',
   redirect: PageEnum.BASE_HOME,
   meta: {
-    title: 'Root'
+    title: 'Root',
+    type: MenuType.DIR
   }
 }
 
@@ -16,7 +17,8 @@ export const LoginRoute: AppRouteRecordRaw = {
   name: 'Login',
   component: () => import('@/views/login/index.vue'),
   meta: {
-    title: '登录'
+    title: '登录',
+    type: MenuType.VIEW
   }
 }
 
@@ -27,7 +29,8 @@ export const ErrorPageRoute: AppRouteRecordRaw = {
   component: AppLayout,
   meta: {
     title: 'ErrorPage',
-    hideBreadcrumb: true
+    hideBreadcrumb: true,
+    type: MenuType.VIEW
   },
   children: [
     {
@@ -36,7 +39,8 @@ export const ErrorPageRoute: AppRouteRecordRaw = {
       component: ErrorPage,
       meta: {
         title: 'ErrorPage',
-        hideBreadcrumb: true
+        hideBreadcrumb: true,
+        type: MenuType.VIEW
       }
     }
   ]

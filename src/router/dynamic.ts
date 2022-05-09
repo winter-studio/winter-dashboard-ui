@@ -43,7 +43,7 @@ function generatorAppRoutes(menus: Menu[], level: number): AppRouteRecordRaw[] {
         title: menu.title,
         type: menu.type
       },
-      path: level === 1 ? '/' : '' + menu.path
+      path: (level === 1 ? '/' : '') + menu.path
     }
 
     switch (menu.type) {
@@ -53,7 +53,7 @@ function generatorAppRoutes(menus: Menu[], level: number): AppRouteRecordRaw[] {
         } else {
           appRoute.component = EmptyLayout
         }
-        appRoute.redirect = getRedirect(menu)
+        setupRedirect(appRoute, menu)
         break
       case MenuType.VIEW:
         completeFirstLevelComponent(level, appRoute, () => import(`../${menu.data}`))
@@ -70,18 +70,22 @@ function generatorAppRoutes(menus: Menu[], level: number): AppRouteRecordRaw[] {
     if (menu.children?.length ?? 0 > 0) {
       appRoute.children = generatorAppRoutes(menu.children!, level + 1)
     }
+
     appRoutes.push(appRoute)
   })
   return appRoutes
 }
 
-function getRedirect(menu: Menu): string | undefined {
+function setupRedirect(appRoute: AppRouteRecordRaw, menu: Menu): string | undefined {
   if (menu.children?.length ?? 0 > 0) {
     const firstChild = menu.children!.find((child) => {
       return child.type === MenuType.VIEW || child.type === MenuType.IFRAME
     })
     if (firstChild) {
-      return menu.path + '/' + firstChild.path
+      appRoute.redirect = (_) => {
+        return firstChild.path
+      }
+      return
     }
     return undefined
   }

@@ -37,7 +37,7 @@ export const useUserStore = defineStore({
     getUserInfo(): object {
       return this.info
     },
-    getMenus(): Menu[] {
+    getMenus(): Menu[] | undefined {
       return this.menus
     }
   },
