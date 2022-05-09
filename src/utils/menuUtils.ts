@@ -37,17 +37,16 @@ export function generatorMenuMix(
     const firstRouter: any[] = []
     filterHiddenMenus(cloneRouterMap).forEach((menu) => {
       menu.children = undefined
-      const currentMenu = {
-        ...info,
-        ...info.meta,
-        label: info.meta?.title,
-        key: info.name
+      const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
+        label: menu.title,
+        key: menu.id,
+        icon: menu.icon ? renderIconByName(menu.icon) : undefined
       }
       firstRouter.push(currentMenu)
     })
     return firstRouter
   } else {
-    return getChildrenRouter(cloneRouterMap.filter((item) => item.name === routerName))
+    return getChildrenRouter(cloneRouterMap.filter((item) => item.id === routerName))
   }
 }
 
@@ -62,16 +61,15 @@ export function getChildrenRouter(
   routerMap: Menu[]
 ): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
   return filterHiddenMenus(routerMap).map((menu) => {
-    const currentMenu = {
-      ...info,
-      ...info.meta,
-      label: info.meta?.title,
-      key: info.name
+    const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
+      label: menu.title,
+      key: menu.id,
+      icon: menu.icon ? renderIconByName(menu.icon) : undefined
     }
     // 是否有子菜单，并递归处理
-    if (info.children && info.children.length > 0) {
+    if (menu.children && menu.children.length > 0) {
       // Recursion
-      currentMenu.children = getChildrenRouter(info.children)
+      currentMenu.children = getChildrenRouter(menu.children)
     }
     return currentMenu
   })
