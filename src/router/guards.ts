@@ -43,6 +43,7 @@ export function setupGuards(router: Router) {
       //may need to fetch menu data
       if (userStore.menus === undefined) {
         await userStore.afterLogin()
+        console.log(to)
         next({
           path: to.path,
           replace: true

@@ -18,17 +18,17 @@ function completeFirstLevelComponent(
   if (level === 1) {
     appRoute.children = [
       {
-        name: appRoute.name + '-component',
+        name: appRoute.name,
         meta: { ...appRoute.meta },
-        path: 'index',
+        path: appRoute.path,
+        alias: appRoute.path,
         component
       }
     ]
-
+    appRoute.name = appRoute.name + '-layout'
     appRoute.component = AppLayout
     appRoute.meta.type = MenuType.DIR
     appRoute.meta.virtualDir = true
-    appRoute.alias = appRoute.path + '/index'
   } else {
     appRoute.component = component
   }
@@ -83,7 +83,7 @@ function setupRedirect(appRoute: AppRouteRecordRaw, menu: Menu): string | undefi
     })
     if (firstChild) {
       appRoute.redirect = (_) => {
-        return firstChild.path
+        return { name: firstChild.id }
       }
       return
     }
