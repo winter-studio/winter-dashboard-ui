@@ -1,6 +1,7 @@
 import { PageEnum } from '@/enums/pageEnum'
 import { isNavigationFailure, Router } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/application'
 
 const whitePathList = [PageEnum.BASE_LOGIN] // no redirect whitelist
 
@@ -18,6 +19,7 @@ export function setupGuards(router: Router) {
       return
     }
     const userStore = useUserStore()
+    const appStore = useAppStore()
     const token = userStore.getToken
 
     if (!token) {
@@ -41,9 +43,8 @@ export function setupGuards(router: Router) {
       return
     } else {
       //may need to fetch menu data
-      if (userStore.menus === undefined) {
+      if (appStore.menus === undefined) {
         await userStore.afterLogin()
-        console.log(to)
         next({
           path: to.path,
           replace: true

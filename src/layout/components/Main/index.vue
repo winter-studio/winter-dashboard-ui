@@ -14,6 +14,7 @@
 <script>
 import { defineComponent, computed, unref } from 'vue'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+import { useAppStore } from '@/store/modules/application'
 
 export default defineComponent({
   name: 'MainView',
@@ -30,10 +31,9 @@ export default defineComponent({
   },
   setup() {
     const { getIsPageAnimate, getPageAnimateType } = useProjectSetting()
-    // const asyncRouteStore = useAsyncRouteStore()
+    const appStore = useAppStore()
     // 需要缓存的路由组件
-    // const keepAliveComponents = computed(() => asyncRouteStore.keepAliveComponents)
-    const keepAliveComponents = []
+    const keepAliveComponents = computed(() => appStore.keepAliveComponents)
 
     const getTransitionName = computed(() => {
       return unref(getIsPageAnimate) ? unref(getPageAnimateType) : ''

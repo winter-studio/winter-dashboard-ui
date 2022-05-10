@@ -21,6 +21,7 @@ import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useUserStore } from '@/store/modules/user'
 import { buildMenu, buildMenuMix } from './builder'
+import { useAppStore } from '@/store/modules/application'
 
 export default defineComponent({
   name: 'AsideMenu',
@@ -47,7 +48,7 @@ export default defineComponent({
     const currentRoute = useRoute()
     const router = useRouter()
     const settingStore = useProjectSettingStore()
-    const userStore = useUserStore()
+    const appStore = useAppStore()
     const menus = ref<any[]>([])
     const selectedKeys = ref<string>(currentRoute.name as string)
     const headerMenuSelectKey = ref<string>('')
@@ -101,11 +102,11 @@ export default defineComponent({
 
     function updateMenu() {
       if (!settingStore.menuSetting.mixMenu) {
-        menus.value = buildMenu(userStore.getMenus)
+        menus.value = buildMenu(appStore.menus)
       } else {
         //混合菜单
         const firstRouteName: string = (currentRoute.matched[0].name as string) || ''
-        menus.value = buildMenuMix(firstRouteName, props.location, userStore.getMenus)
+        menus.value = buildMenuMix(firstRouteName, props.location, appStore.menus)
         const activeMenu: string = currentRoute?.matched[0].meta?.activeMenu as string
         headerMenuSelectKey.value = (activeMenu ? activeMenu : firstRouteName) || ''
       }

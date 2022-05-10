@@ -41,7 +41,8 @@ function generatorAppRoutes(menus: Menu[], level: number): AppRouteRecordRaw[] {
       name: menu.id,
       meta: {
         title: menu.title,
-        type: menu.type
+        type: menu.type,
+        keepAlive: menu.keepAlive
       },
       path: (level === 1 ? '/' : '') + menu.path
     }

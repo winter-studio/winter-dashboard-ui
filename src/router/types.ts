@@ -20,6 +20,7 @@ export interface AppRouteMeta {
   virtual?: boolean
   url?: string
   hideBreadcrumb?: boolean
+  keepAlive?: boolean
 }
 
 export enum MenuType {
@@ -39,4 +40,5 @@ export interface Menu {
   icon?: string
   badge?: string
   hidden?: boolean
+  keepAlive?: boolean
 }

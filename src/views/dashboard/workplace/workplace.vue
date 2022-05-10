@@ -9,8 +9,9 @@
                 <n-avatar circle :size="64" :src="schoolboy" />
               </div>
               <div>
-                <p class="px-4 text-xl">早安，Ah jung，开始您一天的工作吧！</p>
+                <p class="px-4 text-xl">早安，{{ username }}，开始您一天的工作吧！</p>
                 <p class="px-4 text-gray-400">今日阴转大雨，15℃ - 25℃，出门记得带伞哦。</p>
+                <n-button @click="updateUsername">点我</n-button>
               </div>
             </div>
           </n-gi>
@@ -310,6 +311,16 @@ import {
   Html5Outlined
 } from '@vicons/antd'
 import { LogoVue, LogoAngular, LogoReact, LogoJavascript } from '@vicons/ionicons5'
+import { useUserStore } from '@/store/modules/user'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
+
+const { username } = storeToRefs(useUserStore())
+
+const counter = ref(1)
+function updateUsername() {
+  username.value = 'test' + counter.value++
+}
 </script>
 
 <style lang="scss" scoped>

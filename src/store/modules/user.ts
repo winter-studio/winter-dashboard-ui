@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
 import { getUserInfo, getUserMenus } from '@/api/system/user'
-import { Menu } from '@/router/types'
 import { setupDynamicRoutes } from '@/router/dynamic'
+import { useAppStore } from '@/store/modules/application'
 
 export interface UserState {
   token: string
@@ -11,7 +11,6 @@ export interface UserState {
   welcome: string
   avatar: string
   info: any
-  menus?: Menu[]
 }
 
 export const useUserStore = defineStore({
@@ -21,8 +20,7 @@ export const useUserStore = defineStore({
     username: '',
     welcome: '',
     avatar: '',
-    info: storage.get(StorageType.CURRENT_USER, {}),
-    menus: undefined
+    info: storage.get(StorageType.CURRENT_USER, {})
   }),
   getters: {
     getToken(): string {
@@ -36,9 +34,6 @@ export const useUserStore = defineStore({
     },
     getUserInfo(): object {
       return this.info
-    },
-    getMenus(): Menu[] | undefined {
-      return this.menus
     }
   },
   actions: {
@@ -50,9 +45,6 @@ export const useUserStore = defineStore({
     },
     setUserInfo(info: any) {
       this.info = info
-    },
-    setMenus(menus: Menu[]) {
-      this.menus = menus
     },
     // 登录
     login(result: any) {
@@ -86,7 +78,7 @@ export const useUserStore = defineStore({
       try {
         // 获取用户菜单
         const res = await getUserMenus()
-        this.setMenus(res)
+        useAppStore().menus = res
         // 更新路由
         setupDynamicRoutes(res)
       } catch (e) {
