@@ -1,15 +1,13 @@
 import { Menu } from '@/router/types'
 import { cloneDeep } from 'lodash-es'
 import { MenuDividerOption, MenuGroupOption, MenuOption, NTag } from 'naive-ui'
-import { renderIconByName } from '@/utils/iconUtils'
+import { renderIconByName } from '@/utils/icon-utils'
 import { h } from 'vue'
 
 /**
  * 递归组装菜单格式
  */
-export function generatorMenu(
-  menus?: Menu[]
-): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
+export function buildMenu(menus?: Menu[]): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
   if (!menus) {
     return []
   }
@@ -23,7 +21,7 @@ export function generatorMenu(
     // 是否有子菜单，并递归处理
     if (menu.children?.length ?? 0 > 0) {
       // Recursion
-      currentMenu.children = generatorMenu(menu.children!)
+      currentMenu.children = buildMenu(menu.children!)
     }
     return currentMenu
   })
@@ -32,7 +30,7 @@ export function generatorMenu(
 /**
  * 混合菜单
  * */
-export function generatorMenuMix(
+export function buildMenuMix(
   routerName: string,
   location: string,
   menus?: Menu[]
@@ -55,7 +53,7 @@ export function generatorMenuMix(
     })
     return firstRouter
   } else {
-    return getChildrenRouter(cloneRouterMap.filter((item) => item.id === routerName))
+    return buildChildren(cloneRouterMap.filter((item) => item.id === routerName))
   }
 }
 
@@ -66,9 +64,7 @@ function filterHiddenMenus(menus: Menu[]): Menu[] {
 /**
  * 递归组装子菜单
  * */
-export function getChildrenRouter(
-  menus?: Menu[]
-): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
+function buildChildren(menus?: Menu[]): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
   if (!menus) {
     return []
   }
@@ -82,7 +78,7 @@ export function getChildrenRouter(
     // 是否有子菜单，并递归处理
     if (menu.children && menu.children.length > 0) {
       // Recursion
-      currentMenu.children = getChildrenRouter(menu.children)
+      currentMenu.children = buildChildren(menu.children)
     }
     return currentMenu
   })

@@ -20,10 +20,10 @@ import { useRoute, useRouter } from 'vue-router'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useUserStore } from '@/store/modules/user'
-import { generatorMenu, generatorMenuMix } from '@/utils/menuUtils'
+import { buildMenu, buildMenuMix } from './builder'
 
 export default defineComponent({
-  name: 'Menu',
+  name: 'AppAsideMenu',
   components: {},
   props: {
     mode: {
@@ -101,11 +101,11 @@ export default defineComponent({
 
     function updateMenu() {
       if (!settingStore.menuSetting.mixMenu) {
-        menus.value = generatorMenu(userStore.getMenus)
+        menus.value = buildMenu(userStore.getMenus)
       } else {
         //混合菜单
         const firstRouteName: string = (currentRoute.matched[0].name as string) || ''
-        menus.value = generatorMenuMix(firstRouteName, props.location, userStore.getMenus)
+        menus.value = buildMenuMix(firstRouteName, props.location, userStore.getMenus)
         const activeMenu: string = currentRoute?.matched[0].meta?.activeMenu as string
         headerMenuSelectKey.value = (activeMenu ? activeMenu : firstRouteName) || ''
       }

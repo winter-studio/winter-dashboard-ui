@@ -9,7 +9,7 @@
         <img src="@/assets/images/logo.png" alt="" />
         <h2 v-show="!collapsed" class="m-0">Winter Dashboard</h2>
       </div>
-      <AsideMenu
+      <app-aside-menu
         v-model:location="getMenuLocation"
         :collapsed="collapsed"
         :inverted="getInverted"
@@ -122,7 +122,7 @@
     </div>
   </div>
   <!--项目配置-->
-  <ProjectSetting ref="drawerSetting" />
+  <project-setting ref="drawerSetting" />
 </template>
 
 <script lang="ts">
@@ -133,13 +133,13 @@ import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
 import StorageType from '@/enums/storageType'
 import { useUserStore } from '@/store/modules/user'
 import ProjectSetting from './ProjectSetting.vue'
-import { AsideMenu } from '@/layout/components/Menu'
+import AppAsideMenu from '@/layout/components/Menu/AppAsideMenu.vue'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { Refresh } from '@vicons/tabler'
 
 export default defineComponent({
   name: 'PageHeader',
-  components: { ...components, NDialogProvider, ProjectSetting, AsideMenu, Refresh },
+  components: { ...components, NDialogProvider, ProjectSetting, AppAsideMenu, Refresh },
   props: {
     collapsed: {
       type: Boolean

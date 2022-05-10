@@ -17,7 +17,7 @@
           @click="scrollPrev"
         >
           <n-icon size="16" color="#515a6e">
-            <LeftOutlined />
+            <left-outlined />
           </n-icon>
         </span>
         <span
@@ -26,11 +26,11 @@
           @click="scrollNext"
         >
           <n-icon size="16" color="#515a6e">
-            <RightOutlined />
+            <right-outlined />
           </n-icon>
         </span>
         <div ref="navScroll" class="tabs-card-scroll">
-          <Draggable :list="tabsList" animation="300" item-key="fullPath" class="flex">
+          <draggable :list="tabsList" animation="300" item-key="fullPath" class="flex">
             <template #item="{ element }">
               <div
                 :id="`tag${element.fullPath.split('/').join('\/')}`"
@@ -41,11 +41,11 @@
               >
                 <span>{{ element.meta.title }}</span>
                 <n-icon v-if="!element.meta.affix" size="14" @click.stop="closeTabItem(element)">
-                  <CloseOutlined />
+                  <close-outlined />
                 </n-icon>
               </div>
             </template>
-          </Draggable>
+          </draggable>
         </div>
       </div>
       <div class="tabs-close">
@@ -57,7 +57,7 @@
         >
           <div class="tabs-close-btn">
             <n-icon size="16" color="#515a6e">
-              <DownOutlined />
+              <down-outlined />
             </n-icon>
           </div>
         </n-dropdown>
@@ -94,7 +94,7 @@ import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
 import { useTabsViewStore, RouteItem } from '@/store/modules/tabsView'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
-import { useMessage } from 'naive-ui'
+import { useMessage, useThemeVars } from 'naive-ui'
 import Draggable from 'vuedraggable'
 import { PageEnum } from '@/enums/pageEnum'
 import {
@@ -109,9 +109,8 @@ import {
 import elementResizeDetectorMaker from 'element-resize-detector'
 import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
-import { useThemeVars } from 'naive-ui'
 import { useGo } from '@/hooks/web/usePage'
-import { renderIcon } from '@/utils/iconUtils'
+import { renderIcon } from '@/utils/icon-utils'
 
 export default defineComponent({
   name: 'TabsView',

@@ -90,6 +90,14 @@ module.exports = {
         autofix: true,
         ignore: []
       }
+    ],
+    'vue/component-name-in-template-casing': [
+      'warn',
+      'kebab-case',
+      {
+        registeredComponentsOnly: true,
+        ignores: []
+      }
     ]
   }
 }
