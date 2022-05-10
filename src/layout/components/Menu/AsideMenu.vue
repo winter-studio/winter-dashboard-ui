@@ -23,7 +23,7 @@ import { useUserStore } from '@/store/modules/user'
 import { buildMenu, buildMenuMix } from './builder'
 
 export default defineComponent({
-  name: 'AppAsideMenu',
+  name: 'AsideMenu',
   components: {},
   props: {
     mode: {

@@ -17,7 +17,7 @@
       @expand="collapsed = false"
     >
       <logo :collapsed="collapsed" />
-      <app-aside-menu v-model:collapsed="collapsed" v-model:location="getMenuLocation" />
+      <aside-menu v-model:collapsed="collapsed" v-model:location="getMenuLocation" />
     </n-layout-sider>
 
     <n-drawer
@@ -27,7 +27,7 @@
       class="layout-side-drawer"
     >
       <logo :collapsed="collapsed" />
-      <app-aside-menu @click-menu-item="collapsed = false" />
+      <aside-menu @click-menu-item="collapsed = false" />
     </n-drawer>
 
     <n-layout :inverted="inverted">
@@ -69,7 +69,7 @@ import { ref, unref, computed, onMounted } from 'vue'
 import { Logo } from './components/Logo'
 import { TabsView } from './components/TagsView'
 import { MainView } from './components/Main'
-import AppAsideMenu from './components/Menu/AppAsideMenu.vue'
+import { AsideMenu } from './components/Menu'
 import { PageHeader } from './components/Header'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
