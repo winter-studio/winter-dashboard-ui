@@ -44,7 +44,7 @@
       <!-- 面包屑 -->
       <n-breadcrumb v-if="crumbsSetting.show">
         <template v-for="routeItem in breadcrumbList" :key="routeItem.name">
-          <n-breadcrumb-item>
+          <n-breadcrumb-item v-if="routeItem.virtual !== true">
             <n-dropdown
               v-if="routeItem.children.length"
               :options="routeItem.children"
@@ -200,7 +200,8 @@ export default defineComponent({
           ...item,
           label: item.meta.title,
           key: item.name,
-          disabled: item.path === '/'
+          disabled: item.path === '/',
+          virtual: item.meta.virtual
         }
         // 是否有子菜单，并递归处理
         if (item.children && item.children.length > 0) {

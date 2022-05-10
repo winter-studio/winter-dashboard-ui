@@ -17,7 +17,7 @@ export interface AppRouteMeta {
   title: string
   type: MenuType
   icon?: string
-  virtualDir?: boolean
+  virtual?: boolean
   url?: string
   hideBreadcrumb?: boolean
 }

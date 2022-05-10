@@ -28,7 +28,7 @@ function completeFirstLevelComponent(
     appRoute.name = appRoute.name + '-layout'
     appRoute.component = AppLayout
     appRoute.meta.type = MenuType.DIR
-    appRoute.meta.virtualDir = true
+    appRoute.meta.virtual = true
   } else {
     appRoute.component = component
   }

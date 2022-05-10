@@ -8,8 +8,11 @@ import { h } from 'vue'
  * 递归组装菜单格式
  */
 export function generatorMenu(
-  menus: Menu[]
+  menus?: Menu[]
 ): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
+  if (!menus) {
+    return []
+  }
   return filterHiddenMenus(menus).map((menu) => {
     const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
       label: menu.title,
@@ -30,11 +33,14 @@ export function generatorMenu(
  * 混合菜单
  * */
 export function generatorMenuMix(
-  routerMap: Menu[],
   routerName: string,
-  location: string
+  location: string,
+  menus?: Menu[]
 ): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
-  const cloneRouterMap = cloneDeep(routerMap)
+  if (!menus) {
+    return []
+  }
+  const cloneRouterMap = cloneDeep(menus)
   if (location === 'header') {
     const firstRouter: any[] = []
     filterHiddenMenus(cloneRouterMap).forEach((menu) => {
@@ -61,9 +67,12 @@ function filterHiddenMenus(menus: Menu[]): Menu[] {
  * 递归组装子菜单
  * */
 export function getChildrenRouter(
-  routerMap: Menu[]
+  menus?: Menu[]
 ): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
-  return filterHiddenMenus(routerMap).map((menu) => {
+  if (!menus) {
+    return []
+  }
+  return filterHiddenMenus(menus).map((menu) => {
     const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
       label: menu.title,
       key: menu.id,

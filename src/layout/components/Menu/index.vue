@@ -105,7 +105,7 @@ export default defineComponent({
       } else {
         //混合菜单
         const firstRouteName: string = (currentRoute.matched[0].name as string) || ''
-        menus.value = generatorMenuMix(userStore.getMenus, firstRouteName, props.location)
+        menus.value = generatorMenuMix(firstRouteName, props.location, userStore.getMenus)
         const activeMenu: string = currentRoute?.matched[0].meta?.activeMenu as string
         headerMenuSelectKey.value = (activeMenu ? activeMenu : firstRouteName) || ''
       }
