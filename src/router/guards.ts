@@ -63,21 +63,18 @@ export function setupGuards(router: Router) {
     if (isNavigationFailure(failure)) {
       //console.log('failed navigation', failure)
     }
-    /* const asyncRouteStore = useAsyncRouteStore()
+    const appStore = useAppStore()
     // 在这里设置需要缓存的组件名称
-    const keepAliveComponents = asyncRouteStore.keepAliveComponents
+    const keepAliveComponents = appStore.keepAliveComponents
     const currentComName: any = to.matched.find((item) => item.name == to.name)?.name
-    if (currentComName && !keepAliveComponents.includes(currentComName) && to.meta?.keepAlive) {
+    if (currentComName && !keepAliveComponents.has(currentComName) && to.meta?.keepAlive) {
       // 需要缓存的组件
-      keepAliveComponents.push(currentComName)
+      keepAliveComponents.add(currentComName)
     } else if (!to.meta?.keepAlive) {
       // 不需要缓存的组件
-      const index = asyncRouteStore.keepAliveComponents.findIndex((name) => name == currentComName)
-      if (index != -1) {
-        keepAliveComponents.splice(index, 1)
-      }
+      keepAliveComponents.delete(currentComName)
     }
-    asyncRouteStore.setKeepAliveComponents(keepAliveComponents)*/
+    appStore.keepAliveComponents = keepAliveComponents
     window.$loading?.finish()
   })
 

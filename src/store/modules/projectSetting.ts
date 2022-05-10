@@ -81,7 +81,6 @@ export const useProjectSettingStore = defineStore({
   },
   actions: {
     setNavTheme(value: string): void {
-      debugger
       this.navTheme = value
     },
     setIsMobile(value: boolean): void {

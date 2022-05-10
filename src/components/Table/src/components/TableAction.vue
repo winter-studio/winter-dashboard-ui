@@ -106,24 +106,20 @@ export default defineComponent({
     }
 
     const getActions = computed(() => {
-      return (toRaw(props.actions) || [])
-        .filter((action) => {
-          return hasPermission(action.auth) && isIfShow(action)
-        })
-        .map((action) => {
-          const { popConfirm } = action
-          //需要展示什么风格，自己修改一下参数
-          return {
-            size: 'small',
-            text: actionText,
-            type: actionType,
-            ...action,
-            ...(popConfirm || {}),
-            onConfirm: popConfirm?.confirm,
-            onCancel: popConfirm?.cancel,
-            enable: !!popConfirm
-          }
-        })
+      return (toRaw(props.actions) || []).map((action) => {
+        const { popConfirm } = action
+        //需要展示什么风格，自己修改一下参数
+        return {
+          size: 'small',
+          text: actionText,
+          type: actionType,
+          ...action,
+          ...(popConfirm || {}),
+          onConfirm: popConfirm?.confirm,
+          onCancel: popConfirm?.cancel,
+          enable: !!popConfirm
+        }
+      })
     })
 
     return {

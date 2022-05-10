@@ -19,9 +19,9 @@ import { defineComponent, ref, onMounted, reactive, computed, watch, toRefs, unr
 import { useRoute, useRouter } from 'vue-router'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
-import { useUserStore } from '@/store/modules/user'
 import { buildMenu, buildMenuMix } from './builder'
 import { useAppStore } from '@/store/modules/application'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'AsideMenu',
@@ -101,12 +101,13 @@ export default defineComponent({
     )
 
     function updateMenu() {
+      const { menus: storeMenus } = storeToRefs(appStore)
       if (!settingStore.menuSetting.mixMenu) {
-        menus.value = buildMenu(appStore.menus)
+        menus.value = buildMenu(storeMenus?.value)
       } else {
         //混合菜单
         const firstRouteName: string = (currentRoute.matched[0].name as string) || ''
-        menus.value = buildMenuMix(firstRouteName, props.location, appStore.menus)
+        menus.value = buildMenuMix(firstRouteName, props.location, storeMenus?.value)
         const activeMenu: string = currentRoute?.matched[0].meta?.activeMenu as string
         headerMenuSelectKey.value = (activeMenu ? activeMenu : firstRouteName) || ''
       }

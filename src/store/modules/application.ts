@@ -3,19 +3,15 @@ import { Menu } from '@/router/types'
 
 export interface AppState {
   menus?: Menu[]
-  keepAliveComponents: string[]
+  keepAliveComponents: Set<string>
 }
 
 export const useAppStore = defineStore({
   id: 'app',
   state: (): AppState => ({
     menus: undefined,
-    keepAliveComponents: []
+    keepAliveComponents: new Set()
   }),
   getters: {},
-  actions: {
-    setMenus(menus: Menu[]) {
-      this.menus = menus
-    }
-  }
+  actions: {}
 })
