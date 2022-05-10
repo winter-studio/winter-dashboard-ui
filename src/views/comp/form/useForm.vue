@@ -5,11 +5,11 @@
     </div>
     <n-card :bordered="false" class="mt-4 proCard">
       <div class="BasicForm">
-        <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset">
+        <basic-form @register="register" @submit="handleSubmit" @reset="handleReset">
           <template #statusSlot="{ model, field }">
             <n-input v-model:value="model[field]" />
           </template>
-        </BasicForm>
+        </basic-form>
       </div>
     </n-card>
   </div>

@@ -1,6 +1,5 @@
-import { NButton } from 'naive-ui'
-import { PermissionsEnum } from '@/enums/permissionsEnum'
-export interface ActionItem extends NButton.props {
+import { Fn } from '@/types'
+export interface ActionItem {
   onClick?: Fn
   label?: string
   color?: 'success' | 'error' | 'warning'
@@ -9,7 +8,7 @@ export interface ActionItem extends NButton.props {
   disabled?: boolean
   divider?: boolean
   // 权限编码控制是否显示
-  auth?: PermissionsEnum | PermissionsEnum[] | string | string[]
+  auth?: string[]
   // 业务控制是否显示
   ifShow?: boolean | ((action: ActionItem) => boolean)
 }

@@ -6,7 +6,7 @@
       </n-card>
     </div>
     <n-card :bordered="false" class="mt-4 proCard">
-      <QuillEditor
+      <quill-editor
         ref="quillEditor"
         v-model:content="myContent"
         :options="options"
@@ -38,6 +38,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 const quillEditor = ref()

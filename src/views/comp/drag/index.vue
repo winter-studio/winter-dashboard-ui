@@ -16,7 +16,7 @@
       :y-gap="8"
     >
       <n-grid-item>
-        <NCard
+        <n-card
           title="需求池"
           :segmented="{ content: 'hard', footer: 'hard' }"
           size="small"
@@ -26,7 +26,7 @@
             <n-tag type="info">月</n-tag>
           </template>
 
-          <Draggable
+          <draggable
             class="draggable-ul"
             animation="300"
             :list="demandList"
@@ -38,12 +38,12 @@
                 <n-tag type="info">需求</n-tag><span class="ml-2">{{ element.name }}</span>
               </div>
             </template>
-          </Draggable>
-        </NCard>
+          </draggable>
+        </n-card>
       </n-grid-item>
 
       <n-grid-item>
-        <NCard
+        <n-card
           title="开发中"
           :segmented="{ content: 'hard', footer: 'hard' }"
           size="small"
@@ -53,7 +53,7 @@
             <n-tag type="info">月</n-tag>
           </template>
 
-          <Draggable
+          <draggable
             class="draggable-ul"
             animation="300"
             :list="exploitList"
@@ -65,12 +65,12 @@
                 <n-tag type="warning">开发中</n-tag><span class="ml-2">{{ element.name }}</span>
               </div>
             </template>
-          </Draggable>
-        </NCard>
+          </draggable>
+        </n-card>
       </n-grid-item>
 
       <n-grid-item>
-        <NCard
+        <n-card
           title="已完成"
           :segmented="{ content: 'hard', footer: 'hard' }"
           size="small"
@@ -79,7 +79,7 @@
           <template #header-extra>
             <n-tag type="info">月</n-tag>
           </template>
-          <Draggable
+          <draggable
             class="draggable-ul"
             animation="300"
             :list="completeList"
@@ -91,12 +91,12 @@
                 <n-tag type="error">已完成</n-tag><span class="ml-2">{{ element.name }}</span>
               </div>
             </template>
-          </Draggable>
-        </NCard>
+          </draggable>
+        </n-card>
       </n-grid-item>
 
       <n-grid-item>
-        <NCard
+        <n-card
           title="已验收"
           :segmented="{ content: 'hard', footer: 'hard' }"
           size="small"
@@ -105,7 +105,7 @@
           <template #header-extra>
             <n-tag type="info">月</n-tag>
           </template>
-          <Draggable
+          <draggable
             class="draggable-ul"
             animation="300"
             :list="approvedList"
@@ -117,8 +117,8 @@
                 <n-tag type="success">已验收</n-tag><span class="ml-2">{{ element.name }}</span>
               </div>
             </template>
-          </Draggable>
-        </NCard>
+          </draggable>
+        </n-card>
       </n-grid-item>
     </n-grid>
   </div>

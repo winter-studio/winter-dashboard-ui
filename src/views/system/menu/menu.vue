@@ -16,7 +16,7 @@
                   <template #icon>
                     <div class="flex items-center">
                       <n-icon size="14">
-                        <DownOutlined />
+                        <down-outlined />
                       </n-icon>
                     </div>
                   </template>
@@ -27,7 +27,7 @@
                 <template #icon>
                   <div class="flex items-center">
                     <n-icon size="14">
-                      <AlignLeftOutlined />
+                      <align-left-outlined />
                     </n-icon>
                   </div>
                 </template>
@@ -38,7 +38,7 @@
             <n-input v-model:value="pattern" type="input" placeholder="输入菜单名称搜索">
               <template #suffix>
                 <n-icon size="18" class="cursor-pointer">
-                  <SearchOutlined />
+                  <search-outlined />
                 </n-icon>
               </template>
             </n-input>
@@ -71,7 +71,7 @@
           <template #header>
             <n-space>
               <n-icon size="18">
-                <FormOutlined />
+                <form-outlined />
               </n-icon>
               <span>编辑菜单{{ treeItemTitle ? `：${treeItemTitle}` : '' }}</span>
             </n-space>
@@ -121,7 +121,7 @@
         </n-card>
       </n-gi>
     </n-grid>
-    <CreateDrawer ref="createDrawerRef" :title="drawerTitle" />
+    <create-drawer ref="createDrawerRef" :title="drawerTitle" />
   </div>
 </template>
 <script lang="ts" setup>

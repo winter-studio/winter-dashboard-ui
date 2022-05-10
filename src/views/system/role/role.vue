@@ -6,7 +6,7 @@
       </n-card>
     </div>
     <n-card :bordered="false" class="mt-4 proCard">
-      <BasicTable
+      <basic-table
         ref="actionRef"
         :columns="columns"
         :request="loadDataTable"
@@ -18,7 +18,7 @@
           <n-button type="primary">
             <template #icon>
               <n-icon>
-                <PlusOutlined />
+                <plus-outlined />
               </n-icon>
             </template>
             添加角色
@@ -26,9 +26,9 @@
         </template>
 
         <template #action>
-          <TableAction />
+          <table-action />
         </template>
-      </BasicTable>
+      </basic-table>
     </n-card>
 
     <n-modal v-model:show="showModal" :show-icon="false" preset="dialog" :title="editRoleTitle">

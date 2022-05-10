@@ -8,7 +8,7 @@
           <n-tooltip v-if="titleTooltip" trigger="hover">
             <template #trigger>
               <n-icon size="18" class="ml-1 text-gray-400 cursor-pointer">
-                <QuestionCircleOutlined />
+                <question-circle-outlined />
               </n-icon>
             </template>
             {{ titleTooltip }}
@@ -27,7 +27,7 @@
         <template #trigger>
           <div class="table-toolbar-right-icon" @click="reload">
             <n-icon size="18">
-              <ReloadOutlined />
+              <reload-outlined />
             </n-icon>
           </div>
         </template>
@@ -45,7 +45,7 @@
               @select="densitySelect"
             >
               <n-icon size="18">
-                <ColumnHeightOutlined />
+                <column-height-outlined />
               </n-icon>
             </n-dropdown>
           </div>
@@ -54,7 +54,7 @@
       </n-tooltip>
 
       <!--表格设置单独抽离成组件-->
-      <ColumnSetting />
+      <column-setting />
     </div>
   </div>
   <div class="s-table">

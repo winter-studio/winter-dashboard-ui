@@ -1,6 +1,6 @@
 <template>
   <n-card :bordered="false" class="proCard">
-    <BasicTable
+    <basic-table
       ref="actionRef"
       title="表格列表"
       title-tooltip="这是一个提示"
@@ -16,7 +16,7 @@
       <template #toolbar>
         <n-button type="primary" @click="reloadTable">刷新数据</n-button>
       </template>
-    </BasicTable>
+    </basic-table>
   </n-card>
 </template>
 

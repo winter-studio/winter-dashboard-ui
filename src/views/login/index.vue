@@ -21,7 +21,7 @@
             <n-input v-model:value="formInline.username" placeholder="请输入用户名">
               <template #prefix>
                 <n-icon size="18" color="#808695">
-                  <PersonOutline />
+                  <person-outline />
                 </n-icon>
               </template>
             </n-input>
@@ -35,7 +35,7 @@
             >
               <template #prefix>
                 <n-icon size="18" color="#808695">
-                  <LockClosedOutline />
+                  <lock-closed-outline />
                 </n-icon>
               </template>
             </n-input>
@@ -63,14 +63,14 @@
               <div class="flex-initial mx-2">
                 <a href="javascript:">
                   <n-icon size="24" color="#2d8cf0">
-                    <LogoGithub />
+                    <logo-github />
                   </n-icon>
                 </a>
               </div>
               <div class="flex-initial mx-2">
                 <a href="javascript:">
                   <n-icon size="24" color="#2d8cf0">
-                    <LogoFacebook />
+                    <logo-facebook />
                   </n-icon>
                 </a>
               </div>

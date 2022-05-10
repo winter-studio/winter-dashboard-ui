@@ -5,7 +5,7 @@
     </div>
     <n-card :bordered="false" class="mt-4 proCard">
       <div class="BasicForm">
-        <BasicForm
+        <basic-form
           submit-button-text="提交预约"
           layout="horizontal"
           :grid-props="{ cols: 1 }"
@@ -16,7 +16,7 @@
           <template #statusSlot="{ model, field }">
             <n-input v-model:value="model[field]" />
           </template>
-        </BasicForm>
+        </basic-form>
       </div>
     </n-card>
   </div>

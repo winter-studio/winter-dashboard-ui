@@ -5,7 +5,7 @@
         <n-popover trigger="click" :width="230" class="toolbar-popover" placement="bottom-end">
           <template #trigger>
             <n-icon size="18">
-              <SettingOutlined />
+              <setting-outlined />
             </n-icon>
           </template>
           <template #header>
@@ -25,7 +25,7 @@
           </template>
           <div class="table-toolbar-inner">
             <n-checkbox-group v-model:value="checkList" @update:value="onChange">
-              <Draggable
+              <draggable
                 v-model="columnsList"
                 animation="300"
                 item-key="key"
@@ -46,7 +46,7 @@
                       :class="{ 'drag-icon-hidden': element.draggable === false }"
                     >
                       <n-icon size="18">
-                        <DragOutlined />
+                        <drag-outlined />
                       </n-icon>
                     </span>
                     <n-checkbox :value="element.key" :label="element.title" />
@@ -59,7 +59,7 @@
                             class="cursor-pointer"
                             @click="fixedColumn(element, 'left')"
                           >
-                            <VerticalRightOutlined />
+                            <vertical-right-outlined />
                           </n-icon>
                         </template>
                         <span>固定到左侧</span>
@@ -73,7 +73,7 @@
                             class="cursor-pointer"
                             @click="fixedColumn(element, 'right')"
                           >
-                            <VerticalLeftOutlined />
+                            <vertical-left-outlined />
                           </n-icon>
                         </template>
                         <span>固定到右侧</span>
@@ -81,7 +81,7 @@
                     </div>
                   </div>
                 </template>
-              </Draggable>
+              </draggable>
             </n-checkbox-group>
           </div>
         </n-popover>
@@ -294,6 +294,7 @@ export default defineComponent({
       display: inline-flex;
       margin-right: 8px;
       cursor: move;
+
       &-hidden {
         visibility: hidden;
         cursor: default;

@@ -25,10 +25,10 @@
         @click="() => $emit('update:collapsed', !collapsed)"
       >
         <n-icon v-if="collapsed" size="18">
-          <MenuUnfoldOutlined />
+          <menu-unfold-outlined />
         </n-icon>
         <n-icon v-else size="18">
-          <MenuFoldOutlined />
+          <menu-fold-outlined />
         </n-icon>
       </div>
       <!-- 刷新 -->
@@ -102,7 +102,7 @@
             <n-avatar round>
               {{ username }}
               <template #icon>
-                <UserOutlined />
+                <user-outlined />
               </template>
             </n-avatar>
           </div>
@@ -113,7 +113,7 @@
         <n-tooltip placement="bottom-end">
           <template #trigger>
             <n-icon size="18" style="font-weight: bold">
-              <SettingOutlined />
+              <setting-outlined />
             </n-icon>
           </template>
           <span>项目配置</span>

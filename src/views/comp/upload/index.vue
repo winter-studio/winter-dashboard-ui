@@ -22,7 +22,7 @@
             </n-form-item>
 
             <n-form-item label="病例图片" path="images">
-              <BasicUpload
+              <basic-upload
                 v-model:value="formValue.images"
                 :action="`${uploadUrl}/v1.0/files`"
                 :headers="uploadHeaders"

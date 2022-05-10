@@ -1,7 +1,5 @@
-import Mock from 'mockjs'
+import { Random } from 'mockjs'
 import { resultSuccess } from '../_util'
-
-const Random = Mock.Random
 
 const token = Random.string('upper', 32, 32)
 

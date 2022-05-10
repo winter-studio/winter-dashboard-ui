@@ -1,7 +1,7 @@
-import Mock from 'mockjs'
+import { mock } from 'mockjs'
 
 export function resultSuccess(result, { message = 'ok' } = {}) {
-  return Mock.mock({
+  return mock({
     code: 200,
     result,
     message,

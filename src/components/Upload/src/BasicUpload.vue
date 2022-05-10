@@ -15,10 +15,10 @@
             </div>
             <div class="img-box-actions">
               <n-icon size="18" class="mx-2 action-icon" @click="preview(item)">
-                <EyeOutlined />
+                <eye-outlined />
               </n-icon>
               <n-icon size="18" class="mx-2 action-icon" @click="remove(index)">
-                <DeleteOutlined />
+                <delete-outlined />
               </n-icon>
             </div>
           </div>
@@ -38,7 +38,7 @@
           >
             <div class="flex flex-col justify-center">
               <n-icon size="18" class="m-auto">
-                <PlusOutlined />
+                <plus-outlined />
               </n-icon>
               <span class="upload-title">上传图片</span>
             </div>

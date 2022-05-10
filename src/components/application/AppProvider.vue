@@ -1,10 +1,10 @@
 <template>
   <n-loading-bar-provider>
     <n-dialog-provider>
-      <DialogContent />
+      <dialog-content />
       <n-notification-provider>
         <n-message-provider>
-          <MessageContent />
+          <message-content />
           <slot></slot>
         </n-message-provider>
       </n-notification-provider>
@@ -24,7 +24,7 @@ import { MessageContent } from '@/components/MessageContent'
 import { DialogContent } from '@/components/DialogContent'
 
 export default defineComponent({
-  name: 'Application',
+  name: 'AppProvider',
   components: {
     NDialogProvider,
     NNotificationProvider,

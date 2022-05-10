@@ -18,6 +18,7 @@ module.exports = {
     }
   },
   extends: [
+    '@vue/typescript/recommended',
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -44,7 +45,6 @@ module.exports = {
         ignoreRegExpLiterals: false
       }
     ],
-    'vue/script-setup-uses-vars': 'error',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -57,6 +57,9 @@ module.exports = {
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'import/no-named-as-default-member': 'off',
+    'vue/script-setup-uses-vars': 'error',
+    'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
@@ -64,7 +67,6 @@ module.exports = {
         varsIgnorePattern: '^_'
       }
     ],
-    'no-unused-vars': 'off',
     'space-before-function-paren': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/max-len': [
@@ -95,7 +97,7 @@ module.exports = {
       'warn',
       'kebab-case',
       {
-        registeredComponentsOnly: true,
+        registeredComponentsOnly: false,
         ignores: []
       }
     ]

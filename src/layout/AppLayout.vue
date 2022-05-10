@@ -16,8 +16,8 @@
       @collapse="collapsed = true"
       @expand="collapsed = false"
     >
-      <Logo :collapsed="collapsed" />
-      <AsideMenu v-model:collapsed="collapsed" v-model:location="getMenuLocation" />
+      <logo :collapsed="collapsed" />
+      <app-aside-menu v-model:collapsed="collapsed" v-model:location="getMenuLocation" />
     </n-layout-sider>
 
     <n-drawer
@@ -26,13 +26,13 @@
       :placement="'left'"
       class="layout-side-drawer"
     >
-      <Logo :collapsed="collapsed" />
-      <AsideMenu @click-menu-item="collapsed = false" />
+      <logo :collapsed="collapsed" />
+      <app-aside-menu @click-menu-item="collapsed = false" />
     </n-drawer>
 
     <n-layout :inverted="inverted">
       <n-layout-header :inverted="getHeaderInverted" :position="fixedHeader">
-        <PageHeader v-model:collapsed="collapsed" :inverted="inverted" />
+        <page-header v-model:collapsed="collapsed" :inverted="inverted" />
       </n-layout-header>
 
       <n-layout-content
@@ -46,7 +46,7 @@
             'fluid-header': fixedHeader === 'static'
           }"
         >
-          <TabsView v-if="isMultiTabs" v-model:collapsed="collapsed" />
+          <tabs-view v-if="isMultiTabs" v-model:collapsed="collapsed" />
           <div
             class="main-view"
             :class="{
@@ -55,7 +55,7 @@
               'mt-3': !isMultiTabs
             }"
           >
-            <MainView />
+            <main-view />
           </div>
         </div>
       </n-layout-content>
@@ -69,7 +69,7 @@ import { ref, unref, computed, onMounted } from 'vue'
 import { Logo } from './components/Logo'
 import { TabsView } from './components/TagsView'
 import { MainView } from './components/Main'
-import { AsideMenu } from './components/Menu'
+import AppAsideMenu from './components/Menu/AppAsideMenu.vue'
 import { PageHeader } from './components/Header'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useDesignSetting } from '@/hooks/setting/useDesignSetting'

@@ -9,7 +9,7 @@
             <n-tooltip trigger="hover" :style="schema.labelMessageStyle">
               <template #trigger>
                 <n-icon size="18" class="cursor-pointer text-gray-400">
-                  <QuestionCircleOutlined />
+                  <question-circle-outlined />
                 </n-icon>
               </template>
               {{ schema.labelMessage }}
@@ -107,10 +107,10 @@
           >
             <template #icon>
               <n-icon v-if="overflow" size="14" class="unfold-icon">
-                <DownOutlined />
+                <down-outlined />
               </n-icon>
               <n-icon v-else size="14" class="unfold-icon">
-                <UpOutlined />
+                <up-outlined />
               </n-icon>
             </template>
             {{ overflow ? '展开' : '收起' }}

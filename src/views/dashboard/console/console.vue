@@ -3,7 +3,7 @@
     <!--数据卡片-->
     <n-grid cols="1 s:2 m:3 l:4 xl:4 2xl:4" responsive="screen" :x-gap="12" :y-gap="8">
       <n-grid-item>
-        <NCard
+        <n-card
           title="访问量"
           :segmented="{ content: 'hard', footer: 'hard' }"
           size="small"
@@ -14,16 +14,16 @@
           </template>
           <div class="py-1 px-1 flex justify-between">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <CountTo v-else :start-val="1" :end-val="visits.dayVisits" class="text-3xl" />
+            <count-to v-else :start-val="1" :end-val="visits.dayVisits" class="text-3xl" />
           </div>
           <div class="py-1 px-1 flex justify-between">
             <div class="text-sn">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 日同比
-                <CountTo :start-val="1" suffix="%" :end-val="visits.rise" />
+                <count-to :start-val="1" suffix="%" :end-val="visits.rise" />
                 <n-icon size="12" color="#00ff6f">
-                  <CaretUpOutlined />
+                  <caret-up-outlined />
                 </n-icon>
               </template>
             </div>
@@ -31,9 +31,9 @@
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 周同比
-                <CountTo :start-val="1" suffix="%" :end-val="visits.decline" />
+                <count-to :start-val="1" suffix="%" :end-val="visits.decline" />
                 <n-icon size="12" color="#ffde66">
-                  <CaretDownOutlined />
+                  <caret-down-outlined />
                 </n-icon>
               </template>
             </div>
@@ -44,15 +44,15 @@
               <template v-else>
                 <div class="text-sn"> 总访问量： </div>
                 <div class="text-sn">
-                  <CountTo :start-val="1" :end-val="visits.amount" />
+                  <count-to :start-val="1" :end-val="visits.amount" />
                 </div>
               </template>
             </div>
           </template>
-        </NCard>
+        </n-card>
       </n-grid-item>
       <n-grid-item>
-        <NCard
+        <n-card
           title="销售额"
           :segmented="{ content: 'hard', footer: 'hard' }"
           size="small"
@@ -63,7 +63,7 @@
           </template>
           <div class="py-1 px-1 flex justify-between">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <CountTo
+            <count-to
               v-else
               prefix="￥"
               :start-val="1"
@@ -87,15 +87,15 @@
               <template v-else>
                 <div class="text-sn"> 总销售额： </div>
                 <div class="text-sn">
-                  <CountTo prefix="￥" :start-val="1" :end-val="saleroom.amount" />
+                  <count-to prefix="￥" :start-val="1" :end-val="saleroom.amount" />
                 </div>
               </template>
             </div>
           </template>
-        </NCard>
+        </n-card>
       </n-grid-item>
       <n-grid-item>
-        <NCard
+        <n-card
           title="订单量"
           :segmented="{ content: 'hard', footer: 'hard' }"
           size="small"
@@ -106,16 +106,16 @@
           </template>
           <div class="py-1 px-1 flex justify-between">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <CountTo v-else :start-val="1" :end-val="orderLarge.weekLarge" class="text-3xl" />
+            <count-to v-else :start-val="1" :end-val="orderLarge.weekLarge" class="text-3xl" />
           </div>
           <div class="py-1 px-1 flex justify-between">
             <div class="text-sn">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 日同比
-                <CountTo :start-val="1" suffix="%" :end-val="orderLarge.rise" />
+                <count-to :start-val="1" suffix="%" :end-val="orderLarge.rise" />
                 <n-icon size="12" color="#00ff6f">
-                  <CaretUpOutlined />
+                  <caret-up-outlined />
                 </n-icon>
               </template>
             </div>
@@ -123,9 +123,9 @@
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 周同比
-                <CountTo :start-val="1" suffix="%" :end-val="orderLarge.rise" />
+                <count-to :start-val="1" suffix="%" :end-val="orderLarge.rise" />
                 <n-icon size="12" color="#ffde66">
-                  <CaretDownOutlined />
+                  <caret-down-outlined />
                 </n-icon>
               </template>
             </div>
@@ -136,15 +136,15 @@
               <template v-else>
                 <div class="text-sn"> 转化率： </div>
                 <div class="text-sn">
-                  <CountTo :start-val="1" suffix="%" :end-val="orderLarge.amount" />
+                  <count-to :start-val="1" suffix="%" :end-val="orderLarge.amount" />
                 </div>
               </template>
             </div>
           </template>
-        </NCard>
+        </n-card>
       </n-grid-item>
       <n-grid-item>
-        <NCard
+        <n-card
           title="成交额"
           :segmented="{ content: 'hard', footer: 'hard' }"
           size="small"
@@ -155,7 +155,7 @@
           </template>
           <div class="py-1 px-1 flex justify-between">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <CountTo
+            <count-to
               v-else
               prefix="￥"
               :start-val="1"
@@ -168,9 +168,9 @@
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 月同比
-                <CountTo :start-val="1" suffix="%" :end-val="volume.rise" />
+                <count-to :start-val="1" suffix="%" :end-val="volume.rise" />
                 <n-icon size="12" color="#00ff6f">
-                  <CaretUpOutlined />
+                  <caret-up-outlined />
                 </n-icon>
               </template>
             </div>
@@ -178,9 +178,9 @@
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 月同比
-                <CountTo :start-val="1" suffix="%" :end-val="volume.decline" />
+                <count-to :start-val="1" suffix="%" :end-val="volume.decline" />
                 <n-icon size="12" color="#ffde66">
-                  <CaretDownOutlined />
+                  <caret-down-outlined />
                 </n-icon>
               </template>
             </div>
@@ -191,12 +191,12 @@
               <template v-else>
                 <div class="text-sn"> 总成交额： </div>
                 <div class="text-sn">
-                  <CountTo prefix="￥" :start-val="1" :end-val="volume.amount" />
+                  <count-to prefix="￥" :start-val="1" :end-val="volume.amount" />
                 </div>
               </template>
             </div>
           </template>
-        </NCard>
+        </n-card>
       </n-grid-item>
     </n-grid>
 
@@ -204,7 +204,7 @@
     <div class="mt-4">
       <n-grid cols="1 s:2 m:3 l:8 xl:8 2xl:8" responsive="screen" :x-gap="16" :y-gap="8">
         <n-grid-item v-for="(item, index) in iconList" :key="index">
-          <NCard content-style="padding-top: 0;" size="small" :bordered="false">
+          <n-card content-style="padding-top: 0;" size="small" :bordered="false">
             <template #footer>
               <n-skeleton v-if="loading" size="medium" />
               <div v-else class="cursor-pointer">
@@ -220,13 +220,13 @@
                 >
               </div>
             </template>
-          </NCard>
+          </n-card>
         </n-grid-item>
       </n-grid>
     </div>
 
     <!--访问量 | 流量趋势-->
-    <VisiTab />
+    <visi-tab />
   </div>
 </template>
 <script lang="ts" setup>

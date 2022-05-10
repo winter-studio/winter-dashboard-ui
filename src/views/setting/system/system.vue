@@ -17,9 +17,9 @@
       </n-grid-item>
       <n-grid-item span="18">
         <n-card :bordered="false" size="small" :title="typeTitle" class="proCard">
-          <BasicSetting v-if="type === 1" />
-          <RevealSetting v-if="type === 2" />
-          <EmailSetting v-if="type === 3" />
+          <basic-setting v-if="type === 1" />
+          <reveal-setting v-if="type === 2" />
+          <email-setting v-if="type === 3" />
         </n-card>
       </n-grid-item>
     </n-grid>

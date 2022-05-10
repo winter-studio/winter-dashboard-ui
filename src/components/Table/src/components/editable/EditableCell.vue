@@ -3,12 +3,12 @@
     <div v-show="!isEdit" class="editable-cell-content" @click="handleEdit">
       {{ getValues }}
       <n-icon v-if="!column.editRow" class="edit-icon">
-        <FormOutlined />
+        <form-outlined />
       </n-icon>
     </div>
     <div v-show="isEdit" v-click-outside="onClickOutside" class="flex editable-cell-content">
       <div class="editable-cell-content-comp">
-        <CellComponent
+        <cell-component
           v-bind="getComponentProps"
           ref="elRef"
           :component="getComponent"
@@ -22,10 +22,10 @@
       </div>
       <div v-if="!getRowEditable" class="editable-cell-action">
         <n-icon class="mx-2 cursor-pointer">
-          <CheckOutlined @click="handleSubmit" />
+          <check-outlined @click="handleSubmit" />
         </n-icon>
         <n-icon class="mx-2 cursor-pointer">
-          <CloseOutlined @click="handleCancel" />
+          <close-outlined @click="handleCancel" />
         </n-icon>
       </div>
     </div>

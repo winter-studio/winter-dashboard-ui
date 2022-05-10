@@ -5,7 +5,7 @@ import store from '@/store'
 import { setupDirectives } from '@/plugins'
 import naive from 'naive-ui'
 
-import { AppProvider } from '@/components/Application'
+import AppProvider from '@/components/application/AppProvider.vue'
 import './styles/tailwind.css'
 
 const appProvider = createApp(AppProvider)

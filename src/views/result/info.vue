@@ -11,7 +11,7 @@
           <p class="mt-3">
             <n-space align="center">
               <n-icon size="20" color="#18a058">
-                <CheckCircleOutlined />
+                <check-circle-outlined />
               </n-icon>
               <span>转入支付宝账户（189****5426）：￥1980元</span>
               <n-button type="info" text>立即撤回</n-button>
@@ -20,7 +20,7 @@
           <p class="mt-3">
             <n-space>
               <n-icon size="20" color="#18a058">
-                <CheckCircleOutlined />
+                <check-circle-outlined />
               </n-icon>
               <span>转入支付宝账户（187****5426）：￥2980元</span>
               <n-button type="info" text>立即撤回</n-button>

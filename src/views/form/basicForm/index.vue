@@ -56,7 +56,7 @@
               />
             </n-form-item>
             <n-form-item label="图片" path="img">
-              <BasicUpload
+              <basic-upload
                 v-model:value="uploadList"
                 :action="`${uploadUrl}/v1.0/files`"
                 :headers="uploadHeaders"

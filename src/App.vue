@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { zhCN, dateZhCN, darkTheme } from 'naive-ui'
-import { AppProvider } from '@/components/Application'
+import AppProvider from '@/components/application/AppProvider.vue'
 import { useDesignSettingStore } from '@/store/modules/designSetting'
 import { lighten } from '@/utils'
 import { ref, provide, nextTick, computed } from 'vue'

@@ -31,17 +31,17 @@
       </n-alert>
     </n-card>
 
-    <basicModal ref="modalRef" class="basicModal" @register="modalRegister" @on-ok="okModal">
+    <basic-modal ref="modalRef" class="basicModal" @register="modalRegister" @on-ok="okModal">
       <template #default>
-        <BasicForm class="basicForm" @register="register" @reset="handleReset">
+        <basic-form class="basicForm" @register="register" @reset="handleReset">
           <template #statusSlot="{ model, field }">
             <n-input v-model:value="model[field]" />
           </template>
-        </BasicForm>
+        </basic-form>
       </template>
-    </basicModal>
+    </basic-modal>
 
-    <basicModal
+    <basic-modal
       ref="modalRef"
       class="basicModalLight"
       @register="lightModalRegister"
@@ -50,7 +50,7 @@
       <template #default>
         <p class="text-gray-500" style="padding-left: 35px">一些对话框内容</p>
       </template>
-    </basicModal>
+    </basic-modal>
   </div>
 </template>
 

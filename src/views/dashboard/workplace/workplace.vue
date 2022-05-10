@@ -51,7 +51,7 @@
               <div class="flex">
                 <span>
                   <n-icon size="30">
-                    <GithubOutlined />
+                    <github-outlined />
                   </n-icon>
                 </span>
                 <span class="text-lg ml-4">Github</span>
@@ -69,7 +69,7 @@
               <div class="flex">
                 <span>
                   <n-icon size="30" color="#42b983">
-                    <LogoVue />
+                    <logo-vue />
                   </n-icon>
                 </span>
                 <span class="text-lg ml-4">Vue</span>
@@ -85,7 +85,7 @@
               <div class="flex">
                 <span>
                   <n-icon size="30" color="#e44c27">
-                    <Html5Outlined />
+                    <html5-outlined />
                   </n-icon>
                 </span>
                 <span class="text-lg ml-4">Html5</span>
@@ -101,7 +101,7 @@
               <div class="flex">
                 <span>
                   <n-icon size="30" color="#dd0031">
-                    <LogoAngular />
+                    <logo-angular />
                   </n-icon>
                 </span>
                 <span class="text-lg ml-4">Angular</span>
@@ -117,7 +117,7 @@
               <div class="flex">
                 <span>
                   <n-icon size="30" color="#61dafb">
-                    <LogoReact />
+                    <logo-react />
                   </n-icon>
                 </span>
                 <span class="text-lg ml-4">React</span>
@@ -133,7 +133,7 @@
               <div class="flex">
                 <span>
                   <n-icon size="30">
-                    <LogoJavascript />
+                    <logo-javascript />
                   </n-icon>
                 </span>
                 <span class="text-lg ml-4">Js</span>
@@ -232,7 +232,7 @@
               <div class="flex flex-col justify-center text-gray-500">
                 <span class="text-center">
                   <n-icon size="30" color="#68c755">
-                    <DashboardOutlined />
+                    <dashboard-outlined />
                   </n-icon>
                 </span>
                 <span class="text-lx text-center">主控台</span>
@@ -242,7 +242,7 @@
               <div class="flex flex-col justify-center text-gray-500">
                 <span class="text-center">
                   <n-icon size="30" color="#fab251">
-                    <ProfileOutlined />
+                    <profile-outlined />
                   </n-icon>
                 </span>
                 <span class="text-lx text-center">列表</span>
@@ -252,7 +252,7 @@
               <div class="flex flex-col justify-center text-gray-500">
                 <span class="text-center">
                   <n-icon size="30" color="#1890ff">
-                    <FileProtectOutlined />
+                    <file-protect-outlined />
                   </n-icon>
                 </span>
                 <span class="text-lx text-center">表单</span>
@@ -262,7 +262,7 @@
               <div class="flex flex-col justify-center text-gray-500">
                 <span class="text-center">
                   <n-icon size="30" color="#f06b96">
-                    <ApartmentOutlined />
+                    <apartment-outlined />
                   </n-icon>
                 </span>
                 <span class="text-lx text-center">权限管理</span>
@@ -272,7 +272,7 @@
               <div class="flex flex-col justify-center text-gray-500">
                 <span class="text-center">
                   <n-icon size="30" color="#7238d1">
-                    <SettingOutlined />
+                    <setting-outlined />
                   </n-icon>
                 </span>
                 <span class="text-lx text-center">系统管理</span>
@@ -282,7 +282,7 @@
               <div class="flex flex-col justify-center text-gray-500">
                 <span class="text-center">
                   <n-icon size="30" color="">
-                    <DashboardOutlined />
+                    <dashboard-outlined />
                   </n-icon>
                 </span>
                 <span class="text-lx text-center">主控台</span>

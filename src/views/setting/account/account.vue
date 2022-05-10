@@ -17,8 +17,8 @@
       </n-grid-item>
       <n-grid-item span="18">
         <n-card :bordered="false" size="small" :title="typeTitle" class="proCard">
-          <BasicSetting v-if="type === 1" />
-          <SafetySetting v-if="type === 2" />
+          <basic-setting v-if="type === 1" />
+          <safety-setting v-if="type === 2" />
         </n-card>
       </n-grid-item>
     </n-grid>

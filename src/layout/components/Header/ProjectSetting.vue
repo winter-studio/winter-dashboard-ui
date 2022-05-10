@@ -10,12 +10,12 @@
               <n-switch v-model:value="designStore.darkTheme" class="dark-theme-switch">
                 <template #checked>
                   <n-icon size="14" color="#ffd93b">
-                    <SunnySharp />
+                    <sunny-sharp />
                   </n-icon>
                 </template>
                 <template #unchecked>
                   <n-icon size="14" color="#ffd93b">
-                    <Moon />
+                    <moon />
                   </n-icon>
                 </template>
               </n-switch>
@@ -35,7 +35,7 @@
             @click="togTheme(item)"
           >
             <n-icon v-if="item === designStore.appTheme" size="12">
-              <CheckOutlined />
+              <check-outlined />
             </n-icon>
           </span>
         </div>

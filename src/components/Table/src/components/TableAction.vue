@@ -15,7 +15,7 @@
           <div class="flex items-center">
             <span>更多</span>
             <n-icon size="14" class="ml-1">
-              <DownOutlined />
+              <down-outlined />
             </n-icon>
           </div>
           <!--          <template #icon>-->
