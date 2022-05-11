@@ -11,8 +11,6 @@ export interface ProjectSettingState {
   multiTabsSetting: object
   //面包屑
   crumbsSetting: object
-  //权限模式
-  permissionMode: string
 }
 
 export interface IbodySetting {

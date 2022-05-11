@@ -2,7 +2,6 @@ import { ref, Ref, ComputedRef, unref, computed, watch, toRaw, h } from 'vue'
 import type { BasicColumn, BasicTableProps } from '../types/table'
 import { isEqual, cloneDeep } from 'lodash-es'
 import { isArray, isString, isBoolean, isFunction } from '@/utils/is'
-import { usePermission } from '@/hooks/web/usePermission'
 import { ActionItem } from '@/components/Table'
 import { renderEditCell } from '../components/editable'
 import { NTooltip, NIcon } from 'naive-ui'
@@ -19,8 +18,6 @@ export function useColumns(propsRef: ComputedRef<BasicTableProps>) {
     if (!columns) return []
     return columns
   })
-
-  const { hasPermission } = usePermission()
 
   function isIfShow(action: ActionItem): boolean {
     const ifShow = action.ifShow
@@ -48,7 +45,7 @@ export function useColumns(propsRef: ComputedRef<BasicTableProps>) {
     const columns = cloneDeep(pageColumns)
     return columns
       .filter((column) => {
-        return hasPermission(column.auth as string[]) && isIfShow(column)
+        return isIfShow(column)
       })
       .map((column) => {
         //默认 ellipsis 为true

@@ -44,8 +44,6 @@ const setting = {
     //显示图标
     showIcon: false
   },
-  //菜单权限模式 FIXED 前端固定路由  BACK 动态获取
-  permissionMode: 'FIXED',
   //是否开启路由动画
   isPageAnimate: true,
   //路由动画类型

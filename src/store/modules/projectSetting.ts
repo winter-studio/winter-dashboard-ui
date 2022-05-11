@@ -15,7 +15,6 @@ const {
   menuSetting,
   multiTabsSetting,
   crumbsSetting,
-  permissionMode,
   isPageAnimate,
   pageAnimateType
 } = projectSetting
@@ -27,7 +26,6 @@ interface ProjectSettingState {
   menuSetting: ImenuSetting //多标签
   multiTabsSetting: ImultiTabsSetting //多标签
   crumbsSetting: IcrumbsSetting //面包屑
-  permissionMode: string //权限模式
   isPageAnimate: boolean //是否开启路由动画
   pageAnimateType: string //路由动画类型
   isMobile: boolean // 是否处于移动端模式
@@ -43,7 +41,6 @@ export const useProjectSettingStore = defineStore({
     menuSetting,
     multiTabsSetting,
     crumbsSetting,
-    permissionMode,
     isPageAnimate,
     pageAnimateType
   }),
@@ -68,9 +65,6 @@ export const useProjectSettingStore = defineStore({
     },
     getCrumbsSetting(): object {
       return this.multiTabsSetting
-    },
-    getPermissionMode(): string {
-      return this.permissionMode
     },
     getIsPageAnimate(): boolean {
       return this.isPageAnimate
