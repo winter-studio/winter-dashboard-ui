@@ -11,11 +11,11 @@ import { useRoute } from 'vue-router'
 
 const currentRoute = useRoute()
 const loading = ref(false)
-const frameRef = ref<HTMLFrameElement | null>(null)
+const frameRef = ref<HTMLIFrameElement | null>(null)
 const frameSrc = ref<string>('')
 
-if (unref(currentRoute.meta)?.frameSrc) {
-  frameSrc.value = unref(currentRoute.meta)?.frameSrc as string
+if (unref(currentRoute.meta)?.url) {
+  frameSrc.value = unref(currentRoute.meta)?.url as string
 }
 
 function hideLoading() {

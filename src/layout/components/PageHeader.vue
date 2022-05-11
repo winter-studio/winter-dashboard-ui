@@ -144,7 +144,7 @@ import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
 import StorageType from '@/enums/storageType'
 import { useUserStore } from '@/store/modules/user'
 import ProjectSetting from './ProjectSetting.vue'
-import { AsideMenu } from '@/layout/components/'
+import AsideMenu from './AsideMenu.vue'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { Refresh } from '@vicons/tabler'
 
