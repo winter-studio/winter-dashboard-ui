@@ -2,7 +2,7 @@
   <router-view>
     <template #default="{ Component, route }">
       <transition :name="getTransitionName" mode="out-in" appear>
-        <keep-alive :include="Array.from(keepAliveComponents)">
+        <keep-alive :include="keepAliveComponents">
           <component :is="Component" :key="route.fullPath" />
         </keep-alive>
       </transition>

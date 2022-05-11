@@ -5,10 +5,10 @@ import store from '@/store'
 import { setupDirectives } from '@/plugins'
 import naive from 'naive-ui'
 
-import { AppProvider } from '@/components/application'
+import { WindowToolProvider } from '@/components/application'
 import './styles/tailwind.css'
 
-const appProvider = createApp(AppProvider)
+const windowToolProvider = createApp(WindowToolProvider)
 
 const app = createApp(App)
 
@@ -28,7 +28,7 @@ setupDirectives(app)
 app.use(store)
 
 //优先挂载一下 Provider 解决路由守卫，Axios中可使用，Dialog，Message 等之类组件
-appProvider.mount('#appProvider', true)
+windowToolProvider.mount('#window-tool', true)
 
 // 挂载路由
 app.use(router)

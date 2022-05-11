@@ -111,6 +111,7 @@ import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useGo } from '@/hooks/web/usePage'
 import { renderIcon } from '@/utils/icon-utils'
+import { useAppStore } from '@/store/modules/application'
 
 export default defineComponent({
   name: 'TabsView',
@@ -268,18 +269,16 @@ export default defineComponent({
 
     window.addEventListener('scroll', onScroll, true)
 
-    // TODO 移除缓存组件名称
-    /* const delKeepAliveCompName = () => {
+    const appStore = useAppStore()
+    const delKeepAliveCompName = () => {
       if (route.meta.keepAlive) {
         const name = router.currentRoute.value.matched.find((item) => item.name == route.name)
           ?.components?.default.name
         if (name) {
-          asyncRouteStore.keepAliveComponents = asyncRouteStore.keepAliveComponents.filter(
-            (item) => item != name
-          )
+          appStore.keepAliveComponents = appStore.keepAliveComponents.filter((item) => item != name)
         }
       }
-    } */
+    }
 
     // 标签页列表
     const tabsList: any = computed(() => tabsViewStore.tabsList)
@@ -306,7 +305,7 @@ export default defineComponent({
       if (tabsList.value.length === 1) {
         return message.warning('这已经是最后一页，不能再关闭了！')
       }
-      // delKeepAliveCompName()
+      delKeepAliveCompName()
       tabsViewStore.closeCurrentTab(route)
       // 如果关闭的是当前页
       if (state.activeKey === route.fullPath) {
@@ -320,7 +319,7 @@ export default defineComponent({
     // 刷新页面
     const reloadRouter: VoidFunction = inject('reloadRouter')!
     const reloadPage = () => {
-      // delKeepAliveCompName()
+      delKeepAliveCompName()
       reloadRouter()
     }
 

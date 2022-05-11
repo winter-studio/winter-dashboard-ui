@@ -175,10 +175,7 @@ const watchWidth = () => {
 onMounted(() => {
   checkMobileMode()
   window.addEventListener('resize', watchWidth)
-  //挂载在 window 方便与在js中使用
-  const loadingBar = useLoadingBar()
-  window.$loading = loadingBar
-  loadingBar.finish()
+  useLoadingBar().finish()
 })
 </script>
 

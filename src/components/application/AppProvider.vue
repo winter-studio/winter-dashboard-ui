@@ -1,40 +1,57 @@
 <template>
-  <n-loading-bar-provider>
-    <n-dialog-provider>
-      <dialog-content />
-      <n-notification-provider>
-        <n-message-provider>
-          <message-content />
-          <slot></slot>
-        </n-message-provider>
-      </n-notification-provider>
-    </n-dialog-provider>
-  </n-loading-bar-provider>
+  <n-config-provider
+    :locale="zhCN"
+    :theme="getDarkTheme"
+    :theme-overrides="getThemeOverrides"
+    :date-locale="dateZhCN"
+  >
+    <n-loading-bar-provider>
+      <n-dialog-provider>
+        <n-notification-provider>
+          <n-message-provider>
+            <slot></slot>
+          </n-message-provider>
+        </n-notification-provider>
+      </n-dialog-provider>
+    </n-loading-bar-provider>
+  </n-config-provider>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import {
   NDialogProvider,
   NNotificationProvider,
   NMessageProvider,
-  NLoadingBarProvider
+  NLoadingBarProvider,
+  zhCN,
+  dateZhCN,
+  darkTheme,
+  NConfigProvider
 } from 'naive-ui'
-import { MessageContent } from '@/components/MessageContent'
-import { DialogContent } from '@/components/DialogContent'
 
-export default defineComponent({
-  name: 'AppProvider',
-  components: {
-    NDialogProvider,
-    NNotificationProvider,
-    NMessageProvider,
-    NLoadingBarProvider,
-    MessageContent,
-    DialogContent
-  },
-  setup() {
-    return {}
+import { useDesignSettingStore } from '@/store/modules/designSetting'
+import { computed } from 'vue'
+import { lighten } from '@/utils'
+
+const designStore = useDesignSettingStore()
+
+/**
+ * @type import('naive-ui').GlobalThemeOverrides
+ */
+const getThemeOverrides = computed(() => {
+  const appTheme = designStore.appTheme
+  const lightenStr = lighten(designStore.appTheme, 6)
+  return {
+    common: {
+      primaryColor: appTheme,
+      primaryColorHover: lightenStr,
+      primaryColorPressed: lightenStr
+    },
+    LoadingBar: {
+      colorLoading: appTheme
+    }
   }
 })
+
+const getDarkTheme = computed(() => (designStore.darkTheme ? darkTheme : undefined))
 </script>

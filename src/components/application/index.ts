@@ -1,2 +1,3 @@
 import AppProvider from '@/components/application/AppProvider.vue'
-export { AppProvider }
+import WindowToolProvider from '@/components/application/WindowToolProvider.vue'
+export { AppProvider, WindowToolProvider }
