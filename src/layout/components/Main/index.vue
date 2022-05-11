@@ -32,8 +32,9 @@ export default defineComponent({
   setup() {
     const { getIsPageAnimate, getPageAnimateType } = useProjectSetting()
     const { keepAliveComponents } = storeToRefs(useAppStore())
-    // 需要缓存的路由组件
-
+    // https://github.com/vuejs/core/pull/4997
+    // keep alive needed components name to be set.
+    // wait for this PR to automatically set the component name for setup script.
     const getTransitionName = computed(() => {
       return unref(getIsPageAnimate) ? unref(getPageAnimateType) : ''
     })

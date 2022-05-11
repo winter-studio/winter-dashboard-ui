@@ -252,7 +252,6 @@ const visits = ref<any>({})
 const saleroom = ref<any>({})
 const orderLarge = ref<any>({})
 const volume = ref({})
-
 // 图标列表
 const iconList = [
   {

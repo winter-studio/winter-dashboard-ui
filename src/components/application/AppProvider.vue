@@ -10,6 +10,7 @@
         <n-notification-provider>
           <n-message-provider>
             <slot></slot>
+            <window-tool />
           </n-message-provider>
         </n-notification-provider>
       </n-dialog-provider>
@@ -28,7 +29,7 @@ import {
   darkTheme,
   NConfigProvider
 } from 'naive-ui'
-
+import { WindowTool } from './index'
 import { useDesignSettingStore } from '@/store/modules/designSetting'
 import { computed } from 'vue'
 import { lighten } from '@/utils'

@@ -17,7 +17,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/dashboard/console/console.vue"
+        "data": "views/dashboard/console/Console.vue"
       },
       {
         "id": "dashboard_workplace",
@@ -27,7 +27,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/dashboard/workplace/workplace.vue"
+        "data": "views/dashboard/workplace/Workplace.vue"
       }
     ]
   },
