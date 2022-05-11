@@ -14,14 +14,14 @@
           </template>
           <div class="py-1 px-1 flex justify-between">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <count-to v-else :start-val="1" :end-val="visits.dayVisits" class="text-3xl" />
+            <number-animation v-else :from="1" :to="visits.dayVisits" class="text-3xl" />
           </div>
           <div class="py-1 px-1 flex justify-between">
             <div class="text-sn">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 日同比
-                <count-to :start-val="1" suffix="%" :end-val="visits.rise" />
+                <number-animation :from="1" suffix="%" :to="visits.rise" />
                 <n-icon size="12" color="#00ff6f">
                   <caret-up-outlined />
                 </n-icon>
@@ -31,7 +31,7 @@
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 周同比
-                <count-to :start-val="1" suffix="%" :end-val="visits.decline" />
+                <number-animation :from="1" suffix="%" :to="visits.decline" />
                 <n-icon size="12" color="#ffde66">
                   <caret-down-outlined />
                 </n-icon>
@@ -44,7 +44,7 @@
               <template v-else>
                 <div class="text-sn"> 总访问量： </div>
                 <div class="text-sn">
-                  <count-to :start-val="1" :end-val="visits.amount" />
+                  <number-animation :from="1" :to="visits.amount" />
                 </div>
               </template>
             </div>
@@ -63,11 +63,11 @@
           </template>
           <div class="py-1 px-1 flex justify-between">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <count-to
+            <number-animation
               v-else
               prefix="￥"
-              :start-val="1"
-              :end-val="saleroom.weekSaleroom"
+              :from="1"
+              :to="saleroom.weekSaleroom"
               class="text-3xl"
             />
           </div>
@@ -87,7 +87,7 @@
               <template v-else>
                 <div class="text-sn"> 总销售额： </div>
                 <div class="text-sn">
-                  <count-to prefix="￥" :start-val="1" :end-val="saleroom.amount" />
+                  <number-animation prefix="￥" :from="1" :to="saleroom.amount" />
                 </div>
               </template>
             </div>
@@ -106,14 +106,14 @@
           </template>
           <div class="py-1 px-1 flex justify-between">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <count-to v-else :start-val="1" :end-val="orderLarge.weekLarge" class="text-3xl" />
+            <number-animation v-else :from="1" :to="orderLarge.weekLarge" class="text-3xl" />
           </div>
           <div class="py-1 px-1 flex justify-between">
             <div class="text-sn">
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 日同比
-                <count-to :start-val="1" suffix="%" :end-val="orderLarge.rise" />
+                <number-animation :from="1" suffix="%" :to="orderLarge.rise" />
                 <n-icon size="12" color="#00ff6f">
                   <caret-up-outlined />
                 </n-icon>
@@ -123,7 +123,7 @@
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 周同比
-                <count-to :start-val="1" suffix="%" :end-val="orderLarge.rise" />
+                <number-animation :from="1" suffix="%" :to="orderLarge.rise" />
                 <n-icon size="12" color="#ffde66">
                   <caret-down-outlined />
                 </n-icon>
@@ -136,7 +136,7 @@
               <template v-else>
                 <div class="text-sn"> 转化率： </div>
                 <div class="text-sn">
-                  <count-to :start-val="1" suffix="%" :end-val="orderLarge.amount" />
+                  <number-animation :from="1" suffix="%" :to="orderLarge.amount" />
                 </div>
               </template>
             </div>
@@ -155,11 +155,11 @@
           </template>
           <div class="py-1 px-1 flex justify-between">
             <n-skeleton v-if="loading" :width="100" size="medium" />
-            <count-to
+            <number-animation
               v-else
               prefix="￥"
-              :start-val="1"
-              :end-val="volume.weekLarge"
+              :from="1"
+              :to="volume.weekLarge"
               class="text-3xl"
             />
           </div>
@@ -168,7 +168,7 @@
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 月同比
-                <count-to :start-val="1" suffix="%" :end-val="volume.rise" />
+                <number-animation :from="1" suffix="%" :to="volume.rise" />
                 <n-icon size="12" color="#00ff6f">
                   <caret-up-outlined />
                 </n-icon>
@@ -178,7 +178,7 @@
               <n-skeleton v-if="loading" :width="100" size="medium" />
               <template v-else>
                 月同比
-                <count-to :start-val="1" suffix="%" :end-val="volume.decline" />
+                <number-animation :from="1" suffix="%" :to="volume.decline" />
                 <n-icon size="12" color="#ffde66">
                   <caret-down-outlined />
                 </n-icon>
@@ -191,7 +191,7 @@
               <template v-else>
                 <div class="text-sn"> 总成交额： </div>
                 <div class="text-sn">
-                  <count-to prefix="￥" :start-val="1" :end-val="volume.amount" />
+                  <number-animation prefix="￥" :from="1" :to="volume.amount" />
                 </div>
               </template>
             </div>
@@ -233,7 +233,7 @@
 import { ref, onMounted } from 'vue'
 import { getConsoleInfo } from '@/api/dashboard/console'
 import VisiTab from './components/VisiTab.vue'
-import { CountTo } from '@/components/CountTo'
+import NumberAnimation from './components/NumberAnimation.vue'
 import {
   CaretUpOutlined,
   CaretDownOutlined,
@@ -329,12 +329,14 @@ const iconList = [
 ]
 
 onMounted(async () => {
-  const { visits, saleroom, orderLarge, volume } = await getConsoleInfo()
-  visits.value = visits
-  saleroom.value = saleroom
-  orderLarge.value = orderLarge
-  volume.value = volume
+  const data = await getConsoleInfo()
+  visits.value = data.visits
+  saleroom.value = data.saleroom
+  orderLarge.value = data.orderLarge
+  volume.value = data.volume
   loading.value = false
+
+  console.log(visits.value)
 })
 </script>
 
