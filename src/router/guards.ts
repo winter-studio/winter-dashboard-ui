@@ -68,7 +68,6 @@ export function setupGuards(router: Router) {
     const keepAliveComponents = appStore.keepAliveComponents
     const currentComName: any = to.matched.find((item) => item.name == to.name)?.components.default
       ?.name
-    debugger
     if (
       currentComName &&
       !keepAliveComponents.find((item) => item === currentComName) &&
