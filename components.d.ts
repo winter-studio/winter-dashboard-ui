@@ -48,6 +48,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./src/components/Table/src/Table.vue')['default']
     TableAction: typeof import('./src/components/Table/src/components/TableAction.vue')['default']
+    WindowTool: typeof import('./src/components/application/WindowTool.vue')['default']
     WindowToolProvider: typeof import('./src/components/application/WindowToolProvider.vue')['default']
   }
 }

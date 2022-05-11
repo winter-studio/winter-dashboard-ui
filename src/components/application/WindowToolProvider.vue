@@ -1,16 +1,11 @@
 <template>
   <app-provider>
-    <message-content></message-content>
-    <dialog-content></dialog-content>
-    <loading-content></loading-content>
+    <window-tool />
   </app-provider>
 </template>
 
 <script setup lang="ts">
-import { AppProvider } from './index'
-import { MessageContent } from '@/components/MessageContent'
-import { DialogContent } from '@/components/DialogContent'
-import { LoadingContent } from '@/components/LoadingContent'
+import { AppProvider, WindowTool } from './index'
 </script>
 
 <style scoped></style>

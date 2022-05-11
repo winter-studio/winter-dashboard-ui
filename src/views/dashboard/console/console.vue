@@ -233,7 +233,7 @@
 import { ref, onMounted } from 'vue'
 import { getConsoleInfo } from '@/api/dashboard/console'
 import VisiTab from './components/VisiTab.vue'
-import { CountTo } from '@/components/CountTo/index'
+import { CountTo } from '@/components/CountTo'
 import {
   CaretUpOutlined,
   CaretDownOutlined,
