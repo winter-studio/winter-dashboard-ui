@@ -64,7 +64,7 @@
   </n-layout>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, unref, computed, onMounted } from 'vue'
 import { PageHeader, Logo, AppMain, AsideMenu, AppTabs } from './components'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
