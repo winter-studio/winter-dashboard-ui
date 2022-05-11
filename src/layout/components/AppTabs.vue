@@ -114,7 +114,7 @@ import { renderIcon } from '@/utils/icon-utils'
 import { useAppStore } from '@/store/modules/application'
 
 export default defineComponent({
-  name: 'TabsView',
+  name: 'AppTabs',
   components: {
     DownOutlined,
     CloseOutlined,

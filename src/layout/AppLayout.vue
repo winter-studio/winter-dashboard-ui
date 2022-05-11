@@ -46,7 +46,7 @@
             'fluid-header': fixedHeader === 'static'
           }"
         >
-          <tabs-view v-if="isMultiTabs" v-model:collapsed="collapsed" />
+          <app-tabs v-if="isMultiTabs" v-model:collapsed="collapsed" />
           <div
             class="main-view"
             :class="{
@@ -55,7 +55,7 @@
               'mt-3': !isMultiTabs
             }"
           >
-            <main-view />
+            <app-main />
           </div>
         </div>
       </n-layout-content>
@@ -66,11 +66,7 @@
 
 <script lang="ts" setup>
 import { ref, unref, computed, onMounted } from 'vue'
-import { Logo } from './components/Logo'
-import { TabsView } from './components/TagsView'
-import { MainView } from './components/Main'
-import { AsideMenu } from './components/Menu'
-import { PageHeader } from './components/Header'
+import { PageHeader, Logo, AppMain, AsideMenu, AppTabs } from './components'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
 import { useLoadingBar } from 'naive-ui'

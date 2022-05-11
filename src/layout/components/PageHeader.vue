@@ -128,18 +128,44 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref, computed, unref, inject } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import components from './components'
+import {
+  SettingOutlined,
+  SearchOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  FullscreenOutlined,
+  FullscreenExitOutlined,
+  GithubOutlined,
+  ReloadOutlined,
+  LogoutOutlined,
+  UserOutlined
+} from '@vicons/antd'
 import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
 import StorageType from '@/enums/storageType'
 import { useUserStore } from '@/store/modules/user'
 import ProjectSetting from './ProjectSetting.vue'
-import { AsideMenu } from '@/layout/components/Menu'
+import { AsideMenu } from '@/layout/components/'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { Refresh } from '@vicons/tabler'
 
 export default defineComponent({
   name: 'PageHeader',
-  components: { ...components, NDialogProvider, ProjectSetting, AsideMenu, Refresh },
+  components: {
+    SettingOutlined,
+    SearchOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    FullscreenOutlined,
+    FullscreenExitOutlined,
+    GithubOutlined,
+    ReloadOutlined,
+    LogoutOutlined,
+    UserOutlined,
+    NDialogProvider,
+    ProjectSetting,
+    AsideMenu,
+    Refresh
+  },
   props: {
     collapsed: {
       type: Boolean

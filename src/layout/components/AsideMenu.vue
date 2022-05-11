@@ -19,7 +19,7 @@ import { defineComponent, ref, onMounted, reactive, computed, watch, toRefs, unr
 import { useRoute, useRouter } from 'vue-router'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
-import { buildMenu, buildMenuMix } from './builder'
+import { buildMenu, buildMenuMix } from './menu-builder'
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
 
