@@ -1,4 +1,4 @@
-export const ErrorPage = () => import('@/views/exception/404.vue')
+export const ErrorPage = () => import('@/views/basic/exception/404.vue')
 
 export const AppLayout = () => import('@/layout/AppLayout.vue')
 

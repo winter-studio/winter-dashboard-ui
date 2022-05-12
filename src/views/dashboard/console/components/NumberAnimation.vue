@@ -1,7 +1,7 @@
 <template>
   <div>
     <span>{{ prefix }}</span>
-    <n-number-animation ref="numberAnimationInstRef" :from="fromPropRef" :to="toPropRef" />
+    <n-number-animation ref="numberAnimationInstRef" :from="from" :to="to" />
     <span>{{ suffix }}</span>
   </div>
 </template>
@@ -18,7 +18,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const numberAnimationInstRef = ref<NumberAnimationInst | null>(null)
-const { from: fromPropRef, to: toPropRef } = toRefs(props)
+const { from, to } = toRefs(props)
 </script>
 
 <style scoped></style>

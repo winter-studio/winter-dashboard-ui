@@ -5,6 +5,8 @@ import { getUserInfo, getUserMenus } from '@/api/system/user'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
 
+const STORAGE_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000
+
 export interface UserState {
   token: string
   username: string
@@ -38,19 +40,18 @@ export const useUserStore = defineStore({
   },
   actions: {
     setToken(token: string) {
+      storage.set(StorageType.ACCESS_TOKEN, token, STORAGE_EXPIRED_TIME)
       this.token = token
     },
     setAvatar(avatar: string) {
       this.avatar = avatar
     },
     setUserInfo(info: any) {
+      storage.set(StorageType.CURRENT_USER, info, STORAGE_EXPIRED_TIME)
       this.info = info
     },
     // 登录
     login(result: any) {
-      const ex = 7 * 24 * 60 * 60 * 1000
-      storage.set(StorageType.ACCESS_TOKEN, result.token, ex)
-      storage.set(StorageType.CURRENT_USER, result, ex)
       this.setToken(result.token)
       this.setUserInfo(result)
     },

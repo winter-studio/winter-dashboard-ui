@@ -8,6 +8,7 @@ import { useEventListener } from '@/hooks/event/useEventListener'
 import { useBreakpoint } from '@/hooks/event/useBreakpoint'
 
 import echarts from '@/utils/lib/echarts'
+import { Fn } from '@/types'
 
 // import { useRootSetting } from '@/hooks/setting/useRootSetting';
 

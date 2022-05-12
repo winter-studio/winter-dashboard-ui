@@ -6,7 +6,8 @@
       </n-card>
     </div>
     <n-card :bordered="false" class="mt-4 proCard">
-      <quill-editor
+      <!-- eslint-disable-next-line -->
+      <QuillEditor
         ref="quillEditor"
         v-model:content="myContent"
         :options="options"
@@ -38,13 +39,12 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+//TODO maybe use facebook/lexical to replace this.
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 const quillEditor = ref()
 const myContent = ref()
 const myContentHtml = ref()
-
 const options = reactive({
   modules: {
     toolbar: [

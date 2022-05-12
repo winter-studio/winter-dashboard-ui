@@ -27,7 +27,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/dashboard/workplace/Workplace.vue"
+        "data": "views/dashboard/Workplace.vue"
       }
     ]
   },
@@ -59,7 +59,7 @@
             "badge": null,
             "type": "view",
             "keepAlive": true,
-            "data": "views/comp/table/basic.vue"
+            "data": "views/comp/table/Basic.vue"
           },
           {
             "id": "comp_table_editCell",
@@ -69,7 +69,7 @@
             "badge": null,
             "type": "view",
             "keepAlive": true,
-            "data": "views/comp/table/editCell.vue"
+            "data": "views/comp/table/EditCell.vue"
           },
           {
             "id": "comp_table_editRow",
@@ -79,7 +79,7 @@
             "badge": null,
             "type": "view",
             "keepAlive": true,
-            "data": "views/comp/table/editRow.vue"
+            "data": "views/comp/table/EditRow.vue"
           }
         ]
       },
@@ -101,7 +101,7 @@
             "badge": null,
             "type": "view",
             "keepAlive": true,
-            "data": "views/comp/form/basic.vue"
+            "data": "views/comp/form/Basic.vue"
           },
           {
             "id": "comp_table_useForm",
@@ -111,7 +111,7 @@
             "badge": null,
             "type": "view",
             "keepAlive": true,
-            "data": "views/comp/form/useForm.vue"
+            "data": "views/comp/form/UseForm.vue"
           }
         ]
       },
@@ -123,7 +123,7 @@
         "badge": "new",
         "type": "view",
         "keepAlive": true,
-        "data": "views/comp/upload/index.vue"
+        "data": "views/comp/Upload.vue"
       },
       {
         "id": "comp_modal",
@@ -133,7 +133,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/comp/modal/index.vue"
+        "data": "views/comp/Modal.vue"
       },
       {
         "id": "comp_richtext",
@@ -143,7 +143,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/comp/richtext/vue-quill.vue"
+        "data": "views/comp/VueQuill.vue"
       },
       {
         "id": "comp_drag",
@@ -153,7 +153,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/comp/drag/index.vue"
+        "data": "views/comp/Drag.vue"
       }
     ]
   },
@@ -185,7 +185,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/exception/403.vue"
+        "data": "views/basic/exception/403.vue"
       },
       {
         "id": "exception_404",
@@ -195,7 +195,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/exception/404.vue"
+        "data": "views/basic/exception/404.vue"
       },
       {
         "id": "exception_500",
@@ -205,7 +205,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/exception/500.vue"
+        "data": "views/basic/exception/500.vue"
       }
     ]
   },
@@ -227,7 +227,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/form/basicForm/index.vue"
+        "data": "views/form/BasicForm.vue"
       },
       {
         "id": "form_step",
@@ -237,7 +237,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/form/stepForm/stepForm.vue"
+        "data": "views/form/stepForm/StepForm.vue"
       },
       {
         "id": "form_detail",
@@ -247,7 +247,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/form/detail/index.vue"
+        "data": "views/form/Detail.vue"
       }
     ]
   },
@@ -291,7 +291,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/list/basicList/index.vue"
+        "data": "views/list/BasicList/index.vue"
       },
       {
         "id": "basic-info",
@@ -301,7 +301,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/list/basicList/info.vue"
+        "data": "views/list/Info.vue"
       }
     ]
   },
@@ -323,7 +323,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/result/success.vue"
+        "data": "views/result/Success.vue"
       },
       {
         "id": "fail",
@@ -333,7 +333,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/result/fail.vue"
+        "data": "views/result/Failure.vue"
       },
       {
         "id": "info",
@@ -343,7 +343,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/result/info.vue"
+        "data": "views/result/Info.vue"
       }
     ]
   },
@@ -365,7 +365,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/setting/account/account.vue"
+        "data": "views/setting/account/Account.vue"
       },
       {
         "id": "system",
@@ -375,7 +375,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/setting/system/system.vue"
+        "data": "views/setting/system/System.vue"
       }
     ]
   },
@@ -397,7 +397,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/system/menu/menu.vue"
+        "data": "views/system/menu/Menu.vue"
       },
       {
         "id": "role",
@@ -407,7 +407,7 @@
         "badge": null,
         "type": "view",
         "keepAlive": true,
-        "data": "views/system/role/role.vue"
+        "data": "views/system/role/Role.vue"
       }
     ]
   },
@@ -419,6 +419,6 @@
     "badge": "new",
     "type": "view",
     "keepAlive": true,
-    "data": "views/about/index.vue"
+    "data": "views/About.vue"
   }
 ]
