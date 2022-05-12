@@ -184,10 +184,10 @@ export default defineComponent({
       const { fixed }: any = unref(getMultiTabsSetting)
       let lenNum =
         navMode === 'horizontal' || !isMixMenuNoneSub.value
-          ? '0px'
+          ? 0
           : collapsed
-          ? `${minMenuWidth}px`
-          : `${menuWidth}px`
+          ? minMenuWidth
+          : menuWidth
 
       if (getIsMobile.value) {
         return {
@@ -196,8 +196,8 @@ export default defineComponent({
         }
       }
       return {
-        left: lenNum,
-        width: `calc(100% - ${!fixed ? '0px' : lenNum})`
+        left: lenNum + 'px',
+        width: `calc(100% - ${!fixed ? 0 : lenNum + 20}px)`
       }
     })
 
@@ -531,8 +531,6 @@ export default defineComponent({
     min-width: 100%;
 
     .tabs-card {
-      -webkit-box-flex: 1;
-      flex-grow: 1;
       flex-shrink: 1;
       overflow: hidden;
       position: relative;
@@ -656,7 +654,7 @@ export default defineComponent({
 .tabs-view-fix {
   position: fixed;
   z-index: 5;
-  padding: 6px 19px 6px 10px;
+  padding: 6px 20px 6px 10px;
   left: 200px;
 }
 

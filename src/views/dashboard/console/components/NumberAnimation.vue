@@ -10,24 +10,13 @@
 import { ref, toRefs } from 'vue'
 import { NumberAnimationInst } from 'naive-ui'
 
-const props = defineProps({
-  from: {
-    type: Number,
-    required: true
-  },
-  to: {
-    type: Number,
-    default: 0
-  },
-  prefix: {
-    type: String,
-    default: undefined
-  },
-  suffix: {
-    type: String,
-    default: undefined
-  }
-})
+interface Props {
+  from: Number
+  to: Number
+  prefix?: String
+  suffix?: String
+}
+const props = defineProps<Props>()
 const numberAnimationInstRef = ref<NumberAnimationInst | null>(null)
 const { from: fromPropRef, to: toPropRef } = toRefs(props)
 </script>
