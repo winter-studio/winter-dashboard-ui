@@ -6,7 +6,7 @@
         <form-outlined />
       </n-icon>
     </div>
-    <div v-show="isEdit" v-click-outside="onClickOutside" class="flex editable-cell-content">
+    <div v-show="isEdit" class="flex editable-cell-content">
       <div class="editable-cell-content-comp">
         <cell-component
           v-bind="getComponentProps"
@@ -42,8 +42,6 @@ import { CellComponent } from './CellComponent'
 
 import { useTableContext } from '../../hooks/useTableContext'
 
-import clickOutside from '@/directives/clickOutside'
-
 import { propTypes } from '@/utils/propTypes'
 import { isString, isBoolean, isFunction, isNumber, isArray } from '@/utils/is'
 import { createPlaceholderMessage } from './helper'
@@ -56,9 +54,6 @@ import { Fn, LabelValueOptions } from '@/types/index'
 export default defineComponent({
   name: 'EditableCell',
   components: { FormOutlined, CloseOutlined, CheckOutlined, CellComponent },
-  directives: {
-    clickOutside
-  },
   props: {
     value: {
       type: [String, Number, Boolean, Object] as PropType<string | number | boolean | Recordable>,
