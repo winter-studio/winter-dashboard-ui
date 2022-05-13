@@ -22,7 +22,7 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     "types": ["vite/client", "node", "vue", "naive-ui/volar"],
-    "typeRoots": ["./node_modules/@types/", "./src/types"],
+    "typeRoots": ["./node_modules/@types/", "./typings"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -33,7 +33,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "types/**/*.d.ts",
+    "typings/**/*.d.ts",
     "mock/**/*.ts",
     "components.d.ts",
     "vite.config.ts"
