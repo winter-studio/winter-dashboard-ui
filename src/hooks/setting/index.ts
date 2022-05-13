@@ -1,6 +1,5 @@
 import type { GlobConfig } from '@/types/config'
 
-import { warn } from '@/utils/log'
 import { getAppEnvConfig } from '@/utils/env'
 
 export const useGlobSetting = (): Readonly<GlobConfig> => {
@@ -15,7 +14,7 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
   } = getAppEnvConfig()
 
   if (!/[a-zA-Z\_]*/.test(VITE_APP_SHORT_NAME)) {
-    warn(
+    console.warn(
       `VITE_APP_SHORT_NAME Variables can only be characters/underscores,
       please modify in the environment variables and re-running.`
     )

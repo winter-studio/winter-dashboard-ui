@@ -10,16 +10,6 @@
     "keepAlive": false,
     "children": [
       {
-        "id": "dashboard_console",
-        "path": "console",
-        "title": "主控台",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/dashboard/console/Console.vue"
-      },
-      {
         "id": "dashboard_workplace",
         "path": "workplace",
         "title": "工作台",

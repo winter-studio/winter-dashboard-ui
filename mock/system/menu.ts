@@ -12,15 +12,6 @@ const menuList = () => {
       path: '/dashboard',
       children: [
         {
-          label: '主控台',
-          key: 'console',
-          type: 1,
-          subtitle: 'console',
-          openType: 1,
-          auth: 'console',
-          path: '/dashboard/console'
-        },
-        {
           label: '工作台',
           key: 'workplace',
           type: 1,
