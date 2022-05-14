@@ -6,11 +6,11 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AppProvider: typeof import('./src/components/application/AppProvider.vue')['default']
-    BasicForm: typeof import('./src/components/Form/src/BasicForm.vue')['default']
-    BasicModal: typeof import('./src/components/Modal/src/basicModal.vue')['default']
-    BasicUpload: typeof import('./src/components/Upload/src/BasicUpload.vue')['default']
-    ColumnSetting: typeof import('./src/components/Table/src/components/settings/ColumnSetting.vue')['default']
-    EditableCell: typeof import('./src/components/Table/src/components/editable/EditableCell.vue')['default']
+    BasicForm: typeof import('./src/components/form/src/BasicForm.vue')['default']
+    BasicModal: typeof import('@/components/modal/src/BasicModal.vue')['default']
+    BasicUpload: typeof import('./src/components/upload/src/BasicUpload.vue')['default']
+    ColumnSetting: typeof import('./src/components/table/src/components/settings/ColumnSetting.vue')['default']
+    EditableCell: typeof import('./src/components/table/src/components/editable/EditableCell.vue')['default']
     NAlert: typeof import('naive-ui')['NAlert']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
@@ -49,8 +49,8 @@ declare module '@vue/runtime-core' {
     NTooltip: typeof import('naive-ui')['NTooltip']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Table: typeof import('./src/components/Table/src/Table.vue')['default']
-    TableAction: typeof import('./src/components/Table/src/components/TableAction.vue')['default']
+    Table: typeof import('./src/components/table/src/Table.vue')['default']
+    TableAction: typeof import('./src/components/table/src/components/TableAction.vue')['default']
     WindowTool: typeof import('./src/components/application/WindowTool.vue')['default']
   }
 }

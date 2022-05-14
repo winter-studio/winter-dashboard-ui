@@ -5,7 +5,7 @@ import type {
   ImenuSetting,
   ImultiTabsSetting,
   IcrumbsSetting
-} from '@/types/config'
+} from '@typings/config'
 
 const {
   navMode,

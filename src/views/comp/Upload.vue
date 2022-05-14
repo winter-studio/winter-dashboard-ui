@@ -50,7 +50,7 @@
 <script lang="ts" setup>
 import { ref, unref, reactive } from 'vue'
 import { useMessage } from 'naive-ui'
-import { BasicUpload } from '@/components/Upload'
+import { BasicUpload } from '@/components/upload'
 import { useGlobSetting } from '@/hooks/setting'
 
 const globSetting = useGlobSetting()

@@ -57,8 +57,8 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs } from 'vue'
 import { useMessage } from 'naive-ui'
-import { basicModal, useModal } from '@/components/Modal'
-import { BasicForm, FormSchema, useForm } from '@/components/Form/index'
+import { basicModal, useModal } from '@/components/modal'
+import { BasicForm, FormSchema, useForm } from '@/components/form'
 
 const schemas: FormSchema[] = [
   {

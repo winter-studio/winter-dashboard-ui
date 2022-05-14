@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { BasicTable } from '@/components/Table'
+import { BasicTable } from '@/components/table'
 import { getTableList } from '@/api/table/list'
 import { columns } from './CellColumns'
 

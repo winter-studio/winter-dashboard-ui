@@ -1,4 +1,5 @@
-import { Fn } from '@/types'
+import { Fn } from '@typings/index'
+
 export interface ActionItem {
   onClick?: Fn
   label?: string

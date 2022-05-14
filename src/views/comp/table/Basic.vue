@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref, h } from 'vue'
-import { BasicTable, TableAction } from '@/components/Table'
+import { BasicTable, TableAction } from '@/components/table'
 import { getTableList } from '@/api/table/list'
 import { columns } from './basicColumns'
 import { useDialog, useMessage } from 'naive-ui'

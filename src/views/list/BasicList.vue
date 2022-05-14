@@ -64,8 +64,8 @@
 <script lang="ts" setup>
 import { h, reactive, ref } from 'vue'
 import { useMessage } from 'naive-ui'
-import { BasicTable, TableAction } from '@/components/Table'
-import { BasicForm, useForm } from '@/components/Form/index'
+import { BasicTable, TableAction } from '@/components/table'
+import { BasicForm, useForm } from '@/components/form/index'
 import { getTableList } from '@/api/table/list'
 import { columns } from './columns'
 import { PlusOutlined } from '@vicons/antd'

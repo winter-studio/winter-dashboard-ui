@@ -29,7 +29,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     base: viteEnv.VITE_PUBLIC_PATH,
     esbuild: {},
     resolve: {
-      alias: [{ find: '@', replacement: resolve(__dirname, './src') }],
+      alias: [
+        { find: '@', replacement: resolve(__dirname, './src') },
+        { find: '@typings', replacement: resolve(__dirname, './typings') }
+      ],
       dedupe: ['vue']
     },
     plugins: createVitePlugins(viteEnv, isBuild, prodMock),

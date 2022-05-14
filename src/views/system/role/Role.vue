@@ -65,7 +65,7 @@
 <script lang="ts" setup>
 import { reactive, ref, unref, h, onMounted } from 'vue'
 import { useMessage } from 'naive-ui'
-import { BasicTable, TableAction } from '@/components/Table'
+import { BasicTable, TableAction } from '@/components/table/index'
 import { getRoleList } from '@/api/system/role'
 import { getMenuList } from '@/api/system/menu'
 import { columns } from './columns'

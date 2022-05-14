@@ -46,10 +46,10 @@ import { propTypes } from '@/utils/propTypes'
 import { isString, isBoolean, isFunction, isNumber, isArray } from '@/utils/is'
 import { createPlaceholderMessage } from './helper'
 import { set, omit } from 'lodash-es'
-import { EventEnum } from '@/components/Table/src/componentMap'
+import { EventEnum } from '@/components/table'
 
 import { parseISO, format } from 'date-fns'
-import { Fn, LabelValueOptions } from '@/types/index'
+import { Fn, LabelValueOptions } from '@typings/index'
 
 export default defineComponent({
   name: 'EditableCell',

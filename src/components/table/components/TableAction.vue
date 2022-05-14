@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed, toRaw } from 'vue'
-import { ActionItem } from '@/components/Table'
+import { ActionItem } from '@/components/table'
 import { isBoolean, isFunction } from '@/utils/is'
 import { DownOutlined } from '@vicons/antd'
 

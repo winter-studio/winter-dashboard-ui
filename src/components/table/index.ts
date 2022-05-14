@@ -1,0 +1,5 @@
+export { default as BasicTable } from './Table.vue'
+export { default as TableAction } from './components/TableAction.vue'
+export * from './types/table'
+export * from './types/tableAction'
+export * from './componentMap'
