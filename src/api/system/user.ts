@@ -19,7 +19,7 @@ export function getUserInfo() {
 /**
  * @description: 用户登录
  */
-export function login(params) {
+export function login(params: any) {
   return http.request<BasicResponseModel>(
     {
       url: '/api-token',
@@ -35,7 +35,7 @@ export function login(params) {
 /**
  * @description: 用户登出
  */
-export function logout(params) {
+export function logout(params: any) {
   return http.request({
     url: '/api-token',
     method: 'DELETE',

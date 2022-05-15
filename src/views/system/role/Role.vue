@@ -211,7 +211,7 @@ function checkedAllHandle() {
 
 onMounted(async () => {
   const treeMenuList = await getMenuList()
-  expandedKeys.value = treeMenuList.list.map((item) => item.key)
+  expandedKeys.value = treeMenuList.list.map((item: any) => item.key)
   treeData.value = treeMenuList.list
 })
 </script>
