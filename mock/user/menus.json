@@ -104,46 +104,6 @@
             "data": "views/comp/form/UseForm.vue"
           }
         ]
-      },
-      {
-        "id": "comp_upload",
-        "path": "upload",
-        "title": "上传图片",
-        "icon": null,
-        "badge": "new",
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/comp/Upload.vue"
-      },
-      {
-        "id": "comp_modal",
-        "path": "modal",
-        "title": "弹窗扩展",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/comp/Modal.vue"
-      },
-      {
-        "id": "comp_richtext",
-        "path": "richtext",
-        "title": "富文本",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/comp/VueQuill.vue"
-      },
-      {
-        "id": "comp_drag",
-        "path": "drag",
-        "title": "拖拽",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/comp/Drag.vue"
       }
     ]
   },
@@ -209,16 +169,6 @@
     "keepAlive": false,
     "data": null,
     "children": [
-      {
-        "id": "form_basic",
-        "path": "basic-form",
-        "title": "基础表单",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/form/BasicForm.vue"
-      },
       {
         "id": "form_step",
         "path": "step-form",
