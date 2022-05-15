@@ -6,18 +6,12 @@ export interface BasicResponseModel<T = any> {
   result: T
 }
 
-export interface BasicPageParams {
-  pageNumber: number
-  pageSize: number
-  total: number
-}
-
 /**
  * @description: 获取用户信息
  */
 export function getUserInfo() {
   return http.request({
-    url: '/admin_info',
+    url: '/users/me',
     method: 'get'
   })
 }
@@ -28,23 +22,7 @@ export function getUserInfo() {
 export function login(params) {
   return http.request<BasicResponseModel>(
     {
-      url: '/login',
-      method: 'POST',
-      params
-    },
-    {
-      isTransformResponse: false
-    }
-  )
-}
-
-/**
- * @description: 用户修改密码
- */
-export function changePassword(params, uid) {
-  return http.request(
-    {
-      url: `/user/u${uid}/changepw`,
+      url: '/api-token',
       method: 'POST',
       params
     },
@@ -59,8 +37,8 @@ export function changePassword(params, uid) {
  */
 export function logout(params) {
   return http.request({
-    url: '/login/logout',
-    method: 'POST',
+    url: '/api-token',
+    method: 'DELETE',
     params
   })
 }
