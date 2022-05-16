@@ -22,92 +22,6 @@
     ]
   },
   {
-    "id": "comp",
-    "path": "comp",
-    "title": "组件示例",
-    "icon": "WalletOutlined",
-    "badge": null,
-    "type": "dir",
-    "data": null,
-    "keepAlive": false,
-    "children": [
-      {
-        "id": "comp_table",
-        "path": "table",
-        "title": "表格",
-        "icon": null,
-        "badge": null,
-        "type": "dir",
-        "keepAlive": false,
-        "data": null,
-        "children": [
-          {
-            "id": "comp_table_basic",
-            "path": "basic",
-            "title": "基础表格",
-            "icon": null,
-            "badge": null,
-            "type": "view",
-            "keepAlive": true,
-            "data": "views/comp/table/Basic.vue"
-          },
-          {
-            "id": "comp_table_editCell",
-            "path": "editCell",
-            "title": "单元格编辑",
-            "icon": null,
-            "badge": null,
-            "type": "view",
-            "keepAlive": true,
-            "data": "views/comp/table/EditCell.vue"
-          },
-          {
-            "id": "comp_table_editRow",
-            "path": "editRow",
-            "title": "整行编辑",
-            "icon": null,
-            "badge": null,
-            "type": "view",
-            "keepAlive": true,
-            "data": "views/comp/table/EditRow.vue"
-          }
-        ]
-      },
-      {
-        "id": "comp_form",
-        "path": "form",
-        "title": "表单",
-        "icon": null,
-        "badge": null,
-        "type": "dir",
-        "keepAlive": true,
-        "data": null,
-        "children": [
-          {
-            "id": "comp_form_basic",
-            "path": "basic",
-            "title": "基础使用",
-            "icon": null,
-            "badge": null,
-            "type": "view",
-            "keepAlive": true,
-            "data": "views/comp/form/Basic.vue"
-          },
-          {
-            "id": "comp_table_useForm",
-            "path": "useForm",
-            "title": "useForm",
-            "icon": null,
-            "badge": null,
-            "type": "view",
-            "keepAlive": true,
-            "data": "views/comp/form/UseForm.vue"
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "external",
     "path": "external",
     "title": "项目文档",
@@ -160,38 +74,6 @@
     ]
   },
   {
-    "id": "form",
-    "path": "form",
-    "title": "表单页面",
-    "icon": "ProfileOutlined",
-    "badge": null,
-    "type": "dir",
-    "keepAlive": false,
-    "data": null,
-    "children": [
-      {
-        "id": "form_step",
-        "path": "step-form",
-        "title": "分步表单",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/form/stepForm/StepForm.vue"
-      },
-      {
-        "id": "form_detail",
-        "path": "detail-form",
-        "title": "表单详情",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/form/Detail.vue"
-      }
-    ]
-  },
-  {
     "id": "frame",
     "path": "frame",
     "title": "外部页面",
@@ -210,38 +92,6 @@
         "type": "iframe",
         "keepAlive": true,
         "data": "https://www.naiveui.com"
-      }
-    ]
-  },
-  {
-    "id": "list",
-    "path": "list",
-    "title": "列表页面",
-    "icon": "TableOutlined",
-    "badge": null,
-    "type": "dir",
-    "keepAlive": false,
-    "data": null,
-    "children": [
-      {
-        "id": "basic-list",
-        "path": "basic-list",
-        "title": "基础列表",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/list/BasicList/index.vue"
-      },
-      {
-        "id": "basic-info",
-        "path": "basic-info/:id?",
-        "title": "基础详情",
-        "icon": null,
-        "badge": null,
-        "type": "view",
-        "keepAlive": true,
-        "data": "views/list/Info.vue"
       }
     ]
   },
