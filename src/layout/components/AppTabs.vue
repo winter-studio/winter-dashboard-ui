@@ -9,12 +9,7 @@
   >
     <div class="tabs-view-main">
       <div ref="navWrap" class="tabs-card" :class="{ 'tabs-card-scrollable': scrollable }">
-        <n-button
-          :bordered="false"
-          class="px-2"
-          :class="{ 'tabs-card-prev-hide': !scrollable }"
-          @click="scrollPrev"
-        >
+        <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollPrev">
           <n-icon size="16">
             <left-outlined />
           </n-icon>
@@ -51,12 +46,7 @@
           </draggable>
         </div>
 
-        <n-button
-          :bordered="false"
-          class="px-2"
-          :class="{ 'tabs-card-next-hide': !scrollable }"
-          @click="scrollNext"
-        >
+        <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollNext">
           <n-icon size="16">
             <right-outlined />
           </n-icon>
@@ -527,6 +517,7 @@ export default defineComponent({
     max-width: 100%;
     min-width: 100%;
     justify-content: space-between;
+    background: #eee;
 
     .tabs-card {
       flex-shrink: 1;
@@ -537,9 +528,11 @@ export default defineComponent({
       &-scroll {
         white-space: nowrap;
         overflow: hidden;
+        padding: 0 14px;
 
         &-item {
-          background: v-bind(getCardColor);
+          //background: v-bind(getCardColor);
+          background-color: #eee;
           color: v-bind(getBaseColor);
           height: 32px;
           padding: 2px 0;
@@ -563,12 +556,41 @@ export default defineComponent({
 
         .active-item {
           color: v-bind(getAppTheme);
+          border-radius: 10px 10px 0 0;
+          background-color: #fff;
+
+          .tabs-card-scroll-item-content {
+            border: 0;
+            box-shadow: -1px 0 0 #eee;
+          }
+
+          &::before,
+          &::after {
+            position: absolute;
+            bottom: 0;
+            content: '';
+            width: 16px;
+            height: 16px;
+            border-radius: 100%;
+            box-shadow: 0 0 0 10px white;
+            transform: translateZ(-1px);
+            z-index: 1001;
+          }
+
+          &::before {
+            left: -16px;
+            clip-path: inset(50% -8px 0 50%);
+          }
+
+          &::after {
+            right: -16px;
+            clip-path: inset(50% 50% 0 -8px);
+          }
         }
       }
     }
 
     .tabs-card-scrollable {
-      padding: 0 32px;
       overflow: hidden;
     }
   }
