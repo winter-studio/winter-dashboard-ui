@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="n-layout-page-header">
+    <div>
       <n-card :bordered="false" title="工作台">
         <n-grid cols="2 s:1 m:1 l:2 xl:2 2xl:2" responsive="screen">
           <n-gi>

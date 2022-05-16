@@ -39,10 +39,10 @@
         class="layout-content"
         :class="{ 'layout-default-background': getDarkTheme === false }"
       >
-        <div class="layout-content-main layout-content-main-fix">
+        <div class="layout-content-main">
           <app-tabs v-if="isMultiTabs" v-model:collapsed="collapsed" />
           <div
-            class="main-view main-view-fix"
+            class="main-view"
             :class="{
               noMultiTabs: !isMultiTabs,
               'mt-3': !isMultiTabs
@@ -219,19 +219,16 @@ onMounted(() => {
   padding-top: 64px;
 }
 
-.layout-content-main-fix {
-  padding-top: 64px;
-}
-
 .fluid-header {
   padding-top: 0;
 }
 
-.main-view-fix {
-  padding-top: 44px;
-}
-
 .noMultiTabs {
   padding-top: 0;
+}
+
+.main-view {
+  padding-top: 42px;
+  background-color: #fff;
 }
 </style>

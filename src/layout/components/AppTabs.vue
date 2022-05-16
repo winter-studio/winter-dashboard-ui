@@ -9,24 +9,17 @@
   >
     <div class="tabs-view-main">
       <div ref="navWrap" class="tabs-card" :class="{ 'tabs-card-scrollable': scrollable }">
-        <span
-          class="tabs-card-prev"
+        <n-button
+          :bordered="false"
+          class="px-2"
           :class="{ 'tabs-card-prev-hide': !scrollable }"
           @click="scrollPrev"
         >
-          <n-icon size="16" color="#515a6e">
+          <n-icon size="16">
             <left-outlined />
           </n-icon>
-        </span>
-        <span
-          class="tabs-card-next"
-          :class="{ 'tabs-card-next-hide': !scrollable }"
-          @click="scrollNext"
-        >
-          <n-icon size="16" color="#515a6e">
-            <right-outlined />
-          </n-icon>
-        </span>
+        </n-button>
+
         <div ref="navScroll" class="tabs-card-scroll">
           <draggable :list="tabsList" animation="300" item-key="fullPath" class="flex">
             <template #item="{ element }">
@@ -37,27 +30,50 @@
                 @click.stop="goPage(element)"
                 @contextmenu="handleContextMenu($event, element)"
               >
-                <span>{{ element.meta.title }}</span>
-                <n-icon v-if="!element.meta.affix" size="14" @click.stop="closeTabItem(element)">
-                  <close-outlined />
-                </n-icon>
+                <span class="tabs-card-scroll-item-content">
+                  <span class="title mr-1">{{ element.meta.title }}</span>
+                  <n-button
+                    v-if="!element.meta.affix"
+                    quaternary
+                    circle
+                    size="tiny"
+                    @click.stop="closeTabItem(element)"
+                  >
+                    <template #icon>
+                      <n-icon>
+                        <close-outlined />
+                      </n-icon>
+                    </template>
+                  </n-button>
+                </span>
               </div>
             </template>
           </draggable>
         </div>
+
+        <n-button
+          :bordered="false"
+          class="px-2"
+          :class="{ 'tabs-card-next-hide': !scrollable }"
+          @click="scrollNext"
+        >
+          <n-icon size="16">
+            <right-outlined />
+          </n-icon>
+        </n-button>
       </div>
-      <div class="tabs-close">
+      <div class="tabs-dropdown ml-1">
         <n-dropdown
           trigger="hover"
           placement="bottom-end"
           :options="TabsMenuOptions"
           @select="closeHandleSelect"
         >
-          <div class="tabs-close-btn">
-            <n-icon size="16" color="#515a6e">
+          <n-button quaternary class="px-2">
+            <n-icon size="16">
               <down-outlined />
             </n-icon>
-          </div>
+          </n-button>
         </n-dropdown>
       </div>
       <n-dropdown
@@ -75,33 +91,33 @@
 
 <script lang="ts">
 import {
-  defineComponent,
-  reactive,
   computed,
+  defineComponent,
+  inject,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
   ref,
   toRefs,
   unref,
-  provide,
-  watch,
-  onMounted,
-  nextTick,
-  inject
+  watch
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
-import { useTabsViewStore, RouteItem } from '@/store/modules/tabsView'
+import { RouteItem, useTabsViewStore } from '@/store/modules/tabsView'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useMessage, useThemeVars } from 'naive-ui'
 import Draggable from 'vuedraggable'
 import { PageEnum } from '@/enums/pageEnum'
 import {
-  DownOutlined,
-  ReloadOutlined,
   CloseOutlined,
   ColumnWidthOutlined,
-  MinusOutlined,
+  DownOutlined,
   LeftOutlined,
+  MinusOutlined,
+  ReloadOutlined,
   RightOutlined
 } from '@vicons/antd'
 import elementResizeDetectorMaker from 'element-resize-detector'
@@ -191,7 +207,7 @@ export default defineComponent({
       }
       return {
         left: lenNum + 'px',
-        width: `calc(100% - ${lenNum + 20}px)`
+        width: `calc(100% - ${lenNum + 30}px)`
       }
     })
 
@@ -498,50 +514,25 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tabs-view {
   width: 100%;
-  padding: 6px 0;
   display: flex;
   transition: all 0.2s ease-in-out;
+  position: fixed;
+  z-index: 5;
+  padding: 6px 20px 0 10px;
+  left: 200px;
 
   &-main {
-    height: 32px;
+    height: 36px;
     display: flex;
     max-width: 100%;
     min-width: 100%;
+    justify-content: space-between;
 
     .tabs-card {
       flex-shrink: 1;
       overflow: hidden;
       position: relative;
-
-      .tabs-card-prev,
-      .tabs-card-next {
-        width: 32px;
-        text-align: center;
-        position: absolute;
-        line-height: 32px;
-        cursor: pointer;
-
-        .n-icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 32px;
-          width: 32px;
-        }
-      }
-
-      .tabs-card-prev {
-        left: 0;
-      }
-
-      .tabs-card-next {
-        right: 0;
-      }
-
-      .tabs-card-next-hide,
-      .tabs-card-prev-hide {
-        display: none;
-      }
+      display: flex;
 
       &-scroll {
         white-space: nowrap;
@@ -551,39 +542,21 @@ export default defineComponent({
           background: v-bind(getCardColor);
           color: v-bind(getBaseColor);
           height: 32px;
-          padding: 6px 16px 4px;
-          border-radius: 3px;
-          margin-right: 6px;
+          padding: 2px 0;
           cursor: pointer;
-          display: inline-block;
           position: relative;
           flex: 0 0 auto;
+          display: flex;
+          align-items: center;
 
-          span {
-            float: left;
-            vertical-align: middle;
-          }
+          &-content {
+            padding: 0 12px 0 14px;
+            border-right: 1px solid #999999;
+            height: 20px;
 
-          &:hover {
-            color: #515a6e;
-          }
-
-          .n-icon {
-            height: 22px;
-            width: 21px;
-            margin-right: -6px;
-            position: relative;
-            vertical-align: middle;
-            text-align: center;
-            color: #808695;
-
-            &:hover {
-              color: #515a6e !important;
-            }
-
-            svg {
-              height: 21px;
-              display: inline-block;
+            span.title {
+              float: left;
+              vertical-align: middle;
             }
           }
         }
@@ -600,24 +573,12 @@ export default defineComponent({
     }
   }
 
-  .tabs-close {
-    min-width: 32px;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-    text-align: center;
-    background: var(--color);
-    border-radius: 2px;
+  .tabs-dropdown {
     cursor: pointer;
-    //margin-right: 10px;
-
-    &-btn {
-      color: var(--color);
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
   }
 }
 
@@ -627,12 +588,5 @@ export default defineComponent({
 
 .tabs-view-dark-background {
   background: #101014;
-}
-
-.tabs-view-fix {
-  position: fixed;
-  z-index: 5;
-  padding: 6px 20px 6px 10px;
-  left: 200px;
 }
 </style>
