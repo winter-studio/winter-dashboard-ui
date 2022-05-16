@@ -7,21 +7,13 @@ const setting = {
   isMobile: false,
   //顶部
   headerSetting: {
-    //背景色
-    bgColor: '#fff',
-    //固定顶部
-    fixed: true,
     //显示重载按钮
     isReload: true
   },
   //多标签
   multiTabsSetting: {
-    //背景色
-    bgColor: '#fff',
     //是否显示
-    show: true,
-    //固定多标签
-    fixed: true
+    show: true
   },
   //菜单
   menuSetting: {

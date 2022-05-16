@@ -1,9 +1,7 @@
 <template>
   <div
-    class="tabs-view"
+    class="tabs-view tabs-view-fix"
     :class="{
-      'tabs-view-fix': multiTabsSetting.fixed,
-      'tabs-view-fixed-header': isMultiHeaderFixed,
       'tabs-view-default-background': getDarkTheme === false,
       'tabs-view-dark-background': getDarkTheme === true
     }"
@@ -129,8 +127,7 @@ export default defineComponent({
   },
   setup(props) {
     const { getDarkTheme, getAppTheme } = useDesignSetting()
-    const { getNavMode, getHeaderSetting, getMenuSetting, getMultiTabsSetting, getIsMobile } =
-      useProjectSetting()
+    const { getNavMode, getMenuSetting, getIsMobile } = useProjectSetting()
     const settingStore = useProjectSettingStore()
 
     const message = useMessage()
@@ -157,9 +154,7 @@ export default defineComponent({
       scrollable: false,
       dropdownX: 0,
       dropdownY: 0,
-      showDropdown: false,
-      isMultiHeaderFixed: false,
-      multiTabsSetting: getMultiTabsSetting
+      showDropdown: false
     })
 
     // 获取简易的路由对象
@@ -181,7 +176,6 @@ export default defineComponent({
       const { collapsed } = props
       const navMode = unref(getNavMode)
       const { minMenuWidth, menuWidth }: any = unref(getMenuSetting)
-      const { fixed }: any = unref(getMultiTabsSetting)
       let lenNum =
         navMode === 'horizontal' || !isMixMenuNoneSub.value
           ? 0
@@ -197,7 +191,7 @@ export default defineComponent({
       }
       return {
         left: lenNum + 'px',
-        width: `calc(100% - ${!fixed ? 0 : lenNum + 20}px)`
+        width: `calc(100% - ${lenNum + 20}px)`
       }
     })
 
@@ -252,22 +246,6 @@ export default defineComponent({
 
     // 初始化标签页
     tabsViewStore.initTabs(cacheRoutes)
-
-    //监听滚动条
-    function onScroll(e) {
-      let scrollTop =
-        e.target.scrollTop ||
-        document.documentElement.scrollTop ||
-        window.pageYOffset ||
-        document.body.scrollTop // 滚动条偏移量
-      state.isMultiHeaderFixed = !!(
-        !getHeaderSetting.value.fixed &&
-        getMultiTabsSetting.value.fixed &&
-        scrollTop >= 64
-      )
-    }
-
-    window.addEventListener('scroll', onScroll, true)
 
     const appStore = useAppStore()
     const delKeepAliveCompName = () => {
@@ -656,9 +634,5 @@ export default defineComponent({
   z-index: 5;
   padding: 6px 20px 6px 10px;
   left: 200px;
-}
-
-.tabs-view-fixed-header {
-  top: 0;
 }
 </style>

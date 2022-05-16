@@ -10,7 +10,7 @@
     "lint:eslint": "eslint --cache --max-warnings 0  \"{src,mock}/**/*.{js,vue,ts,tsx}\" --fix",
     "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
-    "lint:lint-staged": "lint-staged"
+    "lint:lint-staged": "lint-staged --no-stash"
   },
   "dependencies": {
     "@vicons/antd": "^0.10.0",
@@ -29,7 +29,8 @@
     "qs": "^6.10.3",
     "vue": "^3.2.33",
     "vue-router": "^4.0.15",
-    "vue-types": "^4.1.1"
+    "vue-types": "^4.1.1",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.3",

@@ -13,13 +13,7 @@ export interface ProjectSettingState {
   crumbsSetting: object
 }
 
-export interface IbodySetting {
-  fixed: boolean
-}
-
 export interface IheaderSetting {
-  bgColor: string
-  fixed: boolean
   isReload: boolean
 }
 
@@ -33,13 +27,10 @@ export interface ImenuSetting {
 }
 
 export interface IcrumbsSetting {
-  show: boolean
   showIcon: boolean
 }
 
 export interface ImultiTabsSetting {
-  bgColor: string
-  fixed: boolean
   show: boolean
 }
 export interface GlobConfig {

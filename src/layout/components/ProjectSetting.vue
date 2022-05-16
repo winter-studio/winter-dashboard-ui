@@ -143,12 +143,12 @@
           </div>
         </div>
 
-        <div class="drawer-setting-item">
-          <div class="drawer-setting-item-title"> 固定顶栏 </div>
-          <div class="drawer-setting-item-action">
-            <n-switch v-model:value="settingStore.headerSetting.fixed" />
-          </div>
-        </div>
+        <!--        <div class="drawer-setting-item">-->
+        <!--          <div class="drawer-setting-item-title"> 固定顶栏 </div>-->
+        <!--          <div class="drawer-setting-item-action">-->
+        <!--            <n-switch v-model:value="settingStore.headerSetting.fixed" />-->
+        <!--          </div>-->
+        <!--        </div>-->
 
         <!--        <div class="drawer-setting-item">-->
         <!--          <div class="drawer-setting-item-title">-->
@@ -159,12 +159,12 @@
         <!--          </div>-->
         <!--        </div>-->
 
-        <div class="drawer-setting-item">
-          <div class="drawer-setting-item-title"> 固定多页签 </div>
-          <div class="drawer-setting-item-action">
-            <n-switch v-model:value="settingStore.multiTabsSetting.fixed" />
-          </div>
-        </div>
+        <!--        <div class="drawer-setting-item">-->
+        <!--          <div class="drawer-setting-item-title"> 固定多页签 </div>-->
+        <!--          <div class="drawer-setting-item-action">-->
+        <!--            <n-switch v-model:value="settingStore.multiTabsSetting.fixed" />-->
+        <!--          </div>-->
+        <!--        </div>-->
 
         <n-divider title-placement="center">界面显示</n-divider>
 
@@ -172,13 +172,6 @@
           <div class="drawer-setting-item-title"> 显示重载页面按钮 </div>
           <div class="drawer-setting-item-action">
             <n-switch v-model:value="settingStore.headerSetting.isReload" />
-          </div>
-        </div>
-
-        <div class="drawer-setting-item">
-          <div class="drawer-setting-item-title"> 显示面包屑导航 </div>
-          <div class="drawer-setting-item-action">
-            <n-switch v-model:value="settingStore.crumbsSetting.show" />
           </div>
         </div>
 

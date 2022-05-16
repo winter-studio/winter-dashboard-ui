@@ -1,11 +1,11 @@
 <template>
-  <n-layout class="layout" :position="fixedMenu" has-sider>
+  <n-layout class="layout" position="absolute" has-sider>
     <n-layout-sider
       v-if="
         !isMobile && isMixMenuNoneSub && (navMode === 'vertical' || navMode === 'horizontal-mix')
       "
       show-trigger="bar"
-      :position="fixedMenu"
+      position="absolute"
       :collapsed="collapsed"
       collapse-mode="width"
       :collapsed-width="64"
@@ -31,7 +31,7 @@
     </n-drawer>
 
     <n-layout :inverted="inverted">
-      <n-layout-header :inverted="getHeaderInverted" :position="fixedHeader">
+      <n-layout-header :inverted="getHeaderInverted" position="absolute">
         <page-header v-model:collapsed="collapsed" :inverted="inverted" />
       </n-layout-header>
 
@@ -39,18 +39,11 @@
         class="layout-content"
         :class="{ 'layout-default-background': getDarkTheme === false }"
       >
-        <div
-          class="layout-content-main"
-          :class="{
-            'layout-content-main-fix': fixedMulti,
-            'fluid-header': fixedHeader === 'static'
-          }"
-        >
+        <div class="layout-content-main layout-content-main-fix">
           <app-tabs v-if="isMultiTabs" v-model:collapsed="collapsed" />
           <div
-            class="main-view"
+            class="main-view main-view-fix"
             :class="{
-              'main-view-fix': fixedMulti,
               noMultiTabs: !isMultiTabs,
               'mt-3': !isMultiTabs
             }"
@@ -74,8 +67,7 @@ import { useRoute } from 'vue-router'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 
 const { getDarkTheme } = useDesignSetting()
-const { getNavMode, getNavTheme, getHeaderSetting, getMenuSetting, getMultiTabsSetting } =
-  useProjectSetting()
+const { getNavMode, getNavTheme, getMenuSetting, getMultiTabsSetting } = useProjectSetting()
 
 const settingStore = useProjectSettingStore()
 
@@ -90,11 +82,6 @@ const isMobile = computed<boolean>({
   set: (val) => settingStore.setIsMobile(val)
 })
 
-const fixedHeader = computed(() => {
-  const { fixed } = unref(getHeaderSetting)
-  return fixed ? 'absolute' : 'static'
-})
-
 const isMixMenuNoneSub = computed(() => {
   const mixMenu = settingStore.menuSetting.mixMenu
   const currentRoute = useRoute()
@@ -105,17 +92,8 @@ const isMixMenuNoneSub = computed(() => {
   return true
 })
 
-const fixedMenu = computed(() => {
-  const { fixed } = unref(getHeaderSetting)
-  return fixed ? 'absolute' : 'static'
-})
-
 const isMultiTabs = computed(() => {
   return unref(getMultiTabsSetting).show
-})
-
-const fixedMulti = computed(() => {
-  return unref(getMultiTabsSetting).fixed
 })
 
 const inverted = computed(() => {

@@ -42,7 +42,7 @@
         </n-icon>
       </div>
       <!-- 面包屑 -->
-      <n-breadcrumb v-if="crumbsSetting.show">
+      <n-breadcrumb>
         <template v-for="routeItem in breadcrumbList" :key="routeItem.name">
           <n-breadcrumb-item v-if="routeItem.virtual !== true">
             <n-dropdown
