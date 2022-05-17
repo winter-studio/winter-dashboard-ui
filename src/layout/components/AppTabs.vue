@@ -15,11 +15,12 @@
             item-key="fullPath"
             class="flex tabs-card-scroll-draggable"
           >
-            <template #item="{ element }">
+            <template #item="{ element, index }">
               <div
                 :id="`tag${element.fullPath.split('/').join('\/')}`"
                 class="tabs-card-scroll-item"
                 :class="{ 'active-item': activeKey === element.path }"
+                :style="{ right: `${index}px` }"
                 @click.stop="goPage(element)"
                 @contextmenu="handleContextMenu($event, element)"
               >
@@ -50,15 +51,15 @@
           </n-icon>
         </n-button>
       </div>
-      <div class="tabs-dropdown ml-1">
+      <div class="tabs-dropdown">
         <n-dropdown
           trigger="hover"
           placement="bottom-end"
           :options="TabsMenuOptions"
           @select="closeHandleSelect"
         >
-          <n-button quaternary class="px-2">
-            <n-icon size="16">
+          <n-button quaternary circle class="px-2" size="small">
+            <n-icon>
               <down-outlined />
             </n-icon>
           </n-button>
@@ -146,6 +147,8 @@ export default defineComponent({
     const themeVars = useThemeVars()
 
     const appTabsBgColor = computed(() => themeVars.value.appTabsBgColor)
+    const appTabsBgColorPreActive = computed(() => themeVars.value.appTabsBgColorPreActive)
+    const appTabsBgColorActive = computed(() => themeVars.value.appTabsBgColorActive)
     const getBaseColor = computed(() => {
       return themeVars.value.textColor1
     })
@@ -484,6 +487,8 @@ export default defineComponent({
       getDarkTheme,
       getAppTheme,
       appTabsBgColor,
+      appTabsBgColorPreActive,
+      appTabsBgColorActive,
       getBaseColor
     }
   }
@@ -493,21 +498,23 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tabs-view {
   width: calc(100% - 20px);
+  border-radius: 5px 5px 0 0;
   display: flex;
   transition: all 0.2s ease-in-out;
   position: absolute;
   z-index: 5;
   top: 74px;
+  height: 40px;
   margin: 0 10px;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: v-bind(appTabsBgColor);
+  align-items: flex-end;
 
-  &-main {
+  .tabs-view-main {
     height: 36px;
     display: flex;
     max-width: 100%;
     min-width: 100%;
-    background-color: v-bind(appTabsBgColor);
 
     .tabs-card {
       flex-shrink: 1;
@@ -515,12 +522,32 @@ export default defineComponent({
       position: relative;
       display: flex;
 
-      &-scroll {
+      .tabs-card-scroll {
         white-space: nowrap;
         overflow: hidden;
         padding: 0 14px;
 
-        &-item {
+        .tabs-card-scroll-item:hover,
+        .tabs-card-scroll-item.active-item {
+          border-radius: 10px 10px 0 0;
+        }
+
+        .tabs-card-scroll-item.active-item {
+          background-color: v-bind(appTabsBgColorActive) !important;
+          z-index: 103 !important;
+
+          .tabs-card-scroll-item-content {
+            border-color: v-bind(appTabsBgColorActive) !important;
+          }
+
+          &::before,
+          &::after {
+            box-shadow: 0 0 0 10px v-bind(appTabsBgColorActive) !important;
+            z-index: 104 !important;
+          }
+        }
+
+        .tabs-card-scroll-item {
           color: v-bind(getBaseColor);
           height: 32px;
           padding: 2px 0;
@@ -529,42 +556,32 @@ export default defineComponent({
           flex: 0 0 auto;
           display: flex;
           align-items: center;
-          z-index: 999;
+          z-index: 100;
+          transition: all 0.2s;
 
-          &-content {
+          .tabs-card-scroll-item-content {
             padding: 0 12px 0 14px;
             height: 20px;
+            border-left: 1px solid #999;
+            border-right: 1px solid #999;
+            min-width: 6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
 
             span.title {
-              float: left;
-              vertical-align: middle;
+              line-height: 20px;
             }
+          }
+
+          &:first-child .tabs-card-scroll-item-content {
+            border-left: none;
           }
 
           &.sortable-chosen {
             background: v-bind(appTabsBgColor);
           }
-
-          &:hover {
-            color: v-bind(getAppTheme) !important;
-            background-color: #daeaff !important;
-            z-index: 997 !important;
-
-            &::before,
-            &::after {
-              box-shadow: 0 0 0 10px #daeaff !important;
-              z-index: 998 !important;
-              transition: all 2s;
-            }
-          }
-        }
-
-        &-item:hover,
-        .active-item {
-          color: v-bind(getAppTheme);
-          border-radius: 10px 10px 0 0;
-          background-color: #fff;
-          z-index: 1000;
 
           &::before,
           &::after {
@@ -574,9 +591,8 @@ export default defineComponent({
             width: 16px;
             height: 16px;
             border-radius: 100%;
-            box-shadow: 0 0 0 10px #fff;
             transform: translateZ(-1px);
-            z-index: 1001;
+            transition: all 0.2s;
           }
 
           &::before {
@@ -587,6 +603,21 @@ export default defineComponent({
           &::after {
             right: -16px;
             clip-path: inset(50% 50% 0 -8px);
+          }
+
+          &:hover {
+            background-color: v-bind(appTabsBgColorPreActive);
+            z-index: 101;
+
+            .tabs-card-scroll-item-content {
+              border-color: v-bind(appTabsBgColorPreActive);
+            }
+
+            &::before,
+            &::after {
+              box-shadow: 0 0 0 10px v-bind(appTabsBgColorPreActive);
+              z-index: 102;
+            }
           }
         }
       }
