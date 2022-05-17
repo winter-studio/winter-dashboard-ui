@@ -492,15 +492,15 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .tabs-view {
-  width: 100%;
+  width: calc(100% - 20px);
   display: flex;
   transition: all 0.2s ease-in-out;
   position: absolute;
   z-index: 5;
   top: 74px;
-  padding: 0 10px;
+  margin: 0 10px;
   box-sizing: border-box;
-  background-color: v-bind(appTabContentBgColor);
+  background-color: #fff;
 
   &-main {
     height: 36px;
@@ -530,11 +530,9 @@ export default defineComponent({
           display: flex;
           align-items: center;
           z-index: 999;
-          margin-left: -1px;
 
           &-content {
             padding: 0 12px 0 14px;
-            border-right: 1px solid #999999;
             height: 20px;
 
             span.title {
@@ -545,22 +543,28 @@ export default defineComponent({
 
           &.sortable-chosen {
             background: v-bind(appTabsBgColor);
+          }
 
-            .tabs-card-scroll-item-content {
-              border: 0;
+          &:hover {
+            color: v-bind(getAppTheme) !important;
+            background-color: #daeaff !important;
+            z-index: 997 !important;
+
+            &::before,
+            &::after {
+              box-shadow: 0 0 0 10px #daeaff !important;
+              z-index: 998 !important;
+              transition: all 2s;
             }
           }
         }
 
+        &-item:hover,
         .active-item {
           color: v-bind(getAppTheme);
           border-radius: 10px 10px 0 0;
           background-color: #fff;
           z-index: 1000;
-
-          .tabs-card-scroll-item-content {
-            border: 0;
-          }
 
           &::before,
           &::after {

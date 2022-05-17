@@ -27,7 +27,7 @@
 
       <n-layout-content
         class="layout-content"
-        :content-style="{ 'background-color': appTabContentBgColor, 'border-radius': '5px' }"
+        :content-style="{ 'background-color': appTabContentBgColor }"
       >
         <div class="layout-content-main">
           <div
@@ -152,7 +152,6 @@ onMounted(() => {
     flex: auto;
     height: 100vh;
     padding: 110px 10px 10px;
-    border-radius: 5px;
     background-color: #f9f9f9;
   }
 
@@ -167,7 +166,6 @@ onMounted(() => {
 
 .layout-content-main {
   position: relative;
-  border-radius: 5px;
   height: 100%;
 }
 
