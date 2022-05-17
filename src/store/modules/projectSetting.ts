@@ -10,7 +10,6 @@ import type {
 const {
   navMode,
   navTheme,
-  isMobile,
   headerSetting,
   menuSetting,
   multiTabsSetting,
@@ -28,7 +27,6 @@ interface ProjectSettingState {
   crumbsSetting: IcrumbsSetting //面包屑
   isPageAnimate: boolean //是否开启路由动画
   pageAnimateType: string //路由动画类型
-  isMobile: boolean // 是否处于移动端模式
 }
 
 export const useProjectSettingStore = defineStore({
@@ -36,7 +34,6 @@ export const useProjectSettingStore = defineStore({
   state: (): ProjectSettingState => ({
     navMode: navMode,
     navTheme,
-    isMobile,
     headerSetting,
     menuSetting,
     multiTabsSetting,
@@ -50,9 +47,6 @@ export const useProjectSettingStore = defineStore({
     },
     getNavTheme(): string {
       return this.navTheme
-    },
-    getIsMobile(): boolean {
-      return this.isMobile
     },
     getHeaderSetting(): object {
       return this.headerSetting
@@ -76,9 +70,6 @@ export const useProjectSettingStore = defineStore({
   actions: {
     setNavTheme(value: string): void {
       this.navTheme = value
-    },
-    setIsMobile(value: boolean): void {
-      this.isMobile = value
     }
   }
 })

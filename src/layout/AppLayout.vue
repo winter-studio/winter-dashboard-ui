@@ -1,9 +1,7 @@
 <template>
   <n-layout class="layout" position="absolute" has-sider>
     <n-layout-sider
-      v-if="
-        !isMobile && isMixMenuNoneSub && (navMode === 'vertical' || navMode === 'horizontal-mix')
-      "
+      v-if="isMixMenuNoneSub && (navMode === 'vertical' || navMode === 'horizontal-mix')"
       show-trigger="bar"
       position="absolute"
       :collapsed="collapsed"
@@ -20,29 +18,19 @@
       <aside-menu v-model:collapsed="collapsed" v-model:location="getMenuLocation" />
     </n-layout-sider>
 
-    <n-drawer
-      v-model:show="showSideDrawder"
-      :width="menuWidth"
-      :placement="'left'"
-      class="layout-side-drawer"
-    >
-      <logo :collapsed="collapsed" />
-      <aside-menu @click-menu-item="collapsed = false" />
-    </n-drawer>
-
     <n-layout :inverted="inverted">
       <n-layout-header :inverted="getHeaderInverted" position="absolute">
         <page-header v-model:collapsed="collapsed" :inverted="inverted" />
       </n-layout-header>
 
+      <app-tabs v-if="isMultiTabs" v-model:collapsed="collapsed" />
+
       <n-layout-content
         class="layout-content"
-        :class="{ 'layout-default-background': getDarkTheme === false }"
+        :content-style="{ 'background-color': appTabContentBgColor, 'border-radius': '5px' }"
       >
         <div class="layout-content-main">
-          <app-tabs v-if="isMultiTabs" v-model:collapsed="collapsed" />
           <div
-            class="main-view"
             :class="{
               noMultiTabs: !isMultiTabs,
               'mt-3': !isMultiTabs
@@ -61,12 +49,10 @@
 import { ref, unref, computed, onMounted } from 'vue'
 import { PageHeader, Logo, AppMain, AsideMenu, AppTabs } from './components'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
-import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
-import { useLoadingBar } from 'naive-ui'
+import { useLoadingBar, useThemeVars } from 'naive-ui'
 import { useRoute } from 'vue-router'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 
-const { getDarkTheme } = useDesignSetting()
 const { getNavMode, getNavTheme, getMenuSetting, getMultiTabsSetting } = useProjectSetting()
 
 const settingStore = useProjectSettingStore()
@@ -75,12 +61,9 @@ const navMode = getNavMode
 
 const collapsed = ref<boolean>(false)
 
-const { mobileWidth, menuWidth } = unref(getMenuSetting)
+const themeVars = useThemeVars()
 
-const isMobile = computed<boolean>({
-  get: () => settingStore.getIsMobile,
-  set: (val) => settingStore.setIsMobile(val)
-})
+const appTabContentBgColor = computed(() => themeVars.value.appTabContentBgColor)
 
 const isMixMenuNoneSub = computed(() => {
   const mixMenu = settingStore.menuSetting.mixMenu
@@ -121,58 +104,24 @@ const getMenuLocation = computed(() => {
   return 'left'
 })
 
-// 控制显示或隐藏移动端侧边栏
-const showSideDrawder = computed({
-  get: () => isMobile.value && collapsed.value,
-  set: (val) => (collapsed.value = val)
-})
-
-//判断是否触发移动端模式
-const checkMobileMode = () => {
-  if (document.body.clientWidth <= mobileWidth) {
-    isMobile.value = true
-  } else {
-    isMobile.value = false
-  }
-  collapsed.value = false
-}
-
 const watchWidth = () => {
   const Width = document.body.clientWidth
   if (Width <= 950) {
     collapsed.value = true
   } else collapsed.value = false
-
-  checkMobileMode()
 }
 
 onMounted(() => {
-  checkMobileMode()
   window.addEventListener('resize', watchWidth)
   useLoadingBar().finish()
 })
 </script>
 
-<style lang="scss">
-.layout-side-drawer {
-  .layout-sider {
-    min-height: 100vh;
-    box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
-    position: relative;
-    z-index: 13;
-    transition: all 0.2s ease-in-out;
-  }
-}
-</style>
 <style lang="scss" scoped>
 .layout {
   display: flex;
   flex-direction: row;
   flex: auto;
-
-  &-default-background {
-    background: #f5f7f9;
-  }
 
   .layout-sider {
     min-height: 100vh;
@@ -201,7 +150,10 @@ onMounted(() => {
 
   .layout-content {
     flex: auto;
-    min-height: 100vh;
+    height: 100vh;
+    padding: 110px 10px 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
   }
 
   .n-layout-header.n-layout-header--absolute-positioned {
@@ -214,9 +166,9 @@ onMounted(() => {
 }
 
 .layout-content-main {
-  margin: 0 10px 10px;
   position: relative;
-  padding-top: 64px;
+  border-radius: 5px;
+  height: 100%;
 }
 
 .fluid-header {
@@ -225,10 +177,5 @@ onMounted(() => {
 
 .noMultiTabs {
   padding-top: 0;
-}
-
-.main-view {
-  padding-top: 42px;
-  background-color: #fff;
 }
 </style>

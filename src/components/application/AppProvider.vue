@@ -41,15 +41,22 @@ const designStore = useDesignSettingStore()
  */
 const getThemeOverrides = computed(() => {
   const appTheme = designStore.appTheme
-  const lightenStr = lighten(designStore.appTheme, 6)
-  return {
-    common: {
-      primaryColor: appTheme,
-      primaryColorHover: lightenStr,
-      primaryColorPressed: lightenStr
-    },
-    LoadingBar: {
-      colorLoading: appTheme
+
+  if (designStore.darkTheme) {
+    return {}
+  } else {
+    const lightenStr = lighten(designStore.appTheme, 6)
+    return {
+      common: {
+        primaryColor: appTheme,
+        primaryColorHover: lightenStr,
+        primaryColorPressed: lightenStr,
+        appTabsBgColor: 'rgba(45, 140, 240, 0.1)',
+        appTabContentBgColor: '#fefefe'
+      },
+      LoadingBar: {
+        colorLoading: appTheme
+      }
     }
   }
 })

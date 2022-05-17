@@ -1,12 +1,5 @@
 <template>
-  <div
-    class="tabs-view tabs-view-fix"
-    :class="{
-      'tabs-view-default-background': getDarkTheme === false,
-      'tabs-view-dark-background': getDarkTheme === true
-    }"
-    :style="getChangeStyle"
-  >
+  <div class="tabs-view">
     <div class="tabs-view-main">
       <div ref="navWrap" class="tabs-card" :class="{ 'tabs-card-scrollable': scrollable }">
         <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollPrev">
@@ -16,7 +9,12 @@
         </n-button>
 
         <div ref="navScroll" class="tabs-card-scroll">
-          <draggable :list="tabsList" animation="300" item-key="fullPath" class="flex">
+          <draggable
+            :list="tabsList"
+            animation="300"
+            item-key="fullPath"
+            class="flex tabs-card-scroll-draggable"
+          >
             <template #item="{ element }">
               <div
                 :id="`tag${element.fullPath.split('/').join('\/')}`"
@@ -36,7 +34,7 @@
                   >
                     <template #icon>
                       <n-icon>
-                        <close-outlined />
+                        <close />
                       </n-icon>
                     </template>
                   </n-button>
@@ -102,7 +100,6 @@ import { useMessage, useThemeVars } from 'naive-ui'
 import Draggable from 'vuedraggable'
 import { PageEnum } from '@/enums/pageEnum'
 import {
-  CloseOutlined,
   ColumnWidthOutlined,
   DownOutlined,
   LeftOutlined,
@@ -110,6 +107,7 @@ import {
   ReloadOutlined,
   RightOutlined
 } from '@vicons/antd'
+import { Close } from '@vicons/ionicons5'
 import elementResizeDetectorMaker from 'element-resize-detector'
 import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
@@ -121,7 +119,7 @@ export default defineComponent({
   name: 'AppTabs',
   components: {
     DownOutlined,
-    CloseOutlined,
+    Close,
     LeftOutlined,
     RightOutlined,
     Draggable
@@ -133,7 +131,7 @@ export default defineComponent({
   },
   setup(props) {
     const { getDarkTheme, getAppTheme } = useDesignSetting()
-    const { getNavMode, getMenuSetting, getIsMobile } = useProjectSetting()
+    const { getNavMode, getMenuSetting } = useProjectSetting()
     const settingStore = useProjectSettingStore()
 
     const message = useMessage()
@@ -147,10 +145,7 @@ export default defineComponent({
 
     const themeVars = useThemeVars()
 
-    const getCardColor = computed(() => {
-      return themeVars.value.cardColor
-    })
-
+    const appTabsBgColor = computed(() => themeVars.value.appTabsBgColor)
     const getBaseColor = computed(() => {
       return themeVars.value.textColor1
     })
@@ -189,12 +184,6 @@ export default defineComponent({
           ? minMenuWidth
           : menuWidth
 
-      if (getIsMobile.value) {
-        return {
-          left: '0px',
-          width: '100%'
-        }
-      }
       return {
         left: lenNum + 'px',
         width: `calc(100% - ${lenNum + 30}px)`
@@ -214,7 +203,7 @@ export default defineComponent({
           label: `关闭当前`,
           key: '2',
           disabled: unref(isCurrent) || isDisabled,
-          icon: renderIcon(CloseOutlined)
+          icon: renderIcon(Close)
         },
         {
           label: '关闭其他',
@@ -494,7 +483,7 @@ export default defineComponent({
       onClickOutside,
       getDarkTheme,
       getAppTheme,
-      getCardColor,
+      appTabsBgColor,
       getBaseColor
     }
   }
@@ -506,18 +495,19 @@ export default defineComponent({
   width: 100%;
   display: flex;
   transition: all 0.2s ease-in-out;
-  position: fixed;
+  position: absolute;
   z-index: 5;
-  padding: 6px 20px 0 10px;
-  left: 200px;
+  top: 74px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  background-color: v-bind(appTabContentBgColor);
 
   &-main {
     height: 36px;
     display: flex;
     max-width: 100%;
     min-width: 100%;
-    justify-content: space-between;
-    background: #eee;
+    background-color: v-bind(appTabsBgColor);
 
     .tabs-card {
       flex-shrink: 1;
@@ -531,8 +521,6 @@ export default defineComponent({
         padding: 0 14px;
 
         &-item {
-          //background: v-bind(getCardColor);
-          background-color: #eee;
           color: v-bind(getBaseColor);
           height: 32px;
           padding: 2px 0;
@@ -541,6 +529,8 @@ export default defineComponent({
           flex: 0 0 auto;
           display: flex;
           align-items: center;
+          z-index: 999;
+          margin-left: -1px;
 
           &-content {
             padding: 0 12px 0 14px;
@@ -552,16 +542,24 @@ export default defineComponent({
               vertical-align: middle;
             }
           }
+
+          &.sortable-chosen {
+            background: v-bind(appTabsBgColor);
+
+            .tabs-card-scroll-item-content {
+              border: 0;
+            }
+          }
         }
 
         .active-item {
           color: v-bind(getAppTheme);
           border-radius: 10px 10px 0 0;
           background-color: #fff;
+          z-index: 1000;
 
           .tabs-card-scroll-item-content {
             border: 0;
-            box-shadow: -1px 0 0 #eee;
           }
 
           &::before,
@@ -572,7 +570,7 @@ export default defineComponent({
             width: 16px;
             height: 16px;
             border-radius: 100%;
-            box-shadow: 0 0 0 10px white;
+            box-shadow: 0 0 0 10px #fff;
             transform: translateZ(-1px);
             z-index: 1001;
           }
@@ -602,13 +600,5 @@ export default defineComponent({
     justify-content: center;
     align-content: center;
   }
-}
-
-.tabs-view-default-background {
-  background: #f5f7f9;
-}
-
-.tabs-view-dark-background {
-  background: #101014;
 }
 </style>

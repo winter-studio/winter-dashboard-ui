@@ -23,7 +23,6 @@ export interface ImenuSetting {
   fixed: boolean
   mixMenu: boolean
   collapsed: boolean
-  mobileWidth: number
 }
 
 export interface IcrumbsSetting {

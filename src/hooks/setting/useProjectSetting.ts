@@ -8,8 +8,6 @@ export function useProjectSetting() {
 
   const getNavTheme = computed(() => projectStore.navTheme)
 
-  const getIsMobile = computed(() => projectStore.isMobile)
-
   const getHeaderSetting = computed(() => projectStore.headerSetting)
 
   const getMultiTabsSetting = computed(() => projectStore.multiTabsSetting)
@@ -25,7 +23,6 @@ export function useProjectSetting() {
   return {
     getNavMode,
     getNavTheme,
-    getIsMobile,
     getHeaderSetting,
     getMultiTabsSetting,
     getMenuSetting,

@@ -3,8 +3,6 @@ const setting = {
   navMode: 'vertical',
   //导航风格 dark 暗色侧边栏 light 白色侧边栏 header-dark 暗色顶栏
   navTheme: 'light',
-  // 是否处于移动端模式
-  isMobile: false,
   //顶部
   headerSetting: {
     //显示重载按钮
@@ -25,8 +23,6 @@ const setting = {
     fixed: true,
     //分割菜单
     mixMenu: false,
-    //触发移动端侧边栏的宽度
-    mobileWidth: 800,
     collapsed: false
   },
   //面包屑

@@ -108,3 +108,10 @@ declare module 'vue' {
     | { new (): ComponentPublicInstance<Props> }
     | FunctionalComponent<Props>
 }
+
+declare module 'naive-ui' {
+  export interface CustomThemeCommonVars {
+    appTabsBgColor: string
+    appTabContentBgColor: string
+  }
+}
