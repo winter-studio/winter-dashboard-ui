@@ -38,7 +38,6 @@ export interface GlobConfig {
   shortName: string
   urlPrefix?: string
   uploadUrl?: string
-  prodMock: boolean
   imgUrl?: string
 }
 
@@ -55,6 +54,4 @@ export interface GlobEnvConfig {
   VITE_GLOB_UPLOAD_URL?: string
   //图片前缀地址
   VITE_APP_IMG_URL?: string
-  //生产环境开启mock
-  VITE_APP_PROD_MOCK: boolean
 }

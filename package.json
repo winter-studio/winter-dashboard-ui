@@ -81,11 +81,6 @@
     "vue-eslint-parser": "^8.3.0",
     "vue-tsc": "^0.34.15"
   },
-  "resolutions": {
-    "bin-wrapper": "npm:bin-wrapper-china",
-    "rollup": "^2.70.2",
-    "gifsicle": "5.2.0"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

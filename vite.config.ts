@@ -1,9 +1,11 @@
-import type { ConfigEnv, Plugin, PluginOption, ProxyOptions, UserConfig } from 'vite'
+import type { ConfigEnv, Plugin, PluginOption, UserConfig } from 'vite'
 import { loadEnv } from 'vite'
 import { resolve } from 'path'
 import pkg from './package.json'
 import { format } from 'date-fns'
+// eslint-disable-next-line import/no-unresolved
 import Components from 'unplugin-vue-components/vite'
+// eslint-disable-next-line import/no-unresolved
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteMockServe } from 'vite-plugin-mock'
@@ -23,7 +25,6 @@ const __APP_INFO__ = {
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   const viteEnv = loadViteEnv(mode)
-  const prodMock = viteEnv.VITE_APP_PROD_MOCK
   const isBuild = command === 'build'
   return {
     base: viteEnv.VITE_PUBLIC_PATH,
@@ -35,7 +36,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       ],
       dedupe: ['vue']
     },
-    plugins: createVitePlugins(viteEnv, isBuild, prodMock),
+    plugins: createVitePlugins(viteEnv, isBuild),
     define: {
       __APP_INFO__: JSON.stringify(__APP_INFO__)
     },
@@ -94,7 +95,7 @@ function loadViteEnv(mode: string): ViteEnv {
   return ret
 }
 
-export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean, prodMock: boolean) {
+export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     // have to
     vue(),
@@ -110,7 +111,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean, prodMock: 
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
 
   // vite-plugin-mock
-  viteEnv.VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild, prodMock))
+  viteEnv.VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))
 
   if (isBuild) {
     // rollup-plugin-gzip
@@ -157,43 +158,18 @@ export function configHtmlPlugin(env: ViteEnv, isBuild: boolean) {
   return htmlPlugin
 }
 
-export function configMockPlugin(isBuild: boolean, prodMock: boolean) {
+export function configMockPlugin(isBuild: boolean) {
   return viteMockServe({
     ignore: /^\_/,
     mockPath: 'mock',
     localEnabled: !isBuild,
-    prodEnabled: isBuild && prodMock,
+    prodEnabled: isBuild,
     injectCode: `
       import { setupProdMockServer } from '../mock/_createProductionServer';
 
       setupProdMockServer();
       `
   })
-}
-
-/**
- * Generate proxy
- * @param list
- */
-export function createProxy(list: [string, string][] = []) {
-  const ret: Record<string, ProxyOptions & { rewrite: (path: string) => string }> = {}
-
-  const httpsRE = /^https:\/\//
-
-  for (const [prefix, target] of list) {
-    const isHttps = httpsRE.test(target)
-
-    // https://github.com/http-party/node-http-proxy#options
-    ret[prefix] = {
-      target: target,
-      changeOrigin: true,
-      ws: true,
-      rewrite: (path) => path.replace(new RegExp(`^${prefix}`), ''),
-      // https is require secure=false
-      ...(isHttps ? { secure: false } : {})
-    }
-  }
-  return ret
 }
 
 export function configCompressPlugin(

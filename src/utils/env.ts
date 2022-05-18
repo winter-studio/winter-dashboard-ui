@@ -34,7 +34,6 @@ export function getAppEnvConfig() {
     VITE_APP_SHORT_NAME,
     VITE_APP_API_PREFIX,
     VITE_GLOB_UPLOAD_URL,
-    VITE_APP_PROD_MOCK,
     VITE_APP_IMG_URL
   } = ENV
 
@@ -51,7 +50,6 @@ export function getAppEnvConfig() {
     VITE_APP_SHORT_NAME,
     VITE_APP_API_PREFIX,
     VITE_GLOB_UPLOAD_URL,
-    VITE_APP_PROD_MOCK,
     VITE_APP_IMG_URL
   }
 }
