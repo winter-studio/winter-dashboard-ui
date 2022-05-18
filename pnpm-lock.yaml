@@ -26,12 +26,10 @@ specifiers:
   '@vueuse/core': ^5.3.0
   autoprefixer: ^10.4.7
   axios: ^0.26.1
-  blueimp-md5: ^2.19.0
   core-js: ^3.22.5
   cross-env: ^7.0.3
   date-fns: ^2.28.0
   dotenv: ^16.0.1
-  echarts: ^5.3.2
   element-resize-detector: ^1.2.4
   eslint: ^8.15.0
   eslint-config-prettier: ^8.5.0
@@ -43,7 +41,6 @@ specifiers:
   lint-staged: ^12.4.1
   lodash: ^4.17.21
   lodash-es: ^4.17.21
-  mitt: ^2.1.0
   mockjs: ^1.1.0
   naive-ui: ^2.29.0
   pinia: ^2.0.14
@@ -80,13 +77,10 @@ dependencies:
   '@vicons/ionicons5': registry.npmmirror.com/@vicons/ionicons5/0.10.0
   '@vueuse/core': registry.npmmirror.com/@vueuse/core/5.3.0_vue@3.2.33
   axios: registry.npmmirror.com/axios/0.26.1
-  blueimp-md5: registry.npmmirror.com/blueimp-md5/2.19.0
   date-fns: registry.npmmirror.com/date-fns/2.28.0
-  echarts: registry.npmmirror.com/echarts/5.3.2
   element-resize-detector: registry.npmmirror.com/element-resize-detector/1.2.4
   lodash: registry.npmmirror.com/lodash/4.17.21
   lodash-es: registry.npmmirror.com/lodash-es/4.17.21
-  mitt: registry.npmmirror.com/mitt/2.1.0
   naive-ui: registry.npmmirror.com/naive-ui/2.29.0_vue@3.2.33
   pinia: registry.npmmirror.com/pinia/2.0.14_ytvqwwdyss532bvoq2clv4ed5m
   qs: registry.npmmirror.com/qs/6.10.3
@@ -1492,12 +1486,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  registry.npmmirror.com/blueimp-md5/2.19.0:
-    resolution: {integrity: sha512-DRQrD6gJyy8FbiE4s+bDoXS9hiW3Vbx5uCdwvcCf3zLHL+Iv7LtGHLpr+GZV8rHG8tK766FGYBwRbu8pELTt+w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/blueimp-md5/-/blueimp-md5-2.19.0.tgz}
-    name: blueimp-md5
-    version: 2.19.0
-    dev: false
-
   registry.npmmirror.com/boolbase/1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/boolbase/-/boolbase-1.0.0.tgz}
     name: boolbase
@@ -2148,15 +2136,6 @@ packages:
     name: eastasianwidth
     version: 0.2.0
     dev: true
-
-  registry.npmmirror.com/echarts/5.3.2:
-    resolution: {integrity: sha512-LWCt7ohOKdJqyiBJ0OGBmE9szLdfA9sGcsMEi+GGoc6+Xo75C+BkcT/6NNGRHAWtnQl2fNow05AQjznpap28TQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/echarts/-/echarts-5.3.2.tgz}
-    name: echarts
-    version: 5.3.2
-    dependencies:
-      tslib: registry.npmmirror.com/tslib/2.3.0
-      zrender: registry.npmmirror.com/zrender/5.3.1
-    dev: false
 
   registry.npmmirror.com/ee-first/1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ee-first/-/ee-first-1.1.1.tgz}
@@ -4070,12 +4049,6 @@ packages:
     version: 1.2.6
     dev: true
 
-  registry.npmmirror.com/mitt/2.1.0:
-    resolution: {integrity: sha512-ILj2TpLiysu2wkBbWjAmww7TkZb65aiQO+DkVdUTBpBXq+MHYiETENkKFMtsJZX1Lf4pe4QOrTSjIfUwN5lRdg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/mitt/-/mitt-2.1.0.tgz}
-    name: mitt
-    version: 2.1.0
-    dev: false
-
   registry.npmmirror.com/mockjs/1.1.0:
     resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/mockjs/-/mockjs-1.1.0.tgz}
     name: mockjs
@@ -5483,12 +5456,6 @@ packages:
     version: 1.14.1
     dev: true
 
-  registry.npmmirror.com/tslib/2.3.0:
-    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tslib/-/tslib-2.3.0.tgz}
-    name: tslib
-    version: 2.3.0
-    dev: false
-
   registry.npmmirror.com/tslib/2.4.0:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tslib/-/tslib-2.4.0.tgz}
     name: tslib
@@ -6056,11 +6023,3 @@ packages:
     version: 20.2.9
     engines: {node: '>=10'}
     dev: true
-
-  registry.npmmirror.com/zrender/5.3.1:
-    resolution: {integrity: sha512-7olqIjy0gWfznKr6vgfnGBk7y4UtdMvdwFmK92vVQsQeDPyzkHW1OlrLEKg6GHz1W5ePf0FeN1q2vkl/HFqhXw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/zrender/-/zrender-5.3.1.tgz}
-    name: zrender
-    version: 5.3.1
-    dependencies:
-      tslib: registry.npmmirror.com/tslib/2.3.0
-    dev: false
