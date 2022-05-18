@@ -27,20 +27,16 @@
 
       <n-layout-content
         class="layout-content"
+        :class="{
+          'layout-content-no-tabs': !isMultiTabs
+        }"
         :content-style="{
           'background-color': appTabContentBgColor,
           'border-radius': '0 0 5px 5px'
         }"
       >
         <div class="layout-content-main">
-          <div
-            :class="{
-              noMultiTabs: !isMultiTabs,
-              'mt-3': !isMultiTabs
-            }"
-          >
-            <app-main />
-          </div>
+          <app-main />
         </div>
       </n-layout-content>
       <n-back-top :right="100" />
@@ -67,6 +63,7 @@ const collapsed = ref<boolean>(false)
 const themeVars = useThemeVars()
 
 const appTabContentBgColor = computed(() => themeVars.value.appTabContentBgColor)
+const layoutContentBgColor = computed(() => themeVars.value.layoutContentBgColor)
 
 const isMixMenuNoneSub = computed(() => {
   const mixMenu = settingStore.menuSetting.mixMenu
@@ -96,13 +93,6 @@ const leftMenuWidth = computed(() => {
   return collapsed.value ? minMenuWidth : menuWidth
 })
 
-// const getChangeStyle = computed(() => {
-//   const { minMenuWidth, menuWidth } = unref(getMenuSetting);
-//   return {
-//     'padding-left': collapsed.value ? `${minMenuWidth}px` : `${menuWidth}px`,
-//   };
-// });
-
 const getMenuLocation = computed(() => {
   return 'left'
 })
@@ -119,7 +109,6 @@ onMounted(() => {
   useLoadingBar().finish()
 })
 </script>
-
 <style lang="scss" scoped>
 .layout {
   display: flex;
@@ -155,7 +144,11 @@ onMounted(() => {
     flex: auto;
     height: 100vh;
     padding: 114px 10px 10px;
-    background-color: #f9f9f9;
+    background-color: v-bind(layoutContentBgColor);
+  }
+
+  .layout-content-no-tabs {
+    padding: 74px 10px 10px;
   }
 
   .n-layout-header.n-layout-header--absolute-positioned {
@@ -173,10 +166,6 @@ onMounted(() => {
 }
 
 .fluid-header {
-  padding-top: 0;
-}
-
-.noMultiTabs {
   padding-top: 0;
 }
 </style>

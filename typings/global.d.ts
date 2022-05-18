@@ -113,5 +113,8 @@ declare module 'naive-ui' {
   export interface CustomThemeCommonVars {
     appTabsBgColor: string
     appTabContentBgColor: string
+    appTabsBgColorPreActive: string
+    appTabsBgColorActive: string
+    layoutContentBgColor: string
   }
 }
