@@ -59,9 +59,9 @@ const getThemeOverrides = computed(() => {
         primaryColor: appTheme,
         primaryColorHover: lightenStr,
         primaryColorPressed: lightenStr,
-        appTabsBgColor: '#e4e7ec',
+        appTabsBgColor: '#e9e9e9',
         appTabContentBgColor: '#fefefe',
-        appTabsBgColorPreActive: '#f0f2f6',
+        appTabsBgColorPreActive: '#efefef',
         appTabsBgColorActive: '#ffffff',
         layoutContentBgColor: '#f9f9f9'
       },

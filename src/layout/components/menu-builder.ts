@@ -16,7 +16,9 @@ export function buildMenu(menus?: Menu[]): Array<MenuOption | MenuDividerOption 
       label: menu.title,
       key: menu.id,
       icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-      extra: menu.badge ? renderNew() : undefined
+      extra: menu.badge ? renderNew() : undefined,
+      type: menu.type,
+      data: menu.data
     }
     // 是否有子菜单，并递归处理
     if (menu.children?.length ?? 0 > 0) {
@@ -47,7 +49,9 @@ export function buildMenuMix(
         label: menu.title,
         key: menu.id,
         icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-        extra: menu.badge ? renderNew() : undefined
+        extra: menu.badge ? renderNew() : undefined,
+        type: menu.type,
+        data: menu.data
       }
       firstRouter.push(currentMenu)
     })
@@ -73,7 +77,9 @@ function buildChildren(menus?: Menu[]): Array<MenuOption | MenuDividerOption | M
       label: menu.title,
       key: menu.id,
       icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-      extra: menu.badge ? renderNew() : undefined
+      extra: menu.badge ? renderNew() : undefined,
+      type: menu.type,
+      data: menu.data
     }
     // 是否有子菜单，并递归处理
     if (menu.children && menu.children.length > 0) {

@@ -22,6 +22,8 @@ import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { buildMenu, buildMenuMix } from './menu-builder'
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
+import { MenuOption } from 'naive-ui'
+import { MenuType } from '@/router/types'
 
 export default defineComponent({
   name: 'AsideMenu',
@@ -42,7 +44,7 @@ export default defineComponent({
       default: 'left'
     }
   },
-  emits: ['update:collapsed', 'clickMenuItem'],
+  emits: ['update:collapsed'],
   setup(props, { emit }) {
     // 当前路由
     const currentRoute = useRoute()
@@ -113,13 +115,13 @@ export default defineComponent({
     }
 
     // 点击菜单
-    function clickMenuItem(key: string) {
-      if (/http(s)?:/.test(key)) {
-        window.open(key)
+    function clickMenuItem(key: string, item: MenuOption) {
+      if (item.type === MenuType.LINK) {
+        window.open(item.data as string)
       } else {
         router.push({ name: key })
       }
-      emit('clickMenuItem' as any, key)
+      // emit('clickMenuItem' as any, key)
     }
 
     //展开菜单
