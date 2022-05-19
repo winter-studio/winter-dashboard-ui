@@ -47,22 +47,22 @@ const getThemeOverrides = computed(() => {
       common: {
         appTabsBgColor: '#000',
         appTabContentBgColor: '#18181C',
-        appTabsBgColorPreActive: '#18181C',
         appTabsBgColorActive: '#2a2a31',
+        appTabsBgColorPreActive: '#18181C',
         layoutContentBgColor: '#2a2a31'
       }
     }
   } else {
-    const lightenStr = lighten(designStore.appTheme, 6)
+    const primaryColorHover = lighten(designStore.appTheme, 6)
     return {
       common: {
         primaryColor: appTheme,
-        primaryColorHover: lightenStr,
-        primaryColorPressed: lightenStr,
-        appTabsBgColor: '#e9e9e9',
-        appTabContentBgColor: '#fefefe',
-        appTabsBgColorPreActive: '#efefef',
+        primaryColorHover: primaryColorHover,
+        primaryColorPressed: primaryColorHover,
+        appTabsBgColor: appTheme + '19',
+        appTabsBgColorPreActive: '#ffffff99',
         appTabsBgColorActive: '#ffffff',
+        appTabContentBgColor: '#fefefe',
         layoutContentBgColor: '#f9f9f9'
       },
       LoadingBar: {

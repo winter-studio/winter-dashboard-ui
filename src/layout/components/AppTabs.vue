@@ -1,80 +1,81 @@
 <template>
   <div class="tabs-view">
-    <div class="tabs-view-main">
-      <div ref="navWrap" class="tabs-card" :class="{ 'tabs-card-scrollable': scrollable }">
-        <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollPrev">
-          <n-icon size="16">
-            <left-outlined />
-          </n-icon>
-        </n-button>
-
-        <div ref="navScroll" class="tabs-card-scroll">
-          <draggable
-            :list="tabsList"
-            animation="300"
-            item-key="fullPath"
-            class="flex tabs-card-scroll-draggable"
-          >
-            <template #item="{ element, index }">
-              <div
-                :id="`tag${element.fullPath.split('/').join('\/')}`"
-                class="tabs-card-scroll-item"
-                :class="{ 'active-item': activeKey === element.path }"
-                :style="{ right: `${index}px` }"
-                @click.stop="goPage(element)"
-                @contextmenu="handleContextMenu($event, element)"
-              >
-                <span class="tabs-card-scroll-item-content">
-                  <span class="title mr-1">{{ element.meta.title }}</span>
-                  <n-button
-                    v-if="!element.meta.affix"
-                    quaternary
-                    circle
-                    size="tiny"
-                    @click.stop="closeTabItem(element)"
-                  >
-                    <template #icon>
-                      <n-icon>
-                        <close />
-                      </n-icon>
-                    </template>
-                  </n-button>
-                </span>
-              </div>
-            </template>
-          </draggable>
-        </div>
-
-        <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollNext">
-          <n-icon size="16">
-            <right-outlined />
-          </n-icon>
-        </n-button>
-      </div>
-      <div class="tabs-dropdown">
-        <n-dropdown
-          trigger="hover"
-          placement="bottom-end"
-          :options="TabsMenuOptions"
-          @select="closeHandleSelect"
-        >
-          <n-button quaternary circle class="px-2" size="small">
-            <n-icon>
-              <down-outlined />
+    <div class="tabs-view-bg">
+      <div class="tabs-view-main">
+        <div ref="navWrap" class="tabs-card" :class="{ 'tabs-card-scrollable': scrollable }">
+          <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollPrev">
+            <n-icon size="16">
+              <left-outlined />
             </n-icon>
           </n-button>
-        </n-dropdown>
-      </div>
-      <n-dropdown
-        :show="showDropdown"
-        :x="dropdownX"
-        :y="dropdownY"
-        placement="bottom-start"
-        :options="TabsMenuOptions"
-        @clickoutside="onClickOutside"
-        @select="closeHandleSelect"
-      />
-    </div>
+
+          <div ref="navScroll" class="tabs-card-scroll">
+            <draggable
+              :list="tabsList"
+              animation="300"
+              item-key="fullPath"
+              class="flex tabs-card-scroll-draggable"
+            >
+              <template #item="{ element, index }">
+                <div
+                  :id="`tag${element.fullPath.split('/').join('\/')}`"
+                  class="tabs-card-scroll-item"
+                  :class="{ 'active-item': activeKey === element.path }"
+                  :style="{ right: `${index}px` }"
+                  @click.stop="goPage(element)"
+                  @contextmenu="handleContextMenu($event, element)"
+                >
+                  <span class="tabs-card-scroll-item-content">
+                    <span class="title mr-1">{{ element.meta.title }}</span>
+                    <n-button
+                      v-if="!element.meta.affix"
+                      quaternary
+                      circle
+                      size="tiny"
+                      @click.stop="closeTabItem(element)"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <close />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </span>
+                </div>
+              </template>
+            </draggable>
+          </div>
+
+          <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollNext">
+            <n-icon size="16">
+              <right-outlined />
+            </n-icon>
+          </n-button>
+        </div>
+        <div class="tabs-dropdown">
+          <n-dropdown
+            trigger="hover"
+            placement="bottom-end"
+            :options="TabsMenuOptions"
+            @select="closeHandleSelect"
+          >
+            <n-button quaternary circle class="px-2" size="small">
+              <n-icon>
+                <down-outlined />
+              </n-icon>
+            </n-button>
+          </n-dropdown>
+        </div>
+        <n-dropdown
+          :show="showDropdown"
+          :x="dropdownX"
+          :y="dropdownY"
+          placement="bottom-start"
+          :options="TabsMenuOptions"
+          @clickoutside="onClickOutside"
+          @select="closeHandleSelect"
+        /> </div
+    ></div>
   </div>
 </template>
 
@@ -498,8 +499,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tabs-view {
   width: calc(100% - 20px);
-  border-radius: 5px 5px 0 0;
-  display: flex;
   transition: all 0.2s ease-in-out;
   position: absolute;
   z-index: 5;
@@ -507,124 +506,133 @@ export default defineComponent({
   height: 40px;
   margin: 0 10px;
   box-sizing: border-box;
-  background-color: v-bind(appTabsBgColor);
-  align-items: flex-end;
+  border-radius: 5px 5px 0 0;
+  background-color: #fff;
 
-  .tabs-view-main {
-    height: 36px;
+  .tabs-view-bg {
+    background-color: v-bind(appTabsBgColor);
+    width: 100%;
+    height: 100%;
     display: flex;
-    max-width: 100%;
-    min-width: 100%;
+    align-items: flex-end;
+    border-radius: 5px 5px 0 0;
 
-    .tabs-card {
-      flex-shrink: 1;
-      overflow: hidden;
-      position: relative;
+    .tabs-view-main {
+      height: 36px;
       display: flex;
+      max-width: 100%;
+      min-width: 100%;
 
-      .tabs-card-scroll {
-        white-space: nowrap;
+      .tabs-card {
+        flex-shrink: 1;
         overflow: hidden;
-        padding: 0 14px;
+        position: relative;
+        display: flex;
 
-        .tabs-card-scroll-item:hover,
-        .tabs-card-scroll-item.active-item {
-          border-radius: 10px 10px 0 0;
-        }
+        .tabs-card-scroll {
+          white-space: nowrap;
+          overflow: hidden;
+          padding: 0 14px;
 
-        .tabs-card-scroll-item.active-item {
-          background-color: v-bind(appTabsBgColorActive) !important;
-          z-index: 103 !important;
-
-          .tabs-card-scroll-item-content {
-            border-color: v-bind(appTabsBgColorActive) !important;
+          .tabs-card-scroll-item:hover,
+          .tabs-card-scroll-item.active-item {
+            border-radius: 10px 10px 0 0;
           }
 
-          &::before,
-          &::after {
-            box-shadow: 0 0 0 10px v-bind(appTabsBgColorActive) !important;
-            z-index: 104 !important;
-          }
-        }
-
-        .tabs-card-scroll-item {
-          color: v-bind(getBaseColor);
-          height: 32px;
-          padding: 2px 0;
-          cursor: pointer;
-          position: relative;
-          flex: 0 0 auto;
-          display: flex;
-          align-items: center;
-          z-index: 100;
-          transition: all 0.2s;
-
-          .tabs-card-scroll-item-content {
-            padding: 0 12px 0 14px;
-            height: 20px;
-            border-left: 1px solid #999;
-            border-right: 1px solid #999;
-            min-width: 6rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s;
-
-            span.title {
-              line-height: 20px;
-            }
-          }
-
-          &:first-child .tabs-card-scroll-item-content {
-            border-left: none;
-          }
-
-          &.sortable-chosen {
-            background: v-bind(appTabsBgColor);
-          }
-
-          &::before,
-          &::after {
-            position: absolute;
-            bottom: 0;
-            content: '';
-            width: 16px;
-            height: 16px;
-            border-radius: 100%;
-            transform: translateZ(-1px);
-            transition: all 0.2s;
-          }
-
-          &::before {
-            left: -16px;
-            clip-path: inset(50% -8px 0 50%);
-          }
-
-          &::after {
-            right: -16px;
-            clip-path: inset(50% 50% 0 -8px);
-          }
-
-          &:hover {
-            background-color: v-bind(appTabsBgColorPreActive);
-            z-index: 101;
+          .tabs-card-scroll-item.active-item {
+            background-color: v-bind(appTabsBgColorActive) !important;
+            z-index: 103 !important;
 
             .tabs-card-scroll-item-content {
-              border-color: v-bind(appTabsBgColorPreActive);
+              border-color: v-bind(appTabsBgColorActive) !important;
             }
 
             &::before,
             &::after {
-              box-shadow: 0 0 0 10px v-bind(appTabsBgColorPreActive);
-              z-index: 102;
+              box-shadow: 0 0 0 10px v-bind(appTabsBgColorActive) !important;
+              z-index: 104 !important;
+            }
+          }
+
+          .tabs-card-scroll-item {
+            color: v-bind(getBaseColor);
+            height: 32px;
+            padding: 2px 0;
+            cursor: pointer;
+            position: relative;
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.2s;
+
+            .tabs-card-scroll-item-content {
+              padding: 0 12px 0 14px;
+              height: 20px;
+              border-left: 1px solid #999;
+              border-right: 1px solid #999;
+              min-width: 6rem;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              transition: all 0.2s;
+
+              span.title {
+                line-height: 20px;
+              }
+            }
+
+            &:first-child .tabs-card-scroll-item-content {
+              border-left: none;
+            }
+
+            &.sortable-chosen {
+              background: v-bind(appTabsBgColor);
+            }
+
+            &::before,
+            &::after {
+              position: absolute;
+              bottom: 0;
+              content: '';
+              width: 16px;
+              height: 16px;
+              border-radius: 100%;
+              transform: translateZ(-1px);
+              transition: all 0.2s;
+            }
+
+            &::before {
+              left: -16px;
+              clip-path: inset(50% 0 0 50%);
+            }
+
+            &::after {
+              right: -16px;
+              clip-path: inset(50% 50% 0 0);
+            }
+
+            &:hover {
+              background-color: v-bind(appTabsBgColorPreActive);
+              z-index: 101;
+
+              .tabs-card-scroll-item-content {
+                border-color: v-bind(appTabsBgColorPreActive);
+              }
+
+              &::before,
+              &::after {
+                box-shadow: 0 0 0 10px v-bind(appTabsBgColorPreActive);
+                z-index: 102;
+              }
             }
           }
         }
       }
-    }
 
-    .tabs-card-scrollable {
-      overflow: hidden;
+      .tabs-card-scrollable {
+        overflow: hidden;
+      }
     }
   }
 
