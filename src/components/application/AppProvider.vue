@@ -47,8 +47,8 @@ const getThemeOverrides = computed(() => {
       common: {
         appTabsBgColor: '#000',
         appTabContentBgColor: '#18181C',
-        appTabsBgColorActive: '#2a2a31',
-        appTabsBgColorPreActive: '#18181C',
+        appTabsBgColorPreActive: '#18181Caa',
+        appTabsBgColorActive: '#18181C',
         layoutContentBgColor: '#2a2a31'
       }
     }
