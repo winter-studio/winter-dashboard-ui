@@ -71,14 +71,10 @@ declare global {
     VITE_APP_SHORT_NAME: string
     VITE_DROP_CONSOLE: boolean
     VITE_DROP_DEBUGGER: boolean
-    VITE_APP_IMG_URL: string
+    VITE_APP_API_URL: string
     VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'none'
     VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean
   }
-
-  declare function parseInt(s: string | number, radix?: number): number
-
-  declare function parseFloat(string: string | number): number
 }
 
 declare module 'vue' {

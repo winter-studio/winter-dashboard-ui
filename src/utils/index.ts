@@ -1,37 +1,3 @@
-import { h, unref } from 'vue'
-import type { App, Plugin } from 'vue'
-import { NTag } from 'naive-ui'
-import { isObject } from './is/index'
-
-/**
- * render new Tag
- * */
-const newTagColors = { color: '#f90', textColor: '#fff', borderColor: '#f90' }
-export function renderNew(type = 'warning', text = 'New', color: object = newTagColors) {
-  return () =>
-    h(
-      NTag as any,
-      {
-        type,
-        round: true,
-        size: 'small',
-        color
-      },
-      { default: () => text }
-    )
-}
-
-export const withInstall = <T>(component: T, alias?: string) => {
-  const comp = component as any
-  comp.install = (app: App) => {
-    app.component(comp.name || comp.displayName, component)
-    if (alias) {
-      app.config.globalProperties[alias] = component
-    }
-  }
-  return component as T & Plugin
-}
-
 /**
  *  找到对应的节点
  * */
@@ -47,39 +13,6 @@ export function getTreeItem(data: any[], key?: string | number): any {
     }
   })
   return result
-}
-
-/**
- *  找到所有节点
- * */
-const treeAll: any[] = []
-export function getTreeAll(data: any[]): any[] {
-  data.map((item) => {
-    treeAll.push(item.key)
-    if (item.children && item.children.length) {
-      getTreeAll(item.children)
-    }
-  })
-  return treeAll
-}
-
-// dynamic use hook props
-export function getDynamicProps<T, U>(props: T): Partial<U> {
-  const ret: Recordable = {}
-
-  Object.keys(props).map((key) => {
-    ret[key] = unref((props as Recordable)[key])
-  })
-
-  return ret as Partial<U>
-}
-
-export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
-  let key: string
-  for (key in target) {
-    src[key] = isObject(src[key]) ? deepMerge(src[key], target[key]) : (src[key] = target[key])
-  }
-  return src
 }
 
 /**
@@ -107,11 +40,4 @@ export function lighten(color: string, amount: number) {
     color.substring(2, 4),
     amount
   )}${addLight(color.substring(4, 6), amount)}`
-}
-
-/**
- * 判断是否 url
- * */
-export function isUrl(url: string) {
-  return /(^http|https:\/\/)/g.test(url)
 }

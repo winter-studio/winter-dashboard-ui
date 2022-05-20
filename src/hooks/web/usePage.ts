@@ -3,7 +3,7 @@ import type { RouteLocationRaw, Router } from 'vue-router'
 import { PageEnum } from '@/enums/pageEnum'
 
 import { useRouter } from 'vue-router'
-import { isString } from '@/utils/is'
+import { isString } from 'lodash-es'
 
 export type RouteLocationRawEx = Omit<RouteLocationRaw, 'path'> & { path: PageEnum }
 

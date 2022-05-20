@@ -37,21 +37,15 @@ export interface GlobConfig {
   apiUrl: string
   shortName: string
   urlPrefix?: string
-  uploadUrl?: string
-  imgUrl?: string
 }
 
 export interface GlobEnvConfig {
   // 标题
   VITE_APP_TITLE: string
   // 接口地址
-  VITE_GLOB_API_URL: string
+  VITE_APP_API_URL: string
   // 接口前缀
   VITE_APP_API_PREFIX?: string
   // Project abbreviation
   VITE_APP_SHORT_NAME: string
-  // 图片上传地址
-  VITE_GLOB_UPLOAD_URL?: string
-  //图片前缀地址
-  VITE_APP_IMG_URL?: string
 }
