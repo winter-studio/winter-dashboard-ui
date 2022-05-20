@@ -1,5 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useUserStore } from '@/store/modules/user'
+import { ApiResponse } from '@/utils/request/types'
 
 /**
  * request interceptor
@@ -27,19 +28,16 @@ function setupRequestInterceptor(axios: AxiosInstance) {
  */
 function setupResponseInterceptor(axios: AxiosInstance) {
   axios.interceptors.response.use(
-    (response: AxiosResponse) => {
+    (response: AxiosResponse<ApiResponse>) => {
       window.$loading.finish()
-      switch (response.status) {
+      const { status, data } = response
+      switch (status) {
         case 200:
-          return response.data
+          return data.data
         case 401:
           // TODO: handle 401
           window.$message.error('请重新登录')
           break
-      }
-      if (response.status === 200) {
-        //success
-      } else {
       }
     },
     (error: any) => {

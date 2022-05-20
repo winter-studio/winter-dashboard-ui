@@ -44,8 +44,6 @@ export interface GlobEnvConfig {
   VITE_APP_TITLE: string
   // 接口地址
   VITE_APP_API_URL: string
-  // 接口前缀
-  VITE_APP_API_PREFIX?: string
   // Project abbreviation
   VITE_APP_SHORT_NAME: string
 }
