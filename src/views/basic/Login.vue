@@ -90,8 +90,7 @@ import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import { FormValidationError, useMessage } from 'naive-ui'
-import { ResultEnum } from '@/enums/httpEnum'
-import { PersonOutline, LockClosedOutline, LogoGithub, LogoFacebook } from '@vicons/ionicons5'
+import { LockClosedOutline, LogoFacebook, LogoGithub, PersonOutline } from '@vicons/ionicons5'
 import { PageEnum } from '@/enums/pageEnum'
 import { login } from '@/api/system/user'
 
@@ -136,23 +135,20 @@ const handleSubmit = (e: MouseEvent) => {
       }
 
       try {
-        const response = await login(params)
-        const { result, code, message: msg } = response
-        if (code === ResultEnum.SUCCESS) {
-          userStore.login(result)
-          message.destroyAll()
-          message.success('登录成功，即将进入系统')
-          await userStore.afterLogin()
-          const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
-          if (route.name === LOGIN_NAME) {
-            router.replace('/')
-          } else {
-            router.replace(toPath)
-          }
-          message.destroyAll()
+        const result = await login(params)
+        userStore.login(result)
+        message.destroyAll()
+        message.success('登录成功，即将进入系统')
+        await userStore.afterLogin()
+        const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
+        if (route.name === LOGIN_NAME) {
+          router.replace('/')
         } else {
-          message.info(msg || '登录失败')
+          router.replace(toPath)
         }
+        message.destroyAll()
+      } catch (err) {
+        message.error(`登录失败:${err}`)
       } finally {
         loading.value = false
       }

@@ -21,6 +21,7 @@ export interface AppRouteMeta {
   url?: string
   hideBreadcrumb?: boolean
   keepAlive?: boolean
+  permitAll?: boolean
 }
 
 export enum MenuType {

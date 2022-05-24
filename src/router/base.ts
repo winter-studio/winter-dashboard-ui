@@ -18,7 +18,8 @@ export const LoginRoute: AppRouteRecordRaw = {
   component: () => import('@/views/basic/Login.vue'),
   meta: {
     title: '登录',
-    type: MenuType.VIEW
+    type: MenuType.VIEW,
+    permitAll: true
   }
 }
 

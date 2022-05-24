@@ -1,6 +1,7 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useUserStore } from '@/store/modules/user'
-import { ApiResponse } from '@/utils/request/types'
+import { ApiResponse, ApiResponseType } from '@/utils/request/types'
+import { useRouter } from 'vue-router'
 
 /**
  * request interceptor
@@ -30,14 +31,11 @@ function setupResponseInterceptor(axios: AxiosInstance) {
   axios.interceptors.response.use(
     (response: AxiosResponse<ApiResponse>) => {
       window.$loading.finish()
-      const { status, data } = response
-      switch (status) {
-        case 200:
-          return data.data
-        case 401:
-          // TODO: handle 401
-          window.$message.error('请重新登录')
-          break
+      const { data } = response
+      if (data.type === ApiResponseType.SUCCESS) {
+        return data.data
+      } else {
+        throw new Error(data.message)
       }
     },
     (error: any) => {
@@ -46,6 +44,15 @@ function setupResponseInterceptor(axios: AxiosInstance) {
       if (error && error.response) {
         switch (error.response.status) {
           case 401:
+            useUserStore()
+              .logout()
+              .then((_) =>
+                useRouter()
+                  .push('/login')
+                  .then((_) => {
+                    window.$message.error('请重新登录')
+                  })
+              )
             window.$message.error('请重新登录')
             break
         }

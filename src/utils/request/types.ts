@@ -14,49 +14,51 @@ export interface ApiResponse<T = any> {
 }
 
 export interface ProxyAxiosRequestConfig<D = any> extends AxiosRequestConfig<D> {
-  rawResponse?: boolean
+  unwrap?: boolean
 }
 
-export interface ProxyAxiosResponse<T = any, D = any> extends AxiosResponse<T, D> {
+export interface ProxyAxiosResponse<T = ApiResponse, D = any> extends AxiosResponse<T, D> {
   config: ProxyAxiosRequestConfig<D>
 }
 
 export interface ProxyAxiosInstance extends AxiosInstance {
-  request<T = any, R = AxiosResponse<T>, D = any>(config: ProxyAxiosRequestConfig<D>): Promise<R>
+  request<T = ProxyAxiosResponse, R = ProxyAxiosResponse<T>, D = any>(
+    config: ProxyAxiosRequestConfig<D>
+  ): Promise<R>
 
-  get<T = any, R = AxiosResponse<T>, D = any>(
+  get<T = ProxyAxiosResponse, R = ProxyAxiosResponse<T>, D = any>(
     url: string,
     config?: ProxyAxiosRequestConfig<D>
   ): Promise<R>
 
-  delete<T = any, R = AxiosResponse<T>, D = any>(
+  delete<T = ProxyAxiosResponse, R = ProxyAxiosResponse<T>, D = any>(
     url: string,
     config?: ProxyAxiosRequestConfig<D>
   ): Promise<R>
 
-  head<T = any, R = AxiosResponse<T>, D = any>(
+  head<T = ProxyAxiosResponse, R = ProxyAxiosResponse<T>, D = any>(
     url: string,
     config?: ProxyAxiosRequestConfig<D>
   ): Promise<R>
 
-  options<T = any, R = AxiosResponse<T>, D = any>(
+  options<T = ProxyAxiosResponse, R = ProxyAxiosResponse<T>, D = any>(
     url: string,
     config?: ProxyAxiosRequestConfig<D>
   ): Promise<R>
 
-  post<T = any, R = AxiosResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: ProxyAxiosRequestConfig<D>
-  ): Promise<R>
-
-  put<T = any, R = AxiosResponse<T>, D = any>(
+  post<T = ProxyAxiosResponse, R = ProxyAxiosResponse<T>, D = any>(
     url: string,
     data?: D,
     config?: ProxyAxiosRequestConfig<D>
   ): Promise<R>
 
-  patch<T = any, R = AxiosResponse<T>, D = any>(
+  put<T = ProxyAxiosResponse, R = ProxyAxiosResponse<T>, D = any>(
+    url: string,
+    data?: D,
+    config?: ProxyAxiosRequestConfig<D>
+  ): Promise<R>
+
+  patch<T = ProxyAxiosResponse, R = ProxyAxiosResponse<T>, D = any>(
     url: string,
     data?: D,
     config?: ProxyAxiosRequestConfig<D>

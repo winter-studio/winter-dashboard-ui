@@ -15,7 +15,7 @@ const adminInfo = {
 
 export default [
   {
-    url: '/api/api-token',
+    url: '/api/auth/login',
     timeout: 1000,
     method: 'post',
     response: () => {

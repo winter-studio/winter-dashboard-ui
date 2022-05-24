@@ -1,11 +1,5 @@
 import { axios } from '@/utils/request'
 
-export interface BasicResponseModel<T = any> {
-  code: number
-  message: string
-  result: T
-}
-
 /**
  * @description: 获取用户信息
  */
@@ -19,22 +13,21 @@ export function getUserInfo() {
 /**
  * @description: 用户登录
  */
-export function login(params: any) {
-  return axios.request<BasicResponseModel>({
-    url: '/api-token',
+export function login(data: any) {
+  return axios.request({
+    url: '/auth/login',
     method: 'POST',
-    params
+    data
   })
 }
 
 /**
  * @description: 用户登出
  */
-export function logout(params: any) {
+export function logout() {
   return axios.request({
-    url: '/api-token',
-    method: 'DELETE',
-    params
+    url: '/auth/logout',
+    method: 'POST'
   })
 }
 
