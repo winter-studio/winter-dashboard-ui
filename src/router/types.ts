@@ -39,7 +39,7 @@ export interface Menu {
   data?: string
   children?: Menu[]
   icon?: string
-  badge?: string
+  extra?: string
   hidden?: boolean
   keepAlive?: boolean
 }

@@ -16,7 +16,7 @@ export function buildMenu(menus?: Menu[]): Array<MenuOption | MenuDividerOption 
       label: menu.title,
       key: menu.id,
       icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-      extra: menu.badge ? renderNew() : undefined,
+      extra: menu.extra ? renderNew() : undefined,
       type: menu.type,
       data: menu.data
     }
@@ -49,7 +49,7 @@ export function buildMenuMix(
         label: menu.title,
         key: menu.id,
         icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-        extra: menu.badge ? renderNew() : undefined,
+        extra: menu.extra ? renderNew() : undefined,
         type: menu.type,
         data: menu.data
       }
@@ -77,7 +77,7 @@ function buildChildren(menus?: Menu[]): Array<MenuOption | MenuDividerOption | M
       label: menu.title,
       key: menu.id,
       icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-      extra: menu.badge ? renderNew() : undefined,
+      extra: menu.extra ? renderNew() : undefined,
       type: menu.type,
       data: menu.data
     }
