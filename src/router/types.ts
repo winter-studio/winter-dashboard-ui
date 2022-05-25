@@ -42,4 +42,5 @@ export interface Menu {
   extra?: string
   hidden?: boolean
   keepAlive?: boolean
+  permitAll?: boolean
 }
