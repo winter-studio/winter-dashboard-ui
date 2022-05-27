@@ -4,6 +4,7 @@ import StorageType from '@/enums/storageType'
 import { getUserInfo, getUserMenus } from '@/api/system/user'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
+import { Menu } from '@/router/types'
 
 const STORAGE_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000
 
@@ -52,7 +53,7 @@ export const useUserStore = defineStore({
     },
     // 登录
     login(result: any) {
-      this.setToken(result.token)
+      this.setToken(result.accessToken)
       this.setUserInfo(result)
     },
     // 获取用户信息
@@ -78,12 +79,13 @@ export const useUserStore = defineStore({
     async afterLogin() {
       try {
         // 获取用户菜单
-        const res = await getUserMenus()
+        const res = (await getUserMenus()) as Menu[]
         useAppStore().menus = res
         // 更新路由
         setupDynamicRoutes(res)
       } catch (e) {
-        throw e
+        console.error('获取用户菜单失败', e)
+        throw new Error('获取用户菜单失败')
       }
     },
     // 登出

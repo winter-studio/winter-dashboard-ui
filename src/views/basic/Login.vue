@@ -137,8 +137,6 @@ const handleSubmit = (e: MouseEvent) => {
       try {
         const result = await login(params)
         userStore.login(result)
-        message.destroyAll()
-        message.success('登录成功，即将进入系统')
         await userStore.afterLogin()
         const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
         if (route.name === LOGIN_NAME) {
@@ -146,11 +144,11 @@ const handleSubmit = (e: MouseEvent) => {
         } else {
           router.replace(toPath)
         }
-        message.destroyAll()
       } catch (err) {
         message.error(`登录失败:${err}`)
       } finally {
         loading.value = false
+        message.destroyAll()
       }
     } else {
       message.error('请填写完整信息，并且进行验证码校验')

@@ -13,13 +13,14 @@ function setupRequestInterceptor(axios: AxiosInstance) {
       // set header Authorization
       const token = useUserStore().token
       if (request.headers && token) {
-        request.headers.Authentication = `Bearer ${token}`
+        request.headers.Authorization = `Bearer ${token}`
       }
       return request
     },
     (error: any) => {
       window.$loading.error()
       console.error(error)
+      throw new Error(error)
     }
   )
 }
