@@ -8,43 +8,41 @@
               <left-outlined />
             </n-icon>
           </n-button>
-          <div ref="navScroll" class="tabs-card-scroll-wrap">
-            <div class="tabs-card-scroll">
-              <draggable
-                :list="tabsList"
-                animation="300"
-                item-key="fullPath"
-                class="flex tabs-card-scroll-draggable"
-              >
-                <template #item="{ element, index }">
-                  <div
-                    :id="`tag${element.fullPath.split('/').join('\/')}`"
-                    class="tabs-card-scroll-item"
-                    :class="{ 'active-item': activeKey === element.path }"
-                    :style="{ right: `${index}px` }"
-                    @click.stop="goPage(element)"
-                    @contextmenu="handleContextMenu($event, element)"
-                  >
-                    <span class="tabs-card-scroll-item-content">
-                      <span class="title mr-1">{{ element.meta.title }}</span>
-                      <n-button
-                        v-if="!element.meta.affix"
-                        quaternary
-                        circle
-                        size="tiny"
-                        @click.stop="closeTabItem(element)"
-                      >
-                        <template #icon>
-                          <n-icon>
-                            <close />
-                          </n-icon>
-                        </template>
-                      </n-button>
-                    </span>
-                  </div>
-                </template>
-              </draggable>
-            </div>
+          <div ref="navScroll" class="tabs-card-scroll">
+            <draggable
+              :list="tabsList"
+              animation="300"
+              item-key="fullPath"
+              class="flex tabs-card-scroll-draggable"
+            >
+              <template #item="{ element, index }">
+                <div
+                  :id="`tag${element.fullPath.split('/').join('\/')}`"
+                  class="tabs-card-scroll-item"
+                  :class="{ 'active-item': activeKey === element.path }"
+                  :style="{ right: `${index}px` }"
+                  @click.stop="goPage(element)"
+                  @contextmenu="handleContextMenu($event, element)"
+                >
+                  <span class="tabs-card-scroll-item-content">
+                    <span class="title mr-1">{{ element.meta.title }}</span>
+                    <n-button
+                      v-if="!element.meta.affix"
+                      quaternary
+                      circle
+                      size="tiny"
+                      @click.stop="closeTabItem(element)"
+                    >
+                      <template #icon>
+                        <n-icon>
+                          <close />
+                        </n-icon>
+                      </template>
+                    </n-button>
+                  </span>
+                </div>
+              </template>
+            </draggable>
           </div>
           <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollNext">
             <n-icon size="16">
@@ -404,7 +402,7 @@ export default defineComponent({
       if (!navScroll.value) return
       const containerWidth = navScroll.value.offsetWidth
       const navWidth = navScroll.value.scrollWidth
-      if (containerWidth < navWidth) {
+      if (containerWidth < navWidth - 2) {
         state.scrollable = true
         if (autoScroll) {
           let tagList = navScroll.value.querySelectorAll('.tabs-card-scroll-item') || []
@@ -570,7 +568,7 @@ export default defineComponent({
               height: 20px;
               border-left: 1px solid #999;
               border-right: 1px solid #999;
-              min-width: 6rem;
+              min-width: 100px;
               display: flex;
               justify-content: space-between;
               align-items: center;
