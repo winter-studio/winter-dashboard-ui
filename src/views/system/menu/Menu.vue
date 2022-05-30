@@ -111,7 +111,6 @@ import { ref, unref, reactive, onMounted, computed } from 'vue'
 import { TreeOption, useMessage } from 'naive-ui'
 import { SearchOutlined, FormOutlined } from '@vicons/antd'
 import { getMenuList } from '@/api/system/menu'
-import { getTreeItem } from '@/utils'
 import CreateDrawer from './CreateDrawer.vue'
 import { MenuTree } from '@/router/types'
 import { ExpandRound, VerticalAlignCenterTwotone } from '@vicons/material'
@@ -182,7 +181,8 @@ function openCreateDrawer() {
 }
 
 function selectedTree(keys) {
-  if (keys.length) {
+  //TODO query menu from database
+  /*if (keys.length) {
     const treeItem = getTreeItem(unref<TreeOption[]>(treeData), keys[0])
     treeItemKey.value = keys
     treeItemTitle.value = treeItem.label
@@ -192,12 +192,13 @@ function selectedTree(keys) {
     isEditMenu.value = false
     treeItemKey.value = []
     treeItemTitle.value = ''
-  }
+  }*/
 }
 
 function handleReset() {
-  const treeItem = getTreeItem(unref<TreeOption[]>(treeData), treeItemKey.value[0])
-  Object.assign(formParams, treeItem)
+  //TODO query menu from database
+  // const treeItem = getTreeItem(unref<TreeOption[]>(treeData), treeItemKey.value[0])
+  // Object.assign(formParams, treeItem)
 }
 
 function formSubmit() {

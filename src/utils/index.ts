@@ -1,23 +1,3 @@
-import { TreeOption } from 'naive-ui'
-
-/**
- *  找到对应的节点
- * */
-export function getTreeItem(data: TreeOption[], key?: string | number): TreeOption | undefined {
-  for (const item of data) {
-    if (item.key === key) {
-      return item
-    }
-    if (item.children && item.children.length) {
-      const result = getTreeItem(item.children, key)
-      if (result) {
-        return result
-      }
-    }
-  }
-  return undefined
-}
-
 /**
  * Sums the passed percentage to the R, G or B of a HEX color
  * @param {string} color The color to change
