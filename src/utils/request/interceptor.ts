@@ -1,7 +1,7 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useUserStore } from '@/store/modules/user'
 import { ApiResponse, ApiResponseType } from '@/utils/request/types'
-import { useRouter } from 'vue-router'
+import router from '@/router'
 
 /**
  * request interceptor
@@ -45,17 +45,28 @@ function setupResponseInterceptor(axios: AxiosInstance) {
       if (error && error.response) {
         switch (error.response.status) {
           case 401:
-            useUserStore()
-              .logout()
-              .then((_) =>
-                useRouter()
-                  .push('/login')
-                  .then((_) => {
-                    window.$message.error('请重新登录')
-                  })
-              )
-            window.$message.error('请重新登录')
+            useUserStore().logout()
+            router.push('/login').then((_) => {
+              window.$message.error('请重新登录')
+            })
             break
+          case 403:
+            window.$message.error('没有权限')
+            break
+          case 404:
+            window.$message.error('请求资源不存在')
+            break
+        }
+      } else {
+        switch (error.code) {
+          case 'ECONNABORTED':
+            window.$message.error('网络错误')
+            break
+          case 'ETIMEDOUT':
+            window.$message.error('请求超时')
+            break
+          default:
+            window.$message.error('请求失败')
         }
       }
     }

@@ -1,4 +1,4 @@
-import { Menu } from '@/router/types'
+import { MenuTree } from '@/router/types'
 import { cloneDeep } from 'lodash-es'
 import { MenuDividerOption, MenuGroupOption, MenuOption, NTag } from 'naive-ui'
 import { renderIconByName } from '@/utils/icon-utils'
@@ -7,7 +7,9 @@ import { h } from 'vue'
 /**
  * 递归组装菜单格式
  */
-export function buildMenu(menus?: Menu[]): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
+export function buildMenu(
+  menus?: MenuTree[]
+): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
   if (!menus) {
     return []
   }
@@ -35,7 +37,7 @@ export function buildMenu(menus?: Menu[]): Array<MenuOption | MenuDividerOption 
 export function buildMenuMix(
   routerName: string,
   location: string,
-  menus?: Menu[]
+  menus?: MenuTree[]
 ): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
   if (!menus) {
     return []
@@ -61,14 +63,16 @@ export function buildMenuMix(
   }
 }
 
-function filterHiddenMenus(menus: Menu[]): Menu[] {
+function filterHiddenMenus(menus: MenuTree[]): MenuTree[] {
   return menus.filter((item) => item.hidden !== true)
 }
 
 /**
  * 递归组装子菜单
  * */
-function buildChildren(menus?: Menu[]): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
+function buildChildren(
+  menus?: MenuTree[]
+): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
   if (!menus) {
     return []
   }

@@ -1,5 +1,5 @@
 import { axios } from '@/utils/request'
-import { Menu } from '@/router/types'
+import { MenuTree } from '@/router/types'
 
 /**
  * @description: 获取用户信息
@@ -36,7 +36,7 @@ export function logout() {
  * @description: 获取用户信息
  */
 export function getUserMenus() {
-  return axios.request<Menu[]>({
+  return axios.request<MenuTree[]>({
     url: '/users/me/menus',
     method: 'get'
   })

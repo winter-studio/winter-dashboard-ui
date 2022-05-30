@@ -1,18 +1,21 @@
+import { TreeOption } from 'naive-ui'
+
 /**
  *  找到对应的节点
  * */
-let result = null
-export function getTreeItem(data: any[], key?: string | number): any {
-  data.map((item) => {
+export function getTreeItem(data: TreeOption[], key?: string | number): TreeOption | undefined {
+  for (const item of data) {
     if (item.key === key) {
-      result = item
-    } else {
-      if (item.children && item.children.length) {
-        getTreeItem(item.children, key)
+      return item
+    }
+    if (item.children && item.children.length) {
+      const result = getTreeItem(item.children, key)
+      if (result) {
+        return result
       }
     }
-  })
-  return result
+  }
+  return undefined
 }
 
 /**

@@ -31,13 +31,13 @@ export enum MenuType {
   IFRAME = 'iframe'
 }
 
-export interface Menu {
+export interface MenuTree {
   id: string
   path: string
   title: string
   type: MenuType
   data?: string
-  children?: Menu[]
+  children?: MenuTree[]
   icon?: string
   extra?: string
   hidden?: boolean

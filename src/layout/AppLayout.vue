@@ -162,7 +162,7 @@ onMounted(() => {
 
 .layout-content-main {
   position: relative;
-  height: 100%;
+  height: calc(100% - 16px);
 }
 
 .fluid-header {

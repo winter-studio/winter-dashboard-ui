@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import { Menu } from '@/router/types'
+import { MenuTree } from '@/router/types'
 
 export interface AppState {
-  menus?: Menu[]
+  menus?: MenuTree[]
   keepAliveComponents: string[]
 }
 

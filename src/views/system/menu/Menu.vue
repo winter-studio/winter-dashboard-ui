@@ -1,47 +1,29 @@
 <template>
   <div>
-    <div class="n-layout-page-header">
-      <n-card :bordered="false" title="菜单权限管理">
-        页面数据为 Mock 示例数据，非真实数据。
-      </n-card>
-    </div>
-    <n-grid class="mt-4" cols="1 s:1 m:1 l:3 xl:3 2xl:3" responsive="screen" :x-gap="12">
+    <n-grid class="mt-4" cols="3" responsive="screen" :x-gap="12">
       <n-gi span="1">
         <n-card :segmented="{ content: 'hard' }" :bordered="false" size="small">
-          <template #header>
-            <n-space>
-              <n-dropdown trigger="hover" :options="addMenuOptions" @select="selectAddMenu">
-                <n-button type="info" ghost icon-placement="right">
-                  添加菜单
-                  <template #icon>
-                    <div class="flex items-center">
-                      <n-icon size="14">
-                        <down-outlined />
-                      </n-icon>
-                    </div>
-                  </template>
-                </n-button>
-              </n-dropdown>
-              <n-button type="info" ghost icon-placement="left" @click="packHandle">
-                全部{{ expandedKeys.length ? '收起' : '展开' }}
-                <template #icon>
-                  <div class="flex items-center">
-                    <n-icon size="14">
-                      <align-left-outlined />
-                    </n-icon>
-                  </div>
+          <div class="w-full">
+            <div class="flex">
+              <n-input v-model:value="pattern" type="input" placeholder="输入菜单名称搜索">
+                <template #suffix>
+                  <n-icon size="18" class="cursor-pointer">
+                    <search-outlined />
+                  </n-icon>
                 </template>
-              </n-button>
-            </n-space>
-          </template>
-          <div class="w-full menu">
-            <n-input v-model:value="pattern" type="input" placeholder="输入菜单名称搜索">
-              <template #suffix>
-                <n-icon size="18" class="cursor-pointer">
-                  <search-outlined />
-                </n-icon>
-              </template>
-            </n-input>
+              </n-input>
+              <n-tooltip trigger="hover">
+                <template #trigger>
+                  <n-button quaternary circle class="ml-2" @click="packHandle">
+                    <template #icon>
+                      <n-icon v-if="expandedKeys.length"><vertical-align-center-twotone /></n-icon>
+                      <n-icon v-else><expand-round /></n-icon>
+                    </template>
+                  </n-button>
+                </template>
+                全部{{ expandedKeys.length ? '收起' : '展开' }}
+              </n-tooltip>
+            </div>
             <div class="py-3 menu-list">
               <template v-if="loading">
                 <div class="flex items-center justify-center py-4">
@@ -126,12 +108,13 @@
 </template>
 <script lang="ts" setup>
 import { ref, unref, reactive, onMounted, computed } from 'vue'
-import { useMessage } from 'naive-ui'
-import { DownOutlined, AlignLeftOutlined, SearchOutlined, FormOutlined } from '@vicons/antd'
+import { TreeOption, useMessage } from 'naive-ui'
+import { SearchOutlined, FormOutlined } from '@vicons/antd'
 import { getMenuList } from '@/api/system/menu'
 import { getTreeItem } from '@/utils'
 import CreateDrawer from './CreateDrawer.vue'
-
+import { MenuTree } from '@/router/types'
+import { ExpandRound, VerticalAlignCenterTwotone } from '@vicons/material'
 const rules = {
   label: {
     required: true,
@@ -151,9 +134,9 @@ const message = useMessage()
 
 let treeItemKey = ref([])
 
-let expandedKeys = ref([])
+let expandedKeys = ref<Array<string | number>>([])
 
-const treeData = ref([])
+const treeData = ref<Array<TreeOption>>([])
 
 const loading = ref(true)
 const subLoading = ref(false)
@@ -200,7 +183,7 @@ function openCreateDrawer() {
 
 function selectedTree(keys) {
   if (keys.length) {
-    const treeItem = getTreeItem(unref(treeData), keys[0])
+    const treeItem = getTreeItem(unref<TreeOption[]>(treeData), keys[0])
     treeItemKey.value = keys
     treeItemTitle.value = treeItem.label
     Object.assign(formParams, treeItem)
@@ -213,7 +196,7 @@ function selectedTree(keys) {
 }
 
 function handleReset() {
-  const treeItem = getTreeItem(unref(treeData), treeItemKey.value[0])
+  const treeItem = getTreeItem(unref<TreeOption[]>(treeData), treeItemKey.value[0])
   Object.assign(formParams, treeItem)
 }
 
@@ -235,15 +218,29 @@ function packHandle() {
   }
 }
 
+interface MenuTreeOptions extends TreeOption {
+  key: string
+  label: string
+}
+
+function buildTreeOptions(menuTrees: Array<MenuTree>): MenuTreeOptions[] {
+  return menuTrees.map((item: MenuTree) => {
+    return {
+      key: item.id,
+      label: item.title,
+      children: item.children ? buildTreeOptions(item.children) : undefined
+    }
+  })
+}
+
 onMounted(async () => {
-  const treeMenuList = await getMenuList()
-  const keys = treeMenuList.list.map((item) => item.key)
-  Object.assign(formParams, keys)
-  treeData.value = treeMenuList.list
+  const menuTrees = (await getMenuList()) as Array<MenuTree>
+  treeData.value = buildTreeOptions(menuTrees)
   loading.value = false
 })
 
-function onExpandedKeys(keys) {
+function onExpandedKeys(keys: Array<string | number>) {
+  console.log(keys)
   expandedKeys.value = keys
 }
 </script>

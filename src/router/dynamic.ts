@@ -1,9 +1,9 @@
 import { RouteRecordRaw } from 'vue-router'
-import { AppRouteRecordRaw, Component, Menu, MenuType } from './types'
+import { AppRouteRecordRaw, Component, MenuTree, MenuType } from './types'
 import { AppLayout, EmptyLayout, IFrameLayout } from './constant'
 import router from '@/router'
 
-export function setupDynamicRoutes(menus: Menu[]) {
+export function setupDynamicRoutes(menus: MenuTree[]) {
   const appRoutes: AppRouteRecordRaw[] = generatorAppRoutes(menus, 1)
   appRoutes.forEach((route) => {
     router.addRoute(route as unknown as RouteRecordRaw)
@@ -34,7 +34,7 @@ function completeFirstLevelComponent(
   }
 }
 
-function generatorAppRoutes(menus: Menu[], level: number): AppRouteRecordRaw[] {
+function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw[] {
   const appRoutes: AppRouteRecordRaw[] = []
   menus.forEach((menu) => {
     const appRoute: AppRouteRecordRaw = {
@@ -78,7 +78,7 @@ function generatorAppRoutes(menus: Menu[], level: number): AppRouteRecordRaw[] {
   return appRoutes
 }
 
-function setupRedirect(appRoute: AppRouteRecordRaw, menu: Menu): string | undefined {
+function setupRedirect(appRoute: AppRouteRecordRaw, menu: MenuTree): string | undefined {
   if (menu.children?.length ?? 0 > 0) {
     const firstChild = menu.children!.find((child) => {
       return child.type === MenuType.VIEW || child.type === MenuType.IFRAME
