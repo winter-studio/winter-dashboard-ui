@@ -3,7 +3,14 @@
     <div class="tabs-view-bg">
       <div class="tabs-view-main">
         <div ref="navWrap" class="tabs-card" :class="{ 'tabs-card-scrollable': scrollable }">
-          <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollPrev">
+          <n-button
+            v-show="scrollable"
+            class="mx-2"
+            secondary
+            circle
+            size="small"
+            @click="scrollPrev"
+          >
             <n-icon size="16">
               <left-outlined />
             </n-icon>
@@ -20,7 +27,6 @@
                   :id="`tag${element.fullPath.split('/').join('\/')}`"
                   class="tabs-card-scroll-item"
                   :class="{ 'active-item': activeKey === element.path }"
-                  :style="{ right: `${index}px` }"
                   @click.stop="goPage(element)"
                   @contextmenu="handleContextMenu($event, element)"
                 >
@@ -44,7 +50,14 @@
               </template>
             </draggable>
           </div>
-          <n-button v-show="scrollable" :bordered="false" class="px-2" @click="scrollNext">
+          <n-button
+            v-show="scrollable"
+            class="mx-2"
+            secondary
+            circle
+            size="small"
+            @click="scrollNext"
+          >
             <n-icon size="16">
               <right-outlined />
             </n-icon>
@@ -524,6 +537,7 @@ export default defineComponent({
         overflow: hidden;
         position: relative;
         display: flex;
+        align-items: center;
 
         .tabs-card-scroll {
           white-space: nowrap;
@@ -533,6 +547,10 @@ export default defineComponent({
           .tabs-card-scroll-item:hover,
           .tabs-card-scroll-item.active-item {
             border-radius: 10px 10px 0 0;
+
+            & + .tabs-card-scroll-item .tabs-card-scroll-item-content {
+              border-left-color: #00000000 !important;
+            }
           }
 
           .tabs-card-scroll-item.active-item {
@@ -566,7 +584,7 @@ export default defineComponent({
               padding: 0 12px 0 14px;
               height: 20px;
               border-left: 1px solid #999;
-              border-right: 1px solid #999;
+              //border-right: 1px solid #999;
               min-width: 100px;
               display: flex;
               justify-content: space-between;
@@ -579,11 +597,11 @@ export default defineComponent({
             }
 
             &:first-child .tabs-card-scroll-item-content {
-              border-left: none;
+              border-left-color: #00000000;
             }
 
-            &.sortable-chosen {
-              background: v-bind(appTabsBgColor);
+            &:last-child .tabs-card-scroll-item-content {
+              border-right: 1px solid #999;
             }
 
             &::before,
