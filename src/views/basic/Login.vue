@@ -92,7 +92,7 @@ import { useUserStore } from '@/store/modules/user'
 import { FormValidationError, useMessage } from 'naive-ui'
 import { LockClosedOutline, LogoFacebook, LogoGithub, PersonOutline } from '@vicons/ionicons5'
 import { PageEnum } from '@/enums/pageEnum'
-import { login } from '@/api/system/user'
+import { login } from '@/api/base/user'
 
 interface FormState {
   username: string

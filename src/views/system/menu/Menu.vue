@@ -1,29 +1,37 @@
 <template>
   <div>
-    <n-grid class="mt-4" cols="3" responsive="screen" :x-gap="12">
+    <n-grid cols="3" responsive="screen" :x-gap="12">
       <n-gi span="1">
         <n-card :segmented="{ content: 'hard' }" :bordered="false" size="small">
+          <template #header>
+            <n-button secondary type="primary" class="mr-2" @click="packHandle">
+              <template #icon>
+                <n-icon v-if="expandedKeys.length"><vertical-align-center-twotone /></n-icon>
+                <n-icon v-else><expand-round /></n-icon>
+              </template>
+              全部{{ expandedKeys.length ? '收起' : '展开' }}
+            </n-button>
+            <n-button secondary type="success" class="mr-2" @click="addMenu">
+              <template #icon>
+                <n-icon><add-box-outlined /></n-icon>
+              </template>
+              添加菜单
+            </n-button>
+            <n-button :disabled="checkedKeys.length === 0" secondary type="error" class="mr-2">
+              <template #icon>
+                <n-icon><delete-outline-filled /></n-icon>
+              </template>
+              删除菜单
+            </n-button>
+          </template>
           <div class="w-full">
-            <div class="flex">
-              <n-input v-model:value="pattern" type="input" placeholder="输入菜单名称搜索">
-                <template #suffix>
-                  <n-icon size="18" class="cursor-pointer">
-                    <search-outlined />
-                  </n-icon>
-                </template>
-              </n-input>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <n-button quaternary circle class="ml-2" @click="packHandle">
-                    <template #icon>
-                      <n-icon v-if="expandedKeys.length"><vertical-align-center-twotone /></n-icon>
-                      <n-icon v-else><expand-round /></n-icon>
-                    </template>
-                  </n-button>
-                </template>
-                全部{{ expandedKeys.length ? '收起' : '展开' }}
-              </n-tooltip>
-            </div>
+            <n-input v-model:value="search" type="input" placeholder="输入菜单名称搜索">
+              <template #suffix>
+                <n-icon size="18" class="cursor-pointer">
+                  <search-outlined />
+                </n-icon>
+              </template>
+            </n-input>
             <div class="py-3 menu-list">
               <template v-if="loading">
                 <div class="flex items-center justify-center py-4">
@@ -36,12 +44,13 @@
                   cascade
                   checkable
                   :virtual-scroll="true"
-                  :pattern="pattern"
+                  :pattern="search"
                   :data="treeData"
                   :expanded-keys="expandedKeys"
                   style="max-height: 650px; overflow: hidden"
-                  @update:selected-keys="selectedTree"
-                  @update:expanded-keys="onExpandedKeys"
+                  @update:checked-keys="updateCheckedKeys"
+                  @update:selected-keys="updateSelectedKeys"
+                  @update:expanded-keys="updateExpandedKeys"
                 />
               </template>
             </div>
@@ -51,69 +60,115 @@
       <n-gi span="2">
         <n-card :segmented="{ content: 'hard' }" :bordered="false" size="small">
           <template #header>
-            <n-space>
-              <n-icon size="18">
-                <form-outlined />
+            <n-space style="line-height: 34px">
+              <n-icon size="22">
+                <edit-regular />
               </n-icon>
-              <span>编辑菜单{{ treeItemTitle ? `：${treeItemTitle}` : '' }}</span>
+              <span>{{ isEditing ? (editingKey ? '编辑' : '添加') : '添加/编辑' }}菜单</span>
             </n-space>
           </template>
-          <n-alert type="info" closable> 从菜单列表选择一项后，进行编辑</n-alert>
           <n-form
-            v-if="isEditMenu"
+            v-if="isEditing"
             ref="formRef"
-            :model="formParams"
+            :model="menuForm"
             :rules="rules"
             label-placement="left"
             :label-width="100"
             class="py-4"
           >
-            <n-form-item label="类型" path="type">
-              <span>{{ formParams.type === 1 ? '侧边栏菜单' : '' }}</span>
+            <n-form-item label="父级目录">
+              <n-input v-model="menuForm.name" placeholder="请输入菜单名称" />
             </n-form-item>
-            <n-form-item label="标题" path="label">
-              <n-input v-model:value="formParams.label" placeholder="请输入标题" />
-            </n-form-item>
-            <n-form-item label="副标题" path="subtitle">
-              <n-input v-model:value="formParams.subtitle" placeholder="请输入副标题" />
-            </n-form-item>
-            <n-form-item label="路径" path="path">
-              <n-input v-model:value="formParams.path" placeholder="请输入路径" />
-            </n-form-item>
-            <n-form-item label="打开方式" path="openType">
-              <n-radio-group v-model:value="formParams.openType" name="openType">
+            <n-form-item label="菜单" path="type">
+              <n-radio-group v-model:value="menuForm.type" name="type">
                 <n-space>
-                  <n-radio :value="1">当前窗口</n-radio>
-                  <n-radio :value="2">新窗口</n-radio>
+                  <n-radio :value="MenuType.DIR">菜单目录</n-radio>
+                  <n-radio :value="MenuType.VIEW">组件页面</n-radio>
+                  <n-radio :value="MenuType.IFRAME">内嵌外部链接</n-radio>
+                  <n-radio :value="MenuType.LINK">跳转外部链接</n-radio>
                 </n-space>
               </n-radio-group>
             </n-form-item>
-            <n-form-item label="菜单权限" path="auth">
-              <n-input v-model:value="formParams.auth" placeholder="请输入权限，多个权限用，分割" />
+            <n-form-item label="标题" path="title">
+              <n-input v-model:value="menuForm.title" placeholder="请输入标题" />
+            </n-form-item>
+            <n-form-item label="路径" path="path">
+              <n-input v-model:value="menuForm.path" placeholder="请输入路径" />
+            </n-form-item>
+            <n-form-item label="页面组件/链接" path="data">
+              <n-input v-model:value="menuForm.data" placeholder="请输入路径" />
+            </n-form-item>
+            <n-form-item label="图标" path="icon">
+              <n-input v-model:value="menuForm.icon" placeholder="请输入图标" />
+            </n-form-item>
+            <n-form-item label="标记" path="extra">
+              <n-input v-model:value="menuForm.icon" placeholder="请输入标记" />
+            </n-form-item>
+            <n-form-item label="是否隐藏" path="hidden">
+              <n-radio-group v-model:value="menuForm.hidden" name="hidden">
+                <n-space>
+                  <n-radio :value="true">是</n-radio>
+                  <n-radio :value="false">否</n-radio>
+                </n-space>
+              </n-radio-group>
+            </n-form-item>
+            <n-form-item label="是否缓存" path="keepAlive">
+              <n-radio-group v-model:value="menuForm.keepAlive" name="keepAlive">
+                <n-space>
+                  <n-radio :value="true">是</n-radio>
+                  <n-radio :value="false">否</n-radio>
+                </n-space>
+              </n-radio-group>
+            </n-form-item>
+            <n-form-item label="可匿名访问" path="permitAll">
+              <n-radio-group v-model:value="menuForm.keepAlive" name="permitAll">
+                <n-space>
+                  <n-radio :value="true">是</n-radio>
+                  <n-radio :value="false">否</n-radio>
+                </n-space>
+              </n-radio-group>
             </n-form-item>
             <n-form-item path="auth" style="margin-left: 100px">
               <n-space>
-                <n-button type="primary" :loading="subLoading" @click="formSubmit"
-                  >保存修改</n-button
-                >
+                <n-button :loading="saveLoading" @click="formSubmit">保存修改</n-button>
                 <n-button @click="handleReset">重置</n-button>
               </n-space>
             </n-form-item>
           </n-form>
+          <n-result
+            v-else
+            status="info"
+            title="提示"
+            description="请点击菜单项或者添加按钮编辑菜单"
+          />
         </n-card>
       </n-gi>
     </n-grid>
-    <create-drawer ref="createDrawerRef" :title="drawerTitle" />
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, unref, reactive, onMounted, computed } from 'vue'
+import { onMounted, ref, unref } from 'vue'
 import { TreeOption, useMessage } from 'naive-ui'
-import { SearchOutlined, FormOutlined } from '@vicons/antd'
-import { getMenuList } from '@/api/system/menu'
-import CreateDrawer from './CreateDrawer.vue'
-import { MenuTree } from '@/router/types'
-import { ExpandRound, VerticalAlignCenterTwotone } from '@vicons/material'
+import { SearchOutlined } from '@vicons/antd'
+import { getMenuById, getMenuList, Menu } from '@/api/base/menu'
+import { MenuTree, MenuType } from '@/router/types'
+import {
+  AddBoxOutlined,
+  DeleteOutlineFilled,
+  ExpandRound,
+  VerticalAlignCenterTwotone
+} from '@vicons/material'
+import { EditRegular } from '@vicons/fa'
+
+const message = useMessage()
+const loading = ref(true)
+const saveLoading = ref(false)
+const search = ref('')
+//展开菜单Keys
+const expandedKeys = ref<Array<string | number>>([])
+//选中菜单Keys
+const checkedKeys = ref<Array<string | number>>([])
+//表单校验规则
 const rules = {
   label: {
     required: true,
@@ -126,79 +181,41 @@ const rules = {
     trigger: 'blur'
   }
 }
-
+//form引用
 const formRef: any = ref(null)
-const createDrawerRef = ref()
-const message = useMessage()
-
-let treeItemKey = ref([])
-
-let expandedKeys = ref<Array<string | number>>([])
-
+//菜单树
 const treeData = ref<Array<TreeOption>>([])
+//是否正在编辑
+const isEditing = ref(false)
+// 编辑时的key，添加时为空
+const editingKey = ref<string | number | undefined>(undefined)
+const menuForm = ref<Menu>({})
 
-const loading = ref(true)
-const subLoading = ref(false)
-const isEditMenu = ref(false)
-const treeItemTitle = ref('')
-const pattern = ref('')
-const drawerTitle = ref('')
+function updateCheckedKeys(keys: Array<string | number>) {
+  checkedKeys.value = keys
+}
 
-const isAddSon = computed(() => {
-  return !treeItemKey.value.length
-})
-
-const addMenuOptions = ref([
-  {
-    label: '添加顶级菜单',
-    key: 'home',
-    disabled: false
-  },
-  {
-    label: '添加子菜单',
-    key: 'son',
-    disabled: isAddSon
+async function updateSelectedKeys(keys: Array<string | number>) {
+  if (keys && keys[0]) {
+    debugger
+    isEditing.value = true
+    editingKey.value = keys[0]
+    menuForm.value = (await getMenuById(keys[0])) as Menu
   }
-])
-
-const formParams = reactive({
-  type: 1,
-  label: '',
-  subtitle: '',
-  path: '',
-  auth: '',
-  openType: 1
-})
-
-function selectAddMenu(key: string) {
-  drawerTitle.value = key === 'home' ? '添加顶栏菜单' : `添加子菜单：${treeItemTitle.value}`
-  openCreateDrawer()
 }
 
-function openCreateDrawer() {
-  const { openDrawer } = createDrawerRef.value
-  openDrawer()
-}
-
-function selectedTree(keys) {
-  //TODO query menu from database
-  /*if (keys.length) {
-    const treeItem = getTreeItem(unref<TreeOption[]>(treeData), keys[0])
-    treeItemKey.value = keys
-    treeItemTitle.value = treeItem.label
-    Object.assign(formParams, treeItem)
-    isEditMenu.value = true
+async function handleReset() {
+  if (editingKey.value) {
+    menuForm.value = (await getMenuById(editingKey.value)) as Menu
   } else {
-    isEditMenu.value = false
-    treeItemKey.value = []
-    treeItemTitle.value = ''
-  }*/
+    menuForm.value = {}
+  }
 }
 
-function handleReset() {
-  //TODO query menu from database
-  // const treeItem = getTreeItem(unref<TreeOption[]>(treeData), treeItemKey.value[0])
-  // Object.assign(formParams, treeItem)
+function addMenu() {
+  isEditing.value = true
+  editingKey.value = undefined
+  menuForm.value = {}
 }
 
 function formSubmit() {
@@ -240,8 +257,7 @@ onMounted(async () => {
   loading.value = false
 })
 
-function onExpandedKeys(keys: Array<string | number>) {
-  console.log(keys)
+function updateExpandedKeys(keys: Array<string | number>) {
   expandedKeys.value = keys
 }
 </script>

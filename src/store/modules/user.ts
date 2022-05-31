@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
-import { getUserInfo, getUserMenus } from '@/api/system/user'
+import { getUserInfo, getUserMenus } from '@/api/base/user'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
 import { MenuTree } from '@/router/types'

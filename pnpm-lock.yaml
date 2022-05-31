@@ -10,7 +10,8 @@ specifiers:
   '@types/qs': ^6.9.7
   '@typescript-eslint/eslint-plugin': ^5.26.0
   '@typescript-eslint/parser': ^5.26.0
-  '@vicons/antd': ^0.10.0
+  '@vicons/antd': ^0.12.0
+  '@vicons/fa': ^0.12.0
   '@vicons/ionicons5': ^0.10.0
   '@vicons/material': ^0.12.0
   '@vicons/tabler': ^0.12.0
@@ -92,7 +93,8 @@ devDependencies:
   '@types/qs': registry.npmmirror.com/@types/qs/6.9.7
   '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.26.0_hzuh7e2up357pvq3mkokjvu2lq
   '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.26.0_xztl6dhthcahlo6akmb2bmjmle
-  '@vicons/antd': registry.npmmirror.com/@vicons/antd/0.10.0
+  '@vicons/antd': registry.npmmirror.com/@vicons/antd/0.12.0
+  '@vicons/fa': registry.npmmirror.com/@vicons/fa/0.12.0
   '@vicons/ionicons5': registry.npmmirror.com/@vicons/ionicons5/0.10.0
   '@vicons/material': registry.npmmirror.com/@vicons/material/0.12.0
   '@vicons/tabler': registry.npmmirror.com/@vicons/tabler/0.12.0
@@ -939,10 +941,16 @@ packages:
       eslint-visitor-keys: registry.npmmirror.com/eslint-visitor-keys/3.3.0
     dev: true
 
-  registry.npmmirror.com/@vicons/antd/0.10.0:
-    resolution: {integrity: sha512-F+pVt2cYJDoJw5Wvu5YzvqnpCoUPeYh272R/ZVK+2H6U/G0LCDvEWNQHXkbLBpCtu9FAq/yac0NNfg1i0a1DGg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vicons/antd/-/antd-0.10.0.tgz}
+  registry.npmmirror.com/@vicons/antd/0.12.0:
+    resolution: {integrity: sha512-C0p6aO1EmGG1QHrqgUWQS1No20934OdWSRQshM5NIDK5H1On6tC26U0hT6Rmp40KfUsvhvX5YW8BoWJdNFifPg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vicons/antd/-/antd-0.12.0.tgz}
     name: '@vicons/antd'
-    version: 0.10.0
+    version: 0.12.0
+    dev: true
+
+  registry.npmmirror.com/@vicons/fa/0.12.0:
+    resolution: {integrity: sha512-g2PIeJLsTHUjt6bK63LxqC0uYQB7iu+xViJOxvp1s8b9/akpXVPVWjDTTsP980/0KYyMMe4U7F/aUo7wY+MsXA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vicons/fa/-/fa-0.12.0.tgz}
+    name: '@vicons/fa'
+    version: 0.12.0
     dev: true
 
   registry.npmmirror.com/@vicons/ionicons5/0.10.0:
