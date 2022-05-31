@@ -197,7 +197,6 @@ function updateCheckedKeys(keys: Array<string | number>) {
 
 async function updateSelectedKeys(keys: Array<string | number>) {
   if (keys && keys[0]) {
-    debugger
     isEditing.value = true
     editingKey.value = keys[0]
     menuForm.value = (await getMenuById(keys[0])) as Menu
