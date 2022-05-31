@@ -496,7 +496,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tabs-view {
   width: calc(100% - 20px);
-  transition: all 0.2s ease-in-out;
   position: absolute;
   z-index: 5;
   top: 74px;
@@ -561,7 +560,7 @@ export default defineComponent({
             display: flex;
             align-items: center;
             z-index: 100;
-            transition: all 0.2s;
+            transition: background-color 0.3s, broder-color 0.3s;
 
             .tabs-card-scroll-item-content {
               padding: 0 12px 0 14px;
@@ -572,7 +571,7 @@ export default defineComponent({
               display: flex;
               justify-content: space-between;
               align-items: center;
-              transition: all 0.2s;
+              transition: background-color 0.3s, broder-color 0.3s;
 
               span.title {
                 line-height: 20px;
@@ -596,7 +595,6 @@ export default defineComponent({
               height: 16px;
               border-radius: 100%;
               transform: translateZ(-1px);
-              transition: all 0.2s;
             }
 
             &::before {
