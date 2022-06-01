@@ -46,9 +46,16 @@ function setupResponseInterceptor(axios: AxiosInstance) {
         switch (error.response.status) {
           case 401:
             useUserStore().logout()
-            router.push('/login').then((_) => {
-              window.$message.error('请重新登录')
-            })
+            router
+              .push({
+                name: 'login',
+                query: {
+                  redirect: router.currentRoute.value.fullPath
+                }
+              })
+              .then((_) => {
+                window.$message.error('请重新登录')
+              })
             break
           case 403:
             window.$message.error('没有权限')

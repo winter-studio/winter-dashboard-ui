@@ -45,12 +45,12 @@
                   checkable
                   :virtual-scroll="true"
                   :pattern="search"
-                  :data="treeData"
+                  :data="menus"
                   :expanded-keys="expandedKeys"
                   style="max-height: 650px; overflow: hidden"
-                  @update:checked-keys="updateCheckedKeys"
-                  @update:selected-keys="updateSelectedKeys"
-                  @update:expanded-keys="updateExpandedKeys"
+                  @update:checked-keys="onUpdateCheckedKeys"
+                  @update:selected-keys="onUpdateSelectedKeys"
+                  @update:expanded-keys="onUpdateExpandedKeys"
                 />
               </template>
             </div>
@@ -77,7 +77,11 @@
             class="py-4"
           >
             <n-form-item label="父级目录">
-              <n-input v-model="menuForm.name" placeholder="请输入菜单名称" />
+              <n-tree-select
+                v-model:value="menuForm.parentId"
+                :show-path="true"
+                :options="dirMenus"
+              />
             </n-form-item>
             <n-form-item label="菜单" path="type">
               <n-radio-group v-model:value="menuForm.type" name="type">
@@ -99,34 +103,19 @@
               <n-input v-model:value="menuForm.data" placeholder="请输入路径" />
             </n-form-item>
             <n-form-item label="图标" path="icon">
-              <n-input v-model:value="menuForm.icon" placeholder="请输入图标" />
+              <icon-select v-model:value="menuForm.icon" />
             </n-form-item>
             <n-form-item label="标记" path="extra">
-              <n-input v-model:value="menuForm.icon" placeholder="请输入标记" />
+              <n-input v-model:value="menuForm.extra" placeholder="请输入标记" />
             </n-form-item>
             <n-form-item label="是否隐藏" path="hidden">
-              <n-radio-group v-model:value="menuForm.hidden" name="hidden">
-                <n-space>
-                  <n-radio :value="true">是</n-radio>
-                  <n-radio :value="false">否</n-radio>
-                </n-space>
-              </n-radio-group>
+              <n-switch v-model:value="menuForm.hidden" />
             </n-form-item>
             <n-form-item label="是否缓存" path="keepAlive">
-              <n-radio-group v-model:value="menuForm.keepAlive" name="keepAlive">
-                <n-space>
-                  <n-radio :value="true">是</n-radio>
-                  <n-radio :value="false">否</n-radio>
-                </n-space>
-              </n-radio-group>
+              <n-switch v-model:value="menuForm.keepAlive" />
             </n-form-item>
             <n-form-item label="可匿名访问" path="permitAll">
-              <n-radio-group v-model:value="menuForm.keepAlive" name="permitAll">
-                <n-space>
-                  <n-radio :value="true">是</n-radio>
-                  <n-radio :value="false">否</n-radio>
-                </n-space>
-              </n-radio-group>
+              <n-switch v-model:value="menuForm.permitAll" />
             </n-form-item>
             <n-form-item path="auth" style="margin-left: 100px">
               <n-space>
@@ -148,7 +137,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, unref } from 'vue'
-import { TreeOption, useMessage } from 'naive-ui'
+import { TreeOption, TreeSelectOption, useMessage } from 'naive-ui'
 import { SearchOutlined } from '@vicons/antd'
 import { getMenuById, getMenuList, Menu } from '@/api/base/menu'
 import { MenuTree, MenuType } from '@/router/types'
@@ -159,6 +148,7 @@ import {
   VerticalAlignCenterTwotone
 } from '@vicons/material'
 import { EditRegular } from '@vicons/fa'
+import IconSelect from '@/components/form/IconSelect.vue'
 
 const message = useMessage()
 const loading = ref(true)
@@ -184,18 +174,19 @@ const rules = {
 //form引用
 const formRef: any = ref(null)
 //菜单树
-const treeData = ref<Array<TreeOption>>([])
+const menus = ref<Array<TreeOption>>([])
+const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
 //是否正在编辑
 const isEditing = ref(false)
 // 编辑时的key，添加时为空
 const editingKey = ref<string | number | undefined>(undefined)
 const menuForm = ref<Menu>({})
 
-function updateCheckedKeys(keys: Array<string | number>) {
+function onUpdateCheckedKeys(keys: Array<string | number>) {
   checkedKeys.value = keys
 }
 
-async function updateSelectedKeys(keys: Array<string | number>) {
+async function onUpdateSelectedKeys(keys: Array<string | number>) {
   if (keys && keys[0]) {
     isEditing.value = true
     editingKey.value = keys[0]
@@ -231,7 +222,7 @@ function packHandle() {
   if (expandedKeys.value.length) {
     expandedKeys.value = []
   } else {
-    expandedKeys.value = unref(treeData).map((item: any) => item.key as string) as []
+    expandedKeys.value = unref(menus).map((item: any) => item.key as string) as []
   }
 }
 
@@ -240,7 +231,7 @@ interface MenuTreeOptions extends TreeOption {
   label: string
 }
 
-function buildTreeOptions(menuTrees: Array<MenuTree>): MenuTreeOptions[] {
+function buildTreeOptions(menuTrees: Array<MenuTree>): Array<MenuTreeOptions> {
   return menuTrees.map((item: MenuTree) => {
     return {
       key: item.id,
@@ -250,13 +241,34 @@ function buildTreeOptions(menuTrees: Array<MenuTree>): MenuTreeOptions[] {
   })
 }
 
+function buildDirTreeOptions(menuTrees: Array<MenuTree>): Array<TreeSelectOption> | undefined {
+  const data = menuTrees
+    .filter((i) => i.type == MenuType.DIR)
+    .map((item: MenuTree) => {
+      return {
+        key: item.id,
+        label: item.title,
+        children: item.children ? buildDirTreeOptions(item.children) : undefined
+      }
+    })
+  if (data.length == 0) {
+    return undefined
+  }
+  return data
+}
+
 onMounted(async () => {
   const menuTrees = (await getMenuList()) as Array<MenuTree>
-  treeData.value = buildTreeOptions(menuTrees)
+  menus.value = buildTreeOptions(menuTrees)
+  dirMenus.value = buildDirTreeOptions(menuTrees)
   loading.value = false
 })
 
-function updateExpandedKeys(keys: Array<string | number>) {
+function onUpdateExpandedKeys(keys: Array<string | number>) {
   expandedKeys.value = keys
+}
+
+function onUpdateParent(value: number) {
+  menuForm.value.parentId = value
 }
 </script>
