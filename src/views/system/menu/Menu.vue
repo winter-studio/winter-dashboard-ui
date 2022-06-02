@@ -81,6 +81,7 @@
                 v-model:value="menuForm.parentId"
                 :show-path="true"
                 :options="dirMenus"
+                @on-update:value="onUpdateParent"
               />
             </n-form-item>
             <n-form-item label="菜单" path="type">
@@ -148,7 +149,7 @@ import {
   VerticalAlignCenterTwotone
 } from '@vicons/material'
 import { EditRegular } from '@vicons/fa'
-import IconSelect from '@/components/form/IconSelect.vue'
+import IconSelect from '@/components/menu/IconSelect.vue'
 
 const message = useMessage()
 const loading = ref(true)
