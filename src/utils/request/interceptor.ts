@@ -2,6 +2,8 @@ import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { useUserStore } from '@/store/modules/user'
 import { ApiResponse, ApiResponseType } from '@/utils/request/types'
 import router from '@/router'
+import { PageEnum } from '@/enums/pageEnum'
+import { RouteLocationRaw } from 'vue-router'
 
 /**
  * request interceptor
@@ -41,21 +43,21 @@ function setupResponseInterceptor(axios: AxiosInstance) {
     },
     (error: any) => {
       window.$loading.error()
-      console.error(error)
       if (error && error.response) {
         switch (error.response.status) {
           case 401:
             useUserStore().logout()
-            router
-              .push({
-                name: 'login',
-                query: {
-                  redirect: router.currentRoute.value.fullPath
-                }
-              })
-              .then((_) => {
-                window.$message.error('请重新登录')
-              })
+            const redirect = router.currentRoute.value.fullPath
+            const to: RouteLocationRaw = {
+              name: PageEnum.BASE_LOGIN_NAME
+            }
+            if (redirect && redirect !== '/') {
+              to.query = { redirect }
+            }
+            const msg = error.response.data.message
+            router.push(to).then((_) => {
+              window.$message.error(`${msg}, 请重新登录`)
+            })
             break
           case 403:
             window.$message.error('没有权限')
@@ -65,6 +67,7 @@ function setupResponseInterceptor(axios: AxiosInstance) {
             break
         }
       } else {
+        console.error(error)
         switch (error.code) {
           case 'ECONNABORTED':
             window.$message.error('网络错误')

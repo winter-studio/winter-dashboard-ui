@@ -3,18 +3,18 @@ import { isNavigationFailure, Router } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import { useAppStore } from '@/store/modules/application'
 
-const whitePathList = [PageEnum.BASE_LOGIN] // no redirect whitelist
+const whitePathList = [PageEnum.BASE_LOGIN_NAME] // no redirect whitelist
 
 export function setupGuards(router: Router) {
   router.beforeEach(async (to, from, next) => {
     window.$loading?.start()
-    if (from.path === PageEnum.BASE_LOGIN && to.name === 'errorPage') {
+    if (from.name === PageEnum.BASE_LOGIN_NAME && to.name === 'errorPage') {
       next(PageEnum.BASE_HOME)
       return
     }
 
     // Whitelist can be directly entered
-    if (whitePathList.includes(to.path as PageEnum)) {
+    if (whitePathList.includes(to.name as PageEnum)) {
       next()
       return
     }
@@ -28,8 +28,8 @@ export function setupGuards(router: Router) {
         return
       }
       // redirect login page
-      const redirectData: { path: string; replace: boolean; query?: Recordable<string> } = {
-        path: PageEnum.BASE_LOGIN,
+      const redirectData: { name: string; replace: boolean; query?: Recordable<string> } = {
+        name: PageEnum.BASE_LOGIN_NAME,
         replace: true
       }
       if (to.path) {
