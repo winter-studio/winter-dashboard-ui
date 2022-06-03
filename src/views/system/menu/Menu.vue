@@ -4,14 +4,14 @@
       <n-gi span="1">
         <n-card :segmented="{ content: 'hard' }" :bordered="false" size="small">
           <template #header>
-            <n-button secondary type="primary" class="mr-2" @click="packHandle">
+            <n-button secondary type="primary" class="mr-2" @click="toggleCollapse">
               <template #icon>
                 <n-icon v-if="expandedKeys.length"><vertical-align-center-twotone /></n-icon>
                 <n-icon v-else><expand-round /></n-icon>
               </template>
               全部{{ expandedKeys.length ? '收起' : '展开' }}
             </n-button>
-            <n-button secondary type="success" class="mr-2" @click="addMenu">
+            <n-button secondary type="success" class="mr-2" @click="editMenuConfirm">
               <template #icon>
                 <n-icon><add-box-outlined /></n-icon>
               </template>
@@ -49,7 +49,7 @@
                   :expanded-keys="expandedKeys"
                   style="max-height: 650px; overflow: hidden"
                   @update:checked-keys="onUpdateCheckedKeys"
-                  @update:selected-keys="onUpdateSelectedKeys"
+                  @update:selected-keys="editMenuConfirm"
                   @update:expanded-keys="onUpdateExpandedKeys"
                 />
               </template>
@@ -60,11 +60,17 @@
       <n-gi span="2">
         <n-card :segmented="{ content: 'hard' }" :bordered="false" size="small">
           <template #header>
-            <n-space style="line-height: 34px">
-              <n-icon size="22">
-                <edit-regular />
-              </n-icon>
-              <span>{{ isEditing ? (editingKey ? '编辑' : '添加') : '添加/编辑' }}菜单</span>
+            <n-space>
+              <n-button
+                type="info"
+                secondary
+                :loading="saveLoading"
+                :disabled="!isEditing"
+                @click="formSubmit"
+              >
+                保存
+              </n-button>
+              <n-button secondary :disabled="!isEditing" @click="handleReset">重置</n-button>
             </n-space>
           </template>
           <n-form
@@ -118,12 +124,6 @@
             <n-form-item label="可匿名访问" path="permitAll">
               <n-switch v-model:value="menuForm.permitAll" />
             </n-form-item>
-            <n-form-item path="auth" style="margin-left: 100px">
-              <n-space>
-                <n-button :loading="saveLoading" @click="formSubmit">保存修改</n-button>
-                <n-button @click="handleReset">重置</n-button>
-              </n-space>
-            </n-form-item>
           </n-form>
           <n-result
             v-else
@@ -138,7 +138,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, unref } from 'vue'
-import { TreeOption, TreeSelectOption, useMessage } from 'naive-ui'
+import { TreeOption, TreeSelectOption, useDialog, useMessage } from 'naive-ui'
 import { SearchOutlined } from '@vicons/antd'
 import { getMenuById, getMenuList, Menu } from '@/api/base/menu'
 import { MenuTree, MenuType } from '@/router/types'
@@ -148,9 +148,9 @@ import {
   ExpandRound,
   VerticalAlignCenterTwotone
 } from '@vicons/material'
-import { EditRegular } from '@vicons/fa'
 import IconSelect from '@/components/menu/IconSelect.vue'
-
+import { isEqual, clone } from 'lodash-es'
+const dialog = useDialog()
 const message = useMessage()
 const loading = ref(true)
 const saveLoading = ref(false)
@@ -182,16 +182,42 @@ const isEditing = ref(false)
 // 编辑时的key，添加时为空
 const editingKey = ref<string | number | undefined>(undefined)
 const menuForm = ref<Menu>({})
+let editMenuCache: Menu = {}
 
 function onUpdateCheckedKeys(keys: Array<string | number>) {
   checkedKeys.value = keys
 }
 
-async function onUpdateSelectedKeys(keys: Array<string | number>) {
+function editMenuConfirm(keys: Array<string | number>) {
+  console.log(menuForm.value)
+  console.log(editMenuCache)
+  if (!isEqual(menuForm.value, editMenuCache)) {
+    dialog.info({
+      title: '未保存',
+      content: '当前编辑内容已更改，确认放弃当前编辑的内容？',
+      positiveText: '确认',
+      negativeText: '取消',
+      onPositiveClick() {
+        editMenu(keys)
+      }
+    })
+  } else {
+    editMenu(keys)
+  }
+}
+
+async function editMenu(keys: Array<string | number>) {
   if (keys && keys[0]) {
     isEditing.value = true
     editingKey.value = keys[0]
-    menuForm.value = (await getMenuById(keys[0])) as Menu
+    const data = (await getMenuById(keys[0])) as Menu
+    menuForm.value = data
+    editMenuCache = clone(data)
+  } else {
+    isEditing.value = true
+    editingKey.value = undefined
+    menuForm.value = {}
+    editMenuCache = {}
   }
 }
 
@@ -201,12 +227,6 @@ async function handleReset() {
   } else {
     menuForm.value = {}
   }
-}
-
-function addMenu() {
-  isEditing.value = true
-  editingKey.value = undefined
-  menuForm.value = {}
 }
 
 function formSubmit() {
@@ -219,7 +239,7 @@ function formSubmit() {
   })
 }
 
-function packHandle() {
+function toggleCollapse() {
   if (expandedKeys.value.length) {
     expandedKeys.value = []
   } else {
