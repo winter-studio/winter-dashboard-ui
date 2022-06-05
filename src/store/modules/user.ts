@@ -4,7 +4,6 @@ import StorageType from '@/enums/storageType'
 import { getUserInfo, getUserMenus } from '@/api/base/user'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
-import { MenuTree } from '@/router/types'
 
 const STORAGE_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000
 
@@ -63,11 +62,11 @@ export const useUserStore = defineStore({
           .then((res) => {
             const result = res
             if (result) {
-              this.setUserInfo(result)
+              this.setUserInfo(result.data)
             } else {
               reject(new Error('getInfo: permissionsList must be a non-null array !'))
             }
-            this.setAvatar(result.avatar)
+            this.setAvatar(result.data.avatar)
             resolve(res)
           })
           .catch((error) => {
@@ -79,10 +78,10 @@ export const useUserStore = defineStore({
     async afterLogin() {
       try {
         // 获取用户菜单
-        const res = (await getUserMenus()) as MenuTree[]
-        useAppStore().menus = res
+        const { data } = await getUserMenus()
+        useAppStore().menus = data
         // 更新路由
-        setupDynamicRoutes(res)
+        setupDynamicRoutes(data)
       } catch (e) {
         console.error('获取用户菜单失败', e)
         throw new Error('获取用户菜单失败')

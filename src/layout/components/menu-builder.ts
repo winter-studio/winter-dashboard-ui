@@ -18,7 +18,7 @@ export function buildMenu(
       label: menu.title,
       key: menu.id,
       icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-      extra: menu.extra ? renderNew() : undefined,
+      extra: menu.tags ? renderTags(menu.tags) : undefined,
       type: menu.type,
       data: menu.data
     }
@@ -51,7 +51,7 @@ export function buildMenuMix(
         label: menu.title,
         key: menu.id,
         icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-        extra: menu.extra ? renderNew() : undefined,
+        extra: menu.tags ? renderTags(menu.tags) : undefined,
         type: menu.type,
         data: menu.data
       }
@@ -81,7 +81,7 @@ function buildChildren(
       label: menu.title,
       key: menu.id,
       icon: menu.icon ? renderIconByName(menu.icon) : undefined,
-      extra: menu.extra ? renderNew() : undefined,
+      extra: menu.tags ? renderTags(menu.tags) : undefined,
       type: menu.type,
       data: menu.data
     }
@@ -94,17 +94,18 @@ function buildChildren(
   })
 }
 
-const newTagColors = { color: '#f90', textColor: '#fff', borderColor: '#f90' }
-export function renderNew(type = 'warning', text = 'New', color: object = newTagColors) {
+export function renderTags(tags: string) {
   return () =>
-    h(
-      NTag as any,
-      {
-        type,
-        round: true,
-        size: 'small',
-        color
-      },
-      { default: () => text }
+    tags.split(',').map((tag: string) =>
+      h(
+        NTag as any,
+        {
+          type: 'error',
+          round: true,
+          size: 'small',
+          class: `mr-1`
+        },
+        { default: () => tag }
+      )
     )
 }

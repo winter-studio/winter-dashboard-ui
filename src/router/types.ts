@@ -39,8 +39,7 @@ export interface MenuTree {
   data?: string
   children?: MenuTree[]
   icon?: string
-  extra?: string
+  tags?: string
   hidden?: boolean
   keepAlive?: boolean
-  permitAll?: boolean
 }

@@ -2,9 +2,10 @@
   <router-view>
     <template #default="{ Component, route }">
       <transition :name="getTransitionName" mode="out-in" appear>
-        <keep-alive :include="keepAliveComponents">
-          <component :is="Component" :key="route.fullPath" />
+        <keep-alive v-if="route.meta.keepAlive">
+          <component :is="Component" :key="route.name" />
         </keep-alive>
+        <component :is="Component" v-else :key="route.name" />
       </transition>
     </template>
   </router-view>
@@ -13,8 +14,6 @@
 <script setup lang="ts">
 import { computed, unref } from 'vue'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
-import { useAppStore } from '@/store/modules/application'
-import { storeToRefs } from 'pinia'
 
 defineProps({
   notNeedKey: {
@@ -28,7 +27,6 @@ defineProps({
 })
 
 const { getIsPageAnimate, getPageAnimateType } = useProjectSetting()
-const { keepAliveComponents } = storeToRefs(useAppStore())
 // keep alive needs component's name to be set.
 // wait for this PR to automatically set the component name for setup script.
 // https://github.com/vuejs/core/pull/4997

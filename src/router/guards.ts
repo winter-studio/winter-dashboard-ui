@@ -62,20 +62,6 @@ export function setupGuards(router: Router) {
     if (isNavigationFailure(failure)) {
       //console.log('failed navigation', failure)
     }
-    const appStore = useAppStore()
-    // 在这里设置需要缓存的组件名称
-    const keepAliveComponents = appStore.keepAliveComponents
-    const currentComName: any = to.matched.find((item) => item.name == to.name)?.components.default
-      ?.name
-    if (
-      currentComName &&
-      !keepAliveComponents.find((item) => item === currentComName) &&
-      to.meta?.keepAlive
-    ) {
-      // 需要缓存的组件
-      keepAliveComponents.push(currentComName)
-    }
-    appStore.keepAliveComponents = keepAliveComponents
     window.$loading?.finish()
   })
 

@@ -22,7 +22,7 @@
               item-key="fullPath"
               class="flex tabs-card-scroll-draggable"
             >
-              <template #item="{ element, index }">
+              <template #item="{ element }">
                 <div
                   :id="`tag${element.fullPath.split('/').join('\/')}`"
                   class="tabs-card-scroll-item"
@@ -126,7 +126,6 @@ import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useGo } from '@/hooks/web/usePage'
 import { renderIcon } from '@/utils/icon-utils'
-import { useAppStore } from '@/store/modules/application'
 
 export default defineComponent({
   name: 'AppTabs',
@@ -174,7 +173,7 @@ export default defineComponent({
     })
 
     // 获取简易的路由对象
-    const getSimpleRoute = (route): RouteItem => {
+    const getSimpleRoute = (route: any): RouteItem => {
       const { fullPath, hash, meta, name, params, path, query } = route
       return { fullPath, hash, meta, name, params, path, query }
     }
@@ -257,17 +256,6 @@ export default defineComponent({
     // 初始化标签页
     tabsViewStore.initTabs(cacheRoutes)
 
-    const appStore = useAppStore()
-    const delKeepAliveCompName = () => {
-      if (route.meta.keepAlive) {
-        const name = router.currentRoute.value.matched.find((item) => item.name == route.name)
-          ?.components?.default.name
-        if (name) {
-          appStore.keepAliveComponents = appStore.keepAliveComponents.filter((item) => item != name)
-        }
-      }
-    }
-
     // 标签页列表
     const tabsList: any = computed(() => tabsViewStore.tabsList)
     const whiteList: string[] = [PageEnum.BASE_LOGIN_NAME, PageEnum.ERROR_PAGE_NAME]
@@ -289,11 +277,10 @@ export default defineComponent({
     })
 
     // 关闭当前页面
-    const removeTab = (route) => {
+    const removeTab = (route: any) => {
       if (tabsList.value.length === 1) {
         return message.warning('这已经是最后一页，不能再关闭了！')
       }
-      delKeepAliveCompName()
       tabsViewStore.closeCurrentTab(route)
       // 如果关闭的是当前页
       if (state.activeKey === route.fullPath) {
@@ -307,7 +294,6 @@ export default defineComponent({
     // 刷新页面
     const reloadRouter: VoidFunction = inject('reloadRouter')!
     const reloadPage = () => {
-      delKeepAliveCompName()
       reloadRouter()
     }
 
@@ -315,7 +301,7 @@ export default defineComponent({
     provide('reloadPage', reloadPage)
 
     // 关闭左侧
-    const closeLeft = (route) => {
+    const closeLeft = (route: RouteItem) => {
       tabsViewStore.closeLeftTabs(route)
       state.activeKey = route.fullPath
       router.replace(route.fullPath)
@@ -323,7 +309,7 @@ export default defineComponent({
     }
 
     // 关闭右侧
-    const closeRight = (route) => {
+    const closeRight = (route: RouteItem) => {
       tabsViewStore.closeRightTabs(route)
       state.activeKey = route.fullPath
       router.replace(route.fullPath)
@@ -331,7 +317,7 @@ export default defineComponent({
     }
 
     // 关闭其他
-    const closeOther = (route) => {
+    const closeOther = (route: any) => {
       tabsViewStore.closeOtherTabs(route)
       state.activeKey = route.fullPath
       router.replace(route.fullPath)
@@ -346,7 +332,7 @@ export default defineComponent({
     }
 
     //tab 操作
-    const closeHandleSelect = (key) => {
+    const closeHandleSelect = (key: string) => {
       switch (key) {
         //刷新
         case '1':
@@ -373,7 +359,7 @@ export default defineComponent({
      * @param value 要滚动到的位置
      * @param amplitude 每次滚动的长度
      */
-    function scrollTo(value: number, amplitude: number) {
+    function scrollTo(value: number, amplitude: number): any {
       const currentScroll = navScroll.value.scrollLeft
       const scrollWidth =
         (amplitude > 0 && currentScroll + amplitude >= value) ||
@@ -435,7 +421,7 @@ export default defineComponent({
       updateNavScroll(true)
     }
 
-    function handleContextMenu(e, item) {
+    function handleContextMenu(e: any, item: any) {
       e.preventDefault()
       isCurrent.value = PageEnum.BASE_HOME_REDIRECT === item.path
       state.showDropdown = false
@@ -451,7 +437,7 @@ export default defineComponent({
     }
 
     //tags 跳转页面
-    function goPage(e) {
+    function goPage(e: any) {
       const { fullPath } = e
       if (fullPath === route.fullPath) return
       state.activeKey = fullPath
@@ -459,9 +445,9 @@ export default defineComponent({
     }
 
     //删除tab
-    function closeTabItem(e) {
+    function closeTabItem(e: any) {
       const { fullPath } = e
-      const routeInfo = tabsList.value.find((item) => item.fullPath == fullPath)
+      const routeInfo = tabsList.value.find((item: RouteItem) => item.fullPath == fullPath)
       removeTab(routeInfo)
     }
 

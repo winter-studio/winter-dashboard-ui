@@ -21,15 +21,30 @@ export interface Menu {
   type?: MenuType
   data?: string
   icon?: string
-  extra?: string
+  tags?: string
   hidden?: boolean
   keepAlive?: boolean
-  permitAll?: boolean
 }
 
 export function getMenuById(id: string | number) {
   return axios.request<Menu>({
     url: `/menus/${id}`,
     method: 'GET'
+  })
+}
+
+export function addMenu(data: Menu) {
+  return axios.request({
+    url: `/menus/`,
+    method: 'POST',
+    data
+  })
+}
+
+export function updateMenu(id: string | number, data: Menu) {
+  return axios.request({
+    url: `/menus/${id}`,
+    method: 'PUT',
+    data
   })
 }

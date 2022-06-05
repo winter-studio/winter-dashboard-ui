@@ -1,6 +1,6 @@
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { useUserStore } from '@/store/modules/user'
-import { ApiResponse, ApiResponseType } from '@/utils/request/types'
+import { ApiResponseType, ProxyAxiosResponse } from '@/utils/request/types'
 import router from '@/router'
 import { PageEnum } from '@/enums/pageEnum'
 import { RouteLocationRaw } from 'vue-router'
@@ -32,11 +32,13 @@ function setupRequestInterceptor(axios: AxiosInstance) {
  */
 function setupResponseInterceptor(axios: AxiosInstance) {
   axios.interceptors.response.use(
-    (response: AxiosResponse<ApiResponse>) => {
+    (response: ProxyAxiosResponse) => {
       window.$loading.finish()
       const { data } = response
       if (data.type === ApiResponseType.SUCCESS) {
-        return data.data
+        if (!response.config.raw) {
+          return data
+        }
       } else {
         throw new Error(data.message)
       }

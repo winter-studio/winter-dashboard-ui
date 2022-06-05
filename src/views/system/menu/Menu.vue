@@ -43,11 +43,13 @@
                   block-line
                   cascade
                   checkable
+                  draggable
                   :virtual-scroll="true"
                   :pattern="search"
                   :data="menus"
                   :expanded-keys="expandedKeys"
                   style="max-height: 650px; overflow: hidden"
+                  @drop="handleDrop"
                   @update:checked-keys="onUpdateCheckedKeys"
                   @update:selected-keys="editMenuConfirm"
                   @update:expanded-keys="onUpdateExpandedKeys"
@@ -65,16 +67,16 @@
                 type="info"
                 secondary
                 :loading="saveLoading"
-                :disabled="!isEditing"
-                @click="formSubmit"
+                :disabled="!isModified"
+                @click="saveMenuForm"
               >
                 保存
               </n-button>
-              <n-button secondary :disabled="!isEditing" @click="handleReset">重置</n-button>
+              <n-button secondary :disabled="!isModified" @click="resetConfirm">重置</n-button>
             </n-space>
           </template>
           <n-form
-            v-if="isEditing"
+            v-if="menuForm"
             ref="formRef"
             :model="menuForm"
             :rules="rules"
@@ -90,7 +92,7 @@
                 @on-update:value="onUpdateParent"
               />
             </n-form-item>
-            <n-form-item label="菜单" path="type">
+            <n-form-item label="类型" path="type">
               <n-radio-group v-model:value="menuForm.type" name="type">
                 <n-space>
                   <n-radio :value="MenuType.DIR">菜单目录</n-radio>
@@ -104,25 +106,29 @@
               <n-input v-model:value="menuForm.title" placeholder="请输入标题" />
             </n-form-item>
             <n-form-item label="路径" path="path">
-              <n-input v-model:value="menuForm.path" placeholder="请输入路径" />
+              <n-input-group>
+                <n-input-group-label>{{ parentPaths }}</n-input-group-label>
+                <n-input v-model:value="menuForm.path" placeholder="请输入路径" />
+              </n-input-group>
             </n-form-item>
-            <n-form-item label="页面组件/链接" path="data">
-              <n-input v-model:value="menuForm.data" placeholder="请输入路径" />
+            <n-form-item
+              v-if="menuForm.type !== MenuType.DIR"
+              :label="menuForm.type === MenuType.VIEW ? '页面组件' : '链接'"
+              path="data"
+            >
+              <n-input v-model:value="menuForm.data" placeholder="请输入信息" />
             </n-form-item>
             <n-form-item label="图标" path="icon">
               <icon-select v-model:value="menuForm.icon" />
             </n-form-item>
-            <n-form-item label="标记" path="extra">
-              <n-input v-model:value="menuForm.extra" placeholder="请输入标记" />
+            <n-form-item label="标记" path="tags">
+              <n-dynamic-tags v-model:value="menuFormTags" />
             </n-form-item>
             <n-form-item label="是否隐藏" path="hidden">
               <n-switch v-model:value="menuForm.hidden" />
             </n-form-item>
-            <n-form-item label="是否缓存" path="keepAlive">
+            <n-form-item v-if="menuForm.type === MenuType.VIEW" label="是否缓存" path="keepAlive">
               <n-switch v-model:value="menuForm.keepAlive" />
-            </n-form-item>
-            <n-form-item label="可匿名访问" path="permitAll">
-              <n-switch v-model:value="menuForm.permitAll" />
             </n-form-item>
           </n-form>
           <n-result
@@ -137,10 +143,18 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref, unref } from 'vue'
-import { TreeOption, TreeSelectOption, useDialog, useMessage } from 'naive-ui'
+import { computed, onMounted, ref, unref } from 'vue'
+import {
+  FormItemRule,
+  FormRules,
+  TreeDropInfo,
+  TreeOption,
+  TreeSelectOption,
+  useDialog,
+  useMessage
+} from 'naive-ui'
 import { SearchOutlined } from '@vicons/antd'
-import { getMenuById, getMenuList, Menu } from '@/api/base/menu'
+import { addMenu, getMenuById, getMenuList, Menu, updateMenu } from '@/api/base/menu'
 import { MenuTree, MenuType } from '@/router/types'
 import {
   AddBoxOutlined,
@@ -149,7 +163,7 @@ import {
   VerticalAlignCenterTwotone
 } from '@vicons/material'
 import IconSelect from '@/components/menu/IconSelect.vue'
-import { isEqual, clone } from 'lodash-es'
+import { isEqual, clone, isEmpty, isNil } from 'lodash-es'
 const dialog = useDialog()
 const message = useMessage()
 const loading = ref(true)
@@ -160,8 +174,13 @@ const expandedKeys = ref<Array<string | number>>([])
 //选中菜单Keys
 const checkedKeys = ref<Array<string | number>>([])
 //表单校验规则
-const rules = {
-  label: {
+const rules: FormRules = {
+  type: {
+    required: true,
+    message: '请选择类型',
+    trigger: 'blur'
+  },
+  title: {
     required: true,
     message: '请输入标题',
     trigger: 'blur'
@@ -170,28 +189,85 @@ const rules = {
     required: true,
     message: '请输入路径',
     trigger: 'blur'
+  },
+  data: {
+    required: true,
+    validator(rule: FormItemRule, value: string) {
+      if (isEmpty(value)) {
+        const menuType = unref(menuForm)?.type
+        if (menuType === MenuType.VIEW) {
+          return new Error('请输入页面组件')
+        } else if (menuType === MenuType.LINK || menuType === MenuType.IFRAME) {
+          return new Error('请输入链接')
+        }
+      }
+      return true
+    },
+    trigger: 'blur'
   }
 }
 //form引用
 const formRef: any = ref(null)
 //菜单树
-const menus = ref<Array<TreeOption>>([])
+const menus = ref<Array<MenuTreeOptions>>([])
 const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
-//是否正在编辑
-const isEditing = ref(false)
+
 // 编辑时的key，添加时为空
 const editingKey = ref<string | number | undefined>(undefined)
-const menuForm = ref<Menu>({})
-let editMenuCache: Menu = {}
+const menuForm = ref<Menu | undefined>(undefined)
+let editMenuCache: Menu | undefined = undefined
+//是否更改
+const isModified = computed(() => {
+  return !isEqual(unref(menuForm), editMenuCache)
+})
+//计算父级目录路径
+const parentPaths = computed(() => {
+  return getParentPath(menuForm.value?.parentId)
+})
+//
+const menuFormTags = computed({
+  get(): Array<string> {
+    return unref(menuForm)?.tags?.split(',') ?? []
+  },
+  set(value: Array<string>) {
+    unref(menuForm)!.tags = value.join(',')
+  }
+})
+
+function buildTreeOptionPaths(
+  key: string | number,
+  tree: Array<MenuTreeOptions>
+): string | undefined {
+  for (let item of tree) {
+    if (item.key === key) {
+      return item.path + '/'
+    }
+    if (item.children) {
+      const result = buildTreeOptionPaths(key, item.children)
+      if (result) {
+        return item.path + result + '/'
+      }
+    }
+  }
+}
+
+function getParentPath(parentId: undefined | number): string {
+  if (parentId === undefined) {
+    return '/'
+  }
+  return '/' + (buildTreeOptionPaths(parentId, unref(menus)) ?? '')
+}
 
 function onUpdateCheckedKeys(keys: Array<string | number>) {
   checkedKeys.value = keys
 }
 
+function handleDrop(info: TreeDropInfo) {
+  console.log(info)
+}
+
 function editMenuConfirm(keys: Array<string | number>) {
-  console.log(menuForm.value)
-  console.log(editMenuCache)
-  if (!isEqual(menuForm.value, editMenuCache)) {
+  if (isModified.value) {
     dialog.info({
       title: '未保存',
       content: '当前编辑内容已更改，确认放弃当前编辑的内容？',
@@ -208,34 +284,76 @@ function editMenuConfirm(keys: Array<string | number>) {
 
 async function editMenu(keys: Array<string | number>) {
   if (keys && keys[0]) {
-    isEditing.value = true
     editingKey.value = keys[0]
-    const data = (await getMenuById(keys[0])) as Menu
+    const { data } = await getMenuById(keys[0])
     menuForm.value = data
     editMenuCache = clone(data)
   } else {
-    isEditing.value = true
     editingKey.value = undefined
     menuForm.value = {}
     editMenuCache = {}
   }
 }
 
-async function handleReset() {
+function resetConfirm() {
+  if (isModified.value) {
+    dialog.info({
+      title: '重置确认',
+      content: '确认放弃当前编辑的内容？',
+      positiveText: '确认',
+      negativeText: '取消',
+      onPositiveClick() {
+        reset()
+      }
+    })
+  } else {
+    dialog.info({
+      title: '未更改',
+      content: '表单内容还没有改变',
+      positiveText: '确认'
+    })
+  }
+}
+
+function reset() {
   if (editingKey.value) {
-    menuForm.value = (await getMenuById(editingKey.value)) as Menu
+    menuForm.value = editMenuCache
   } else {
     menuForm.value = {}
   }
 }
 
-function formSubmit() {
+function saveMenuForm() {
   formRef.value.validate((errors: boolean) => {
-    if (!errors) {
-      message.error('抱歉，您没有该权限')
-    } else {
+    if (errors) {
       message.error('请填写完整信息')
+      return
     }
+
+    saveLoading.value = true
+
+    let apiPromise
+    if (isNil(editingKey.value)) {
+      apiPromise = addMenu(unref(menuForm)!)
+    } else {
+      apiPromise = updateMenu(editingKey.value, unref(menuForm)!)
+    }
+
+    apiPromise
+      .then(() => {
+        message.success('保存成功')
+        editMenuCache = clone(menuForm.value)
+        saveLoading.value = false
+      })
+      .catch(() => {
+        message.error('保存失败')
+        saveLoading.value = false
+      })
+
+    setTimeout(() => {
+      saveLoading.value = false
+      message.success('保存成功')
+    }, 1000)
   })
 }
 
@@ -250,6 +368,8 @@ function toggleCollapse() {
 interface MenuTreeOptions extends TreeOption {
   key: string
   label: string
+  path: string
+  children?: MenuTreeOptions[]
 }
 
 function buildTreeOptions(menuTrees: Array<MenuTree>): Array<MenuTreeOptions> {
@@ -257,6 +377,7 @@ function buildTreeOptions(menuTrees: Array<MenuTree>): Array<MenuTreeOptions> {
     return {
       key: item.id,
       label: item.title,
+      path: item.path,
       children: item.children ? buildTreeOptions(item.children) : undefined
     }
   })
@@ -279,9 +400,9 @@ function buildDirTreeOptions(menuTrees: Array<MenuTree>): Array<TreeSelectOption
 }
 
 onMounted(async () => {
-  const menuTrees = (await getMenuList()) as Array<MenuTree>
-  menus.value = buildTreeOptions(menuTrees)
-  dirMenus.value = buildDirTreeOptions(menuTrees)
+  const { data: menuTrees } = await getMenuList()
+  menus.value = buildTreeOptions(menuTrees!)
+  dirMenus.value = buildDirTreeOptions(menuTrees!)
   loading.value = false
 })
 
@@ -290,6 +411,8 @@ function onUpdateExpandedKeys(keys: Array<string | number>) {
 }
 
 function onUpdateParent(value: number) {
-  menuForm.value.parentId = value
+  if (menuForm.value) {
+    menuForm.value.parentId = value
+  }
 }
 </script>

@@ -14,7 +14,7 @@ export interface ApiResponse<T = any> {
 }
 
 export interface ProxyAxiosRequestConfig<D = any> extends AxiosRequestConfig<D> {
-  unwrap?: boolean
+  raw?: boolean
 }
 
 export interface ProxyAxiosResponse<T = ApiResponse, D = any> extends AxiosResponse<T, D> {
@@ -22,39 +22,37 @@ export interface ProxyAxiosResponse<T = ApiResponse, D = any> extends AxiosRespo
 }
 
 export interface ProxyAxiosInstance extends AxiosInstance {
-  request<S = any, T = ApiResponse<S>, R = ProxyAxiosResponse<T>, D = any>(
-    config: ProxyAxiosRequestConfig<D>
-  ): Promise<R | T | S>
+  request<S = any, T = ApiResponse<S>, D = any>(config: ProxyAxiosRequestConfig<D>): Promise<T>
 
-  get<S = any, T = ApiResponse<S>, R = ProxyAxiosResponse<T>, D = any>(
+  get<S = any, T = ApiResponse<S>, D = any>(
     url: string,
     config?: ProxyAxiosRequestConfig<D>
-  ): Promise<R | T | S>
-  delete<S = any, T = ApiResponse<S>, R = ProxyAxiosResponse<T>, D = any>(
+  ): Promise<T>
+  delete<S = any, T = ApiResponse<S>, D = any>(
     url: string,
     config?: ProxyAxiosRequestConfig<D>
-  ): Promise<R | T | S>
-  head<S = any, T = ApiResponse<S>, R = ProxyAxiosResponse<T>, D = any>(
+  ): Promise<T>
+  head<S = any, T = ApiResponse<S>, D = any>(
     url: string,
     config?: ProxyAxiosRequestConfig<D>
-  ): Promise<R | T | S>
-  options<S = any, T = ApiResponse<S>, R = ProxyAxiosResponse<T>, D = any>(
+  ): Promise<T>
+  options<S = any, T = ApiResponse<S>, D = any>(
     url: string,
     config?: ProxyAxiosRequestConfig<D>
-  ): Promise<R | T | S>
-  post<S = any, T = ApiResponse<S>, R = ProxyAxiosResponse<T>, D = any>(
-    url: string,
-    data?: D,
-    config?: ProxyAxiosRequestConfig<D>
-  ): Promise<R | T | S>
-  put<S = any, T = ApiResponse<S>, R = ProxyAxiosResponse<T>, D = any>(
+  ): Promise<T>
+  post<S = any, T = ApiResponse<S>, D = any>(
     url: string,
     data?: D,
     config?: ProxyAxiosRequestConfig<D>
-  ): Promise<R | T | S>
-  patch<S = any, T = ApiResponse<S>, R = ProxyAxiosResponse<T>, D = any>(
+  ): Promise<T>
+  put<S = any, T = ApiResponse<S>, D = any>(
     url: string,
     data?: D,
     config?: ProxyAxiosRequestConfig<D>
-  ): Promise<R | T | S>
+  ): Promise<T>
+  patch<S = any, T = ApiResponse<S>, D = any>(
+    url: string,
+    data?: D,
+    config?: ProxyAxiosRequestConfig<D>
+  ): Promise<T>
 }

@@ -3,7 +3,10 @@ import { AppRouteRecordRaw, Component, MenuTree, MenuType } from './types'
 import { AppLayout, EmptyLayout, IFrameLayout } from './constant'
 import router from '@/router'
 
-export function setupDynamicRoutes(menus: MenuTree[]) {
+export function setupDynamicRoutes(menus?: MenuTree[]) {
+  if (!menus) {
+    return
+  }
   const appRoutes: AppRouteRecordRaw[] = generatorAppRoutes(menus, 1)
   appRoutes.forEach((route) => {
     router.addRoute(route as unknown as RouteRecordRaw)
@@ -42,8 +45,7 @@ function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw
       meta: {
         title: menu.title,
         type: menu.type,
-        keepAlive: menu.keepAlive,
-        permitAll: menu.permitAll
+        keepAlive: menu.keepAlive
       },
       path: (level === 1 ? '/' : '') + menu.path
     }

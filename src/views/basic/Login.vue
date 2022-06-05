@@ -135,8 +135,8 @@ const handleSubmit = (e: MouseEvent) => {
       }
 
       try {
-        const result = await login(params)
-        userStore.login(result)
+        const res = await login(params)
+        userStore.login(res.data)
         await userStore.afterLogin()
         const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
         if (route.name === LOGIN_NAME) {
@@ -145,6 +145,7 @@ const handleSubmit = (e: MouseEvent) => {
           router.replace(toPath)
         }
       } catch (err) {
+        console.error(err)
         message.error(`登录失败:${err}`)
       } finally {
         loading.value = false

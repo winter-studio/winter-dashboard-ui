@@ -17,13 +17,13 @@
         @close="showSelectPanel = false"
       >
         <n-tabs type="line" animated :closable="true">
-          <n-tab-pane name="Outlined" tab="线框风格">
+          <n-tab-pane name="Outlined" tab="线框风格" display-directive="show:lazy">
             <icon-list :icons="outlinedIcons" remove-suffix="Outlined" @on-select="onSelect" />
           </n-tab-pane>
-          <n-tab-pane name="Filled" tab="实底风格">
+          <n-tab-pane name="Filled" tab="实底风格" display-directive="show:lazy">
             <icon-list :icons="filledIcons" remove-suffix="Filled" @on-select="onSelect" />
           </n-tab-pane>
-          <n-tab-pane name="TwoTone" tab="双色风格">
+          <n-tab-pane name="TwoTone" tab="双色风格" display-directive="show:lazy">
             <icon-list :icons="twoToneIcons" remove-suffix="Twotone" @on-select="onSelect" />
           </n-tab-pane>
         </n-tabs>
