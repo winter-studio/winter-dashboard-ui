@@ -17,12 +17,17 @@
               </template>
               添加菜单
             </n-button>
-            <n-button :disabled="checkedKeys.length === 0" secondary type="error" class="mr-2">
-              <template #icon>
-                <n-icon><delete-outline-filled /></n-icon>
+            <n-popconfirm class="mr-2" @positive-click="deleteMenus">
+              <template #trigger>
+                <n-button :disabled="checkedKeys.length === 0" secondary type="error">
+                  <template #icon>
+                    <n-icon><delete-outline-filled /></n-icon>
+                  </template>
+                  删除菜单
+                </n-button>
               </template>
-              删除菜单
-            </n-button>
+              确认删除吗？将无法恢复
+            </n-popconfirm>
           </template>
           <div class="w-full">
             <n-input v-model:value="search" type="input" placeholder="输入菜单名称搜索">
@@ -87,6 +92,7 @@
             <n-form-item label="父级目录">
               <n-tree-select
                 v-model:value="menuForm.parentId"
+                clearable
                 :show-path="true"
                 :options="dirMenus"
                 @on-update:value="onUpdateParent"
@@ -154,7 +160,7 @@ import {
   useMessage
 } from 'naive-ui'
 import { SearchOutlined } from '@vicons/antd'
-import { addMenu, getMenuById, getMenuList, Menu, updateMenu } from '@/api/base/menu'
+import { addMenu, getMenuById, getMenuList, Menu, removeMenus, updateMenu } from '@/api/base/menu'
 import { MenuTree, MenuType } from '@/router/types'
 import {
   AddBoxOutlined,
@@ -215,10 +221,10 @@ const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
 // 编辑时的key，添加时为空
 const editingKey = ref<string | number | undefined>(undefined)
 const menuForm = ref<Menu | undefined>(undefined)
-let editMenuCache: Menu | undefined = undefined
+let editMenuCache = ref<Menu | undefined>(undefined)
 //是否更改
 const isModified = computed(() => {
-  return !isEqual(unref(menuForm), editMenuCache)
+  return !isEqual(unref(menuForm), unref(editMenuCache))
 })
 //计算父级目录路径
 const parentPaths = computed(() => {
@@ -287,11 +293,11 @@ async function editMenu(keys: Array<string | number>) {
     editingKey.value = keys[0]
     const { data } = await getMenuById(keys[0])
     menuForm.value = data
-    editMenuCache = clone(data)
+    editMenuCache.value = clone(data)
   } else {
     editingKey.value = undefined
     menuForm.value = {}
-    editMenuCache = {}
+    editMenuCache.value = {}
   }
 }
 
@@ -317,7 +323,7 @@ function resetConfirm() {
 
 function reset() {
   if (editingKey.value) {
-    menuForm.value = editMenuCache
+    menuForm.value = clone(unref(editMenuCache))
   } else {
     menuForm.value = {}
   }
@@ -342,18 +348,14 @@ function saveMenuForm() {
     apiPromise
       .then(() => {
         message.success('保存成功')
-        editMenuCache = clone(menuForm.value)
+        editMenuCache.value = clone(unref(menuForm))
+        loadMenuTree()
         saveLoading.value = false
       })
       .catch(() => {
         message.error('保存失败')
         saveLoading.value = false
       })
-
-    setTimeout(() => {
-      saveLoading.value = false
-      message.success('保存成功')
-    }, 1000)
   })
 }
 
@@ -399,10 +401,14 @@ function buildDirTreeOptions(menuTrees: Array<MenuTree>): Array<TreeSelectOption
   return data
 }
 
-onMounted(async () => {
+async function loadMenuTree() {
   const { data: menuTrees } = await getMenuList()
   menus.value = buildTreeOptions(menuTrees!)
   dirMenus.value = buildDirTreeOptions(menuTrees!)
+}
+
+onMounted(async () => {
+  await loadMenuTree()
   loading.value = false
 })
 
@@ -413,6 +419,13 @@ function onUpdateExpandedKeys(keys: Array<string | number>) {
 function onUpdateParent(value: number) {
   if (menuForm.value) {
     menuForm.value.parentId = value
+  }
+}
+
+async function deleteMenus() {
+  if (checkedKeys.value.length > 0) {
+    await removeMenus(checkedKeys.value)
+    loadMenuTree()
   }
 }
 </script>

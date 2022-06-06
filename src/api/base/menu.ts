@@ -48,3 +48,13 @@ export function updateMenu(id: string | number, data: Menu) {
     data
   })
 }
+
+export function removeMenus(ids: (string | number)[]) {
+  return axios.request({
+    url: `/menus`,
+    method: 'DELETE',
+    data: {
+      ids
+    }
+  })
+}

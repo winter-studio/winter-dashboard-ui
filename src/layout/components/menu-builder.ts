@@ -1,7 +1,7 @@
 import { MenuTree } from '@/router/types'
 import { cloneDeep } from 'lodash-es'
 import { MenuDividerOption, MenuGroupOption, MenuOption, NTag } from 'naive-ui'
-import { renderIconByName } from '@/utils/icon-utils'
+import { renderMenuIcon } from '@/utils/icon-utils'
 import { h } from 'vue'
 
 /**
@@ -17,7 +17,7 @@ export function buildMenu(
     const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
       label: menu.title,
       key: menu.id,
-      icon: menu.icon ? renderIconByName(menu.icon) : undefined,
+      icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
       extra: menu.tags ? renderTags(menu.tags) : undefined,
       type: menu.type,
       data: menu.data
@@ -50,7 +50,7 @@ export function buildMenuMix(
       const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
         label: menu.title,
         key: menu.id,
-        icon: menu.icon ? renderIconByName(menu.icon) : undefined,
+        icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
         extra: menu.tags ? renderTags(menu.tags) : undefined,
         type: menu.type,
         data: menu.data
@@ -80,7 +80,7 @@ function buildChildren(
     const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
       label: menu.title,
       key: menu.id,
-      icon: menu.icon ? renderIconByName(menu.icon) : undefined,
+      icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
       extra: menu.tags ? renderTags(menu.tags) : undefined,
       type: menu.type,
       data: menu.data

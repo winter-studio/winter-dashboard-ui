@@ -40,6 +40,7 @@ function setupResponseInterceptor(axios: AxiosInstance) {
           return data
         }
       } else {
+        window.$message.error(data.message ?? '请求失败')
         throw new Error(data.message)
       }
     },

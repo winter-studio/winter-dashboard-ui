@@ -1,35 +1,11 @@
 import { Component, h } from 'vue'
 import { NIcon } from 'naive-ui'
-import {
-  ProjectOutlined,
-  WalletOutlined,
-  DashboardOutlined,
-  ProfileOutlined,
-  ExclamationCircleOutlined,
-  TableOutlined,
-  CheckCircleOutlined,
-  SettingOutlined
-} from '@vicons/antd'
-import { DocumentTextOutline, DesktopOutline, OptionsSharp } from '@vicons/ionicons5'
+import IconRender from '@/components/menu/IconRender.vue'
 
 export function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
-export const menuIcons: { [key: string]: Component } = {
-  ProjectOutlined,
-  WalletOutlined,
-  DashboardOutlined,
-  DocumentTextOutline,
-  ProfileOutlined,
-  ExclamationCircleOutlined,
-  DesktopOutline,
-  TableOutlined,
-  CheckCircleOutlined,
-  SettingOutlined,
-  OptionsSharp
-}
-
-export function renderIconByName(name: string) {
-  return renderIcon(menuIcons[name])
+export function renderMenuIcon(name: string) {
+  return () => h(IconRender, { icon: name }, {})
 }
