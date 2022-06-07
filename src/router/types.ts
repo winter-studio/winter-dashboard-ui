@@ -32,7 +32,7 @@ export enum MenuType {
 }
 
 export interface MenuTree {
-  id: string
+  id: number
   path: string
   title: string
   type: MenuType

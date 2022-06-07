@@ -49,12 +49,34 @@ export function updateMenu(id: string | number, data: Menu) {
   })
 }
 
+export function removeMenu(id: string | number) {
+  return axios.request({
+    url: `/menus/${id}`,
+    method: 'DELETE'
+  })
+}
+
 export function removeMenus(ids: (string | number)[]) {
   return axios.request({
     url: `/menus`,
     method: 'DELETE',
     data: {
       ids
+    }
+  })
+}
+
+export function moveMenu(
+  target: string | number,
+  relative: string | number,
+  position: 'before' | 'after' | 'inside'
+) {
+  return axios.request({
+    url: `/menus/${target}/position`,
+    method: 'PUT',
+    data: {
+      relative,
+      position
     }
   })
 }

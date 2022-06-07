@@ -35,13 +35,24 @@ function setupResponseInterceptor(axios: AxiosInstance) {
     (response: ProxyAxiosResponse) => {
       window.$loading.finish()
       const { data } = response
-      if (data.type === ApiResponseType.SUCCESS) {
-        if (!response.config.raw) {
-          return data
-        }
-      } else {
-        window.$message.error(data.message ?? '请求失败')
-        throw new Error(data.message)
+      switch (data.type) {
+        case ApiResponseType.SUCCESS:
+          if (response.config.handleSuccess) {
+            return data
+          }
+          break
+        case ApiResponseType.FAILURE:
+          if (response.config.handleFailure) {
+            window.$message.error(data.message ?? '未知错误')
+            throw new Error('接口失败')
+          }
+          break
+        case ApiResponseType.ERROR:
+          if (response.config.handleError) {
+            window.$message.error(data.message ?? '请求异常')
+            throw new Error(`接口异常:${data.message}`)
+          }
+          break
       }
     },
     (error: any) => {

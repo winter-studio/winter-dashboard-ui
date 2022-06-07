@@ -14,7 +14,9 @@ export interface ApiResponse<T = any> {
 }
 
 export interface ProxyAxiosRequestConfig<D = any> extends AxiosRequestConfig<D> {
-  raw?: boolean
+  handleSuccess?: boolean
+  handleFailure?: boolean
+  handleError?: boolean
 }
 
 export interface ProxyAxiosResponse<T = ApiResponse, D = any> extends AxiosResponse<T, D> {

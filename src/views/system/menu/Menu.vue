@@ -38,12 +38,7 @@
               </template>
             </n-input>
             <div class="py-3 menu-list">
-              <template v-if="loading">
-                <div class="flex items-center justify-center py-4">
-                  <n-spin size="medium" />
-                </div>
-              </template>
-              <template v-else>
+              <n-spin :show="loading">
                 <n-tree
                   block-line
                   cascade
@@ -59,7 +54,7 @@
                   @update:selected-keys="editMenuConfirm"
                   @update:expanded-keys="onUpdateExpandedKeys"
                 />
-              </template>
+              </n-spin>
             </div>
           </div>
         </n-card>
@@ -77,7 +72,19 @@
               >
                 保存
               </n-button>
-              <n-button secondary :disabled="!isModified" @click="resetConfirm">重置</n-button>
+              <n-popconfirm @positive-click="reset">
+                <template #trigger>
+                  <n-button :disabled="!isModified" secondary> 重置 </n-button>
+                </template>
+                确认放弃当前编辑的内容
+              </n-popconfirm>
+
+              <n-popconfirm @positive-click="deleteMenu">
+                <template #trigger>
+                  <n-button :disabled="!editingKey" secondary type="error"> 删除 </n-button>
+                </template>
+                确认删除吗？将无法恢复
+              </n-popconfirm>
             </n-space>
           </template>
           <n-form
@@ -160,7 +167,16 @@ import {
   useMessage
 } from 'naive-ui'
 import { SearchOutlined } from '@vicons/antd'
-import { addMenu, getMenuById, getMenuList, Menu, removeMenus, updateMenu } from '@/api/base/menu'
+import {
+  addMenu,
+  getMenuById,
+  getMenuList,
+  Menu,
+  moveMenu,
+  removeMenu,
+  removeMenus,
+  updateMenu
+} from '@/api/base/menu'
 import { MenuTree, MenuType } from '@/router/types'
 import {
   AddBoxOutlined,
@@ -176,9 +192,9 @@ const loading = ref(true)
 const saveLoading = ref(false)
 const search = ref('')
 //展开菜单Keys
-const expandedKeys = ref<Array<string | number>>([])
+const expandedKeys = ref<Array<number>>([])
 //选中菜单Keys
-const checkedKeys = ref<Array<string | number>>([])
+const checkedKeys = ref<Array<number>>([])
 //表单校验规则
 const rules: FormRules = {
   type: {
@@ -219,7 +235,7 @@ const menus = ref<Array<MenuTreeOptions>>([])
 const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
 
 // 编辑时的key，添加时为空
-const editingKey = ref<string | number | undefined>(undefined)
+const editingKey = ref<number | undefined>(undefined)
 const menuForm = ref<Menu | undefined>(undefined)
 let editMenuCache = ref<Menu | undefined>(undefined)
 //是否更改
@@ -240,10 +256,11 @@ const menuFormTags = computed({
   }
 })
 
-function buildTreeOptionPaths(
-  key: string | number,
-  tree: Array<MenuTreeOptions>
-): string | undefined {
+onMounted(async () => {
+  loadMenuTree()
+})
+
+function buildTreeOptionPaths(key: number, tree: Array<MenuTreeOptions>): string | undefined {
   for (let item of tree) {
     if (item.key === key) {
       return item.path + '/'
@@ -264,15 +281,21 @@ function getParentPath(parentId: undefined | number): string {
   return '/' + (buildTreeOptionPaths(parentId, unref(menus)) ?? '')
 }
 
-function onUpdateCheckedKeys(keys: Array<string | number>) {
+function onUpdateCheckedKeys(keys: Array<number>) {
   checkedKeys.value = keys
 }
 
-function handleDrop(info: TreeDropInfo) {
-  console.log(info)
+async function handleDrop(info: TreeDropInfo) {
+  console.log(
+    `${info.dragNode.label}[${info.dragNode.key}] --${info.dropPosition}-> ${info.node.label}[${info.node.key}]`
+  )
+  if (info.event.isTrusted) {
+    await moveMenu(info.dragNode.key!, info.node.key!, info.dropPosition)
+    loadMenuTree()
+  }
 }
 
-function editMenuConfirm(keys: Array<string | number>) {
+function editMenuConfirm(keys: Array<number>) {
   if (isModified.value) {
     dialog.info({
       title: '未保存',
@@ -288,7 +311,7 @@ function editMenuConfirm(keys: Array<string | number>) {
   }
 }
 
-async function editMenu(keys: Array<string | number>) {
+async function editMenu(keys: Array<number>) {
   if (keys && keys[0]) {
     editingKey.value = keys[0]
     const { data } = await getMenuById(keys[0])
@@ -298,26 +321,6 @@ async function editMenu(keys: Array<string | number>) {
     editingKey.value = undefined
     menuForm.value = {}
     editMenuCache.value = {}
-  }
-}
-
-function resetConfirm() {
-  if (isModified.value) {
-    dialog.info({
-      title: '重置确认',
-      content: '确认放弃当前编辑的内容？',
-      positiveText: '确认',
-      negativeText: '取消',
-      onPositiveClick() {
-        reset()
-      }
-    })
-  } else {
-    dialog.info({
-      title: '未更改',
-      content: '表单内容还没有改变',
-      positiveText: '确认'
-    })
   }
 }
 
@@ -346,7 +349,8 @@ function saveMenuForm() {
     }
 
     apiPromise
-      .then(() => {
+      .then((res) => {
+        editingKey.value = res.data.id
         message.success('保存成功')
         editMenuCache.value = clone(unref(menuForm))
         loadMenuTree()
@@ -368,7 +372,7 @@ function toggleCollapse() {
 }
 
 interface MenuTreeOptions extends TreeOption {
-  key: string
+  key: number
   label: string
   path: string
   children?: MenuTreeOptions[]
@@ -402,23 +406,34 @@ function buildDirTreeOptions(menuTrees: Array<MenuTree>): Array<TreeSelectOption
 }
 
 async function loadMenuTree() {
-  const { data: menuTrees } = await getMenuList()
-  menus.value = buildTreeOptions(menuTrees!)
-  dirMenus.value = buildDirTreeOptions(menuTrees!)
+  loading.value = true
+  try {
+    const { data: menuTrees } = await getMenuList()
+    menus.value = buildTreeOptions(menuTrees!)
+    dirMenus.value = buildDirTreeOptions(menuTrees!)
+  } finally {
+    loading.value = false
+  }
 }
 
-onMounted(async () => {
-  await loadMenuTree()
-  loading.value = false
-})
-
-function onUpdateExpandedKeys(keys: Array<string | number>) {
+function onUpdateExpandedKeys(keys: Array<number>) {
   expandedKeys.value = keys
 }
 
 function onUpdateParent(value: number) {
   if (menuForm.value) {
     menuForm.value.parentId = value
+  }
+}
+
+async function deleteMenu() {
+  const value = editingKey.value
+  if (value) {
+    await removeMenu(value)
+    loadMenuTree()
+    menuForm.value = undefined
+    editMenuCache.value = undefined
+    editingKey.value = undefined
   }
 }
 
