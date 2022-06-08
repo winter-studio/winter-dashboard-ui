@@ -7,8 +7,7 @@ import { RouteLocationRaw } from 'vue-router'
 import { ApiCodes } from '@/utils/request/api-codes'
 import { refreshToken } from '@/api/base/user'
 
-let isRefreshing = false
-const retryRequests = []
+let refreshing: Promise<any> | undefined = undefined
 
 /**
  * request interceptor
@@ -30,6 +29,13 @@ function setupRequestInterceptor(instance: AxiosInstance) {
       throw new Error(error)
     }
   )
+}
+
+function createRefreshing(token: string) {
+  if (!refreshing) {
+    refreshing = refreshToken(token)
+  }
+  return refreshing
 }
 
 /**
@@ -69,13 +75,10 @@ function setupResponseInterceptor(instance: AxiosInstance) {
             if (error.response.data.code === ApiCodes.ACCESS_TOKEN_EXPIRED) {
               // token过期，尝试刷新token
               if (userStore.refreshToken) {
-                retryRequests.push(instance(error.response.config))
-                if (!isRefreshing) {
-                  isRefreshing = true
-                  // 刷新token成功，重新发起请求
-                  refreshToken(userStore.refreshToken)
-                } else {
-                }
+                refreshing = createRefreshing(userStore.refreshToken)
+                return refreshing.then(() => {
+                  return instance(error.response.config)
+                })
               }
             }
             userStore.logout()
