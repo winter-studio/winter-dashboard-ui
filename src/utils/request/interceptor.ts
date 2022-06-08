@@ -4,12 +4,17 @@ import { ApiResponseType, ProxyAxiosResponse } from '@/utils/request/types'
 import router from '@/router'
 import { PageEnum } from '@/enums/pageEnum'
 import { RouteLocationRaw } from 'vue-router'
+import { ApiCodes } from '@/utils/request/api-codes'
+import { refreshToken } from '@/api/base/user'
+
+let isRefreshing = false
+const retryRequests = []
 
 /**
  * request interceptor
  */
-function setupRequestInterceptor(axios: AxiosInstance) {
-  axios.interceptors.request.use(
+function setupRequestInterceptor(instance: AxiosInstance) {
+  instance.interceptors.request.use(
     (request: AxiosRequestConfig) => {
       window.$loading.start()
       // set header Authorization
@@ -30,8 +35,8 @@ function setupRequestInterceptor(axios: AxiosInstance) {
 /**
  * response interceptor
  */
-function setupResponseInterceptor(axios: AxiosInstance) {
-  axios.interceptors.response.use(
+function setupResponseInterceptor(instance: AxiosInstance) {
+  instance.interceptors.response.use(
     (response: ProxyAxiosResponse) => {
       window.$loading.finish()
       const { data } = response
@@ -60,7 +65,20 @@ function setupResponseInterceptor(axios: AxiosInstance) {
       if (error && error.response) {
         switch (error.response.status) {
           case 401:
-            useUserStore().logout()
+            const userStore = useUserStore()
+            if (error.response.data.code === ApiCodes.ACCESS_TOKEN_EXPIRED) {
+              // token过期，尝试刷新token
+              if (userStore.refreshToken) {
+                retryRequests.push(instance(error.response.config))
+                if (!isRefreshing) {
+                  isRefreshing = true
+                  // 刷新token成功，重新发起请求
+                  refreshToken(userStore.refreshToken)
+                } else {
+                }
+              }
+            }
+            userStore.logout()
             const redirect = router.currentRoute.value.fullPath
             const to: RouteLocationRaw = {
               name: PageEnum.BASE_LOGIN_NAME

@@ -20,7 +20,7 @@ export function setupGuards(router: Router) {
     }
     const userStore = useUserStore()
     const appStore = useAppStore()
-    const token = userStore.getToken
+    const token = userStore.token
     if (!token) {
       // You can access without permissions. You need to set the routing meta.permitAll to true
       if (to.meta.permitAll) {

@@ -33,6 +33,19 @@ export function logout() {
 }
 
 /**
+ * @description: 用户登出
+ */
+export function refreshToken(token: string) {
+  return axios.request({
+    url: '/auth/token',
+    method: 'PUT',
+    headers: {
+      'x-refresh-token': token
+    }
+  })
+}
+
+/**
  * @description: 获取用户信息
  */
 export function getUserMenus() {

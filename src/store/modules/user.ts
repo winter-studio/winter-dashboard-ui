@@ -9,6 +9,7 @@ const STORAGE_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000
 
 export interface UserState {
   token: string
+  refreshToken: string
   username: string
   welcome: string
   avatar: string
@@ -19,15 +20,13 @@ export const useUserStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
     token: storage.get(StorageType.ACCESS_TOKEN, ''),
+    refreshToken: storage.get(StorageType.REFRESH_TOKEN, ''),
     username: '',
     welcome: '',
     avatar: '',
     info: storage.get(StorageType.CURRENT_USER, {})
   }),
   getters: {
-    getToken(): string {
-      return this.token
-    },
     getAvatar(): string {
       return this.avatar
     },
