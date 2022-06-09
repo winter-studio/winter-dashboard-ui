@@ -171,7 +171,6 @@ import {
   addMenu,
   getMenuById,
   getMenuList,
-  Menu,
   moveMenu,
   removeMenu,
   removeMenus,
@@ -186,6 +185,7 @@ import {
 } from '@vicons/material'
 import IconSelect from '@/components/menu/IconSelect.vue'
 import { isEqual, clone, isEmpty, isNil } from 'lodash-es'
+import { Menu } from '@/types/response/base'
 const dialog = useDialog()
 const message = useMessage()
 const loading = ref(true)
