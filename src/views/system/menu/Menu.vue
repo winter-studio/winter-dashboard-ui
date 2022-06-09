@@ -108,10 +108,13 @@
             <n-form-item label="类型" path="type">
               <n-radio-group v-model:value="menuForm.type" name="type">
                 <n-space>
-                  <n-radio :value="MenuType.DIR">菜单目录</n-radio>
-                  <n-radio :value="MenuType.VIEW">组件页面</n-radio>
-                  <n-radio :value="MenuType.IFRAME">内嵌外部链接</n-radio>
-                  <n-radio :value="MenuType.LINK">跳转外部链接</n-radio>
+                  <n-radio
+                    v-for="menuType in menuTypes"
+                    :key="menuType.value"
+                    :value="menuType.value"
+                  >
+                    {{ menuType.label }}</n-radio
+                  >
                 </n-space>
               </n-radio-group>
             </n-form-item>
@@ -124,11 +127,7 @@
                 <n-input v-model:value="menuForm.path" placeholder="请输入路径" />
               </n-input-group>
             </n-form-item>
-            <n-form-item
-              v-if="menuForm.type !== MenuType.DIR"
-              :label="menuForm.type === MenuType.VIEW ? '页面组件' : '链接'"
-              path="data"
-            >
+            <n-form-item v-if="showDataField" :label="dataFieldLabel" path="data">
               <n-input v-model:value="menuForm.data" placeholder="请输入信息" />
             </n-form-item>
             <n-form-item label="图标" path="icon">
@@ -140,7 +139,7 @@
             <n-form-item label="是否隐藏" path="hidden">
               <n-switch v-model:value="menuForm.hidden" />
             </n-form-item>
-            <n-form-item v-if="menuForm.type === MenuType.VIEW" label="是否缓存" path="keepAlive">
+            <n-form-item v-if="showKeepAliveField" label="是否缓存" path="keepAlive">
               <n-switch v-model:value="menuForm.keepAlive" />
             </n-form-item>
           </n-form>
@@ -156,7 +155,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, ref, unref } from 'vue'
+import { computed, onMounted, ref, unref, watch } from 'vue'
 import {
   FormItemRule,
   FormRules,
@@ -195,12 +194,35 @@ const search = ref('')
 const expandedKeys = ref<Array<number>>([])
 //选中菜单Keys
 const checkedKeys = ref<Array<number>>([])
+const showDataField = ref<boolean>(false)
+const dataFieldLabel = ref<string>('')
+const showKeepAliveField = ref<boolean>(false)
+
+//菜单类型
+const menuTypes = [
+  {
+    value: MenuType.DIR,
+    label: '菜单目录'
+  },
+  {
+    value: MenuType.VIEW,
+    label: '组件页面'
+  },
+  {
+    value: MenuType.LINK,
+    label: '内嵌链接'
+  },
+  {
+    value: MenuType.IFRAME,
+    label: '跳转链接'
+  }
+]
 //表单校验规则
 const rules: FormRules = {
   type: {
     required: true,
     message: '请选择类型',
-    trigger: 'blur'
+    trigger: 'change'
   },
   title: {
     required: true,
@@ -238,6 +260,15 @@ const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
 const editingKey = ref<number | undefined>(undefined)
 const menuForm = ref<Menu | undefined>(undefined)
 let editMenuCache = ref<Menu | undefined>(undefined)
+//WATCH: 当前编辑的菜单
+watch(
+  () => menuForm,
+  (value) => {
+    showDataField.value = value?.value?.type !== MenuType.DIR
+    dataFieldLabel.value = value?.value?.type === MenuType.VIEW ? '数据' : '页面'
+    showKeepAliveField.value = value?.value?.type === MenuType.VIEW
+  }
+)
 //是否更改
 const isModified = computed(() => {
   return !isEqual(unref(menuForm), unref(editMenuCache))
@@ -322,6 +353,7 @@ async function editMenu(keys: Array<number>) {
     menuForm.value = {}
     editMenuCache.value = {}
   }
+  formRef.value.restoreValidation()
 }
 
 function reset() {
