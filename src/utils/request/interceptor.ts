@@ -88,18 +88,20 @@ function setupResponseInterceptor(instance: AxiosInstance) {
                 return instance(error.response.config)
               }
             }
-            userStore.logout()
-            const redirect = router.currentRoute.value.fullPath
-            const to: RouteLocationRaw = {
-              name: PageEnum.BASE_LOGIN_NAME
-            }
-            if (redirect && redirect !== '/') {
-              to.query = { redirect }
-            }
-            const msg = error.response.data.message
-            router.push(to).then((_) => {
-              window.$message.error(`${msg}, 请重新登录`)
+            userStore.logout().then(() => {
+              const redirect = router.currentRoute.value.fullPath
+              const to: RouteLocationRaw = {
+                name: PageEnum.BASE_LOGIN_NAME
+              }
+              if (redirect && redirect !== '/') {
+                to.query = { redirect }
+              }
+              const msg = error.response.data.message
+              router.push(to).then((_) => {
+                window.$message.error(`${msg}, 请重新登录`)
+              })
             })
+
             break
           case 403:
             window.$message.error('没有权限')

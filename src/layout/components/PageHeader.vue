@@ -270,7 +270,7 @@ export default defineComponent({
             localStorage.removeItem(StorageType.TABS_ROUTES)
             router
               .replace({
-                name: 'Login',
+                name: PageEnum.BASE_LOGIN_NAME,
                 query: {
                   redirect: route.fullPath
                 }

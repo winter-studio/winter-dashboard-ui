@@ -17,7 +17,7 @@ export function getUserInfo() {
  */
 export function login(data: any) {
   return axios.request<UserLogin>({
-    url: '/auth/login',
+    url: '/auth/token',
     method: 'POST',
     data
   })
@@ -26,10 +26,13 @@ export function login(data: any) {
 /**
  * @description: 用户登出
  */
-export function logout() {
+export function logout(refreshToken: string | undefined) {
   return axios.request({
-    url: '/auth/logout',
-    method: 'POST'
+    url: '/auth/token',
+    method: 'DELETE',
+    data: {
+      refreshToken
+    }
   })
 }
 

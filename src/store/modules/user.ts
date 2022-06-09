@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/utils/storage'
 import StorageType from '@/enums/storageType'
-import { getUserInfo, getUserMenus } from '@/api/base/user'
+import { getUserInfo, getUserMenus, logout } from '@/api/base/user'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
 import { UserLogin } from '@/types/response/base'
@@ -10,8 +10,8 @@ import { omit } from 'lodash-es'
 const STORAGE_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000
 
 export interface UserState {
-  accessToken: string
-  refreshToken: string
+  accessToken: string | undefined
+  refreshToken: string | undefined
   username: string
   welcome: string
   avatar: string
@@ -21,8 +21,8 @@ export interface UserState {
 export const useUserStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
-    accessToken: storage.get(StorageType.ACCESS_TOKEN, ''),
-    refreshToken: storage.get(StorageType.REFRESH_TOKEN, ''),
+    accessToken: storage.get(StorageType.ACCESS_TOKEN, undefined),
+    refreshToken: storage.get(StorageType.REFRESH_TOKEN, undefined),
     username: '',
     welcome: '',
     avatar: '',
@@ -95,8 +95,11 @@ export const useUserStore = defineStore({
       }
     },
     // 登出
-    logout() {
+    async logout() {
+      await logout(this.refreshToken)
       this.info = undefined
+      this.accessToken = undefined
+      this.refreshToken = undefined
       storage.remove(StorageType.ACCESS_TOKEN)
       storage.remove(StorageType.CURRENT_USER)
     }
