@@ -127,7 +127,11 @@
                 <n-input v-model:value="menuForm.path" placeholder="请输入路径" />
               </n-input-group>
             </n-form-item>
-            <n-form-item v-if="showDataField" :label="dataFieldLabel" path="data">
+            <n-form-item
+              v-if="menuForm.type !== MenuType.DIR"
+              :label="menuForm.type === MenuType.VIEW ? '页面组件' : '链接'"
+              path="data"
+            >
               <n-input v-model:value="menuForm.data" placeholder="请输入信息" />
             </n-form-item>
             <n-form-item label="图标" path="icon">
@@ -139,7 +143,7 @@
             <n-form-item label="是否隐藏" path="hidden">
               <n-switch v-model:value="menuForm.hidden" />
             </n-form-item>
-            <n-form-item v-if="showKeepAliveField" label="是否缓存" path="keepAlive">
+            <n-form-item v-if="menuForm.type === MenuType.VIEW" label="是否缓存" path="keepAlive">
               <n-switch v-model:value="menuForm.keepAlive" />
             </n-form-item>
           </n-form>
@@ -155,7 +159,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, ref, unref, watch } from 'vue'
+import { computed, onMounted, ref, unref } from 'vue'
 import {
   FormItemRule,
   FormRules,
@@ -260,15 +264,7 @@ const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
 const editingKey = ref<number | undefined>(undefined)
 const menuForm = ref<Menu | undefined>(undefined)
 let editMenuCache = ref<Menu | undefined>(undefined)
-//WATCH: 当前编辑的菜单
-watch(
-  () => menuForm,
-  (value) => {
-    showDataField.value = value?.value?.type !== MenuType.DIR
-    dataFieldLabel.value = value?.value?.type === MenuType.VIEW ? '数据' : '页面'
-    showKeepAliveField.value = value?.value?.type === MenuType.VIEW
-  }
-)
+
 //是否更改
 const isModified = computed(() => {
   return !isEqual(unref(menuForm), unref(editMenuCache))
