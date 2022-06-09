@@ -141,12 +141,13 @@ import {
   UserOutlined
 } from '@vicons/antd'
 import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
-import StorageType from '@/enums/storageType'
 import { useUserStore } from '@/store/modules/user'
 import ProjectSetting from './ProjectSetting.vue'
 import AsideMenu from './AsideMenu.vue'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { Refresh } from '@vicons/tabler'
+import LocalStorageType from '@/enums/storage-types'
+import { PageEnum } from '@/enums/pageEnum'
 
 export default defineComponent({
   name: 'PageHeader',
@@ -267,7 +268,7 @@ export default defineComponent({
           userStore.logout().then(() => {
             message.success('成功退出登录')
             // 移除标签页
-            localStorage.removeItem(StorageType.TABS_ROUTES)
+            localStorage.removeItem(LocalStorageType.TABS_ROUTES)
             router
               .replace({
                 name: PageEnum.BASE_LOGIN_NAME,

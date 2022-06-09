@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/utils/storage'
-import StorageType from '@/enums/storageType'
 import { getUserInfo, getUserMenus, logout } from '@/api/base/user'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
 import { UserLogin } from '@/types/response/base'
 import { omit } from 'lodash-es'
+import LocalStorageType from '@/enums/storage-types'
 
 const STORAGE_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000
 
@@ -21,12 +21,12 @@ export interface UserState {
 export const useUserStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
-    accessToken: storage.get(StorageType.ACCESS_TOKEN, undefined),
-    refreshToken: storage.get(StorageType.REFRESH_TOKEN, undefined),
+    accessToken: storage.get(LocalStorageType.ACCESS_TOKEN, undefined),
+    refreshToken: storage.get(LocalStorageType.REFRESH_TOKEN, undefined),
     username: '',
     welcome: '',
     avatar: '',
-    info: storage.get(StorageType.CURRENT_USER, {})
+    info: storage.get(LocalStorageType.CURRENT_USER, {})
   }),
   getters: {
     getAvatar(): string {
@@ -41,8 +41,8 @@ export const useUserStore = defineStore({
   },
   actions: {
     setToken(accessToken: string, refreshToken: string, refreshTokenExpireIn: number) {
-      storage.set(StorageType.ACCESS_TOKEN, accessToken, STORAGE_EXPIRED_TIME)
-      storage.set(StorageType.REFRESH_TOKEN, refreshToken, refreshTokenExpireIn * 1000)
+      storage.set(LocalStorageType.ACCESS_TOKEN, accessToken, STORAGE_EXPIRED_TIME)
+      storage.set(LocalStorageType.REFRESH_TOKEN, refreshToken, refreshTokenExpireIn * 1000)
       this.accessToken = accessToken
       this.refreshToken = refreshToken
     },
@@ -51,7 +51,7 @@ export const useUserStore = defineStore({
     },
     setUserInfo(info: UserLogin) {
       storage.set(
-        StorageType.CURRENT_USER,
+        LocalStorageType.CURRENT_USER,
         omit(info, ['accessToken', 'refreshToken', 'refreshTokenExpireIn']),
         info.refreshTokenExpireIn * 1000
       )
@@ -100,8 +100,8 @@ export const useUserStore = defineStore({
       this.info = undefined
       this.accessToken = undefined
       this.refreshToken = undefined
-      storage.remove(StorageType.ACCESS_TOKEN)
-      storage.remove(StorageType.CURRENT_USER)
+      storage.remove(LocalStorageType.ACCESS_TOKEN)
+      storage.remove(LocalStorageType.CURRENT_USER)
     }
   }
 })

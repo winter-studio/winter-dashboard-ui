@@ -106,7 +106,6 @@ import {
 } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storage } from '@/utils/storage'
-import StorageType from '@/enums/storageType'
 import { RouteItem, useTabsViewStore } from '@/store/modules/tabsView'
 import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useMessage, useThemeVars } from 'naive-ui'
@@ -126,6 +125,7 @@ import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
 import { useProjectSettingStore } from '@/store/modules/projectSetting'
 import { useGo } from '@/hooks/web/usePage'
 import { renderIcon } from '@/utils/icon-utils'
+import LocalStorageType from '@/enums/storage-types'
 
 export default defineComponent({
   name: 'AppTabs',
@@ -237,7 +237,7 @@ export default defineComponent({
     let cacheRoutes: RouteItem[] = []
     const simpleRoute = getSimpleRoute(route)
     try {
-      const routesStr = storage.get(StorageType.TABS_ROUTES) as string | null | undefined
+      const routesStr = storage.get(LocalStorageType.TABS_ROUTES) as string | null | undefined
       cacheRoutes = routesStr ? JSON.parse(routesStr) : [simpleRoute]
     } catch (e) {
       cacheRoutes = [simpleRoute]
