@@ -25,10 +25,10 @@ export interface AppRouteMeta {
 }
 
 export enum MenuType {
-  DIR = 'dir',
-  VIEW = 'view',
-  LINK = 'link',
-  IFRAME = 'iframe'
+  DIR = 1,
+  VIEW,
+  LINK,
+  IFRAME
 }
 
 export interface MenuTree {
