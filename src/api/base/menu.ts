@@ -1,5 +1,6 @@
 import { axios } from '@/utils/request'
-import { MenuTree, MenuType } from '@/router/types'
+import { MenuTree } from '@/router/types'
+import { Menu } from '@/types/response/base'
 
 /**
  * 获取tree菜单列表
@@ -11,19 +12,6 @@ export function getMenuList(params?: any) {
     method: 'GET',
     params
   })
-}
-
-export interface Menu {
-  id?: number
-  parentId?: number
-  path?: string
-  title?: string
-  type?: MenuType
-  data?: string
-  icon?: string
-  tags?: string
-  hidden?: boolean
-  keepAlive?: boolean
 }
 
 export function getMenuById(id: string | number) {

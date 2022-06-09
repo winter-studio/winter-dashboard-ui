@@ -1,5 +1,6 @@
 import { axios } from '@/utils/request'
 import { MenuTree } from '@/router/types'
+import { UserLogin } from '@/types/response/base'
 
 /**
  * @description: 获取用户信息
@@ -15,7 +16,7 @@ export function getUserInfo() {
  * @description: 用户登录
  */
 export function login(data: any) {
-  return axios.request({
+  return axios.request<UserLogin>({
     url: '/auth/login',
     method: 'POST',
     data
@@ -36,7 +37,7 @@ export function logout() {
  * @description: 用户登出
  */
 export function refreshToken(token: string) {
-  return axios.request({
+  return axios.request<string>({
     url: '/auth/token',
     method: 'PUT',
     headers: {

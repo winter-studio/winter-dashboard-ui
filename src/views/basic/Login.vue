@@ -136,7 +136,7 @@ const handleSubmit = (e: MouseEvent) => {
 
       try {
         const res = await login(params)
-        userStore.login(res.data)
+        userStore.login(res.data!)
         await userStore.afterLogin()
         const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
         if (route.name === LOGIN_NAME) {

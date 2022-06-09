@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { useUserStore } from '@/store/modules/user'
-import { ApiResponseType, ProxyAxiosResponse } from '@/utils/request/types'
+import { ApiResponse, ApiResponseType, ProxyAxiosResponse } from '@/utils/request/types'
 import router from '@/router'
 import { PageEnum } from '@/enums/pageEnum'
 import { RouteLocationRaw } from 'vue-router'
@@ -8,6 +8,7 @@ import { ApiCodes } from '@/utils/request/api-codes'
 import { refreshToken } from '@/api/base/user'
 
 let refreshing: Promise<any> | undefined = undefined
+let wattingForRefresh = false
 
 /**
  * request interceptor
@@ -17,7 +18,7 @@ function setupRequestInterceptor(instance: AxiosInstance) {
     (request: AxiosRequestConfig) => {
       window.$loading.start()
       // set header Authorization
-      const token = useUserStore().token
+      const token = useUserStore().accessToken
       if (request.headers && token) {
         request.headers.Authorization = `Bearer ${token}`
       }
@@ -31,8 +32,9 @@ function setupRequestInterceptor(instance: AxiosInstance) {
   )
 }
 
-function createRefreshing(token: string) {
+function createRefreshing(token: string): Promise<ApiResponse<string>> {
   if (!refreshing) {
+    wattingForRefresh = true
     refreshing = refreshToken(token)
   }
   return refreshing
@@ -66,7 +68,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
           break
       }
     },
-    (error: any) => {
+    async (error: any) => {
       window.$loading.error()
       if (error && error.response) {
         switch (error.response.status) {
@@ -75,10 +77,15 @@ function setupResponseInterceptor(instance: AxiosInstance) {
             if (error.response.data.code === ApiCodes.ACCESS_TOKEN_EXPIRED) {
               // token过期，尝试刷新token
               if (userStore.refreshToken) {
+                console.info('token expired，try to refresh token')
                 refreshing = createRefreshing(userStore.refreshToken)
-                return refreshing.then(() => {
-                  return instance(error.response.config)
-                })
+                const res = await refreshing
+                if (wattingForRefresh) {
+                  console.info('refresh token successfully')
+                  wattingForRefresh = false
+                  userStore.accessToken = res.data
+                }
+                return instance(error.response.config)
               }
             }
             userStore.logout()
