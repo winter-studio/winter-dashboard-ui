@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { storage } from '@/utils/storage'
-import { getUserInfo, getUserMenus, logout } from '@/api/base/user'
+import { getUserInfo, getUserMenus } from '@/api/base/user'
+import { logout } from '@/api/base/auth'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
 import { UserLogin } from '@/types/response/base'

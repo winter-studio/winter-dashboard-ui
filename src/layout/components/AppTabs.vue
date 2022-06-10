@@ -273,7 +273,7 @@ export default defineComponent({
 
     // 在页面关闭或刷新之前，保存数据
     window.addEventListener('beforeunload', () => {
-      storage.set(StorageType.TABS_ROUTES, JSON.stringify(tabsList.value))
+      storage.set(LocalStorageType.TABS_ROUTES, JSON.stringify(tabsList.value))
     })
 
     // 关闭当前页面

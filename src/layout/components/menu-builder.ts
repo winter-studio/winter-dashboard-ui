@@ -59,7 +59,7 @@ export function buildMenuMix(
     })
     return firstRouter
   } else {
-    return buildChildren(cloneRouterMap.filter((item) => item.id === routerName))
+    return buildChildren(cloneRouterMap.filter((item) => String(item.id) === routerName))
   }
 }
 

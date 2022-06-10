@@ -23,13 +23,13 @@
 import { onMounted, ref, DefineComponent, markRaw } from 'vue'
 interface Props {
   maxHeight?: string
-  removeSuffix?: string
+  removeSuffix: string
   icons: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
   maxHeight: '300px',
-  removeSuffix: undefined
+  removeSuffix: ''
 })
 
 const loading = ref(true)

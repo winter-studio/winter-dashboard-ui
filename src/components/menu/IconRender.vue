@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import * as antd from '@vicons/antd'
+import { onMounted } from 'vue'
 
 defineProps({
   icon: {
@@ -17,6 +17,13 @@ defineProps({
     required: false,
     default: 16
   }
+})
+
+let antd: any
+onMounted(() => {
+  import('@vicons/antd').then((res) => {
+    antd = res
+  })
 })
 </script>
 

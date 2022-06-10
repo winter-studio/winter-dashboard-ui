@@ -29,7 +29,13 @@ import { ref } from 'vue'
 import BasicSetting from './BasicSetting.vue'
 import SafetySetting from './SafetySetting.vue'
 
-const typeTabList = [
+interface TypeTab {
+  key: number
+  name: string
+  desc: string
+}
+
+const typeTabList: TypeTab[] = [
   {
     name: '基本设置',
     desc: '个人账户信息设置',
@@ -45,7 +51,7 @@ const typeTabList = [
 const type = ref(1)
 const typeTitle = ref('基本设置')
 
-function switchType(e) {
+function switchType(e: TypeTab) {
   type.value = e.key
   typeTitle.value = e.name
 }

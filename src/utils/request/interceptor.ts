@@ -5,7 +5,7 @@ import router from '@/router'
 import { PageEnum } from '@/enums/pageEnum'
 import { RouteLocationRaw } from 'vue-router'
 import { ApiCodes } from '@/utils/request/api-codes'
-import { refreshToken } from '@/api/base/user'
+import { refreshToken } from '@/api/base/auth'
 
 let refreshing: Promise<any> | undefined = undefined
 let wattingForRefresh = false

@@ -31,7 +31,13 @@ import BasicSetting from './BasicSetting.vue'
 import RevealSetting from './RevealSetting.vue'
 import EmailSetting from './EmailSetting.vue'
 
-const typeTabList = [
+interface TypeTab {
+  key: number
+  name: string
+  desc: string
+}
+
+const typeTabList: TypeTab[] = [
   {
     name: '基本设置',
     desc: '系统常规设置',
@@ -56,7 +62,7 @@ export default defineComponent({
       typeTitle: '基本设置'
     })
 
-    function switchType(e) {
+    function switchType(e: TypeTab) {
       state.type = e.key
       state.typeTitle = e.name
     }

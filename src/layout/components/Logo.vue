@@ -5,15 +5,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Index',
-  props: {
-    collapsed: {
-      type: Boolean
-    }
+<script lang="ts" setup>
+defineProps({
+  collapsed: {
+    type: Boolean,
+    default: false
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

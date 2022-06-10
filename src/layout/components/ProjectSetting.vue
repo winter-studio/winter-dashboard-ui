@@ -269,18 +269,18 @@ export default defineComponent({
       state.isDrawer = false
     }
 
-    function togNavTheme(theme) {
+    function togNavTheme(theme: string) {
       settingStore.navTheme = theme
       if (settingStore.navMode === 'horizontal' && ['light'].includes(theme)) {
         settingStore.navTheme = 'dark'
       }
     }
 
-    function togTheme(color) {
+    function togTheme(color: string) {
       designStore.appTheme = color
     }
 
-    function togNavMode(mode) {
+    function togNavMode(mode: string) {
       settingStore.navMode = mode
       settingStore.menuSetting.mixMenu = false
     }

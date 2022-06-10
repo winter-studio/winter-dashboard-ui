@@ -89,7 +89,7 @@ export default defineComponent({
       }
     })
 
-    function systemOpenChange(value) {
+    function systemOpenChange(value: boolean) {
       if (!value) {
         dialog.warning({
           title: '提示',
@@ -107,7 +107,7 @@ export default defineComponent({
     }
 
     function formSubmit() {
-      formRef.value.validate((errors) => {
+      formRef.value.validate((errors: boolean) => {
         if (!errors) {
           message.success('验证成功')
         } else {

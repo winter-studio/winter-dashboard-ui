@@ -72,7 +72,7 @@
     <div class="layout-header-right">
       <div
         v-for="item in iconList"
-        :key="item.icon.name"
+        :key="item.icon"
         class="layout-header-trigger layout-header-trigger-min"
       >
         <n-tooltip placement="bottom">
@@ -127,7 +127,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref, computed, unref, inject } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute, RouteLocationMatched } from 'vue-router'
 import {
   SettingOutlined,
   SearchOutlined,
@@ -221,7 +221,7 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
 
-    const generator: any = (routerMap) => {
+    const generator: any = (routerMap: RouteLocationMatched[]) => {
       return routerMap.map((item) => {
         const currentMenu = {
           ...item,
@@ -243,7 +243,7 @@ export default defineComponent({
       return generator(route.matched)
     })
 
-    const dropdownSelect = (key) => {
+    const dropdownSelect = (key: string) => {
       router.push({ name: key })
     }
 
@@ -328,7 +328,7 @@ export default defineComponent({
     ]
 
     //头像下拉菜单
-    const avatarSelect = (key) => {
+    const avatarSelect = (key: number) => {
       switch (key) {
         case 1:
           router.push({ name: 'Setting' })

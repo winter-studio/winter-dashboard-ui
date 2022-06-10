@@ -216,7 +216,7 @@ const rules: FormRules = {
   },
   data: {
     required: true,
-    validator(rule: FormItemRule, value: string) {
+    validator(_: FormItemRule, value: string) {
       if (isEmpty(value)) {
         const menuType = unref(menuForm)?.type
         if (menuType === MenuType.VIEW) {

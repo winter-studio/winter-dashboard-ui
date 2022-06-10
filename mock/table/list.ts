@@ -1,7 +1,7 @@
 import { Random } from 'mockjs'
 import { resultSuccess, doCustomTimes } from '../_util'
 
-const tableList = (pageSize) => {
+const tableList = (pageSize: number) => {
   const result: any[] = []
   doCustomTimes(pageSize, () => {
     result.push({
@@ -26,8 +26,8 @@ export default [
     url: '/api/table/list',
     timeout: 1000,
     method: 'get',
-    response: ({ query }) => {
-      const { page = 1, pageSize = 10 } = query
+    response: (res: any) => {
+      const { page = 1, pageSize = 10 } = res.query
       const list = tableList(Number(pageSize))
       return resultSuccess({
         page: Number(page),

@@ -59,7 +59,7 @@ export default defineComponent({
     })
 
     function formSubmit() {
-      formRef.value.validate((errors) => {
+      formRef.value.validate((errors: boolean) => {
         if (!errors) {
           message.success('验证成功')
         } else {
