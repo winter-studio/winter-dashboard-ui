@@ -108,13 +108,10 @@
             <n-form-item label="类型" path="type">
               <n-radio-group v-model:value="menuForm.type" name="type">
                 <n-space>
-                  <n-radio
-                    v-for="menuType in menuTypes"
-                    :key="menuType.value"
-                    :value="menuType.value"
-                  >
-                    {{ menuType.label }}</n-radio
-                  >
+                  <n-radio :value="MenuType.DIR">菜单目录</n-radio>
+                  <n-radio :value="MenuType.VIEW">组件页面</n-radio>
+                  <n-radio :value="MenuType.IFRAME">内嵌外部链接</n-radio>
+                  <n-radio :value="MenuType.LINK">跳转外部链接</n-radio>
                 </n-space>
               </n-radio-group>
             </n-form-item>
@@ -179,6 +176,7 @@ import {
   removeMenus,
   updateMenu
 } from '@/api/base/menu'
+import type { Menu } from '@/types/response/base'
 import { MenuTree, MenuType } from '@/router/types'
 import {
   AddBoxOutlined,
@@ -188,7 +186,6 @@ import {
 } from '@vicons/material'
 import IconSelect from '@/components/menu/IconSelect.vue'
 import { isEqual, clone, isEmpty, isNil } from 'lodash-es'
-import { Menu } from '@/types/response/base'
 const dialog = useDialog()
 const message = useMessage()
 const loading = ref(true)
@@ -198,33 +195,12 @@ const search = ref('')
 const expandedKeys = ref<Array<number>>([])
 //选中菜单Keys
 const checkedKeys = ref<Array<number>>([])
-const showDataField = ref<boolean>(false)
-const dataFieldLabel = ref<string>('')
-const showKeepAliveField = ref<boolean>(false)
-
-//菜单类型
-const menuTypes = [
-  {
-    value: MenuType.DIR,
-    label: '菜单目录'
-  },
-  {
-    value: MenuType.VIEW,
-    label: '组件页面'
-  },
-  {
-    value: MenuType.LINK,
-    label: '内嵌链接'
-  },
-  {
-    value: MenuType.IFRAME,
-    label: '跳转链接'
-  }
-]
 //表单校验规则
 const rules: FormRules = {
   type: {
     required: true,
+    type: 'enum',
+    enum: Object.values(MenuType),
     message: '请选择类型',
     trigger: 'change'
   },
@@ -264,7 +240,6 @@ const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
 const editingKey = ref<number | undefined>(undefined)
 const menuForm = ref<Menu | undefined>(undefined)
 let editMenuCache = ref<Menu | undefined>(undefined)
-
 //是否更改
 const isModified = computed(() => {
   return !isEqual(unref(menuForm), unref(editMenuCache))
@@ -349,7 +324,7 @@ async function editMenu(keys: Array<number>) {
     menuForm.value = {}
     editMenuCache.value = {}
   }
-  formRef.value.restoreValidation()
+  formRef.value?.restoreValidation()
 }
 
 function reset() {
@@ -358,6 +333,7 @@ function reset() {
   } else {
     menuForm.value = {}
   }
+  formRef.value?.restoreValidation()
 }
 
 function saveMenuForm() {

@@ -28,7 +28,7 @@ function completeFirstLevelComponent(
         component
       }
     ]
-    appRoute.name = appRoute.name + '-layout'
+    appRoute.name = String(appRoute.name) + '-layout'
     appRoute.component = AppLayout
     appRoute.meta.type = MenuType.DIR
     appRoute.meta.virtual = true
@@ -41,7 +41,7 @@ function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw
   const appRoutes: AppRouteRecordRaw[] = []
   menus.forEach((menu) => {
     const appRoute: AppRouteRecordRaw = {
-      name: menu.id,
+      name: String(menu.id),
       meta: {
         title: menu.title,
         type: menu.type,
@@ -87,7 +87,7 @@ function setupRedirect(appRoute: AppRouteRecordRaw, menu: MenuTree): string | un
     })
     if (firstChild) {
       appRoute.redirect = (_) => {
-        return { name: firstChild.id }
+        return { name: String(firstChild.id) }
       }
       return
     }
