@@ -1,13 +1,13 @@
 <template>
   <n-icon :size="size">
-    <component :is="antd[icon]" />
+    <component :is="iconComponent" />
   </n-icon>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref, DefineComponent, markRaw } from 'vue'
 
-defineProps({
+const props = defineProps({
   icon: {
     type: String,
     required: true
@@ -19,10 +19,10 @@ defineProps({
   }
 })
 
-let antd: any
+const iconComponent = ref<DefineComponent | null>(null)
 onMounted(() => {
-  import('@vicons/antd').then((res) => {
-    antd = res
+  import('@vicons/antd').then((res: any) => {
+    iconComponent.value = markRaw(res[props.icon])
   })
 })
 </script>

@@ -266,7 +266,6 @@ export default defineComponent({
         negativeText: '取消',
         onPositiveClick: () => {
           userStore.logout().then(() => {
-            message.success('成功退出登录')
             // 移除标签页
             localStorage.removeItem(LocalStorageType.TABS_ROUTES)
             router
@@ -276,7 +275,7 @@ export default defineComponent({
                   redirect: route.fullPath
                 }
               })
-              .finally(() => location.reload())
+              .finally(() => message.success('已退出'))
           })
         },
         onNegativeClick: () => {}
