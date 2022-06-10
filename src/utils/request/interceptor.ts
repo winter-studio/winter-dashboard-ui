@@ -8,7 +8,8 @@ import { ApiCodes } from '@/utils/request/api-codes'
 import { refreshToken } from '@/api/base/auth'
 
 let refreshing: Promise<any> | undefined = undefined
-let wattingForRefresh = false
+let waiting = false
+let retryCount = 0
 
 /**
  * request interceptor
@@ -34,7 +35,7 @@ function setupRequestInterceptor(instance: AxiosInstance) {
 
 function createRefreshing(token: string): Promise<ApiResponse<string>> {
   if (!refreshing) {
-    wattingForRefresh = true
+    waiting = true
     refreshing = refreshToken(token)
   }
   return refreshing
@@ -80,12 +81,17 @@ function setupResponseInterceptor(instance: AxiosInstance) {
                 console.info('token expired，try to refresh token')
                 refreshing = createRefreshing(userStore.refreshToken)
                 const res = await refreshing
-                if (wattingForRefresh) {
+                if (waiting) {
                   console.info('refresh token successfully')
-                  wattingForRefresh = false
+                  waiting = false
                   userStore.accessToken = res.data
                 }
-                return instance(error.response.config)
+                if (retryCount++ < 3) {
+                  console.info('retry request')
+                  return instance(error.response.config)
+                } else {
+                  retryCount = 0
+                }
               }
             }
             userStore.logout().then(() => {
