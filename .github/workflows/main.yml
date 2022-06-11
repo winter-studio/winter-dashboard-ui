@@ -53,4 +53,4 @@ jobs:
           REMOTE_USER: ${{ secrets.DEPOLY_REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.DEPOLY_REMOTE_PORT }}
           SOURCE: dist
-          TARGET: ${{ secrets.DEPOLY_REMOTE_PORT }}
+          TARGET: ${{ secrets.DEPOLY_REMOTE_TARGET }}
