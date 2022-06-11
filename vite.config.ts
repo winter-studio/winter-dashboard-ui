@@ -15,8 +15,6 @@ import compressPlugin from 'vite-plugin-compression'
 
 const { dependencies, devDependencies, name, version } = pkg
 
-export const OUTPUT_DIR = 'dist'
-
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
   lastBuildTime: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
@@ -64,7 +62,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     build: {
       target: 'es2015',
-      outDir: OUTPUT_DIR,
+      outDir: 'dist-app',
       minify: 'terser',
       terserOptions: {
         compress: {
