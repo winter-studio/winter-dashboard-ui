@@ -120,7 +120,9 @@
             </n-form-item>
             <n-form-item label="路径" path="path">
               <n-input-group>
-                <n-input-group-label>{{ parentPaths }}</n-input-group-label>
+                <n-input-group-label :style="{ width: parentPaths.length * 12 + 'px' }">{{
+                  parentPaths
+                }}</n-input-group-label>
                 <n-input v-model:value="menuForm.path" placeholder="请输入路径" />
               </n-input-group>
             </n-form-item>

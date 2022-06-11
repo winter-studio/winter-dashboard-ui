@@ -15,7 +15,6 @@ import compressPlugin from 'vite-plugin-compression'
 
 const { dependencies, devDependencies, name, version } = pkg
 
-export const GLOB_CONFIG_FILE_NAME = 'app.config.js'
 export const OUTPUT_DIR = 'dist'
 
 const __APP_INFO__ = {
@@ -108,10 +107,12 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   ]
 
   // vite-plugin-html
-  vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
+  vitePlugins.push(configHtmlPlugin(viteEnv))
 
   // vite-plugin-mock
-  viteEnv.VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))
+  if (viteEnv.VITE_USE_MOCK) {
+    vitePlugins.push(configMockPlugin(isBuild))
+  }
 
   if (isBuild) {
     // rollup-plugin-gzip
@@ -126,32 +127,15 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   return vitePlugins
 }
 
-export function configHtmlPlugin(env: ViteEnv, isBuild: boolean) {
-  const { VITE_APP_TITLE, VITE_PUBLIC_PATH } = env
-
-  const path = VITE_PUBLIC_PATH.endsWith('/') ? VITE_PUBLIC_PATH : `${VITE_PUBLIC_PATH}/`
-
-  const getAppConfigSrc = () => {
-    return `${path || '/'}${GLOB_CONFIG_FILE_NAME}?v=${pkg.version}-${new Date().getTime()}`
-  }
+export function configHtmlPlugin(env: ViteEnv) {
+  const { VITE_APP_TITLE } = env
 
   const htmlPlugin: PluginOption[] = createHtmlPlugin({
     inject: {
       // Inject data into ejs template
       data: {
         title: VITE_APP_TITLE
-      },
-      // Embed the generated app.config.js file
-      tags: isBuild
-        ? [
-            {
-              tag: 'script',
-              attrs: {
-                src: getAppConfigSrc()
-              }
-            }
-          ]
-        : []
+      }
     }
   })
 

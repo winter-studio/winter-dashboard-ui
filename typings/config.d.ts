@@ -32,12 +32,6 @@ export interface IcrumbsSetting {
 export interface ImultiTabsSetting {
   show: boolean
 }
-export interface GlobConfig {
-  title: string
-  apiUrl: string
-  shortName: string
-  urlPrefix?: string
-}
 
 export interface GlobEnvConfig {
   // 标题

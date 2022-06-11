@@ -47,6 +47,10 @@ export const useUserStore = defineStore({
       this.accessToken = accessToken
       this.refreshToken = refreshToken
     },
+    setAccessToken(accessToken: string) {
+      storage.set(LocalStorageType.ACCESS_TOKEN, accessToken, STORAGE_EXPIRED_TIME)
+      this.accessToken = accessToken
+    },
     setAvatar(avatar: string) {
       this.avatar = avatar
     },
