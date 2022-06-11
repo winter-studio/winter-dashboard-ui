@@ -3,7 +3,7 @@ import { AppRouteRecordRaw, Component, MenuTree, MenuType } from './types'
 import { AppLayout, EmptyLayout, IFrameLayout } from './constant'
 import router from '@/router'
 
-const modules = import.meta.glob('../views/**/*')
+const modules = import.meta.glob('../views/**/*.vue')
 
 const getComponent = (path: string) => {
   return modules[`../views/${path}`]
