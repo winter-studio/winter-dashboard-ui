@@ -244,7 +244,7 @@ export default defineComponent({
     })
 
     const dropdownSelect = (key: string) => {
-      router.push({ name: key })
+      router.push({ name: String(key) })
     }
 
     const reloadRouter: VoidFunction = inject('reloadRouter')!

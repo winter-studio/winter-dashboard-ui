@@ -3,6 +3,12 @@ import { AppRouteRecordRaw, Component, MenuTree, MenuType } from './types'
 import { AppLayout, EmptyLayout, IFrameLayout } from './constant'
 import router from '@/router'
 
+const modules = import.meta.glob('../views/**/*')
+
+const getComponent = (path: string) => {
+  return modules[`../views/${path}`]
+}
+
 export function setupDynamicRoutes(menus?: MenuTree[]) {
   if (!menus) {
     return
@@ -60,7 +66,11 @@ function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw
         setupRedirect(appRoute, menu)
         break
       case MenuType.VIEW:
-        completeFirstLevelComponent(level, appRoute, () => import(`../${menu.data}`))
+        completeFirstLevelComponent(
+          level,
+          appRoute,
+          getComponent(menu.data ?? 'basic/exception/404.vue')
+        )
         break
       case MenuType.IFRAME:
         appRoute.meta.url = menu.data
