@@ -27,13 +27,13 @@ defineProps({
   }
 })
 
-const { getIsPageAnimate, getPageAnimateType } = useProjectSetting()
+const { isTabAnimationEnabled, getPageAnimateType } = useProjectSetting()
 const { getKeepAliveComponents } = storeToRefs(useAppStore())
 // keep alive needs component's name to be set.
 // wait for this PR to automatically set the component name for setup script.
 // https://github.com/vuejs/core/pull/4997
 const getTransitionName = computed(() => {
-  return unref(getIsPageAnimate) ? unref(getPageAnimateType) : ''
+  return unref(isTabAnimationEnabled) ? unref(getPageAnimateType) : ''
 })
 </script>
 

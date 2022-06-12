@@ -16,7 +16,7 @@ export function useProjectSetting() {
 
   const getCrumbsSetting = computed(() => projectStore.crumbsSetting)
 
-  const getIsPageAnimate = computed(() => projectStore.isPageAnimate)
+  const isTabAnimationEnabled = computed(() => projectStore.tabAnimationEnabled)
 
   const getPageAnimateType = computed(() => projectStore.pageAnimateType)
 
@@ -27,7 +27,7 @@ export function useProjectSetting() {
     getMultiTabsSetting,
     getMenuSetting,
     getCrumbsSetting,
-    getIsPageAnimate,
+    isTabAnimationEnabled,
     getPageAnimateType
   }
 }

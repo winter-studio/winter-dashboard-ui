@@ -33,7 +33,7 @@ const setting = {
     showIcon: false
   },
   //是否开启路由动画
-  isPageAnimate: true,
+  tabAnimationEnabled: true,
   //路由动画类型
   pageAnimateType: 'zoom-fade'
 }
