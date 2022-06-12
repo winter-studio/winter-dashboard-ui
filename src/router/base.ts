@@ -1,8 +1,9 @@
 import { ErrorPage, AppLayout } from '@/router/constant'
 import { PageEnum } from '@/enums/pageEnum'
-import { AppRouteRecordRaw, MenuType } from '@/router/types'
+import { MenuType } from '@/router/types'
+import { RouteRecordRaw } from 'vue-router'
 
-export const RootRoute: AppRouteRecordRaw = {
+export const RootRoute: RouteRecordRaw = {
   path: '/',
   name: 'Root',
   redirect: PageEnum.BASE_HOME,
@@ -12,7 +13,7 @@ export const RootRoute: AppRouteRecordRaw = {
   }
 }
 
-export const LoginRoute: AppRouteRecordRaw = {
+export const LoginRoute: RouteRecordRaw = {
   path: '/login',
   name: 'Login',
   component: () => import('@/views/basic/Login.vue'),
@@ -24,7 +25,7 @@ export const LoginRoute: AppRouteRecordRaw = {
 }
 
 // 404 on a page
-export const ErrorPageRoute: AppRouteRecordRaw = {
+export const ErrorPageRoute: RouteRecordRaw = {
   path: '/:path(.*)*',
   name: 'ErrorPage',
   component: AppLayout,
@@ -48,4 +49,4 @@ export const ErrorPageRoute: AppRouteRecordRaw = {
 }
 
 //普通路由 无需验证权限
-export const constantRouter: AppRouteRecordRaw[] = [LoginRoute, RootRoute, ErrorPageRoute]
+export const constantRouter: RouteRecordRaw[] = [LoginRoute, RootRoute, ErrorPageRoute]
