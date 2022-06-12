@@ -72,9 +72,11 @@ function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw
         appRoute.meta.url = menu.data
         completeFirstLevelComponent(level, appRoute, IFrameLayout)
         break
-      /*case MenuType.LINK:
+      case MenuType.LINK:
         appRoute.meta.url = menu.data
-        break*/
+        break
+      default:
+        break
     }
 
     if (menu.children?.length ?? 0 > 0) {
