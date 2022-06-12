@@ -51,17 +51,17 @@
               @select="dropdownSelect"
             >
               <span class="link-text">
-                <component
-                  :is="routeItem.meta.icon"
+                <icon-render
                   v-if="crumbsSetting.showIcon && routeItem.meta.icon"
+                  :icon="routeItem.meta.icon"
                 />
                 {{ routeItem.meta.title }}
               </span>
             </n-dropdown>
             <span v-else class="link-text">
-              <component
-                :is="routeItem.meta.icon"
+              <icon-render
                 v-if="crumbsSetting.showIcon && routeItem.meta.icon"
+                :icon="routeItem.meta.icon"
               />
               {{ routeItem.meta.title }}
             </span>
