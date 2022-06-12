@@ -12,45 +12,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js '16.x'
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+    - name: Setup Node.js '16.x'
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7
-          run_install: false
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2.2.2
+      with:
+        version: 7
+        run_install: false
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      run: |
+        echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
-        run: pnpm install
+    - name: Install dependencies
+      run: pnpm install
 
-      - name: build
-        run: pnpm run build
+    - name: build
+      run: pnpm run build
 
-      - name: ssh deploy
-        uses: easingthemes/ssh-deploy@v2.2.11
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.DEPOLY_SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.DEPOLY_REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.DEPOLY_REMOTE_USER }}
-          REMOTE_PORT: ${{ secrets.DEPOLY_REMOTE_PORT }}
-          SOURCE: dist-app
-          TARGET: ${{ secrets.DEPOLY_REMOTE_TARGET }}
+    - name: ssh deploy
+      uses: easingthemes/ssh-deploy@v2.2.11
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPOLY_SSH_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.DEPOLY_REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.DEPOLY_REMOTE_USER }}
+        REMOTE_PORT: ${{ secrets.DEPOLY_REMOTE_PORT }}
+        SOURCE: dist-app
+        TARGET: ${{ secrets.DEPOLY_REMOTE_TARGET }}
