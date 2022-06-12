@@ -1,14 +1,30 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { defineComponent } from 'vue'
+import {
+  RouteLocation,
+  RouteParamsRaw,
+  RouteRecordName,
+  RouteRecordRedirectOption
+} from 'vue-router'
 
 export type Component<T = any> =
   | ReturnType<typeof defineComponent>
   | (() => Promise<typeof import('*.vue')>)
   | (() => Promise<T>)
 
-export interface AppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta' | 'children'> {
+export interface AppLocationAsRelativeRaw {
+  name?: AppRouteRecordName
+  params?: RouteParamsRaw
+}
+
+export type AppRouteRecordName = RouteRecordName | number
+
+export interface AppRouteRecordRaw
+  extends Omit<RouteRecordRaw, 'meta' | 'children' | 'name' | 'redirect'> {
+  name: AppRouteRecordName
   meta: AppRouteMeta
   children?: AppRouteRecordRaw[]
+  redirect?: RouteRecordRedirectOption | ((to: RouteLocation) => AppLocationAsRelativeRaw)
 }
 
 export interface AppRouteMeta {

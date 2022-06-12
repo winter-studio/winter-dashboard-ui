@@ -119,7 +119,7 @@ export default defineComponent({
       if (item.type === MenuType.LINK) {
         window.open(item.data as string)
       } else {
-        router.push({ name: String(key) })
+        router.push({ name: key })
       }
       // emit('clickMenuItem' as any, key)
     }

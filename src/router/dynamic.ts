@@ -47,7 +47,7 @@ function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw
   const appRoutes: AppRouteRecordRaw[] = []
   menus.forEach((menu) => {
     const appRoute: AppRouteRecordRaw = {
-      name: String(menu.id),
+      name: menu.id,
       meta: {
         title: menu.title,
         type: menu.type,
@@ -96,7 +96,7 @@ function setupRedirect(appRoute: AppRouteRecordRaw, menu: MenuTree): string | un
     })
     if (firstChild) {
       appRoute.redirect = (_) => {
-        return { name: String(firstChild.id) }
+        return { name: firstChild.id }
       }
       return
     }

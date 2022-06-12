@@ -243,8 +243,8 @@ export default defineComponent({
       return generator(route.matched)
     })
 
-    const dropdownSelect = (key: string) => {
-      router.push({ name: String(key) })
+    const dropdownSelect = (key: string | number) => {
+      router.push({ name: key })
     }
 
     const reloadRouter: VoidFunction = inject('reloadRouter')!
