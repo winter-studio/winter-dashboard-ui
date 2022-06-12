@@ -378,7 +378,6 @@ function toggleCollapse() {
 }
 
 interface MenuTreeOptions extends TreeOption {
-  key: number
   label: string
   path: string
   children?: MenuTreeOptions[]
@@ -387,7 +386,7 @@ interface MenuTreeOptions extends TreeOption {
 function buildTreeOptions(menuTrees: Array<MenuTree>): Array<MenuTreeOptions> {
   return menuTrees.map((item: MenuTree) => {
     return {
-      key: item.id,
+      key: String(item.id),
       label: item.title,
       path: item.path,
       children: item.children ? buildTreeOptions(item.children) : undefined
@@ -400,7 +399,7 @@ function buildDirTreeOptions(menuTrees: Array<MenuTree>): Array<TreeSelectOption
     .filter((i) => i.type == MenuType.DIR)
     .map((item: MenuTree) => {
       return {
-        key: item.id,
+        key: String(item.id),
         label: item.title,
         children: item.children ? buildDirTreeOptions(item.children) : undefined
       }

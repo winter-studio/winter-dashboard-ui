@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { AppRouteRecordRaw, Component, MenuTree, MenuType } from './types'
+import { Component, MenuTree, MenuType } from './types'
 import { AppLayout, EmptyLayout, IFrameLayout } from './constant'
 import router from '@/router'
 
@@ -13,7 +13,7 @@ export function setupDynamicRoutes(menus?: MenuTree[]) {
   if (!menus) {
     return
   }
-  const appRoutes: AppRouteRecordRaw[] = generatorAppRoutes(menus, 1)
+  const appRoutes: RouteRecordRaw[] = generatorAppRoutes(menus, 1)
   appRoutes.forEach((route) => {
     router.addRoute(route as unknown as RouteRecordRaw)
   })
@@ -21,14 +21,14 @@ export function setupDynamicRoutes(menus?: MenuTree[]) {
 
 function completeFirstLevelComponent(
   level: number,
-  appRoute: AppRouteRecordRaw,
+  appRoute: RouteRecordRaw,
   component: Component
 ) {
   if (level === 1) {
     appRoute.children = [
       {
         name: appRoute.name,
-        meta: { ...appRoute.meta },
+        meta: { ...appRoute.meta! },
         path: appRoute.path,
         alias: appRoute.path,
         component
@@ -36,18 +36,21 @@ function completeFirstLevelComponent(
     ]
     appRoute.name = String(appRoute.name) + '-layout'
     appRoute.component = AppLayout
-    appRoute.meta.type = MenuType.DIR
-    appRoute.meta.virtual = true
+    if (appRoute.meta) {
+      appRoute.meta.type = MenuType.DIR
+      appRoute.meta.virtual = true
+    }
   } else {
     appRoute.component = component
   }
 }
 
-function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw[] {
-  const appRoutes: AppRouteRecordRaw[] = []
+function generatorAppRoutes(menus: MenuTree[], level: number): RouteRecordRaw[] {
+  const appRoutes: RouteRecordRaw[] = []
   menus.forEach((menu) => {
-    const appRoute: AppRouteRecordRaw = {
-      name: menu.id,
+    const appRoute: RouteRecordRaw = {
+      name: String(menu.id),
+      component: () => {},
       meta: {
         title: menu.title,
         type: menu.type,
@@ -70,11 +73,11 @@ function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw
         completeFirstLevelComponent(level, appRoute, getComponent(menu.data!))
         break
       case MenuType.IFRAME:
-        appRoute.meta.url = menu.data
+        appRoute.meta!.url = menu.data
         completeFirstLevelComponent(level, appRoute, IFrameLayout)
         break
       case MenuType.LINK:
-        appRoute.meta.url = menu.data
+        appRoute.meta!.url = menu.data
         break
       default:
         break
@@ -89,14 +92,14 @@ function generatorAppRoutes(menus: MenuTree[], level: number): AppRouteRecordRaw
   return appRoutes
 }
 
-function setupRedirect(appRoute: AppRouteRecordRaw, menu: MenuTree): string | undefined {
+function setupRedirect(appRoute: RouteRecordRaw, menu: MenuTree): string | undefined {
   if (menu.children?.length ?? 0 > 0) {
     const firstChild = menu.children!.find((child) => {
       return child.type === MenuType.VIEW || child.type === MenuType.IFRAME
     })
     if (firstChild) {
       appRoute.redirect = (_) => {
-        return { name: firstChild.id }
+        return { name: String(firstChild.id) }
       }
       return
     }

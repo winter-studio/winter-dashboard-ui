@@ -16,7 +16,7 @@ export function buildMenu(
   return filterHiddenMenus(menus).map((menu) => {
     const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
       label: menu.title,
-      key: menu.id,
+      key: String(menu.id),
       icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
       extra: menu.tags ? renderTags(menu.tags) : undefined,
       type: menu.type,
@@ -49,7 +49,7 @@ export function buildMenuMix(
       menu.children = undefined
       const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
         label: menu.title,
-        key: menu.id,
+        key: String(menu.id),
         icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
         extra: menu.tags ? renderTags(menu.tags) : undefined,
         type: menu.type,
@@ -79,7 +79,7 @@ function buildChildren(
   return filterHiddenMenus(menus).map((menu) => {
     const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
       label: menu.title,
-      key: menu.id,
+      key: String(menu.id),
       icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
       extra: menu.tags ? renderTags(menu.tags) : undefined,
       type: menu.type,
