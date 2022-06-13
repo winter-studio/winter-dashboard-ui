@@ -17,8 +17,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, reactive, computed, watch, toRefs, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useProjectSettingStore } from '@/store/modules/projectSetting'
-import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
+import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 import { buildMenu, buildMenuMix } from './menu-builder'
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
@@ -49,15 +48,13 @@ export default defineComponent({
     // 当前路由
     const currentRoute = useRoute()
     const router = useRouter()
-    const settingStore = useProjectSettingStore()
+    const settingStore = useAppPreferenceStore()
     const appStore = useAppStore()
     const menus = ref<any[]>([])
     const selectedKeys = ref<string>(currentRoute.name as string)
     const headerMenuSelectKey = ref<string>('')
 
-    const { getNavMode } = useProjectSetting()
-
-    const navMode = getNavMode
+    const { navMode } = toRefs(useAppPreferenceStore())
 
     // 获取当前打开的子菜单
     const matched = currentRoute.matched

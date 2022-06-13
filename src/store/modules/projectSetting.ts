@@ -1,70 +1,81 @@
 import { defineStore } from 'pinia'
 import projectSetting from '@/settings/projectSetting'
-import type {
-  IheaderSetting,
-  ImenuSetting,
-  ImultiTabsSetting,
-  IcrumbsSetting
-} from '@typings/config'
+import type { ImenuSetting } from '@typings/config'
+import designSetting from '@/settings/designSetting'
+
+const { darkTheme, appTheme, appThemeList } = designSetting
 
 const {
   navMode,
   navTheme,
-  headerSetting,
   menuSetting,
-  multiTabsSetting,
-  crumbsSetting,
+  multiTabsEnabled,
+  showCrumbIcon,
   tabAnimationEnabled,
-  pageAnimateType
+  pageAnimateType,
+  showHeaderReload
 } = projectSetting
 
-interface ProjectSettingState {
+interface AppPreferenceState {
+  //深色主题
+  darkTheme: boolean
+  //系统风格
+  appTheme: string
+  //系统内置风格
+  appThemeList: string[]
   navMode: string //导航模式
   navTheme: string //导航风格
-  headerSetting: IheaderSetting //顶部设置
+  showHeaderReload: boolean //顶部设置
   menuSetting: ImenuSetting //多标签
-  multiTabsSetting: ImultiTabsSetting //多标签
-  crumbsSetting: IcrumbsSetting //面包屑
+  multiTabsEnabled: boolean //多标签
+  showCrumbIcon: boolean //面包屑图标
   tabAnimationEnabled: boolean //是否开启路由动画
   pageAnimateType: string //路由动画类型
 }
 
-export const useProjectSettingStore = defineStore({
-  id: 'app-project-setting',
-  state: (): ProjectSettingState => ({
-    navMode: navMode,
+export const useAppPreferenceStore = defineStore({
+  id: 'app-preference',
+  state: (): AppPreferenceState => ({
+    darkTheme,
+    appTheme,
+    appThemeList,
+    navMode,
     navTheme,
-    headerSetting,
+    showHeaderReload,
     menuSetting,
-    multiTabsSetting,
-    crumbsSetting,
+    multiTabsEnabled,
+    showCrumbIcon,
     tabAnimationEnabled,
     pageAnimateType
   }),
   getters: {
+    getDarkTheme(): boolean {
+      return this.darkTheme
+    },
+    getAppTheme(): string {
+      return this.appTheme
+    },
+    getAppThemeList(): string[] {
+      return this.appThemeList
+    },
     getNavMode(): string {
       return this.navMode
     },
     getNavTheme(): string {
       return this.navTheme
     },
-    getHeaderSetting(): object {
-      return this.headerSetting
-    },
     getMenuSetting(): object {
       return this.menuSetting
-    },
-    getMultiTabsSetting(): object {
-      return this.multiTabsSetting
-    },
-    getCrumbsSetting(): object {
-      return this.multiTabsSetting
     },
     isTabAnimationEnabled(): boolean {
       return this.tabAnimationEnabled
     },
     getPageAnimateType(): string {
-      return this.pageAnimateType
+      if (this.isTabAnimationEnabled) {
+        return this.pageAnimateType
+      } else {
+        return ''
+      }
     }
   },
   actions: {

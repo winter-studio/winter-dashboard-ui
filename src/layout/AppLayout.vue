@@ -23,12 +23,12 @@
         <page-header v-model:collapsed="collapsed" :inverted="inverted" />
       </n-layout-header>
 
-      <app-tabs v-if="isMultiTabs" v-model:collapsed="collapsed" />
+      <app-tabs v-if="multiTabsEnabled" v-model:collapsed="collapsed" />
 
       <n-layout-content
         class="layout-content"
         :class="{
-          'layout-content-no-tabs': !isMultiTabs
+          'layout-content-no-tabs': !multiTabsEnabled
         }"
         :content-style="{
           'background-color': appTabContentBgColor,
@@ -45,18 +45,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, unref, computed, onMounted } from 'vue'
+import { ref, unref, computed, onMounted, toRefs } from 'vue'
 import { PageHeader, Logo, AppMain, AsideMenu, AppTabs } from './components'
-import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useLoadingBar, useThemeVars } from 'naive-ui'
 import { useRoute } from 'vue-router'
-import { useProjectSettingStore } from '@/store/modules/projectSetting'
+import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 
-const { getNavMode, getNavTheme, getMenuSetting, getMultiTabsSetting } = useProjectSetting()
-
-const settingStore = useProjectSettingStore()
-
-const navMode = getNavMode
+const { navMode, menuSetting, multiTabsEnabled, navTheme } = toRefs(useAppPreferenceStore())
 
 const collapsed = ref<boolean>(false)
 
@@ -66,30 +61,22 @@ const appTabContentBgColor = computed(() => themeVars.value.appTabContentBgColor
 const layoutContentBgColor = computed(() => themeVars.value.layoutContentBgColor)
 
 const isMixMenuNoneSub = computed(() => {
-  const mixMenu = settingStore.menuSetting.mixMenu
+  const mixMenu = unref(menuSetting).mixMenu
   const currentRoute = useRoute()
-  if (unref(navMode) != 'horizontal-mix') return true
-  if (unref(navMode) === 'horizontal-mix' && mixMenu && currentRoute.meta.isRoot) {
-    return false
-  }
-  return true
-})
-
-const isMultiTabs = computed(() => {
-  return unref(getMultiTabsSetting).show
+  if (unref(navMode) !== 'horizontal-mix') return true
+  return !(unref(navMode) === 'horizontal-mix' && mixMenu && currentRoute.meta.isRoot)
 })
 
 const inverted = computed(() => {
-  return ['dark', 'header-dark'].includes(unref(getNavTheme))
+  return ['dark', 'header-dark'].includes(unref(navTheme))
 })
 
 const getHeaderInverted = computed(() => {
-  const navTheme = unref(getNavTheme)
-  return ['light', 'header-dark'].includes(navTheme) ? unref(inverted) : !unref(inverted)
+  return ['light', 'header-dark'].includes(unref(navTheme)) ? unref(inverted) : !unref(inverted)
 })
 
 const leftMenuWidth = computed(() => {
-  const { minMenuWidth, menuWidth } = unref(getMenuSetting)
+  const { minMenuWidth, menuWidth } = unref(menuSetting)
   return collapsed.value ? minMenuWidth : menuWidth
 })
 

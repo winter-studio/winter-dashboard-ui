@@ -2,7 +2,7 @@
   <div class="layout-header">
     <!--顶部菜单-->
     <div
-      v-if="navMode === 'horizontal' || (navMode === 'horizontal-mix' && mixMenu)"
+      v-if="navMode === 'horizontal' || (navMode === 'horizontal-mix' && menuSetting.mixMenu)"
       class="layout-header-left"
     >
       <div v-if="navMode === 'horizontal'" class="logo">
@@ -33,7 +33,7 @@
       </div>
       <!-- 刷新 -->
       <div
-        v-if="headerSetting.isReload"
+        v-if="showHeaderReload"
         class="mr-1 layout-header-trigger layout-header-trigger-min"
         @click="reloadPage"
       >
@@ -52,7 +52,7 @@
             >
               <span class="link-text">
                 <icon-render
-                  v-if="crumbsSetting.showIcon && routeItem.meta.icon"
+                  v-if="showCrumbIcon && routeItem.meta.icon"
                   :icon="routeItem.meta.icon"
                 />
                 {{ routeItem.meta.title }}
@@ -60,7 +60,7 @@
             </n-dropdown>
             <span v-else class="link-text">
               <icon-render
-                v-if="crumbsSetting.showIcon && routeItem.meta.icon"
+                v-if="showCrumbIcon && routeItem.meta.icon"
                 :icon="routeItem.meta.icon"
               />
               {{ routeItem.meta.title }}
@@ -102,7 +102,7 @@
               <setting-outlined />
             </n-icon>
           </template>
-          <span>项目配置</span>
+          <span>个性配置</span>
         </n-tooltip>
       </div>
       <!-- 个人中心 -->
@@ -120,8 +120,8 @@
       </div>
     </div>
   </div>
-  <!--项目配置-->
-  <project-setting ref="drawerSetting" />
+  <!--个性配置-->
+  <app-preference ref="preference" />
 </template>
 
 <script lang="ts">
@@ -141,12 +141,12 @@ import {
 } from '@vicons/antd'
 import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
 import { useUserStore } from '@/store/modules/user'
-import ProjectSetting from './ProjectSetting.vue'
+import AppPreference from './AppPreference.vue'
 import AsideMenu from './AsideMenu.vue'
-import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { Refresh } from '@vicons/tabler'
 import LocalStorageType from '@/enums/storage-types'
 import { PageEnum } from '@/enums/pageEnum'
+import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 
 export default defineComponent({
   name: 'PageHeader',
@@ -162,7 +162,7 @@ export default defineComponent({
     LogoutOutlined,
     UserOutlined,
     NDialogProvider,
-    ProjectSetting,
+    AppPreference,
     AsideMenu,
     Refresh
   },
@@ -179,34 +179,26 @@ export default defineComponent({
     const userStore = useUserStore()
     const message = useMessage()
     const dialog = useDialog()
-    const { getNavMode, getNavTheme, getHeaderSetting, getMenuSetting, getCrumbsSetting } =
-      useProjectSetting()
+    const { navMode, navTheme, showHeaderReload, menuSetting, showCrumbIcon } = toRefs(
+      useAppPreferenceStore()
+    )
 
     const { username } = userStore?.info || {}
 
-    const drawerSetting = ref()
+    const preference = ref()
 
     const state = reactive({
       username: username || '',
-      fullscreenIcon: 'FullscreenOutlined',
-      navMode: getNavMode,
-      navTheme: getNavTheme,
-      headerSetting: getHeaderSetting,
-      crumbsSetting: getCrumbsSetting
+      fullscreenIcon: 'FullscreenOutlined'
     })
 
     const getInverted = computed(() => {
-      const navTheme = unref(getNavTheme)
-      return ['light', 'header-dark'].includes(navTheme) ? props.inverted : !props.inverted
-    })
-
-    const mixMenu = computed(() => {
-      return unref(getMenuSetting).mixMenu
+      return ['light', 'header-dark'].includes(unref(navTheme)) ? props.inverted : !props.inverted
     })
 
     const getChangeStyle = computed(() => {
       const { collapsed } = props
-      const { minMenuWidth, menuWidth }: any = unref(getMenuSetting)
+      const { minMenuWidth, menuWidth }: any = unref(menuSetting)
       return {
         left: collapsed ? `${minMenuWidth}px` : `${menuWidth}px`,
         width: `calc(100% - ${collapsed ? `${minMenuWidth}px` : `${menuWidth}px`})`
@@ -338,7 +330,7 @@ export default defineComponent({
     }
 
     function openSetting() {
-      const { openDrawer } = drawerSetting.value
+      const { openDrawer } = preference.value
       openDrawer()
     }
 
@@ -354,11 +346,15 @@ export default defineComponent({
       avatarSelect,
       breadcrumbList,
       reloadPage,
-      drawerSetting,
+      preference,
       openSetting,
       getInverted,
       getMenuLocation,
-      mixMenu
+      navMode,
+      navTheme,
+      showHeaderReload,
+      menuSetting,
+      showCrumbIcon
     }
   }
 })

@@ -4,15 +4,9 @@ const setting = {
   //导航风格 dark 暗色侧边栏 light 白色侧边栏 header-dark 暗色顶栏
   navTheme: 'light',
   //顶部
-  headerSetting: {
-    //显示重载按钮
-    isReload: true
-  },
+  showHeaderReload: true,
   //多标签
-  multiTabsSetting: {
-    //是否显示
-    show: true
-  },
+  multiTabsEnabled: true,
   //菜单
   menuSetting: {
     //最小宽度
@@ -26,12 +20,7 @@ const setting = {
     collapsed: false
   },
   //面包屑
-  crumbsSetting: {
-    //是否显示
-    show: true,
-    //显示图标
-    showIcon: false
-  },
+  showCrumbIcon: true,
   //是否开启路由动画
   tabAnimationEnabled: true,
   //路由动画类型

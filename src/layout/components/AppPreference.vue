@@ -7,7 +7,7 @@
         <div class="justify-center drawer-setting-item dark-switch">
           <n-tooltip placement="bottom">
             <template #trigger>
-              <n-switch v-model:value="designStore.darkTheme" class="dark-theme-switch">
+              <n-switch v-model:value="settingStore.darkTheme" class="dark-theme-switch">
                 <template #checked>
                   <n-icon size="14" color="#ffd93b">
                     <sunny-sharp />
@@ -20,7 +20,7 @@
                 </template>
               </n-switch>
             </template>
-            <span>{{ designStore.darkTheme ? '深' : '浅' }}色主题</span>
+            <span>{{ settingStore.darkTheme ? '深' : '浅' }}色主题</span>
           </n-tooltip>
         </div>
 
@@ -34,7 +34,7 @@
             :style="{ 'background-color': item }"
             @click="togTheme(item)"
           >
-            <n-icon v-if="item === designStore.appTheme" size="12">
+            <n-icon v-if="item === settingStore.appTheme" size="12">
               <check-outlined />
             </n-icon>
           </span>
@@ -171,21 +171,21 @@
         <div class="drawer-setting-item">
           <div class="drawer-setting-item-title"> 显示重载页面按钮 </div>
           <div class="drawer-setting-item-action">
-            <n-switch v-model:value="settingStore.headerSetting.isReload" />
+            <n-switch v-model:value="settingStore.showHeaderReload" />
           </div>
         </div>
 
         <div class="drawer-setting-item">
           <div class="drawer-setting-item-title"> 显示面包屑显示图标 </div>
           <div class="drawer-setting-item-action">
-            <n-switch v-model:value="settingStore.crumbsSetting.showIcon" />
+            <n-switch v-model:value="settingStore.showCrumbIcon" />
           </div>
         </div>
 
         <div class="drawer-setting-item">
           <div class="drawer-setting-item-title"> 显示多页签 </div>
           <div class="drawer-setting-item-action">
-            <n-switch v-model:value="settingStore.multiTabsSetting.show" />
+            <n-switch v-model:value="settingStore.multiTabsEnabled" />
           </div>
         </div>
 
@@ -204,12 +204,6 @@
             <n-select v-model:value="settingStore.pageAnimateType" :options="animateOptions" />
           </div>
         </div>
-
-        <div class="drawer-setting-item">
-          <n-alert type="warning" :show-icon="false">
-            <p>{{ alertText }}</p>
-          </n-alert>
-        </div>
       </div>
     </n-drawer-content>
   </n-drawer>
@@ -217,20 +211,19 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, unref, watch, computed } from 'vue'
-import { useProjectSettingStore } from '@/store/modules/projectSetting'
-import { useDesignSettingStore } from '@/store/modules/designSetting'
+import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 import { CheckOutlined } from '@vicons/antd'
 import { Moon, SunnySharp } from '@vicons/ionicons5'
 import { darkTheme } from 'naive-ui'
 import { animates as animateOptions } from '@/settings/animateSetting'
 
 export default defineComponent({
-  name: 'ProjectSetting',
+  name: 'AppPreference',
   components: { CheckOutlined, Moon, SunnySharp },
   props: {
     title: {
       type: String,
-      default: '项目配置'
+      default: '个性配置'
     },
     width: {
       type: Number,
@@ -238,20 +231,17 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const settingStore = useProjectSettingStore()
-    const designStore = useDesignSettingStore()
+    const settingStore = useAppPreferenceStore()
     const state = reactive({
       width: props.width,
       title: props.title,
       isDrawer: false,
       placement: 'right',
-      alertText:
-        '该功能主要实时预览各种布局效果，更多完整配置在 projectSetting.ts 中设置，建议在生产环境关闭该布局预览功能。',
-      appThemeList: designStore.appThemeList
+      appThemeList: settingStore.appThemeList
     })
 
     watch(
-      () => designStore.darkTheme,
+      () => settingStore.darkTheme,
       (to) => {
         settingStore.navTheme = to ? 'header-dark' : 'light'
       }
@@ -277,7 +267,7 @@ export default defineComponent({
     }
 
     function togTheme(color: string) {
-      designStore.appTheme = color
+      settingStore.appTheme = color
     }
 
     function togNavMode(mode: string) {
@@ -288,7 +278,6 @@ export default defineComponent({
     return {
       ...toRefs(state),
       settingStore,
-      designStore,
       togNavTheme,
       togNavMode,
       togTheme,

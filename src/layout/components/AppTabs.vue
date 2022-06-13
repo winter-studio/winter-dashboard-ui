@@ -107,7 +107,6 @@ import {
 import { useRoute, useRouter } from 'vue-router'
 import { storage } from '@/utils/storage'
 import { RouteItem, useTabsViewStore } from '@/store/modules/tabsView'
-import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useMessage, useThemeVars } from 'naive-ui'
 import Draggable from 'vuedraggable'
 import { PageEnum } from '@/enums/pageEnum'
@@ -121,8 +120,7 @@ import {
 } from '@vicons/antd'
 import { Close } from '@vicons/ionicons5'
 import elementResizeDetectorMaker from 'element-resize-detector'
-import { useDesignSetting } from '@/hooks/setting/useDesignSetting'
-import { useProjectSettingStore } from '@/store/modules/projectSetting'
+import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 import { useGo } from '@/hooks/web/usePage'
 import { renderIcon } from '@/utils/icon-utils'
 import LocalStorageType from '@/enums/storage-types'
@@ -142,9 +140,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { getDarkTheme, getAppTheme } = useDesignSetting()
-    const { getNavMode, getMenuSetting } = useProjectSetting()
-    const settingStore = useProjectSettingStore()
+    const { navMode, menuSetting } = toRefs(useAppPreferenceStore())
+    const settingStore = useAppPreferenceStore()
 
     const message = useMessage()
     const route = useRoute()
@@ -181,7 +178,6 @@ export default defineComponent({
     const isMixMenuNoneSub = computed(() => {
       const mixMenu = settingStore.menuSetting.mixMenu
       const currentRoute = useRoute()
-      const navMode = unref(getNavMode)
       if (unref(navMode) != 'horizontal-mix') return true
       return !(unref(navMode) === 'horizontal-mix' && mixMenu && currentRoute.meta.isRoot)
     })
@@ -189,10 +185,9 @@ export default defineComponent({
     //动态组装样式 菜单缩进
     const getChangeStyle = computed(() => {
       const { collapsed } = props
-      const navMode = unref(getNavMode)
-      const { minMenuWidth, menuWidth }: any = unref(getMenuSetting)
+      const { minMenuWidth, menuWidth }: any = unref(menuSetting)
       let lenNum =
-        navMode === 'horizontal' || !isMixMenuNoneSub.value
+        unref(navMode) === 'horizontal' || !isMixMenuNoneSub.value
           ? 0
           : collapsed
           ? minMenuWidth
@@ -481,8 +476,6 @@ export default defineComponent({
       scrollPrev,
       handleContextMenu,
       onClickOutside,
-      getDarkTheme,
-      getAppTheme,
       appTabsBgColor,
       appTabsBgColorPreActive,
       appTabsBgColorActive,

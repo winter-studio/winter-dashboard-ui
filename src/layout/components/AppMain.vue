@@ -1,7 +1,7 @@
 <template>
   <router-view>
     <template #default="{ Component, route }">
-      <transition :name="getTransitionName" mode="out-in" appear>
+      <transition :name="getPageAnimateType" mode="out-in" appear>
         <keep-alive :include="getKeepAliveComponents">
           <component :is="Component" :key="route.name" />
         </keep-alive>
@@ -11,10 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, unref } from 'vue'
-import { useProjectSetting } from '@/hooks/setting/useProjectSetting'
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
+import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 
 defineProps({
   notNeedKey: {
@@ -27,14 +26,8 @@ defineProps({
   }
 })
 
-const { isTabAnimationEnabled, getPageAnimateType } = useProjectSetting()
 const { getKeepAliveComponents } = storeToRefs(useAppStore())
-// keep alive needs component's name to be set.
-// wait for this PR to automatically set the component name for setup script.
-// https://github.com/vuejs/core/pull/4997
-const getTransitionName = computed(() => {
-  return unref(isTabAnimationEnabled) ? unref(getPageAnimateType) : ''
-})
+const { getPageAnimateType } = storeToRefs(useAppPreferenceStore())
 </script>
 
 <style lang="scss" scoped></style>

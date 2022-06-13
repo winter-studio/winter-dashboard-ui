@@ -30,11 +30,11 @@ import {
   NConfigProvider
 } from 'naive-ui'
 import { WindowTool } from './index'
-import { useDesignSettingStore } from '@/store/modules/designSetting'
+import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 import { computed } from 'vue'
 import { lighten } from '@/utils'
 
-const designStore = useDesignSettingStore()
+const designStore = useAppPreferenceStore()
 
 /**
  * @type import('naive-ui').GlobalThemeOverrides
