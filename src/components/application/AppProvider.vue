@@ -43,8 +43,12 @@ const getThemeOverrides = computed(() => {
   const appTheme = designStore.appTheme
 
   if (designStore.darkTheme) {
+    const primaryColorHover = lighten(designStore.appTheme, 6)
     return {
       common: {
+        primaryColor: appTheme,
+        primaryColorHover: primaryColorHover,
+        primaryColorPressed: primaryColorHover,
         appTabsBgColor: '#000',
         appTabContentBgColor: '#18181C',
         appTabsBgColorPreActive: '#18181Caa',
