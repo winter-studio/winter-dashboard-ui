@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import preferenceDefault from '@/settings/preference-default'
 import type { ImenuSetting } from '@typings/config'
+import LocalStorageType from '@/enums/storage-types'
 
 const {
   darkTheme,
@@ -57,5 +58,8 @@ export const useAppPreferenceStore = defineStore({
     setNavTheme(value: string): void {
       this.navTheme = value
     }
+  },
+  persist: {
+    key: LocalStorageType.PREFERENCE
   }
 })

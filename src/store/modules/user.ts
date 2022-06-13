@@ -1,90 +1,43 @@
 import { defineStore } from 'pinia'
-import { storage } from '@/utils/storage'
-import { getUserInfo, getUserMenus } from '@/api/base/user'
+import { getUserMenus } from '@/api/base/user'
 import { logout } from '@/api/base/auth'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
 import { UserLogin } from '@/types/response/base'
-import { omit } from 'lodash-es'
 import LocalStorageType from '@/enums/storage-types'
-
-const STORAGE_EXPIRED_TIME = 7 * 24 * 60 * 60 * 1000
 
 export interface UserState {
   accessToken: string | undefined
   refreshToken: string | undefined
-  username: string
-  welcome: string
-  avatar: string
+  refreshTokenExpireIn: number | undefined
   info: any
 }
 
 export const useUserStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
-    accessToken: storage.get(LocalStorageType.ACCESS_TOKEN, undefined),
-    refreshToken: storage.get(LocalStorageType.REFRESH_TOKEN, undefined),
-    username: '',
-    welcome: '',
-    avatar: '',
-    info: storage.get(LocalStorageType.CURRENT_USER, {})
+    accessToken: undefined,
+    refreshToken: undefined,
+    refreshTokenExpireIn: undefined,
+    info: {}
   }),
-  getters: {
-    getAvatar(): string {
-      return this.avatar
-    },
-    getNickname(): string {
-      return this.username
-    },
-    getUserInfo(): object {
-      return this.info
-    }
-  },
+  getters: {},
   actions: {
     setToken(accessToken: string, refreshToken: string, refreshTokenExpireIn: number) {
-      storage.set(LocalStorageType.ACCESS_TOKEN, accessToken, STORAGE_EXPIRED_TIME)
-      storage.set(LocalStorageType.REFRESH_TOKEN, refreshToken, refreshTokenExpireIn * 1000)
       this.accessToken = accessToken
       this.refreshToken = refreshToken
+      this.refreshTokenExpireIn = refreshTokenExpireIn
     },
     setAccessToken(accessToken: string) {
-      storage.set(LocalStorageType.ACCESS_TOKEN, accessToken, STORAGE_EXPIRED_TIME)
       this.accessToken = accessToken
     },
-    setAvatar(avatar: string) {
-      this.avatar = avatar
-    },
     setUserInfo(info: UserLogin) {
-      storage.set(
-        LocalStorageType.CURRENT_USER,
-        omit(info, ['accessToken', 'refreshToken', 'refreshTokenExpireIn']),
-        info.refreshTokenExpireIn * 1000
-      )
       this.info = info
     },
     // 登录
     login(result: UserLogin) {
       this.setToken(result.accessToken, result.refreshToken, result.refreshTokenExpireIn)
       this.setUserInfo(result)
-    },
-    // 获取用户信息
-    GetInfo() {
-      return new Promise((resolve, reject) => {
-        getUserInfo()
-          .then((res) => {
-            const result = res
-            if (result) {
-              this.setUserInfo(result.data)
-            } else {
-              reject(new Error('getInfo: permissionsList must be a non-null array !'))
-            }
-            this.setAvatar(result.data.avatar)
-            resolve(res)
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      })
     },
     // 登录成功后
     async afterLogin() {
@@ -105,8 +58,12 @@ export const useUserStore = defineStore({
       this.info = undefined
       this.accessToken = undefined
       this.refreshToken = undefined
-      storage.remove(LocalStorageType.ACCESS_TOKEN)
-      storage.remove(LocalStorageType.CURRENT_USER)
+      this.refreshTokenExpireIn = undefined
+      localStorage.removeItem(LocalStorageType.CURRENT_USER)
+      localStorage.removeItem(LocalStorageType.TABS_ROUTES)
     }
+  },
+  persist: {
+    key: LocalStorageType.CURRENT_USER
   }
 })

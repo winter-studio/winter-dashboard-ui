@@ -9,7 +9,7 @@
                 <n-avatar circle :size="64" :src="schoolboy" />
               </div>
               <div>
-                <p class="px-4 text-xl">早安，{{ username }}，开始您一天的工作吧！</p>
+                <p class="px-4 text-xl">早安，{{ info?.username }}，开始您一天的工作吧！</p>
                 <p class="px-4 text-gray-400">今日阴转大雨，15℃ - 25℃，出门记得带伞哦。</p>
               </div>
             </div>
@@ -122,7 +122,7 @@ import {
 import { useUserStore } from '@/store/modules/user'
 import { storeToRefs } from 'pinia'
 
-const { username } = storeToRefs(useUserStore())
+const { info } = storeToRefs(useUserStore())
 </script>
 
 <style lang="scss" scoped>

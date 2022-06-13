@@ -22,6 +22,7 @@
     "lodash-es": "^4.17.21",
     "naive-ui": "^2.30.3",
     "pinia": "^2.0.14",
+    "pinia-plugin-persistedstate": "^1.6.1",
     "qs": "^6.10.5",
     "vue": "^3.2.37",
     "vue-router": "^4.0.15",
