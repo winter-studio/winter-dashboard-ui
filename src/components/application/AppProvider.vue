@@ -74,5 +74,5 @@ const getThemeOverrides = computed(() => {
   }
 })
 
-const getDarkTheme = computed(() => (designStore.darkTheme ? darkTheme : undefined))
+const getDarkTheme = computed(() => (designStore.darkTheme ? darkTheme : null))
 </script>
