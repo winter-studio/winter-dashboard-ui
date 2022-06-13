@@ -45,9 +45,9 @@ const getThemeOverrides = computed(() => {
   if (designStore.darkTheme) {
     return {
       common: {
-        primaryColor: appTheme,
-        primaryColorHover: appTheme.darken(0.2),
-        primaryColorPressed: appTheme.darken(0.2),
+        primaryColor: appTheme.string(),
+        primaryColorHover: appTheme.darken(0.2).string(),
+        primaryColorPressed: appTheme.darken(0.2).string(),
         appTabsBgColor: '#000',
         appTabContentBgColor: '#18181C',
         appTabsBgColorPreActive: '#18181Caa',
@@ -58,17 +58,17 @@ const getThemeOverrides = computed(() => {
   } else {
     return {
       common: {
-        primaryColor: appTheme,
-        primaryColorHover: appTheme.lighten(0.2),
-        primaryColorPressed: appTheme.lighten(0.2),
-        appTabsBgColor: appTheme.alpha(0.1),
+        primaryColor: appTheme.string(),
+        primaryColorHover: appTheme.lighten(0.2).string(),
+        primaryColorPressed: appTheme.lighten(0.2).string(),
+        appTabsBgColor: appTheme.alpha(0.1).string(),
         appTabsBgColorPreActive: '#ffffff99',
         appTabsBgColorActive: '#ffffff',
         appTabContentBgColor: '#fefefe',
         layoutContentBgColor: '#f9f9f9'
       },
       LoadingBar: {
-        colorLoading: appTheme
+        colorLoading: appTheme.string()
       }
     }
   }
