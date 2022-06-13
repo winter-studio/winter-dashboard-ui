@@ -54,7 +54,7 @@ export default defineComponent({
     const selectedKeys = ref<string>(currentRoute.name as string)
     const headerMenuSelectKey = ref<string>('')
 
-    const { navMode } = toRefs(useAppPreferenceStore())
+    const { navMode } = storeToRefs(useAppPreferenceStore())
 
     // 获取当前打开的子菜单
     const matched = currentRoute.matched

@@ -124,6 +124,7 @@ import { useAppPreferenceStore } from '@/store/modules/preference'
 import { useGo } from '@/hooks/web/usePage'
 import { renderIcon } from '@/utils/icon-utils'
 import LocalStorageType from '@/enums/storage-types'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'AppTabs',
@@ -140,7 +141,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { navMode, menuSetting } = toRefs(useAppPreferenceStore())
+    const { navMode, menuSetting } = storeToRefs(useAppPreferenceStore())
     const settingStore = useAppPreferenceStore()
 
     const message = useMessage()

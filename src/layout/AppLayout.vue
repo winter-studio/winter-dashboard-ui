@@ -45,13 +45,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, unref, computed, onMounted, toRefs } from 'vue'
+import { ref, unref, computed, onMounted } from 'vue'
 import { PageHeader, Logo, AppMain, AsideMenu, AppTabs } from './components'
 import { useLoadingBar, useThemeVars } from 'naive-ui'
 import { useRoute } from 'vue-router'
 import { useAppPreferenceStore } from '@/store/modules/preference'
+import { storeToRefs } from 'pinia'
 
-const { navMode, menuSetting, multiTabsEnabled, navTheme } = toRefs(useAppPreferenceStore())
+const { navMode, menuSetting, multiTabsEnabled, navTheme } = storeToRefs(useAppPreferenceStore())
 
 const collapsed = ref<boolean>(false)
 

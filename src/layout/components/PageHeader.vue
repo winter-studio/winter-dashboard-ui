@@ -147,6 +147,7 @@ import { Refresh } from '@vicons/tabler'
 import LocalStorageType from '@/enums/storage-types'
 import { PageEnum } from '@/enums/pageEnum'
 import { useAppPreferenceStore } from '@/store/modules/preference'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'PageHeader',
@@ -179,7 +180,7 @@ export default defineComponent({
     const userStore = useUserStore()
     const message = useMessage()
     const dialog = useDialog()
-    const { navMode, navTheme, showHeaderReload, menuSetting, showCrumbIcon } = toRefs(
+    const { navMode, navTheme, showHeaderReload, menuSetting, showCrumbIcon } = storeToRefs(
       useAppPreferenceStore()
     )
 
