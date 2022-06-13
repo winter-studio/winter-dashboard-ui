@@ -146,7 +146,7 @@ import AsideMenu from './AsideMenu.vue'
 import { Refresh } from '@vicons/tabler'
 import LocalStorageType from '@/enums/storage-types'
 import { PageEnum } from '@/enums/pageEnum'
-import { useAppPreferenceStore } from '@/store/modules/projectSetting'
+import { useAppPreferenceStore } from '@/store/modules/preference'
 
 export default defineComponent({
   name: 'PageHeader',

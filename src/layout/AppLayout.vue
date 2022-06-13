@@ -49,7 +49,7 @@ import { ref, unref, computed, onMounted, toRefs } from 'vue'
 import { PageHeader, Logo, AppMain, AsideMenu, AppTabs } from './components'
 import { useLoadingBar, useThemeVars } from 'naive-ui'
 import { useRoute } from 'vue-router'
-import { useAppPreferenceStore } from '@/store/modules/projectSetting'
+import { useAppPreferenceStore } from '@/store/modules/preference'
 
 const { navMode, menuSetting, multiTabsEnabled, navTheme } = toRefs(useAppPreferenceStore())
 

@@ -120,7 +120,7 @@ import {
 } from '@vicons/antd'
 import { Close } from '@vicons/ionicons5'
 import elementResizeDetectorMaker from 'element-resize-detector'
-import { useAppPreferenceStore } from '@/store/modules/projectSetting'
+import { useAppPreferenceStore } from '@/store/modules/preference'
 import { useGo } from '@/hooks/web/usePage'
 import { renderIcon } from '@/utils/icon-utils'
 import LocalStorageType from '@/enums/storage-types'

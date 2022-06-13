@@ -30,7 +30,7 @@ import {
   NConfigProvider
 } from 'naive-ui'
 import { WindowTool } from './index'
-import { useAppPreferenceStore } from '@/store/modules/projectSetting'
+import { useAppPreferenceStore } from '@/store/modules/preference'
 import { computed } from 'vue'
 import Color from 'color'
 

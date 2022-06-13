@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
-import { useAppPreferenceStore } from '@/store/modules/projectSetting'
+import { useAppPreferenceStore } from '@/store/modules/preference'
 
 defineProps({
   notNeedKey: {

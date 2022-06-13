@@ -17,7 +17,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, reactive, computed, watch, toRefs, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAppPreferenceStore } from '@/store/modules/projectSetting'
+import { useAppPreferenceStore } from '@/store/modules/preference'
 import { buildMenu, buildMenuMix } from './menu-builder'
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
