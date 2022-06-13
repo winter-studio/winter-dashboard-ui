@@ -1,11 +1,10 @@
 import { defineStore } from 'pinia'
-import projectSetting from '@/settings/projectSetting'
+import preferenceDefault from '@/settings/preference-default'
 import type { ImenuSetting } from '@typings/config'
-import designSetting from '@/settings/designSetting'
-
-const { darkTheme, appTheme, appThemeList } = designSetting
 
 const {
+  darkTheme,
+  appTheme,
   navMode,
   navTheme,
   menuSetting,
@@ -14,15 +13,13 @@ const {
   tabAnimationEnabled,
   pageAnimateType,
   showHeaderReload
-} = projectSetting
+} = preferenceDefault
 
 interface AppPreferenceState {
   //深色主题
   darkTheme: boolean
   //系统风格
   appTheme: string
-  //系统内置风格
-  appThemeList: string[]
   navMode: string //导航模式
   navTheme: string //导航风格
   showHeaderReload: boolean //顶部设置
@@ -38,7 +35,6 @@ export const useAppPreferenceStore = defineStore({
   state: (): AppPreferenceState => ({
     darkTheme,
     appTheme,
-    appThemeList,
     navMode,
     navTheme,
     showHeaderReload,
@@ -49,29 +45,8 @@ export const useAppPreferenceStore = defineStore({
     pageAnimateType
   }),
   getters: {
-    getDarkTheme(): boolean {
-      return this.darkTheme
-    },
-    getAppTheme(): string {
-      return this.appTheme
-    },
-    getAppThemeList(): string[] {
-      return this.appThemeList
-    },
-    getNavMode(): string {
-      return this.navMode
-    },
-    getNavTheme(): string {
-      return this.navTheme
-    },
-    getMenuSetting(): object {
-      return this.menuSetting
-    },
-    isTabAnimationEnabled(): boolean {
-      return this.tabAnimationEnabled
-    },
     getPageAnimateType(): string {
-      if (this.isTabAnimationEnabled) {
+      if (this.tabAnimationEnabled) {
         return this.pageAnimateType
       } else {
         return ''

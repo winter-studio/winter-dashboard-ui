@@ -211,11 +211,11 @@
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, unref, watch, computed } from 'vue'
-import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 import { CheckOutlined } from '@vicons/antd'
 import { Moon, SunnySharp } from '@vicons/ionicons5'
 import { darkTheme } from 'naive-ui'
-import { animates as animateOptions } from '@/settings/animateSetting'
+import { animates as animateOptions, appThemeList } from '@/settings/preference-values'
+import { useAppPreferenceStore } from '@/store/modules/preference'
 
 export default defineComponent({
   name: 'AppPreference',
@@ -236,8 +236,7 @@ export default defineComponent({
       width: props.width,
       title: props.title,
       isDrawer: false,
-      placement: 'right',
-      appThemeList: settingStore.appThemeList
+      placement: 'right'
     })
 
     watch(
@@ -285,7 +284,8 @@ export default defineComponent({
       openDrawer,
       closeDrawer,
       animateOptions,
-      directionsOptions
+      directionsOptions,
+      appThemeList
     }
   }
 })
