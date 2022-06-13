@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@rushstack/eslint-patch': ^1.1.3
+  '@types/color': ^3.0.3
   '@types/element-resize-detector': ^1.1.3
   '@types/lodash': ^4.14.182
   '@types/lodash-es': ^4.17.6
@@ -24,6 +25,7 @@ specifiers:
   '@vueuse/core': ^5.3.0
   autoprefixer: ^10.4.7
   axios: ^0.26.1
+  color: ^4.2.3
   core-js: ^3.22.8
   cross-env: ^7.0.3
   date-fns: ^2.28.0
@@ -72,6 +74,7 @@ specifiers:
 dependencies:
   '@vueuse/core': registry.npmmirror.com/@vueuse/core/5.3.0_vue@3.2.37
   axios: registry.npmmirror.com/axios/0.26.1
+  color: registry.npmmirror.com/color/4.2.3
   date-fns: registry.npmmirror.com/date-fns/2.28.0
   element-resize-detector: registry.npmmirror.com/element-resize-detector/1.2.4
   lodash: registry.npmmirror.com/lodash/4.17.21
@@ -85,6 +88,7 @@ dependencies:
 
 devDependencies:
   '@rushstack/eslint-patch': registry.npmmirror.com/@rushstack/eslint-patch/1.1.3
+  '@types/color': registry.npmmirror.com/@types/color/3.0.3
   '@types/element-resize-detector': registry.npmmirror.com/@types/element-resize-detector/1.1.3
   '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.182
   '@types/lodash-es': registry.npmmirror.com/@types/lodash-es/4.17.6
@@ -727,6 +731,28 @@ packages:
     resolution: {integrity: sha512-WiBSI6JBIhC6LRIsB2Kwh8DsGTlbBU+mLRxJmAe3LjHTdkDpwIbEOZgoXBbZilk/vlfjK8i6nKRAvIRn1XaIMw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@rushstack/eslint-patch/-/eslint-patch-1.1.3.tgz}
     name: '@rushstack/eslint-patch'
     version: 1.1.3
+    dev: true
+
+  registry.npmmirror.com/@types/color-convert/2.0.0:
+    resolution: {integrity: sha512-m7GG7IKKGuJUXvkZ1qqG3ChccdIM/qBBo913z+Xft0nKCX4hAU/IxKwZBU4cpRZ7GS5kV4vOblUkILtSShCPXQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/color-convert/-/color-convert-2.0.0.tgz}
+    name: '@types/color-convert'
+    version: 2.0.0
+    dependencies:
+      '@types/color-name': registry.npmmirror.com/@types/color-name/1.1.1
+    dev: true
+
+  registry.npmmirror.com/@types/color-name/1.1.1:
+    resolution: {integrity: sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/color-name/-/color-name-1.1.1.tgz}
+    name: '@types/color-name'
+    version: 1.1.1
+    dev: true
+
+  registry.npmmirror.com/@types/color/3.0.3:
+    resolution: {integrity: sha512-X//qzJ3d3Zj82J9sC/C18ZY5f43utPbAJ6PhYt/M7uG6etcF6MRpKdN880KBy43B0BMzSfeT96MzrsNjFI3GbA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/color/-/color-3.0.3.tgz}
+    name: '@types/color'
+    version: 3.0.3
+    dependencies:
+      '@types/color-convert': registry.npmmirror.com/@types/color-convert/2.0.0
     dev: true
 
   registry.npmmirror.com/@types/element-resize-detector/1.1.3:
@@ -1762,6 +1788,25 @@ packages:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/color-name/-/color-name-1.1.4.tgz}
     name: color-name
     version: 1.1.4
+
+  registry.npmmirror.com/color-string/1.9.1:
+    resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/color-string/-/color-string-1.9.1.tgz}
+    name: color-string
+    version: 1.9.1
+    dependencies:
+      color-name: registry.npmmirror.com/color-name/1.1.4
+      simple-swizzle: registry.npmmirror.com/simple-swizzle/0.2.2
+    dev: false
+
+  registry.npmmirror.com/color/4.2.3:
+    resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/color/-/color-4.2.3.tgz}
+    name: color
+    version: 4.2.3
+    engines: {node: '>=12.5.0'}
+    dependencies:
+      color-convert: registry.npmmirror.com/color-convert/2.0.1
+      color-string: registry.npmmirror.com/color-string/1.9.1
+    dev: false
 
   registry.npmmirror.com/colord/2.9.2:
     resolution: {integrity: sha512-Uqbg+J445nc1TKn4FoDPS6ZZqAvEDnwrH42yo8B40JSOgSLxMZ/gt3h4nmCtPLQeXhjJJkqBx7SCY35WnIixaQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/colord/-/colord-2.9.2.tgz}
@@ -3456,6 +3501,12 @@ packages:
     version: 0.2.1
     dev: true
 
+  registry.npmmirror.com/is-arrayish/0.3.2:
+    resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/is-arrayish/-/is-arrayish-0.3.2.tgz}
+    name: is-arrayish
+    version: 0.3.2
+    dev: false
+
   registry.npmmirror.com/is-bigint/1.0.4:
     resolution: {integrity: sha512-zB9CruMamjym81i2JZ3UMn54PKGsQzsJeo6xvN3HJJ4CAsQNB6iRutp2To77OfCNuoxspsIhzaPoO1zyCEhFOg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/is-bigint/-/is-bigint-1.0.4.tgz}
     name: is-bigint
@@ -4952,6 +5003,14 @@ packages:
     name: signal-exit
     version: 3.0.7
     dev: true
+
+  registry.npmmirror.com/simple-swizzle/0.2.2:
+    resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz}
+    name: simple-swizzle
+    version: 0.2.2
+    dependencies:
+      is-arrayish: registry.npmmirror.com/is-arrayish/0.3.2
+    dev: false
 
   registry.npmmirror.com/slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/slash/-/slash-3.0.0.tgz}

@@ -32,7 +32,7 @@ import {
 import { WindowTool } from './index'
 import { useAppPreferenceStore } from '@/store/modules/projectSetting'
 import { computed } from 'vue'
-import { lighten } from '@/utils'
+import Color from 'color'
 
 const designStore = useAppPreferenceStore()
 
@@ -40,15 +40,14 @@ const designStore = useAppPreferenceStore()
  * @type import('naive-ui').GlobalThemeOverrides
  */
 const getThemeOverrides = computed(() => {
-  const appTheme = designStore.appTheme
+  const appTheme = Color(designStore.appTheme)
 
   if (designStore.darkTheme) {
-    const primaryColorHover = lighten(designStore.appTheme, 6)
     return {
       common: {
         primaryColor: appTheme,
-        primaryColorHover: primaryColorHover,
-        primaryColorPressed: primaryColorHover,
+        primaryColorHover: appTheme.darken(0.2),
+        primaryColorPressed: appTheme.darken(0.2),
         appTabsBgColor: '#000',
         appTabContentBgColor: '#18181C',
         appTabsBgColorPreActive: '#18181Caa',
@@ -57,13 +56,12 @@ const getThemeOverrides = computed(() => {
       }
     }
   } else {
-    const primaryColorHover = lighten(designStore.appTheme, 6)
     return {
       common: {
         primaryColor: appTheme,
-        primaryColorHover: primaryColorHover,
-        primaryColorPressed: primaryColorHover,
-        appTabsBgColor: appTheme + '21',
+        primaryColorHover: appTheme.lighten(0.2),
+        primaryColorPressed: appTheme.lighten(0.2),
+        appTabsBgColor: appTheme.alpha(0.1),
         appTabsBgColorPreActive: '#ffffff99',
         appTabsBgColorActive: '#ffffff',
         appTabContentBgColor: '#fefefe',
