@@ -43,16 +43,31 @@ const getThemeOverrides = computed(() => {
   const appTheme = Color(designStore.appTheme)
 
   if (designStore.darkTheme) {
+    const color = appTheme.string()
+    const darken2 = appTheme.darken(0.2).string()
+    const darken4 = appTheme.darken(0.4).string()
+    const darken5 = appTheme.darken(0.5).string()
     return {
       common: {
-        primaryColor: appTheme.string(),
-        primaryColorHover: appTheme.darken(0.2).string(),
-        primaryColorPressed: appTheme.darken(0.2).string(),
+        primaryColor: color,
+        primaryColorHover: darken2,
+        primaryColorPressed: darken2,
         appTabsBgColor: '#000',
         appTabContentBgColor: '#18181C',
         appTabsBgColorPreActive: '#18181Caa',
         appTabsBgColorActive: '#18181C',
         layoutContentBgColor: '#2a2a31'
+      },
+      Switch: {
+        railColorActive: color,
+        loadingColor: color
+      },
+      Menu: {
+        itemColorActiveInverted: darken4,
+        itemColorActiveCollapsedInverted: darken4,
+        itemColorActiveHoverInverted: darken5,
+        itemColorHoverInverted: '#333333',
+        itemTextColorChildActiveInverted: color
       }
     }
   } else {
