@@ -121,7 +121,7 @@
     </div>
   </div>
   <!--个性配置-->
-  <app-preference ref="preference" />
+  <app-preference v-model:show="showPreference" />
 </template>
 
 <script lang="ts">
@@ -186,7 +186,7 @@ export default defineComponent({
 
     const { username } = userStore?.info || {}
 
-    const preference = ref()
+    const showPreference = ref(false)
 
     const state = reactive({
       username: username || '',
@@ -331,8 +331,7 @@ export default defineComponent({
     }
 
     function openSetting() {
-      const { openDrawer } = preference.value
-      openDrawer()
+      showPreference.value = true
     }
 
     return {
@@ -347,7 +346,7 @@ export default defineComponent({
       avatarSelect,
       breadcrumbList,
       reloadPage,
-      preference,
+      showPreference,
       openSetting,
       getInverted,
       getMenuLocation,

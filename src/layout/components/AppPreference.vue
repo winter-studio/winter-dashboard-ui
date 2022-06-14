@@ -1,5 +1,10 @@
 <template>
-  <n-drawer v-model:show="isDrawer" :width="width" :placement="placement">
+  <n-drawer
+    :show="show"
+    :width="width"
+    placement="right"
+    @update:show="(value) => $emit('update:show', value)"
+  >
     <n-drawer-content :title="title" :native-scrollbar="false">
       <div class="drawer">
         <n-divider title-placement="center">主题</n-divider>
@@ -228,15 +233,18 @@ export default defineComponent({
     width: {
       type: Number,
       default: 280
+    },
+    show: {
+      type: Boolean,
+      default: false
     }
   },
+  emits: ['update:show'],
   setup(props) {
     const settingStore = useAppPreferenceStore()
     const state = reactive({
       width: props.width,
-      title: props.title,
-      isDrawer: false,
-      placement: 'right'
+      title: props.title
     })
 
     watch(
@@ -249,14 +257,6 @@ export default defineComponent({
     const directionsOptions = computed(() => {
       return animateOptions.find((item) => item.value == unref(settingStore.pageAnimateType))
     })
-
-    function openDrawer() {
-      state.isDrawer = true
-    }
-
-    function closeDrawer() {
-      state.isDrawer = false
-    }
 
     function togNavTheme(theme: string) {
       settingStore.navTheme = theme
@@ -281,8 +281,6 @@ export default defineComponent({
       togNavMode,
       togTheme,
       darkTheme,
-      openDrawer,
-      closeDrawer,
       animateOptions,
       directionsOptions,
       appThemeList

@@ -60,7 +60,6 @@ export const useUserStore = defineStore({
       this.refreshToken = undefined
       this.refreshTokenExpireIn = undefined
       localStorage.removeItem(LocalStorageType.CURRENT_USER)
-      localStorage.removeItem(LocalStorageType.TABS_ROUTES)
     }
   },
   persist: {
