@@ -1,11 +1,6 @@
 <template>
-  <n-drawer
-    :show="show"
-    :width="width"
-    placement="right"
-    @update:show="(value) => $emit('update:show', value)"
-  >
-    <n-drawer-content :title="title" :native-scrollbar="false">
+  <n-drawer :show="show" :width="280" placement="right" @update:show="updateShow">
+    <n-drawer-content title="个性配置" :native-scrollbar="false">
       <div class="drawer">
         <n-divider title-placement="center">主题</n-divider>
 
@@ -214,79 +209,50 @@
   </n-drawer>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs, unref, watch, computed } from 'vue'
+<script setup lang="ts">
+import { watch } from 'vue'
 import { CheckOutlined } from '@vicons/antd'
 import { Moon, SunnySharp } from '@vicons/ionicons5'
-import { darkTheme } from 'naive-ui'
 import { animates as animateOptions, appThemeList } from '@/settings/preference-values'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 
-export default defineComponent({
-  name: 'AppPreference',
-  components: { CheckOutlined, Moon, SunnySharp },
-  props: {
-    title: {
-      type: String,
-      default: '个性配置'
-    },
-    width: {
-      type: Number,
-      default: 280
-    },
-    show: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: ['update:show'],
-  setup(props) {
-    const settingStore = useAppPreferenceStore()
-    const state = reactive({
-      width: props.width,
-      title: props.title
-    })
+const settingStore = useAppPreferenceStore()
 
-    watch(
-      () => settingStore.darkTheme,
-      (to) => {
-        settingStore.navTheme = to ? 'header-dark' : 'light'
-      }
-    )
-
-    const directionsOptions = computed(() => {
-      return animateOptions.find((item) => item.value == unref(settingStore.pageAnimateType))
-    })
-
-    function togNavTheme(theme: string) {
-      settingStore.navTheme = theme
-      if (settingStore.navMode === 'horizontal' && ['light'].includes(theme)) {
-        settingStore.navTheme = 'dark'
-      }
-    }
-
-    function togTheme(color: string) {
-      settingStore.appTheme = color
-    }
-
-    function togNavMode(mode: string) {
-      settingStore.navMode = mode
-      settingStore.menuSetting.mixMenu = false
-    }
-
-    return {
-      ...toRefs(state),
-      settingStore,
-      togNavTheme,
-      togNavMode,
-      togTheme,
-      darkTheme,
-      animateOptions,
-      directionsOptions,
-      appThemeList
-    }
+defineProps({
+  show: {
+    type: Boolean,
+    default: false
   }
 })
+
+watch(
+  () => settingStore.darkTheme,
+  (to) => {
+    settingStore.navTheme = to ? 'header-dark' : 'light'
+  }
+)
+
+function togNavTheme(theme: string) {
+  settingStore.navTheme = theme
+  if (settingStore.navMode === 'horizontal' && ['light'].includes(theme)) {
+    settingStore.navTheme = 'dark'
+  }
+}
+
+function togTheme(color: string) {
+  settingStore.appTheme = color
+}
+
+function togNavMode(mode: string) {
+  settingStore.navMode = mode
+  settingStore.menuSetting.mixMenu = false
+}
+
+const emits = defineEmits(['update:show'])
+
+function updateShow(value: boolean) {
+  emits('update:show', value)
+}
 </script>
 
 <style lang="scss" scoped>
