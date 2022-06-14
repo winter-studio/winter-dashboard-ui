@@ -6,7 +6,7 @@
           <edit-regular />
         </n-icon>
       </div>
-      <icon-render v-if="value" :icon="value" :size="24" />
+      <icon-render v-if="value && showIcon" :icon="value" :size="24" />
     </div>
     <transition name="bounce-in" class="icon-select-transition">
       <n-card
@@ -35,16 +35,31 @@
 <script setup lang="ts">
 import * as antd from '@vicons/antd'
 import { EditRegular } from '@vicons/fa'
-import { ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 
 const showSelectPanel = ref(false)
-defineProps({
+const showIcon = ref(false)
+const props = defineProps({
   value: {
     type: String,
     required: false,
     default: null
   }
 })
+
+watch(
+  () => {
+    return props.value
+  },
+  (value, oldValue) => {
+    if (value !== oldValue) {
+      showIcon.value = !value
+      nextTick(() => {
+        showIcon.value = !!value
+      })
+    }
+  }
+)
 
 const emits = defineEmits(['update:value'])
 

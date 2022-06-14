@@ -11,7 +11,7 @@
               </template>
               全部{{ expandedKeys.length ? '收起' : '展开' }}
             </n-button>
-            <n-button secondary type="success" class="mr-2" @click="editMenuConfirm">
+            <n-button secondary type="success" class="mr-2" @click="editMenuConfirm(undefined)">
               <template #icon>
                 <n-icon><add-box-outlined /></n-icon>
               </template>
@@ -41,7 +41,6 @@
               <n-spin :show="loading">
                 <n-tree
                   block-line
-                  cascade
                   checkable
                   draggable
                   :virtual-scroll="true"
@@ -143,7 +142,7 @@
               <n-switch v-model:value="menuForm.hidden" />
             </n-form-item>
             <n-form-item v-if="menuForm.type === MenuType.VIEW" label="是否缓存" path="keepAlive">
-              <n-switch v-model:value="menuForm.keepAlive" />
+              <n-switch v-model:value="menuForm.keepAlive" :default-value="true" />
             </n-form-item>
           </n-form>
           <n-result
@@ -234,6 +233,7 @@ const rules: FormRules = {
 }
 //form引用
 const formRef: any = ref(null)
+const initForm = { type: 1, title: '', path: '' }
 //菜单树
 const menus = ref<Array<MenuTreeOptions>>([])
 const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
@@ -299,7 +299,12 @@ async function handleDrop(info: TreeDropInfo) {
   }
 }
 
-function editMenuConfirm(keys: Array<number>) {
+function editMenuConfirm(keys: Array<number> | undefined) {
+  if (keys && keys.length === 0) {
+    menuForm.value = undefined
+    editMenuCache.value = undefined
+    return
+  }
   if (isModified.value) {
     dialog.info({
       title: '未保存',
@@ -315,7 +320,7 @@ function editMenuConfirm(keys: Array<number>) {
   }
 }
 
-async function editMenu(keys: Array<number>) {
+async function editMenu(keys: Array<number> | undefined) {
   if (keys && keys[0]) {
     editingKey.value = keys[0]
     const { data } = await getMenuById(keys[0])
@@ -323,8 +328,8 @@ async function editMenu(keys: Array<number>) {
     editMenuCache.value = clone(data)
   } else {
     editingKey.value = undefined
-    menuForm.value = {}
-    editMenuCache.value = {}
+    menuForm.value = clone(initForm)
+    editMenuCache.value = clone(initForm)
   }
   formRef.value?.restoreValidation()
 }
