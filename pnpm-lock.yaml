@@ -63,7 +63,6 @@ specifiers:
   unplugin-vue-components: ^0.19.6
   vfonts: ^0.0.3
   vite: ^2.9.10
-  vite-plugin-compression: ^0.5.1
   vite-plugin-html: ^3.2.0
   vite-plugin-mock: ^2.9.6
   vue: ^3.2.37
@@ -140,7 +139,6 @@ devDependencies:
   unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.19.6_cimrprb54snhagk4tjmarxnbhm
   vfonts: registry.npmmirror.com/vfonts/0.0.3
   vite: registry.npmmirror.com/vite/2.9.10_sass@1.52.3
-  vite-plugin-compression: registry.npmmirror.com/vite-plugin-compression/0.5.1_vite@2.9.10
   vite-plugin-html: registry.npmmirror.com/vite-plugin-html/3.2.0_vite@2.9.10
   vite-plugin-mock: registry.npmmirror.com/vite-plugin-mock/2.9.6_2cgah32bw5oatv542nkgc5khtm
   vue-eslint-parser: registry.npmmirror.com/vue-eslint-parser/8.3.0_eslint@8.17.0
@@ -5731,22 +5729,6 @@ packages:
     resolution: {integrity: sha512-nguyw8L6Un8eelg1vQ31vIU2ESxqid7EYmy8V+MDeMaHBqaRSkg3dTBToC1PR00D89UzS/SLkfYPnx0Wf23IQQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vfonts/-/vfonts-0.0.3.tgz}
     name: vfonts
     version: 0.0.3
-    dev: true
-
-  registry.npmmirror.com/vite-plugin-compression/0.5.1_vite@2.9.10:
-    resolution: {integrity: sha512-5QJKBDc+gNYVqL/skgFAP81Yuzo9R+EAf19d+EtsMF/i8kFUpNi3J/H01QD3Oo8zBQn+NzoCIFkpPLynoOzaJg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-compression/-/vite-plugin-compression-0.5.1.tgz}
-    id: registry.npmmirror.com/vite-plugin-compression/0.5.1
-    name: vite-plugin-compression
-    version: 0.5.1
-    peerDependencies:
-      vite: '>=2.0.0'
-    dependencies:
-      chalk: registry.npmmirror.com/chalk/4.1.2
-      debug: registry.npmmirror.com/debug/4.3.4
-      fs-extra: registry.npmmirror.com/fs-extra/10.1.0
-      vite: registry.npmmirror.com/vite/2.9.10_sass@1.52.3
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   registry.npmmirror.com/vite-plugin-html/3.2.0_vite@2.9.10:

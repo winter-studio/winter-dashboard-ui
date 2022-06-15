@@ -81,7 +81,6 @@
     "unplugin-vue-components": "^0.19.6",
     "vfonts": "^0.0.3",
     "vite": "^2.9.10",
-    "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-mock": "^2.9.6",
     "vue-eslint-parser": "^8.3.0",
