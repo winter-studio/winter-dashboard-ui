@@ -72,8 +72,6 @@ declare global {
     VITE_DROP_CONSOLE: boolean
     VITE_DROP_DEBUGGER: boolean
     VITE_APP_API_URL: string
-    VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'none'
-    VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean
   }
 }
 

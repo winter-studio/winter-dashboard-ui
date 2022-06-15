@@ -1,5 +1,5 @@
 import { PageEnum } from '@/enums/pageEnum'
-import { isNavigationFailure, Router } from 'vue-router'
+import { isNavigationFailure, RouteLocationRaw, Router } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import { useAppStore } from '@/store/modules/application'
 
@@ -28,7 +28,7 @@ export function setupGuards(router: Router) {
         return
       }
       // redirect login page
-      const redirectData: { name: string; replace: boolean; query?: Recordable<string> } = {
+      const redirectData: RouteLocationRaw = {
         name: PageEnum.BASE_LOGIN_NAME,
         replace: true
       }

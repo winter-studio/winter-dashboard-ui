@@ -11,7 +11,6 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteMockServe } from 'vite-plugin-mock'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import compressPlugin from 'vite-plugin-compression'
 
 const { dependencies, devDependencies, name, version } = pkg
 
@@ -67,8 +66,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       terserOptions: {
         compress: {
           keep_infinity: true,
-          drop_console: viteEnv.VITE_DROP_CONSOLE,
-          drop_debugger: viteEnv.VITE_DROP_DEBUGGER
+          drop_console: isBuild,
+          drop_debugger: isBuild
         }
       },
       brotliSize: false,
@@ -112,16 +111,6 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     vitePlugins.push(configMockPlugin(isBuild))
   }
 
-  if (isBuild) {
-    // rollup-plugin-gzip
-    vitePlugins.push(
-      configCompressPlugin(
-        viteEnv.VITE_BUILD_COMPRESS,
-        viteEnv.VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE
-      )
-    )
-  }
-
   return vitePlugins
 }
 
@@ -152,32 +141,4 @@ export function configMockPlugin(isBuild: boolean) {
       setupProdMockServer();
       `
   })
-}
-
-export function configCompressPlugin(
-  compress: 'gzip' | 'brotli' | 'none',
-  deleteOriginFile = false
-): Plugin | Plugin[] {
-  const compressList = compress.split(',')
-
-  const plugins: Plugin[] = []
-
-  if (compressList.includes('gzip')) {
-    plugins.push(
-      compressPlugin({
-        ext: '.gz',
-        deleteOriginFile
-      })
-    )
-  }
-  if (compressList.includes('brotli')) {
-    plugins.push(
-      compressPlugin({
-        ext: '.br',
-        algorithm: 'brotliCompress',
-        deleteOriginFile
-      })
-    )
-  }
-  return plugins
 }
