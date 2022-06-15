@@ -77,7 +77,11 @@ function setupResponseInterceptor(instance: AxiosInstance) {
             const userStore = useUserStore()
             if (error.response.data.code === ApiCodes.ACCESS_TOKEN_EXPIRED) {
               // token过期，尝试刷新token
-              if (userStore.refreshToken) {
+              if (
+                userStore.refreshToken &&
+                userStore.refreshTokenExpireAt &&
+                userStore.refreshTokenExpireAt < new Date().getTime()
+              ) {
                 console.info('token expired，try to refresh token')
                 refreshing = createRefreshing(userStore.refreshToken)
                 const res = await refreshing

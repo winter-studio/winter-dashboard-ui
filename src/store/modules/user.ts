@@ -9,7 +9,7 @@ import LocalStorageType from '@/enums/storage-types'
 export interface UserState {
   accessToken: string | undefined
   refreshToken: string | undefined
-  refreshTokenExpireIn: number | undefined
+  refreshTokenExpireAt: number | undefined
   info: any
 }
 
@@ -18,7 +18,7 @@ export const useUserStore = defineStore({
   state: (): UserState => ({
     accessToken: undefined,
     refreshToken: undefined,
-    refreshTokenExpireIn: undefined,
+    refreshTokenExpireAt: undefined,
     info: {}
   }),
   getters: {},
@@ -26,7 +26,7 @@ export const useUserStore = defineStore({
     setToken(accessToken: string, refreshToken: string, refreshTokenExpireIn: number) {
       this.accessToken = accessToken
       this.refreshToken = refreshToken
-      this.refreshTokenExpireIn = refreshTokenExpireIn
+      this.refreshTokenExpireAt = refreshTokenExpireIn * 1000 + new Date().getTime()
     },
     setAccessToken(accessToken: string) {
       this.accessToken = accessToken
@@ -58,7 +58,7 @@ export const useUserStore = defineStore({
       this.info = undefined
       this.accessToken = undefined
       this.refreshToken = undefined
-      this.refreshTokenExpireIn = undefined
+      this.refreshTokenExpireAt = undefined
       localStorage.removeItem(LocalStorageType.CURRENT_USER)
     }
   },
