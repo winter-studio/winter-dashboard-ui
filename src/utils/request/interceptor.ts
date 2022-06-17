@@ -58,13 +58,13 @@ function setupResponseInterceptor(instance: AxiosInstance) {
         case ApiResponseType.FAILURE:
           if (response.config.handleFailure) {
             window.$message.error(data.message ?? '未知错误')
-            throw new Error('接口失败')
+            throw response
           }
           break
         case ApiResponseType.ERROR:
           if (response.config.handleError) {
             window.$message.error(data.message ?? '请求异常')
-            throw new Error(`接口异常:${data.message}`)
+            throw response
           }
           break
       }
@@ -112,7 +112,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
               })
             })
 
-            break
+            return
           case 403:
             window.$message.error('没有权限')
             break
@@ -120,6 +120,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
             window.$message.error('请求资源不存在')
             break
         }
+        throw error.response
       } else {
         console.error(error)
         switch (error.code) {
@@ -132,6 +133,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
           default:
             window.$message.error('请求失败')
         }
+        throw error
       }
     }
   )
