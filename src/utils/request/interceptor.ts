@@ -80,7 +80,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
               if (
                 userStore.refreshToken &&
                 userStore.refreshTokenExpireAt &&
-                userStore.refreshTokenExpireAt < new Date().getTime()
+                userStore.refreshTokenExpireAt > new Date().getTime()
               ) {
                 console.info('token expired，try to refresh token')
                 refreshing = createRefreshing(userStore.refreshToken)
