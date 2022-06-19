@@ -5,18 +5,6 @@ export type Component<T = any> =
   | (() => Promise<typeof import('*.vue')>)
   | (() => Promise<T>)
 
-export interface AppRouteMeta {
-  // 名称
-  title: string
-  type: MenuType
-  icon?: string
-  virtual?: boolean
-  url?: string
-  hideBreadcrumb?: boolean
-  keepAlive?: boolean
-  permitAll?: boolean
-}
-
 export enum MenuType {
   DIR = 1,
   VIEW,
