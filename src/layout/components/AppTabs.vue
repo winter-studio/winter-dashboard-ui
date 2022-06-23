@@ -109,7 +109,7 @@ import { storage } from '@/utils/storage'
 import { RouteItem, useTabsViewStore } from '@/store/modules/tabsView'
 import { useMessage, useThemeVars } from 'naive-ui'
 import Draggable from 'vuedraggable'
-import { PageEnum } from '@/enums/pageEnum'
+import { RouteNames } from '@/router/base'
 import {
   ColumnWidthOutlined,
   DownOutlined,
@@ -187,7 +187,7 @@ export default defineComponent({
     const getChangeStyle = computed(() => {
       const { collapsed } = props
       const { minMenuWidth, menuWidth }: any = unref(menuSetting)
-      let lenNum =
+      const lenNum =
         unref(navMode) === 'horizontal' || !isMixMenuNoneSub.value
           ? 0
           : collapsed
@@ -254,7 +254,7 @@ export default defineComponent({
 
     // 标签页列表
     const tabsList: any = computed(() => tabsViewStore.tabsList)
-    const whiteList: string[] = [PageEnum.BASE_LOGIN_NAME, PageEnum.ERROR_PAGE_NAME]
+    const whiteList: string[] = [RouteNames.BASE_LOGIN_NAME, RouteNames.ERROR_PAGE_NAME]
 
     watch(
       () => route.fullPath,
@@ -323,7 +323,7 @@ export default defineComponent({
     // 关闭全部
     const closeAll = () => {
       tabsViewStore.closeAllTabs()
-      router.replace(PageEnum.BASE_HOME)
+      router.replace(RouteNames.BASE_HOME)
       updateNavScroll()
     }
 
@@ -400,7 +400,7 @@ export default defineComponent({
       if (containerWidth < navWidth - 2) {
         state.scrollable = true
         if (autoScroll) {
-          let tagList = navScroll.value.querySelectorAll('.tabs-card-scroll-item') || []
+          const tagList = navScroll.value.querySelectorAll('.tabs-card-scroll-item') || []
           ;[...tagList].forEach((tag: HTMLElement) => {
             // fix SyntaxError
             if (tag.id === `tag${state.activeKey.split('/').join('\/')}`) {
@@ -419,7 +419,7 @@ export default defineComponent({
 
     function handleContextMenu(e: any, item: any) {
       e.preventDefault()
-      isCurrent.value = PageEnum.BASE_HOME_REDIRECT === item.path
+      isCurrent.value = RouteNames.BASE_HOME_REDIRECT === item.path
       state.showDropdown = false
       nextTick().then(() => {
         state.showDropdown = true
@@ -452,8 +452,7 @@ export default defineComponent({
     })
 
     function onElementResize() {
-      let observer
-      observer = elementResizeDetectorMaker()
+      const observer = elementResizeDetectorMaker()
       observer.listenTo(navWrap.value, handleResize)
     }
 

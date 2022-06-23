@@ -91,7 +91,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import { FormValidationError, useMessage } from 'naive-ui'
 import { LockClosedOutline, LogoFacebook, LogoGithub, PersonOutline } from '@vicons/ionicons5'
-import { PageEnum } from '@/enums/pageEnum'
+import { RouteNames } from '@/router/base'
 import { login } from '@/api/base/auth'
 
 interface FormState {
@@ -103,7 +103,7 @@ const formRef = ref()
 const message = useMessage()
 const loading = ref(false)
 const autoLogin = ref(true)
-const LOGIN_NAME = PageEnum.BASE_LOGIN_NAME
+const LOGIN_NAME = RouteNames.BASE_LOGIN_NAME
 
 const formInline = reactive({
   username: 'admin',

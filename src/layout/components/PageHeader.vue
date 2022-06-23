@@ -145,7 +145,7 @@ import AppPreference from './AppPreference.vue'
 import AsideMenu from './AsideMenu.vue'
 import { Refresh } from '@vicons/tabler'
 import LocalStorageType from '@/enums/storage-types'
-import { PageEnum } from '@/enums/pageEnum'
+import { RouteNames } from '@/router/base'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { storeToRefs } from 'pinia'
 
@@ -262,7 +262,7 @@ export default defineComponent({
             localStorage.removeItem(LocalStorageType.TABS_ROUTES)
             router
               .replace({
-                name: PageEnum.BASE_LOGIN_NAME,
+                name: RouteNames.BASE_LOGIN_NAME,
                 query: {
                   redirect: route.fullPath
                 }

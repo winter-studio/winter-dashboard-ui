@@ -1,8 +1,8 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { useUserStore } from '@/store/modules/user'
-import { ApiResponse, ApiResponseType, ProxyAxiosResponse } from '@/utils/request/types'
+import { ApiRes, ApiResponseType, ProxyAxiosResponse } from '@/utils/request/types'
 import router from '@/router'
-import { PageEnum } from '@/enums/pageEnum'
+import { RouteNames } from '@/router/base'
 import { RouteLocationRaw } from 'vue-router'
 import { ApiCodes } from '@/utils/request/api-codes'
 import { refreshToken } from '@/api/base/auth'
@@ -33,7 +33,7 @@ function setupRequestInterceptor(instance: AxiosInstance) {
   )
 }
 
-function createRefreshing(token: string): Promise<ApiResponse<string>> {
+function createRefreshing(token: string): Promise<ApiRes<string>> {
   if (!refreshing) {
     waiting = true
     refreshing = refreshToken(token)
@@ -101,7 +101,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
             userStore.logout().then(() => {
               const redirect = router.currentRoute.value.fullPath
               const to: RouteLocationRaw = {
-                name: PageEnum.BASE_LOGIN_NAME
+                name: RouteNames.BASE_LOGIN_NAME
               }
               if (redirect && redirect !== '/') {
                 to.query = { redirect }

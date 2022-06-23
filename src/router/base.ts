@@ -1,12 +1,22 @@
 import { ErrorPage, AppLayout } from '@/router/constant'
-import { PageEnum } from '@/enums/pageEnum'
 import { MenuType } from '@/router/types'
 import { RouteRecordRaw } from 'vue-router'
+
+export enum RouteNames {
+  // 登录
+  BASE_LOGIN_NAME = 'Login',
+  // 首页
+  BASE_HOME = '/dashboard',
+  //首页跳转默认路由
+  BASE_HOME_REDIRECT = '/dashboard/workplace',
+  // 错误
+  ERROR_PAGE_NAME = 'ErrorPage'
+}
 
 export const RootRoute: RouteRecordRaw = {
   path: '/',
   name: 'Root',
-  redirect: PageEnum.BASE_HOME,
+  redirect: RouteNames.BASE_HOME,
   meta: {
     title: 'Root',
     type: MenuType.DIR

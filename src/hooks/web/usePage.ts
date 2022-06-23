@@ -1,11 +1,11 @@
 import type { RouteLocationRaw, Router } from 'vue-router'
 
-import { PageEnum } from '@/enums/pageEnum'
+import { RouteNames } from '@/router/base'
 
 import { useRouter } from 'vue-router'
 import { isString } from 'lodash-es'
 
-export type RouteLocationRawEx = Omit<RouteLocationRaw, 'path'> & { path: PageEnum }
+export type RouteLocationRawEx = Omit<RouteLocationRaw, 'path'> & { path: RouteNames }
 
 function handleError(e: Error) {
   console.error(e)
@@ -17,7 +17,10 @@ function handleError(e: Error) {
 export function useGo(_router?: Router) {
   const router = _router ?? useRouter()
   const { push, replace } = router
-  function go(opt: PageEnum | RouteLocationRawEx | string = PageEnum.BASE_HOME, isReplace = false) {
+  function go(
+    opt: RouteNames | RouteLocationRawEx | string = RouteNames.BASE_HOME,
+    isReplace = false
+  ) {
     if (!opt) {
       return
     }
