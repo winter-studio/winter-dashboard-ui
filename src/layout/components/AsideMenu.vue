@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, reactive, computed, watch, toRefs, unref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { RouteRecordName, useRoute, useRouter } from 'vue-router'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { buildMenu, buildMenuMix } from './menu-builder'
 import { useAppStore } from '@/store/modules/application'
@@ -30,7 +30,7 @@ export default defineComponent({
   props: {
     mode: {
       // 菜单模式
-      type: String,
+      type: Object as PropType<'vertical' | 'horizontal'>,
       default: 'vertical'
     },
     collapsed: {
@@ -59,7 +59,8 @@ export default defineComponent({
     // 获取当前打开的子菜单
     const matched = currentRoute.matched
 
-    const getOpenKeys = matched && matched.length ? matched.map((item) => item.name) : []
+    const getOpenKeys: RouteRecordName[] =
+      matched && matched.length ? matched.map((item) => item.name!) : []
 
     const state = reactive({
       openKeys: getOpenKeys
@@ -70,7 +71,7 @@ export default defineComponent({
     })
 
     const getSelectedKeys = computed(() => {
-      let location = props.location
+      const location = props.location
       return location === 'left' || (location === 'header' && unref(navMode) === 'horizontal')
         ? unref(selectedKeys)
         : unref(headerMenuSelectKey)

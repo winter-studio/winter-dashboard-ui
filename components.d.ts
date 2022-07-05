@@ -55,4 +55,5 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     WindowTool: typeof import('./src/components/application/WindowTool.vue')['default']
   }
+
 }
