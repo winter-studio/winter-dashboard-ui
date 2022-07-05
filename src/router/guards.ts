@@ -65,8 +65,8 @@ export function setupGuards(router: Router) {
     const appStore = useAppStore()
     // 在这里设置需要缓存的组件名称
     const keepAliveComponents = appStore.keepAliveComponents
-    const currentComName: any = to.matched.find((item) => item.name == to.name)?.components.default
-      ?.name
+    const currentComName: any = to.matched.find((item) => item.name === to.name)?.components
+      ?.default?.name
     if (
       currentComName &&
       !keepAliveComponents.find((item) => item === currentComName) &&
@@ -77,9 +77,5 @@ export function setupGuards(router: Router) {
     }
     appStore.keepAliveComponents = keepAliveComponents
     window.$loading?.finish()
-  })
-
-  router.onError((error) => {
-    console.error('路由错误', error)
   })
 }

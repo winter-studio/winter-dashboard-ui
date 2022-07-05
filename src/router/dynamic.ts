@@ -25,15 +25,17 @@ function completeFirstLevelComponent(
   component: Component
 ) {
   if (level === 1) {
-    appRoute.children = [
-      {
-        name: appRoute.name,
-        meta: { ...appRoute.meta! },
-        path: appRoute.path,
-        alias: appRoute.path,
-        component
-      }
-    ]
+    if ('children' in appRoute) {
+      appRoute.children = [
+        {
+          name: appRoute.name,
+          meta: { ...appRoute.meta! },
+          path: appRoute.path,
+          alias: appRoute.path,
+          component
+        }
+      ]
+    }
     appRoute.name = String(appRoute.name) + '-layout'
     appRoute.component = AppLayout
     if (appRoute.meta) {
@@ -57,7 +59,8 @@ function generatorAppRoutes(menus: MenuTree[], level: number): RouteRecordRaw[] 
         icon: menu.icon,
         keepAlive: menu.keepAlive
       },
-      path: (level === 1 ? '/' : '') + menu.path
+      path: (level === 1 ? '/' : '') + menu.path,
+      children: []
     }
 
     switch (menu.type) {

@@ -241,7 +241,7 @@ const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
 // 编辑时的key，添加时为空
 const editingKey = ref<number | undefined>(undefined)
 const menuForm = ref<Menu | undefined>(undefined)
-let editMenuCache = ref<Menu | undefined>(undefined)
+const editMenuCache = ref<Menu | undefined>(undefined)
 //是否更改
 const isModified = computed(() => {
   return !isEqual(unref(menuForm), unref(editMenuCache))
@@ -265,7 +265,7 @@ onMounted(async () => {
 })
 
 function buildTreeOptionPaths(key: number, tree: Array<MenuTreeOptions>): string | undefined {
-  for (let item of tree) {
+  for (const item of tree) {
     if (item.key === key) {
       return item.path + '/'
     }
@@ -391,7 +391,7 @@ interface MenuTreeOptions extends TreeOption {
 function buildTreeOptions(menuTrees: Array<MenuTree>): Array<MenuTreeOptions> {
   return menuTrees.map((item: MenuTree) => {
     return {
-      key: String(item.id),
+      key: item.id,
       label: item.title,
       path: item.path,
       children: item.children ? buildTreeOptions(item.children) : undefined
@@ -404,7 +404,7 @@ function buildDirTreeOptions(menuTrees: Array<MenuTree>): Array<TreeSelectOption
     .filter((i) => i.type == MenuType.DIR)
     .map((item: MenuTree) => {
       return {
-        key: String(item.id),
+        key: item.id,
         label: item.title,
         children: item.children ? buildDirTreeOptions(item.children) : undefined
       }

@@ -56,7 +56,8 @@ const getThemeOverrides = computed(() => {
         appTabContentBgColor: '#18181C',
         appTabsBgColorPreActive: '#18181Caa',
         appTabsBgColorActive: '#18181C',
-        layoutContentBgColor: '#2a2a31'
+        layoutContentBgColor: '#2a2a31',
+        loginBgColor: '#2a2a31'
       },
       Switch: {
         railColorActive: color,
@@ -80,7 +81,8 @@ const getThemeOverrides = computed(() => {
         appTabsBgColorPreActive: '#ffffff99',
         appTabsBgColorActive: '#ffffff',
         appTabContentBgColor: '#fefefe',
-        layoutContentBgColor: '#f9f9f9'
+        layoutContentBgColor: '#f9f9f9',
+        loginBgColor: '#fefefe'
       },
       LoadingBar: {
         colorLoading: appTheme.string()

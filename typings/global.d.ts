@@ -87,5 +87,6 @@ declare module 'naive-ui' {
     appTabsBgColorPreActive: string
     appTabsBgColorActive: string
     layoutContentBgColor: string
+    loginBgColor: string
   }
 }
