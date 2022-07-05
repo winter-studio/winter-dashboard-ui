@@ -65,7 +65,6 @@ declare global {
   }
 
   declare interface ViteEnv {
-    VITE_USE_MOCK: boolean
     VITE_PUBLIC_PATH: string
     VITE_APP_TITLE: string
     VITE_APP_SHORT_NAME: string

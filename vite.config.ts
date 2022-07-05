@@ -8,7 +8,6 @@ import Components from 'unplugin-vue-components/vite'
 // eslint-disable-next-line import/no-unresolved
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { createHtmlPlugin } from 'vite-plugin-html'
-import { viteMockServe } from 'vite-plugin-mock'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
@@ -19,9 +18,8 @@ const __APP_INFO__ = {
   lastBuildTime: format(new Date(), 'yyyy-MM-dd HH:mm:ss')
 }
 
-export default ({ command, mode }: ConfigEnv): UserConfig => {
+export default ({ mode }: ConfigEnv): UserConfig => {
   const viteEnv = loadViteEnv(mode)
-  const isBuild = command === 'build'
   return {
     base: viteEnv.VITE_PUBLIC_PATH,
     esbuild: {},
@@ -32,7 +30,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       ],
       dedupe: ['vue']
     },
-    plugins: createVitePlugins(viteEnv, isBuild),
+    plugins: createVitePlugins(viteEnv),
     define: {
       __APP_INFO__: JSON.stringify(__APP_INFO__)
     },
@@ -61,15 +59,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     build: {
       target: 'es2015',
+      cssTarget: 'chrome86',
       outDir: 'dist-app',
-      minify: 'terser',
-      terserOptions: {
-        compress: {
-          keep_infinity: true,
-          drop_console: isBuild,
-          drop_debugger: isBuild
-        }
-      },
       brotliSize: false,
       chunkSizeWarningLimit: 2000
     }
@@ -91,7 +82,7 @@ function loadViteEnv(mode: string): ViteEnv {
   return ret
 }
 
-export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
+export function createVitePlugins(viteEnv: ViteEnv) {
   const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     // have to
     vue(),
@@ -105,11 +96,6 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv))
-
-  // vite-plugin-mock
-  if (viteEnv.VITE_USE_MOCK) {
-    vitePlugins.push(configMockPlugin(isBuild))
-  }
 
   return vitePlugins
 }
@@ -127,18 +113,4 @@ export function configHtmlPlugin(env: ViteEnv) {
   })
 
   return htmlPlugin
-}
-
-export function configMockPlugin(isBuild: boolean) {
-  return viteMockServe({
-    ignore: /^\_/,
-    mockPath: 'mock',
-    localEnabled: !isBuild,
-    prodEnabled: isBuild,
-    injectCode: `
-      import { setupProdMockServer } from '../mock/_createProductionServer';
-
-      setupProdMockServer();
-      `
-  })
 }
