@@ -50,7 +50,7 @@ import { SearchItem, SearchOptions } from '@/types/component/table'
 import { clone } from 'lodash-es'
 
 interface Props {
-  columns: DataTableColumns
+  columns: DataTableColumns<any>
   data: RowData[]
   searchItems: SearchItem[]
   page?: number

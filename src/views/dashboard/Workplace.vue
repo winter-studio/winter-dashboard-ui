@@ -36,7 +36,7 @@
     <n-grid class="mt-4" cols="2 s:1 m:1 l:2 xl:2 2xl:2" responsive="screen" :x-gap="12" :y-gap="9">
       <n-gi>
         <n-card
-          :segmented="{ content: 'hard' }"
+          :segmented="{ content: true }"
           content-style="padding: 0;"
           :bordered="false"
           size="small"

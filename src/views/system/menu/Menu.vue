@@ -2,7 +2,7 @@
   <div>
     <n-grid cols="3" responsive="screen" :x-gap="12">
       <n-gi span="1">
-        <n-card :segmented="{ content: 'hard' }" :bordered="false" size="small">
+        <n-card :segmented="{ content: true }" :bordered="false" size="small">
           <template #header>
             <n-button secondary type="primary" class="mr-2" @click="toggleCollapse">
               <template #icon>
@@ -30,7 +30,7 @@
             </n-popconfirm>
           </template>
           <div class="w-full">
-            <n-input v-model:value="search" type="input" placeholder="输入菜单名称搜索">
+            <n-input v-model:value="search" type="text" placeholder="输入菜单名称搜索">
               <template #suffix>
                 <n-icon size="18" class="cursor-pointer">
                   <search-outlined />
@@ -59,7 +59,7 @@
         </n-card>
       </n-gi>
       <n-gi span="2">
-        <n-card :segmented="{ content: 'hard' }" :bordered="false" size="small">
+        <n-card :segmented="{ content: true }" :bordered="false" size="small">
           <template #header>
             <n-space>
               <n-button

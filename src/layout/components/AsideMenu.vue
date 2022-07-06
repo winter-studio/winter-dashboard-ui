@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, reactive, computed, watch, toRefs, unref } from 'vue'
-import { RouteRecordName, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { buildMenu, buildMenuMix } from './menu-builder'
 import { useAppStore } from '@/store/modules/application'
@@ -59,8 +59,8 @@ export default defineComponent({
     // 获取当前打开的子菜单
     const matched = currentRoute.matched
 
-    const getOpenKeys: RouteRecordName[] =
-      matched && matched.length ? matched.map((item) => item.name!) : []
+    const getOpenKeys: string[] =
+      matched && matched.length ? matched.map((item) => item.name!.toString()) : []
 
     const state = reactive({
       openKeys: getOpenKeys
@@ -93,7 +93,7 @@ export default defineComponent({
       () => currentRoute.fullPath,
       () => {
         const matched = currentRoute.matched
-        state.openKeys = matched.map((item) => item.name)
+        state.openKeys = matched.map((item) => item.name!.toString())
         const activeMenu: string = (currentRoute.meta?.activeMenu as string) || ''
         selectedKeys.value = activeMenu ? (activeMenu as string) : (currentRoute.name as string)
       }
