@@ -30,7 +30,7 @@ export default defineComponent({
   props: {
     mode: {
       // 菜单模式
-      type: Object as PropType<'vertical' | 'horizontal'>,
+      type: String as PropType<'vertical' | 'horizontal'>,
       default: 'vertical'
     },
     collapsed: {

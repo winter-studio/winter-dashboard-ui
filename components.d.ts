@@ -18,7 +18,7 @@ declare module '@vue/runtime-core' {
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
-    NCheckbox: typeof import('naive-ui')['NCheckbox']
+    NDataTable: typeof import('naive-ui')['NDataTable']
     NDivider: typeof import('naive-ui')['NDivider']
     NDrawer: typeof import('naive-ui')['NDrawer']
     NDrawerContent: typeof import('naive-ui')['NDrawerContent']
@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     NDynamicTags: typeof import('naive-ui')['NDynamicTags']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
+    NFormItemGi: typeof import('naive-ui')['NFormItemGi']
     NGi: typeof import('naive-ui')['NGi']
     NGrid: typeof import('naive-ui')['NGrid']
     NIcon: typeof import('naive-ui')['NIcon']
@@ -54,6 +55,6 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     WindowTool: typeof import('./src/components/application/WindowTool.vue')['default']
+    WinterTable: typeof import('./src/components/table/WinterTable.vue')['default']
   }
-
 }

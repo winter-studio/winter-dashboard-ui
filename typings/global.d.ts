@@ -68,8 +68,6 @@ declare global {
     VITE_PUBLIC_PATH: string
     VITE_APP_TITLE: string
     VITE_APP_SHORT_NAME: string
-    VITE_DROP_CONSOLE: boolean
-    VITE_DROP_DEBUGGER: boolean
     VITE_APP_API_URL: string
   }
 }
