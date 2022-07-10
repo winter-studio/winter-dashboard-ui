@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import preferenceDefault from '@/settings/preference-default'
-import type { ImenuSetting } from '@typings/config'
 import LocalStorageType from '@/enums/storage-types'
 
 const {
@@ -15,6 +14,14 @@ const {
   pageAnimateType,
   showHeaderReload
 } = preferenceDefault
+
+export interface ImenuSetting {
+  minMenuWidth: number
+  menuWidth: number
+  fixed: boolean
+  mixMenu: boolean
+  collapsed: boolean
+}
 
 interface AppPreferenceState {
   //深色主题
