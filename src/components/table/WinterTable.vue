@@ -55,11 +55,12 @@ interface Props {
   searchItems: SearchItem[]
   page?: number
   pageSize?: number
+  initSearch?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), { page: 1, pageSize: 10 })
+const props = withDefaults(defineProps<Props>(), { page: 1, pageSize: 10, initSearch: true })
 const emits = defineEmits<{
-  (e: 'search', search: SearchOptions): void
+  (e: 'search', search: SearchOptions<any>): void
 }>()
 
 const searchForm = ref<any>({})
@@ -81,7 +82,9 @@ const pagination = ref({
 })
 
 onMounted(() => {
-  search()
+  if (props.initSearch) {
+    search()
+  }
 })
 
 function reset() {
@@ -94,7 +97,7 @@ function search() {
   emits('search', {
     page: pagination.value.page,
     pageSize: pagination.value.pageSize,
-    search: clone(searchForm.value)
+    ...clone(searchForm.value)
   })
 }
 </script>

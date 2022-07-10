@@ -6,7 +6,11 @@
           <n-gi>
             <div class="flex items-center">
               <div>
-                <n-avatar circle :size="64" :src="schoolboy" />
+                <n-avatar
+                  circle
+                  :size="64"
+                  src="https://awss3.iamkyun.com:8443/profile/default_user_profile.svg"
+                />
               </div>
               <div>
                 <p class="px-4 text-xl">早安，{{ info?.username }}，开始您一天的工作吧！</p>
@@ -111,7 +115,6 @@
 </template>
 
 <script lang="ts" setup>
-import schoolboy from '@/assets/images/schoolboy.png'
 import {
   DashboardOutlined,
   ProfileOutlined,

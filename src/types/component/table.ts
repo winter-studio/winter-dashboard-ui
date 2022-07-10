@@ -4,8 +4,9 @@ export interface SearchItem {
   placeholder?: string
 }
 
-export interface SearchOptions {
+export interface PageParam {
   page: number
   pageSize: number
-  search: any
 }
+
+export type SearchOptions<T> = T & PageParam

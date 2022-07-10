@@ -6,37 +6,22 @@
 
 <script setup lang="ts">
 import { h, ref } from 'vue'
-import { NButton, useMessage } from 'naive-ui'
+import { NAvatar, NButton, NTag, useMessage } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import WinterTable from '@/components/table/WinterTable.vue'
 import { SearchItem, SearchOptions } from '@/types/component/table'
-
-type UserTableItem = {
-  id: number
-  avatar: string
-  username: string
-  nickname: string
-  mobile: string
-  createTime: string
-  status: string
-  roles: string[]
-}
+import { getPagedUsers } from '@/api/base/user'
+import { AdminUserPageItem } from '@/types/response/user'
 
 const message = useMessage()
 
-type SearchForm = {
+type SearchParam = {
   username: string
   mobile: string
   nickname: string
 }
 
-const searchForm = ref<SearchForm>({
-  username: '',
-  mobile: '',
-  nickname: ''
-})
-
-const data = ref<UserTableItem[]>([])
+const data = ref<AdminUserPageItem[]>([])
 
 const searchItems: SearchItem[] = [
   {
@@ -56,10 +41,16 @@ const searchItems: SearchItem[] = [
   }
 ]
 
-const columns: DataTableColumns<UserTableItem> = [
+const columns: DataTableColumns<AdminUserPageItem> = [
   {
     title: '头像',
-    key: 'avatar'
+    key: 'avatar',
+    render: (row) =>
+      h(NAvatar, {
+        src: row.avatar,
+        size: 'medium',
+        color: '#ccc6'
+      })
   },
   {
     title: '用户名',
@@ -75,11 +66,17 @@ const columns: DataTableColumns<UserTableItem> = [
   },
   {
     title: '状态',
-    key: 'status'
+    key: 'status',
+    render(row) {
+      return h(NTag, {
+        type: row.status === '0' ? 'success' : 'error',
+        innerText: row.status === '0' ? '正常' : '禁用'
+      })
+    }
   },
   {
-    title: '角色',
-    key: 'roles'
+    title: '创建时间',
+    key: 'createTime'
   },
   {
     title: '操作',
@@ -99,9 +96,10 @@ const columns: DataTableColumns<UserTableItem> = [
   }
 ]
 
-function search(searchOptions: SearchOptions) {
-  console.log('search', searchOptions)
-  searchForm.value = searchOptions.search
+function search(searchOptions: SearchOptions<SearchParam>) {
+  getPagedUsers(searchOptions).then((res) => {
+    data.value = res.data?.list ?? []
+  })
 }
 </script>
 
