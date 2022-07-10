@@ -14,6 +14,10 @@ export const useAppStore = defineStore({
   }),
   getters: {
     getKeepAliveComponents(state) {
+      debugger
+      if (import.meta.env.VITE_APP_VUE_KEEPALIVE_ENABLED === 'false') {
+        return []
+      }
       return Array.from(state.keepAliveComponents.values())
     }
   },

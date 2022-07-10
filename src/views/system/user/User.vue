@@ -4,14 +4,16 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { h, ref } from 'vue'
-import { NAvatar, NButton, NTag, useMessage } from 'naive-ui'
+<script setup lang="tsx">
+import { ref } from 'vue'
+import { NAvatar, NButton, NIcon, NTag, useMessage } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import WinterTable from '@/components/table/WinterTable.vue'
 import { SearchItem, SearchOptions } from '@/types/component/table'
 import { getPagedUsers } from '@/api/base/user'
 import { AdminUserPageItem } from '@/types/response/user'
+import { EditOutlined, DeleteOutlined } from '@vicons/antd'
+import { Ban } from '@vicons/ionicons5'
 
 const message = useMessage()
 
@@ -45,12 +47,9 @@ const columns: DataTableColumns<AdminUserPageItem> = [
   {
     title: '头像',
     key: 'avatar',
-    render: (row) =>
-      h(NAvatar, {
-        src: row.avatar,
-        size: 'medium',
-        color: '#ccc6'
-      })
+    render: (row) => {
+      return <NAvatar src={row.avatar} size="medium" color="#ccc6" />
+    }
   },
   {
     title: '用户名',
@@ -67,11 +66,14 @@ const columns: DataTableColumns<AdminUserPageItem> = [
   {
     title: '状态',
     key: 'status',
-    render(row) {
-      return h(NTag, {
-        type: row.status === '0' ? 'success' : 'error',
-        innerText: row.status === '0' ? '正常' : '禁用'
-      })
+    render: (row) => {
+      let text = '正常'
+      let type: 'default' | 'primary' | 'info' | 'success' | 'warning' | 'error' = 'success'
+      if (row.status === '1') {
+        text = '禁用'
+        type = 'error'
+      }
+      return <NTag type={type}>{text}</NTag>
     }
   },
   {
@@ -81,18 +83,53 @@ const columns: DataTableColumns<AdminUserPageItem> = [
   {
     title: '操作',
     key: 'actions',
-    render(row) {
-      return h(
-        NButton,
-        {
-          strong: true,
-          tertiary: true,
-          size: 'small',
-          onClick: () => message.info(`edit ${row.id}`)
-        },
-        { default: () => '编辑' }
-      )
-    }
+    render: (row) => [
+      <NButton
+        strong
+        secondary
+        type="primary"
+        size="small"
+        class="mr-2"
+        onClick={() => {
+          message.info(` edit ${row.id}`)
+        }}
+      >
+        {{
+          default: () => '编辑',
+          icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
+        }}
+      </NButton>,
+      <NButton
+        strong
+        secondary
+        type="error"
+        size="small"
+        class="mr-2"
+        onClick={() => {
+          message.info(`delete  ${row.id}`)
+        }}
+      >
+        {{
+          default: () => '删除',
+          icon: () => <NIcon>{{ default: () => <DeleteOutlined /> }}</NIcon>
+        }}
+      </NButton>,
+      <NButton
+        strong
+        secondary
+        type="warning"
+        size="small"
+        class="mr-2"
+        onClick={() => {
+          message.info(`ban ${row.id}`)
+        }}
+      >
+        {{
+          default: () => '禁用',
+          icon: () => <NIcon>{{ default: () => <Ban /> }}</NIcon>
+        }}
+      </NButton>
+    ]
   }
 ]
 
