@@ -1,47 +1,42 @@
 <template>
   <div class="p-2">
     <winter-table :columns="columns" :data="data" :search-items="searchItems" @search="search" />
+    <n-drawer v-model:show="showEdit" :width="800" placement="right" :mask-closable="false">
+      <n-drawer-content title="编辑" closable>
+        <n-form
+          ref="formRef"
+          :model="userForm"
+          :rules="userFormRules"
+          label-placement="left"
+          label-width="auto"
+          require-mark-placement="right-hanging"
+        >
+          <n-form-item label="Input" path="inputValue">
+            <n-input v-model:value="userForm.username" />
+          </n-form-item>
+        </n-form>
+      </n-drawer-content>
+    </n-drawer>
   </div>
 </template>
 
 <script setup lang="tsx">
 import { ref } from 'vue'
-import { NAvatar, NButton, NIcon, NTag, useMessage } from 'naive-ui'
+import { NAvatar, NButton, NIcon, NPopconfirm, NTag, useMessage } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import WinterTable from '@/components/table/WinterTable.vue'
-import { SearchItem, SearchOptions } from '@/types/component/table'
-import { getPagedUsers } from '@/api/base/user'
+import { SearchOptions } from '@/types/component/table'
+import { getPagedUsers, getUser } from '@/api/base/user'
 import { AdminUserPageItem } from '@/types/response/user'
 import { EditOutlined, DeleteOutlined } from '@vicons/antd'
 import { Ban } from '@vicons/ionicons5'
+import { FormRules } from 'naive-ui/es/form/src/interface'
+import { SearchParam, UserForm, searchItems } from '@/views/system/user/user'
 
 const message = useMessage()
-
-type SearchParam = {
-  username: string
-  mobile: string
-  nickname: string
-}
+const showEdit = ref(false)
 
 const data = ref<AdminUserPageItem[]>([])
-
-const searchItems: SearchItem[] = [
-  {
-    label: '用户名',
-    path: 'username',
-    placeholder: '用户名搜索'
-  },
-  {
-    label: '昵称',
-    path: 'nickname',
-    placeholder: '昵称搜索'
-  },
-  {
-    label: '手机号',
-    path: 'mobile',
-    placeholder: '手机号搜索'
-  }
-]
 
 const columns: DataTableColumns<AdminUserPageItem> = [
   {
@@ -90,52 +85,64 @@ const columns: DataTableColumns<AdminUserPageItem> = [
         type="primary"
         size="small"
         class="mr-2"
-        onClick={() => {
-          message.info(` edit ${row.id}`)
-        }}
+        onClick={() => edit(row.id)}
       >
         {{
           default: () => '编辑',
           icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
         }}
       </NButton>,
-      <NButton
-        strong
-        secondary
-        type="error"
-        size="small"
-        class="mr-2"
-        onClick={() => {
+      <NPopconfirm
+        onPositiveClick={() => {
           message.info(`delete  ${row.id}`)
         }}
       >
         {{
-          default: () => '删除',
-          icon: () => <NIcon>{{ default: () => <DeleteOutlined /> }}</NIcon>
+          default: () => '确认要删除用户吗？',
+          trigger: () => (
+            <NButton strong secondary type="error" size="small" class="mr-2">
+              {{
+                default: () => '删除',
+                icon: () => <NIcon>{{ default: () => <DeleteOutlined /> }}</NIcon>
+              }}
+            </NButton>
+          )
         }}
-      </NButton>,
-      <NButton
-        strong
-        secondary
-        type="warning"
-        size="small"
-        class="mr-2"
-        onClick={() => {
+      </NPopconfirm>,
+      <NPopconfirm
+        onPositiveClick={() => {
           message.info(`ban ${row.id}`)
         }}
       >
         {{
-          default: () => '禁用',
-          icon: () => <NIcon>{{ default: () => <Ban /> }}</NIcon>
+          default: () => '确认禁用用户吗？',
+          trigger: () => (
+            <NButton strong secondary type="warning" size="small" class="mr-2">
+              {{
+                default: () => '禁用',
+                icon: () => <NIcon>{{ default: () => <Ban /> }}</NIcon>
+              }}
+            </NButton>
+          )
         }}
-      </NButton>
+      </NPopconfirm>
     ]
   }
 ]
 
+const userForm = ref<UserForm | undefined>(undefined)
+const userFormRules: FormRules = {}
+
 function search(searchOptions: SearchOptions<SearchParam>) {
   getPagedUsers(searchOptions).then((res) => {
     data.value = res.data?.list ?? []
+  })
+}
+
+function edit(id: number) {
+  getUser(id).then((res) => {
+    userForm.value = res.data
+    showEdit.value = true
   })
 }
 </script>
