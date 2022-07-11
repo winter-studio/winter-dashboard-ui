@@ -1,18 +1,21 @@
 <template>
   <div class="p-2">
     <winter-table :columns="columns" :data="data" :search-items="searchItems" @search="search" />
-    <n-drawer v-model:show="showEdit" :width="800" placement="right" :mask-closable="false">
+    <n-drawer v-model:show="showEdit" :width="500" placement="right" :mask-closable="false">
       <n-drawer-content title="编辑" closable>
         <n-form
           ref="formRef"
-          :model="userForm"
+          :model="userFormModel"
           :rules="userFormRules"
           label-placement="left"
           label-width="auto"
           require-mark-placement="right-hanging"
         >
-          <n-form-item label="Input" path="inputValue">
-            <n-input v-model:value="userForm.username" />
+          <n-form-item label="用户名" path="username">
+            <n-input v-model:value="userFormModel.username" />
+          </n-form-item>
+          <n-form-item label="昵称" path="nickname">
+            <n-input v-model:value="userFormModel.nickname" />
           </n-form-item>
         </n-form>
       </n-drawer-content>
@@ -30,8 +33,7 @@ import { getPagedUsers, getUser } from '@/api/base/user'
 import { AdminUserPageItem } from '@/types/response/user'
 import { EditOutlined, DeleteOutlined } from '@vicons/antd'
 import { Ban } from '@vicons/ionicons5'
-import { FormRules } from 'naive-ui/es/form/src/interface'
-import { SearchParam, UserForm, searchItems } from '@/views/system/user/user'
+import { SearchParam, UserForm, searchItems, userFormRules } from '@/views/system/user/user'
 
 const message = useMessage()
 const showEdit = ref(false)
@@ -130,8 +132,7 @@ const columns: DataTableColumns<AdminUserPageItem> = [
   }
 ]
 
-const userForm = ref<UserForm | undefined>(undefined)
-const userFormRules: FormRules = {}
+const userFormModel = ref<UserForm | undefined>(undefined)
 
 function search(searchOptions: SearchOptions<SearchParam>) {
   getPagedUsers(searchOptions).then((res) => {
@@ -141,8 +142,12 @@ function search(searchOptions: SearchOptions<SearchParam>) {
 
 function edit(id: number) {
   getUser(id).then((res) => {
-    userForm.value = res.data
-    showEdit.value = true
+    if (res.data) {
+      userFormModel.value = res.data
+      showEdit.value = true
+    } else {
+      message.error('获取用户信息失败')
+    }
   })
 }
 </script>
