@@ -11,6 +11,18 @@
           label-width="auto"
           require-mark-placement="right-hanging"
         >
+          <n-form-item label="头像" path="avatar">
+            <div class="flex flex-col">
+              <n-image width="100" :src="userFormModel.avatar" />
+              <n-button quaternary type="primary" @click="handleClickUpload"> 更换头像 </n-button>
+              <input
+                id="fileUploader"
+                type="file"
+                style="display: none"
+                @change="afterUploadFile"
+              />
+            </div>
+          </n-form-item>
           <n-form-item label="用户名" path="username">
             <n-input v-model:value="userFormModel.username" />
           </n-form-item>
@@ -29,11 +41,12 @@ import { NAvatar, NButton, NIcon, NPopconfirm, NTag, useMessage } from 'naive-ui
 import type { DataTableColumns } from 'naive-ui'
 import WinterTable from '@/components/table/WinterTable.vue'
 import { SearchOptions } from '@/types/component/table'
-import { getPagedUsers, getUser } from '@/api/base/user'
+import { getPagedUsers, getUser } from '@/api/user/user'
 import { AdminUserPageItem } from '@/types/response/user'
 import { EditOutlined, DeleteOutlined } from '@vicons/antd'
 import { Ban } from '@vicons/ionicons5'
 import { SearchParam, UserForm, searchItems, userFormRules } from '@/views/system/user/user'
+import { uploadTemporaryFile } from '@/api/basis/file'
 
 const message = useMessage()
 const showEdit = ref(false)
@@ -132,7 +145,14 @@ const columns: DataTableColumns<AdminUserPageItem> = [
   }
 ]
 
-const userFormModel = ref<UserForm | undefined>(undefined)
+const userFormModel = ref<UserForm>({
+  avatar: '',
+  username: '',
+  nickname: '',
+  mobile: '',
+  status: '',
+  roles: []
+})
 
 function search(searchOptions: SearchOptions<SearchParam>) {
   getPagedUsers(searchOptions).then((res) => {
@@ -149,6 +169,22 @@ function edit(id: number) {
       message.error('获取用户信息失败')
     }
   })
+}
+
+function handleClickUpload() {
+  document.getElementById('fileUploader')!.click()
+}
+
+function afterUploadFile() {
+  const ele = document.getElementById('fileUploader') as HTMLInputElement
+  if (ele) {
+    const file = ele.files![0]
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('type', 'avatar')
+    uploadTemporaryFile(formData)
+    ele.value = ''
+  }
 }
 </script>
 

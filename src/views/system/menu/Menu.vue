@@ -176,7 +176,7 @@ import {
   removeMenu,
   removeMenus,
   updateMenu
-} from '@/api/base/menu'
+} from '@/api/basis/menu'
 import type { Menu } from '@/types/response/base'
 import { MenuTree, MenuType } from '@/router/types'
 import {
