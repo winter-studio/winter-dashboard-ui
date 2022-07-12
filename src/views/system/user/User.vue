@@ -46,7 +46,7 @@ import { AdminUserPageItem } from '@/types/response/user'
 import { EditOutlined, DeleteOutlined } from '@vicons/antd'
 import { Ban } from '@vicons/ionicons5'
 import { SearchParam, UserForm, searchItems, userFormRules } from '@/views/system/user/user'
-import { uploadTemporaryFile } from '@/api/basis/file'
+import { uploadPublicFile } from '@/api/basis/file'
 
 const message = useMessage()
 const showEdit = ref(false)
@@ -181,9 +181,10 @@ function afterUploadFile() {
     const file = ele.files![0]
     const formData = new FormData()
     formData.append('file', file)
-    formData.append('type', 'avatar')
-    uploadTemporaryFile(formData)
-    ele.value = ''
+    uploadPublicFile(formData).then((res) => {
+      userFormModel.value.avatar = res.data!
+      ele.value = ''
+    })
   }
 }
 </script>
