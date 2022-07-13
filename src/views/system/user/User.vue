@@ -29,6 +29,16 @@
           <n-form-item label="昵称" path="nickname">
             <n-input v-model:value="userFormModel.nickname" />
           </n-form-item>
+          <n-form-item label="手机号" path="mobile">
+            <n-input v-model:value="userFormModel.mobile" />
+          </n-form-item>
+          <n-form-item label="状态" path="status">
+            <n-input v-model:value="userFormModel.status" />
+          </n-form-item>
+
+          <n-form-item label="角色" path="roles">
+            <n-select v-model:value="userFormModel.roles" multiple :options="roleOptions" />
+          </n-form-item>
         </n-form>
       </n-drawer-content>
     </n-drawer>
@@ -36,7 +46,7 @@
 </template>
 
 <script setup lang="tsx">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { NAvatar, NButton, NIcon, NPopconfirm, NTag, useMessage } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import WinterTable from '@/components/table/WinterTable.vue'
@@ -45,13 +55,21 @@ import { getPagedUsers, getUser } from '@/api/user/user'
 import { AdminUserPageItem } from '@/types/response/user'
 import { EditOutlined, DeleteOutlined } from '@vicons/antd'
 import { Ban } from '@vicons/ionicons5'
-import { SearchParam, UserForm, searchItems, userFormRules } from '@/views/system/user/user'
+import { SearchParam, UserForm, searchItems, userFormRules } from '@/views/system/user/user-form'
 import { uploadPublicFile } from '@/api/basis/file'
+import { getRoleOptions } from '@/api/user/role'
+import { SelectOption } from '@/types/component/form'
 
 const message = useMessage()
 const showEdit = ref(false)
 
 const data = ref<AdminUserPageItem[]>([])
+const roleOptions = ref<Array<SelectOption>>([])
+
+onMounted(async () => {
+  const { data } = await getRoleOptions()
+  roleOptions.value = data!
+})
 
 const columns: DataTableColumns<AdminUserPageItem> = [
   {

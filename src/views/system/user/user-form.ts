@@ -1,7 +1,6 @@
 import { SearchItem } from '@/types/component/table'
 import { ref } from 'vue'
 import { FormRules } from 'naive-ui/es/form/src/interface'
-import { Role } from '@/types/response/role'
 
 export type SearchParam = {
   username: string
@@ -15,7 +14,7 @@ export type UserForm = {
   nickname: string
   mobile?: string
   status: string
-  roles: Role[]
+  roles: string[]
 }
 
 export const searchItems: SearchItem[] = [

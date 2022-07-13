@@ -2,7 +2,7 @@ import { axios } from '@/utils/request'
 import { MenuTree } from '@/router/types'
 import { PageRes } from '@/utils/request/types'
 import { AdminUserPageItem } from '@/types/response/user'
-import { UserForm } from '@/views/system/user/user'
+import { UserForm } from '@/views/system/user/user-form'
 
 const PREFIX = '/users'
 const ADMIN_PREFIX = '/admin/users'
