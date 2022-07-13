@@ -1,4 +1,4 @@
-export interface SelectOption {
+export interface FormSelectOption {
   value: string
   label: string
 }

@@ -8,7 +8,7 @@ export type SearchParam = {
   nickname: string
 }
 
-export type UserForm = {
+export type UserFormModel = {
   avatar?: string
   username: string
   nickname: string
