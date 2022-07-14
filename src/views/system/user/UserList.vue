@@ -1,7 +1,19 @@
 <template>
   <div class="p-2">
-    <winter-table :columns="columns" :data="data" :search-items="searchItems" @search="search" />
-    <n-drawer v-model:show="showEdit" :width="500" placement="right" :mask-closable="false">
+    <winter-table :columns="columns" :data="data" :search-items="searchItems" @search="search">
+      <template #table-header>
+        <n-space>
+          <n-button type="primary" @click="add">新增</n-button>
+        </n-space>
+      </template>
+    </winter-table>
+    <n-drawer
+      v-model:show="showEdit"
+      :width="500"
+      placement="right"
+      :mask-closable="false"
+      @after-leave="refresh"
+    >
       <n-drawer-content title="编辑" closable>
         <user-form :user-id="editUserId" />
       </n-drawer-content>
@@ -11,16 +23,16 @@
 
 <script setup lang="tsx">
 import { ref } from 'vue'
-import { NAvatar, NButton, NIcon, NPopconfirm, NTag, useMessage } from 'naive-ui'
+import { NAvatar, NButton, NIcon, NPopconfirm, NTag, useMessage, NSpace } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import WinterTable from '@/components/table/WinterTable.vue'
 import { SearchOptions } from '@/types/component/table'
-import { getPagedUsers } from '@/api/user/user'
+import { getPagedUsers, deleteUser, changeUserStatus } from '@/api/user/user'
 import { AdminUserPageItem } from '@/types/response/user'
 import { EditOutlined, DeleteOutlined } from '@vicons/antd'
 import { Ban } from '@vicons/ionicons5'
 import { SearchParam, searchItems } from '@/views/system/user/user-form'
-import UserForm from '@/views/system/user/UserForm.vue'
+import UserForm from './UserForm.vue'
 
 const message = useMessage()
 const showEdit = ref(false)
@@ -68,67 +80,94 @@ const columns: DataTableColumns<AdminUserPageItem> = [
   {
     title: '操作',
     key: 'actions',
-    render: (row) => [
-      <NButton
-        strong
-        secondary
-        type="primary"
-        size="small"
-        class="mr-2"
-        onClick={() => edit(row.id)}
-      >
-        {{
-          default: () => '编辑',
-          icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
-        }}
-      </NButton>,
-      <NPopconfirm
-        onPositiveClick={() => {
-          message.info(`delete  ${row.id}`)
-        }}
-      >
-        {{
-          default: () => '确认要删除用户吗？',
-          trigger: () => (
-            <NButton strong secondary type="error" size="small" class="mr-2">
-              {{
-                default: () => '删除',
-                icon: () => <NIcon>{{ default: () => <DeleteOutlined /> }}</NIcon>
-              }}
-            </NButton>
-          )
-        }}
-      </NPopconfirm>,
-      <NPopconfirm
-        onPositiveClick={() => {
-          message.info(`ban ${row.id}`)
-        }}
-      >
-        {{
-          default: () => '确认禁用用户吗？',
-          trigger: () => (
-            <NButton strong secondary type="warning" size="small" class="mr-2">
-              {{
-                default: () => '禁用',
-                icon: () => <NIcon>{{ default: () => <Ban /> }}</NIcon>
-              }}
-            </NButton>
-          )
-        }}
-      </NPopconfirm>
-    ]
+    render: renderActions
   }
 ]
 
+let curSearchOptions: SearchOptions<SearchParam> | undefined = undefined
+
+function refresh() {
+  search(curSearchOptions!)
+}
+
 function search(searchOptions: SearchOptions<SearchParam>) {
+  curSearchOptions = searchOptions
   getPagedUsers(searchOptions).then((res) => {
     data.value = res.data?.list ?? []
   })
 }
 
-function edit(id: number) {
+function onEdit(id?: number) {
   showEdit.value = true
   editUserId.value = id
+}
+
+function renderActions(row: AdminUserPageItem) {
+  return [
+    <NButton
+      strong
+      secondary
+      type="primary"
+      size="small"
+      class="mr-2"
+      onClick={() => onEdit(row.id)}
+    >
+      {{
+        default: () => '编辑',
+        icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
+      }}
+    </NButton>,
+    <NPopconfirm onPositiveClick={() => onDelete(row.id)}>
+      {{
+        default: () => '确认要删除用户吗？',
+        trigger: () => (
+          <NButton strong secondary type="error" size="small" class="mr-2">
+            {{
+              default: () => '删除',
+              icon: () => <NIcon>{{ default: () => <DeleteOutlined /> }}</NIcon>
+            }}
+          </NButton>
+        )
+      }}
+    </NPopconfirm>,
+    <NPopconfirm onPositiveClick={() => onChangeStatus(row.id, row.status === '0' ? '1' : '0')}>
+      {{
+        default: () => `确认${row.status === '0' ? '禁用' : '解禁'}用户吗？`,
+        trigger: () => (
+          <NButton
+            strong
+            secondary
+            type={row.status === '0' ? 'warning' : 'success'}
+            size="small"
+            class="mr-2"
+          >
+            {{
+              default: () => (row.status === '0' ? '禁用' : '解禁'),
+              icon: () => <NIcon>{{ default: () => <Ban /> }}</NIcon>
+            }}
+          </NButton>
+        )
+      }}
+    </NPopconfirm>
+  ]
+}
+
+function onDelete(id: number) {
+  deleteUser(id).then(() => {
+    message.success('删除成功')
+    refresh()
+  })
+}
+
+function onChangeStatus(id: number, status: string) {
+  changeUserStatus(id, status).then(() => {
+    message.success('操作成功')
+    refresh()
+  })
+}
+
+function add() {
+  onEdit()
 }
 </script>
 

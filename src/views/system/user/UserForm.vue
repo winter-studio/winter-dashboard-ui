@@ -3,7 +3,7 @@
     <template #description> 加载中...</template>
     <n-form
       ref="formRef"
-      :model="userFormModel"
+      :model="userForm"
       :rules="userFormRules"
       label-placement="left"
       label-width="auto"
@@ -16,53 +16,68 @@
       </n-form-item>
       <n-form-item label="头像" path="avatar">
         <div class="flex flex-col">
-          <n-image width="100" :src="userFormModel.avatar" />
+          <n-avatar
+            class="bg-gray-300 bg-opacity-60 mb-2"
+            circle
+            :size="84"
+            :src="userForm.avatar"
+          />
           <n-button quaternary type="primary" @click="handleClickUpload"> 更换头像</n-button>
           <input id="fileUploader" type="file" style="display: none" @change="afterUploadFile" />
         </div>
       </n-form-item>
       <n-form-item label="用户名" path="username">
-        <n-input v-model:value="userFormModel.username" />
+        <n-input v-model:value="userForm.username" :disabled="isEdit" />
+      </n-form-item>
+      <n-form-item label="密码" path="password">
+        <n-input
+          v-model:value="userForm.password"
+          type="password"
+          show-password-on="mousedown"
+          :maxlength="32"
+        />
       </n-form-item>
       <n-form-item label="昵称" path="nickname">
-        <n-input v-model:value="userFormModel.nickname" />
+        <n-input v-model:value="userForm.nickname" />
       </n-form-item>
       <n-form-item label="手机号" path="mobile">
-        <n-input v-model:value="userFormModel.mobile" />
+        <n-input v-model:value="userForm.mobile" />
       </n-form-item>
       <n-form-item label="状态" path="status">
         <n-select
-          v-model:value="userFormModel.status"
+          v-model:value="userForm.status"
           :options="statusOptions"
           :render-tag="renderTag"
         />
       </n-form-item>
       <n-form-item label="角色" path="roles">
-        <n-select v-model:value="userFormModel.roles" multiple :options="roleOptions" />
+        <n-select v-model:value="userForm.roles" multiple :options="roleOptions" />
       </n-form-item>
     </n-form>
   </n-spin>
 </template>
 
 <script setup lang="tsx">
-import { onMounted, ref } from 'vue'
-import { FormSelectOption } from '@/types/component/form'
+import { computed, onMounted, ref } from 'vue'
 import { FormInst, SelectOption, SelectRenderTag, useMessage } from 'naive-ui'
-import { getRoleOptions } from '@/api/user/role'
-import { getUser } from '@/api/user/user'
-import { uploadPublicFile } from '@/api/basis/file'
+import { editUser, getUser, uploadAvatar, addUser } from '@/api/user/user'
 import { UserFormModel, userFormRules } from '@/views/system/user/user-form'
+import { useDictStore } from '@/store/modules/dict'
+import { storeToRefs } from 'pinia'
 
 interface Props {
-  userId: number
+  userId?: number
 }
 
 const props = defineProps<Props>()
 const message = useMessage()
 const formLoading = ref(false)
 const formRef = ref<FormInst | null>(null)
+const isEdit = computed(() => {
+  return userForm.value.id !== undefined
+})
 
-const userFormModel = ref<UserFormModel>({
+const userForm = ref<UserFormModel>({
   avatar: '',
   username: '',
   nickname: '',
@@ -71,7 +86,9 @@ const userFormModel = ref<UserFormModel>({
   roles: []
 })
 
-const roleOptions = ref<Array<FormSelectOption>>([])
+const dictStore = useDictStore()
+const roleOptions = storeToRefs(dictStore).roleOptions
+
 const statusOptions = ref<Array<SelectOption>>([
   {
     label: '正常',
@@ -88,14 +105,14 @@ const statusOptions = ref<Array<SelectOption>>([
 ])
 const renderTag: SelectRenderTag = ({ option }) => <div class={option.class}>{option.label}</div>
 onMounted(() => {
-  formLoading.value = true
-  getRoleOptions().then(({ data }) => (roleOptions.value = data!))
-
+  dictStore.load('roles')
+  userForm.value.id = props.userId
   if (props.userId) {
+    formLoading.value = true
     getUser(props.userId)
       .then((res) => {
         if (res.data) {
-          userFormModel.value = res.data
+          userForm.value = res.data
         } else {
           message.error('获取用户信息失败')
         }
@@ -103,6 +120,9 @@ onMounted(() => {
       .finally(() => {
         formLoading.value = false
       })
+  } else {
+    // 给些默认值
+    userForm.value.status = '0'
   }
 })
 
@@ -115,9 +135,9 @@ function afterUploadFile() {
   if (ele) {
     const file = ele.files![0]
     const formData = new FormData()
-    formData.append('file', file)
-    uploadPublicFile(formData).then((res) => {
-      userFormModel.value.avatar = res.data!
+    formData.append('avatar', file)
+    uploadAvatar(formData).then((res) => {
+      userForm.value.avatar = res.data!
       ele.value = ''
     })
   }
@@ -125,10 +145,21 @@ function afterUploadFile() {
 
 function save() {
   formRef.value?.validate((errors) => {
-    if (!errors) {
-      console.log('验证通过')
+    if (errors) {
+      message.error('请完整填写表单')
+      return
+    }
+
+    if (userForm.value.id) {
+      // 编辑
+      editUser(userForm.value.id, userForm.value)
+      message.success('修改成功')
     } else {
-      console.log(errors)
+      // 新增
+      addUser(userForm.value).then((res) => {
+        message.success('添加成功')
+        userForm.value.id = res.data!
+      })
     }
   })
 }

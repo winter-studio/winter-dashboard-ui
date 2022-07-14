@@ -89,6 +89,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
                   console.info('refresh token successfully')
                   waiting = false
                   userStore.setAccessToken(res.data)
+                  refreshing = undefined
                 }
                 if (retryCount++ < 3) {
                   console.info('retry request')

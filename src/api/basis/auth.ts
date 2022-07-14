@@ -2,7 +2,7 @@ import { axios } from '@/utils/request'
 import { UserLogin } from '@/types/response/base'
 
 /**
- * @description: 用户登录
+ * 用户登录
  */
 export function login(data: any) {
   return axios.request<UserLogin>({
@@ -13,7 +13,7 @@ export function login(data: any) {
 }
 
 /**
- * @description: 用户登出
+ * 用户登出
  */
 export function logout(refreshToken: string | undefined) {
   return axios.request({
@@ -26,7 +26,7 @@ export function logout(refreshToken: string | undefined) {
 }
 
 /**
- * @description: 用户登出
+ * 用户登出
  */
 export function refreshToken(token: string) {
   return axios.request<string>({
