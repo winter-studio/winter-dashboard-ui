@@ -147,7 +147,7 @@ const handleSubmit = (e: MouseEvent) => {
         }
       } catch (err) {
         console.error(err)
-        message.error(`登录失败:${err}`)
+        message.error(`登录失败:${(err as Error).message}`)
       } finally {
         loading.value = false
         message.destroyAll()

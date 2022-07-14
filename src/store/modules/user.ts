@@ -36,6 +36,9 @@ export const useUserStore = defineStore({
     },
     // 登录
     login(result: UserLogin) {
+      if (result.user.status === '1') {
+        throw new Error('用户被禁用')
+      }
       this.setToken(result.accessToken, result.refreshToken, result.refreshTokenExpireIn)
       this.setUserInfo(result)
     },

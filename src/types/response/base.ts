@@ -13,9 +13,18 @@ export interface Menu {
   keepAlive?: boolean
 }
 
-export interface UserLogin {
-  userId: string
+export interface UserInfo {
+  userId: number
   username: string
+  nickname: string
+  avatar: string
+  mobile: string
+  status: string
+  roles: string[]
+}
+
+export interface UserLogin {
+  user: UserInfo
   accessToken: string
   refreshToken: string
   refreshTokenExpireIn: number
