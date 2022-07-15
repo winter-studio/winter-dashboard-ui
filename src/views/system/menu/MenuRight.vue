@@ -20,7 +20,7 @@
 
         <n-popconfirm @positive-click="deleteMenu">
           <template #trigger>
-            <n-button :disabled="!key" secondary type="error"> 删除 </n-button>
+            <n-button :disabled="!modelValue" secondary type="error"> 删除 </n-button>
           </template>
           确认删除吗？将无法恢复
         </n-popconfirm>
@@ -103,7 +103,6 @@ interface Props {
   menus: Array<MenuTreeOptions>
   dirMenus?: Array<TreeSelectOption>
   modelValue?: number
-  modified: boolean
 }
 
 const props = defineProps<Props>()
@@ -271,6 +270,7 @@ async function deleteMenu() {
     emits('afterChange')
     menuForm.value = undefined
     editMenuCache.value = undefined
+    skipThisWatch = true
     emits('update:modelValue', undefined)
   }
 }

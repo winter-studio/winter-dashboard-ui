@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { RouteLocationNormalized } from 'vue-router'
+import LocalStorageType from '@/enums/storage-types'
 
 // 不需要出现在标签页中的路由
 const whiteList = ['login']
@@ -31,8 +32,10 @@ export const useTabsViewStore = defineStore({
   getters: {},
   actions: {
     initTabs(routes: RouteItem[]) {
-      // 初始化标签页
-      this.tabsList = routes
+      if (this.tabsList.length === 0) {
+        // 初始化标签页
+        this.tabsList = routes
+      }
     },
     addTabs(route: RouteItem): boolean {
       // 添加标签页
@@ -66,5 +69,8 @@ export const useTabsViewStore = defineStore({
       // 关闭全部
       this.tabsList = retainAffixRoute(this.tabsList)
     }
+  },
+  persist: {
+    key: LocalStorageType.TABS_ROUTES
   }
 })
