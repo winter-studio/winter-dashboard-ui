@@ -20,7 +20,7 @@
 
         <n-popconfirm @positive-click="deleteMenu">
           <template #trigger>
-            <n-button :disabled="!editingKey" secondary type="error"> 删除 </n-button>
+            <n-button :disabled="!key" secondary type="error"> 删除 </n-button>
           </template>
           确认删除吗？将无法恢复
         </n-popconfirm>
@@ -91,23 +91,25 @@
 
 <script setup lang="ts">
 import IconSelect from '@/components/menu/IconSelect.vue'
-import { FormItemRule, FormRules, useMessage } from 'naive-ui'
+import { FormItemRule, FormRules, TreeSelectOption, useDialog, useMessage } from 'naive-ui'
 import { MenuType } from '@/router/types'
 import { clone, isEmpty, isEqual, isNil } from 'lodash-es'
-import { computed, ref, unref } from 'vue'
-import { addMenu, removeMenu, updateMenu } from '@/api/basis/menu'
+import { computed, ref, unref, watch } from 'vue'
+import { addMenu, getMenuById, removeMenu, updateMenu } from '@/api/basis/menu'
 import { Menu } from '@/types/response/base'
 import { MenuTreeOptions } from '@/views/system/menu/types'
 
 interface Props {
   menus: Array<MenuTreeOptions>
-  editingKey?: number
+  dirMenus?: Array<TreeSelectOption>
+  modelValue?: number
   modified: boolean
 }
 
 const props = defineProps<Props>()
-const emits = defineEmits(['afterChange', 'editMenu', 'update:checked'])
+const emits = defineEmits(['afterChange', 'update:modelValue'])
 const message = useMessage()
+const dialog = useDialog()
 const saveLoading = ref(false)
 // 编辑时的key，添加时为空
 const menuForm = ref<Menu | undefined>(undefined)
@@ -116,7 +118,7 @@ const editMenuCache = ref<Menu | undefined>(undefined)
 const parentPaths = computed(() => {
   return getParentPath(menuForm.value?.parentId)
 })
-
+const initForm = { type: 1, title: '', path: '' }
 //form引用
 const formRef: any = ref(null)
 //
@@ -168,6 +170,48 @@ const rules: FormRules = {
     trigger: 'blur'
   }
 }
+let skipThisWatch = false
+watch(
+  () => props.modelValue,
+  (value, oldValue) => {
+    if (value === oldValue) {
+      return
+    }
+    if (skipThisWatch) {
+      skipThisWatch = false
+      return
+    }
+    if (isModified.value) {
+      dialog.info({
+        title: '未保存',
+        content: '当前编辑内容已更改，确认放弃当前编辑的内容？',
+        positiveText: '确认',
+        negativeText: '取消',
+        onPositiveClick() {
+          editMenu(value)
+        },
+        onNegativeClick() {
+          skipThisWatch = true
+          emits('update:modelValue', oldValue)
+        }
+      })
+    } else {
+      editMenu(value)
+    }
+  }
+)
+
+async function editMenu(key: number | undefined) {
+  if (key) {
+    const { data } = await getMenuById(key)
+    menuForm.value = data
+    editMenuCache.value = clone(data)
+  } else {
+    menuForm.value = clone(initForm)
+    editMenuCache.value = clone(initForm)
+  }
+  formRef.value?.restoreValidation()
+}
 
 function getParentPath(parentId: undefined | number): string {
   if (parentId === undefined) {
@@ -200,14 +244,14 @@ function saveMenuForm() {
     saveLoading.value = true
 
     let apiPromise
-    if (isNil(props.editingKey)) {
+    if (isNil(props.modelValue)) {
       apiPromise = addMenu(unref(menuForm)!)
     } else {
-      apiPromise = updateMenu(props.editingKey, unref(menuForm)!)
+      apiPromise = updateMenu(props.modelValue, unref(menuForm)!)
     }
 
     apiPromise
-      .then((res) => {
+      .then(() => {
         message.success('保存成功')
         editMenuCache.value = clone(unref(menuForm))
         emits('afterChange')
@@ -221,18 +265,18 @@ function saveMenuForm() {
 }
 
 async function deleteMenu() {
-  const value = props.editingKey
+  const value = props.modelValue
   if (value) {
     await removeMenu(value)
     emits('afterChange')
     menuForm.value = undefined
     editMenuCache.value = undefined
-    emits('update:editingKey', undefined)
+    emits('update:modelValue', undefined)
   }
 }
 
 function reset() {
-  if (props.editingKey) {
+  if (props.modelValue) {
     menuForm.value = clone(unref(editMenuCache))
   } else {
     menuForm.value = {}

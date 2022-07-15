@@ -12,9 +12,9 @@
       </n-gi>
       <n-gi span="2">
         <menu-right
-          v-model:modified="isModified"
-          v-model:editing-key="editingKey"
+          v-model="editingKey"
           :menus="menus"
+          :dir-menus="dirMenus"
           @after-change="loadMenuTree"
         />
       </n-gi>
@@ -23,68 +23,49 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { TreeSelectOption, useDialog } from 'naive-ui'
-import { getMenuById, getMenuList } from '@/api/basis/menu'
+import { TreeSelectOption } from 'naive-ui'
+import { getMenuList } from '@/api/basis/menu'
 import { MenuType, MenuTree } from '@/router/types'
 import MenuLeft from '@/views/system/menu/MenuLeft.vue'
 import MenuRight from '@/views/system/menu/MenuRight.vue'
-
-import { clone } from 'lodash-es'
 import { MenuTreeOptions } from '@/views/system/menu/types'
-const dialog = useDialog()
+
 const loading = ref(true)
 
 //选中菜单Keys
 const checkedKeys = ref<Array<number>>([])
-
-const initForm = { type: 1, title: '', path: '' }
 //菜单树
 const menus = ref<Array<MenuTreeOptions>>([])
+//菜单目录树
 const dirMenus = ref<Array<TreeSelectOption> | undefined>([])
-
+//正在编辑的菜单
 const editingKey = ref<number | undefined>(undefined)
 
-const isModified = ref(false)
-
-onMounted(async () => {
+onMounted(() => {
   loadMenuTree()
 })
 
+async function loadMenuTree() {
+  loading.value = true
+  try {
+    const { data: menuTrees } = await getMenuList()
+    menus.value = buildTreeOptions(menuTrees!)
+    dirMenus.value = buildDirTreeOptions(menuTrees!)
+  } finally {
+    loading.value = false
+  }
+}
+
+/**
+ *点击编辑菜单
+ **/
 function editMenuConfirm(keys: Array<number> | undefined) {
-  if (keys && keys.length === 0) {
-    menuForm.value = undefined
-    editMenuCache.value = undefined
-    return
-  }
-  if (isModified.value) {
-    dialog.info({
-      title: '未保存',
-      content: '当前编辑内容已更改，确认放弃当前编辑的内容？',
-      positiveText: '确认',
-      negativeText: '取消',
-      onPositiveClick() {
-        editMenu(keys)
-      }
-    })
-  } else {
-    editMenu(keys)
-  }
+  editingKey.value = keys?.[0]
 }
 
-async function editMenu(keys: Array<number> | undefined) {
-  if (keys && keys[0]) {
-    editingKey.value = keys[0]
-    const { data } = await getMenuById(keys[0])
-    menuForm.value = data
-    editMenuCache.value = clone(data)
-  } else {
-    editingKey.value = undefined
-    menuForm.value = clone(initForm)
-    editMenuCache.value = clone(initForm)
-  }
-  formRef.value?.restoreValidation()
-}
-
+/**
+ * 构建菜单树
+ */
 function buildTreeOptions(menuTrees: Array<MenuTree>): Array<MenuTreeOptions> {
   return menuTrees.map((item: MenuTree) => {
     return {
@@ -96,6 +77,9 @@ function buildTreeOptions(menuTrees: Array<MenuTree>): Array<MenuTreeOptions> {
   })
 }
 
+/**
+ * 构建菜单目录树
+ */
 function buildDirTreeOptions(menuTrees: Array<MenuTree>): Array<TreeSelectOption> | undefined {
   const data = menuTrees
     .filter((i) => i.type == MenuType.DIR)
@@ -110,16 +94,5 @@ function buildDirTreeOptions(menuTrees: Array<MenuTree>): Array<TreeSelectOption
     return undefined
   }
   return data
-}
-
-async function loadMenuTree() {
-  loading.value = true
-  try {
-    const { data: menuTrees } = await getMenuList()
-    menus.value = buildTreeOptions(menuTrees!)
-    dirMenus.value = buildDirTreeOptions(menuTrees!)
-  } finally {
-    loading.value = false
-  }
 }
 </script>
