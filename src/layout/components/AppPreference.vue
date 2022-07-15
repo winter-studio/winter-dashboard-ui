@@ -77,7 +77,7 @@
                 <img
                   src="~@/assets/images/nav-horizontal-mix.svg"
                   alt="顶部菜单混合模式"
-                  @click="togNavMode('horizontal-mix')"
+                  @click="togNavMode('horizontal-mix', true)"
                 />
               </template>
               <span>顶部菜单混合模式</span>
@@ -243,9 +243,9 @@ function togTheme(color: string) {
   settingStore.appTheme = color
 }
 
-function togNavMode(mode: string) {
+function togNavMode(mode: string, mix = false) {
   settingStore.navMode = mode
-  settingStore.menuSetting.mixMenu = false
+  settingStore.menuSetting.mixMenu = mix
 }
 
 const emits = defineEmits(['update:show'])
