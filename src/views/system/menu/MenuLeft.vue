@@ -8,7 +8,7 @@
         </template>
         全部{{ expandedKeys.length ? '收起' : '展开' }}
       </n-button>
-      <n-button secondary type="success" class="mr-2" @click="editMenuConfirm(undefined)">
+      <n-button secondary type="success" class="mr-2" @click="onSelectKeys([0])">
         <template #icon>
           <n-icon><add-box-outlined /></n-icon>
         </template>
@@ -16,7 +16,7 @@
       </n-button>
       <n-popconfirm class="mr-2" @positive-click="deleteMenus">
         <template #trigger>
-          <n-button :disabled="props.checked.length === 0" secondary type="error">
+          <n-button :disabled="checkedKeys.length === 0" secondary type="error">
             <template #icon>
               <n-icon><delete-outline-filled /></n-icon>
             </template>
@@ -47,7 +47,7 @@
             style="max-height: 650px; overflow: hidden"
             @drop="handleDrop"
             @update:checked-keys="onUpdateCheckedKeys"
-            @update:selected-keys="editMenuConfirm"
+            @update:selected-keys="onSelectKeys"
             @update:expanded-keys="onUpdateExpandedKeys"
           />
         </n-spin>
@@ -71,7 +71,6 @@ import { moveMenu, removeMenus } from '@/api/basis/menu'
 interface Props {
   menus: Array<TreeSelectOption>
   loading: boolean
-  checked: Array<number>
 }
 
 const props = defineProps<Props>()
@@ -79,6 +78,8 @@ const emits = defineEmits(['afterChange', 'editMenu', 'update:checked'])
 
 //展开菜单Keys
 const expandedKeys = ref<Array<number>>([])
+//选中菜单Keys
+const checkedKeys = ref<Array<number>>([])
 
 const search = ref('')
 
@@ -95,10 +96,10 @@ function onUpdateExpandedKeys(keys: Array<number>) {
 }
 
 function onUpdateCheckedKeys(keys: Array<number>) {
-  emits('update:checked', keys)
+  checkedKeys.value = keys ?? []
 }
 
-function editMenuConfirm(keys: Array<number> | undefined) {
+function onSelectKeys(keys: Array<number> | undefined) {
   emits('editMenu', keys)
 }
 
@@ -113,8 +114,8 @@ async function handleDrop(info: TreeDropInfo) {
 }
 
 async function deleteMenus() {
-  if (props.checked.length > 0) {
-    await removeMenus(props.checked)
+  if (checkedKeys.value.length > 0) {
+    await removeMenus(checkedKeys.value)
     emits('afterChange')
   }
 }

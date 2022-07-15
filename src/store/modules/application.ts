@@ -1,16 +1,21 @@
 import { defineStore } from 'pinia'
 import { MenuTree } from '@/router/types'
+import { MenuTreeOptions } from '@/types/view/menu'
+import { getMenuList } from '@/api/basis/menu'
+import { buildTreeOptions } from '@/utils/menu'
 
 export interface AppState {
   menus?: MenuTree[]
   keepAliveComponents: Set<string>
+  menuTreeOptions?: MenuTreeOptions[]
 }
 
 export const useAppStore = defineStore({
   id: 'app',
   state: (): AppState => ({
     menus: undefined,
-    keepAliveComponents: new Set<string>()
+    keepAliveComponents: new Set<string>(),
+    menuTreeOptions: undefined
   }),
   getters: {
     getKeepAliveComponents(state) {
@@ -18,6 +23,13 @@ export const useAppStore = defineStore({
         return []
       }
       return Array.from(state.keepAliveComponents.values())
+    },
+    async getMenuTreeOptions(state) {
+      if (state.menuTreeOptions === undefined) {
+        const { data: menuTrees } = await getMenuList()
+        state.menuTreeOptions = buildTreeOptions(menuTrees!)
+      }
+      return state.menuTreeOptions
     }
   },
   actions: {}

@@ -5,7 +5,6 @@ import { AdminUserPageItem } from '@/types/response/user'
 import { UserFormModel } from '@/views/system/user/user-form'
 
 const PREFIX = '/users'
-const ADMIN_PREFIX = '/admin/users'
 
 /**
  * 获取用户信息
@@ -28,11 +27,11 @@ export function getUserMenus() {
 }
 
 /**
- * 获取用户信息
+ * 分页获取用户信息
  */
 export function getPagedUsers(params: any) {
   return axios.request<PageRes<AdminUserPageItem>>({
-    url: `${ADMIN_PREFIX}`,
+    url: `${PREFIX}`,
     method: 'GET',
     params
   })
@@ -43,7 +42,7 @@ export function getPagedUsers(params: any) {
  */
 export function getUser(id: number) {
   return axios.request<UserFormModel>({
-    url: `${ADMIN_PREFIX}/${id}`,
+    url: `${PREFIX}/${id}`,
     method: 'GET'
   })
 }
@@ -65,7 +64,7 @@ export function uploadAvatar(data: any) {
  */
 export function deleteUser(id: number) {
   return axios.request<UserFormModel>({
-    url: `${ADMIN_PREFIX}/${id}`,
+    url: `${PREFIX}/${id}`,
     method: 'DELETE'
   })
 }
@@ -75,7 +74,7 @@ export function deleteUser(id: number) {
  */
 export function changeUserStatus(id: number, status: string) {
   return axios.request<UserFormModel>({
-    url: `${ADMIN_PREFIX}/${id}/status`,
+    url: `${PREFIX}/${id}/status`,
     method: 'PUT',
     params: {
       status
@@ -88,7 +87,7 @@ export function changeUserStatus(id: number, status: string) {
  */
 export function addUser(data: UserFormModel) {
   return axios.request<number>({
-    url: `${ADMIN_PREFIX}`,
+    url: `${PREFIX}`,
     method: 'POST',
     data
   })
@@ -99,7 +98,7 @@ export function addUser(data: UserFormModel) {
  */
 export function editUser(id: number, data: UserFormModel) {
   return axios.request<void>({
-    url: `${ADMIN_PREFIX}/${id}`,
+    url: `${PREFIX}/${id}`,
     method: 'PUT',
     data
   })

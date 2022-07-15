@@ -93,11 +93,11 @@
 import IconSelect from '@/components/menu/IconSelect.vue'
 import { FormItemRule, FormRules, TreeSelectOption, useDialog, useMessage } from 'naive-ui'
 import { MenuType } from '@/router/types'
-import { clone, isEmpty, isEqual, isNil } from 'lodash-es'
+import { clone, isEmpty, isEqual } from 'lodash-es'
 import { computed, ref, unref, watch } from 'vue'
 import { addMenu, getMenuById, removeMenu, updateMenu } from '@/api/basis/menu'
 import { Menu } from '@/types/response/base'
-import { MenuTreeOptions } from '@/views/system/menu/types'
+import { MenuTreeOptions } from '@/types/view/menu'
 
 interface Props {
   menus: Array<MenuTreeOptions>
@@ -121,6 +121,8 @@ const initForm = { type: 1, title: '', path: '' }
 //form引用
 const formRef: any = ref(null)
 //
+const editingKey = ref<number | undefined>(undefined)
+
 const menuFormTags = computed({
   get(): Array<string> {
     return unref(menuForm)?.tags?.split(',') ?? []
@@ -172,8 +174,11 @@ const rules: FormRules = {
 let skipThisWatch = false
 watch(
   () => props.modelValue,
-  (value, oldValue) => {
-    if (value === oldValue) {
+  (value) => {
+    if (value === undefined) {
+      return
+    }
+    if (value === editingKey.value) {
       return
     }
     if (skipThisWatch) {
@@ -191,7 +196,7 @@ watch(
         },
         onNegativeClick() {
           skipThisWatch = true
-          emits('update:modelValue', oldValue)
+          emits('update:modelValue', editingKey.value)
         }
       })
     } else {
@@ -242,24 +247,31 @@ function saveMenuForm() {
 
     saveLoading.value = true
 
-    let apiPromise
-    if (isNil(props.modelValue)) {
-      apiPromise = addMenu(unref(menuForm)!)
+    if (!props.modelValue) {
+      addMenu(unref(menuForm)!)
+        .then((res) => {
+          message.success('保存成功')
+          editMenuCache.value = clone(unref(menuForm))
+          emits('afterChange')
+          saveLoading.value = false
+          editingKey.value = res.data!
+          emits('update:modelValue', res.data!)
+        })
+        .finally(() => {
+          saveLoading.value = false
+        })
     } else {
-      apiPromise = updateMenu(props.modelValue, unref(menuForm)!)
+      updateMenu(props.modelValue, unref(menuForm)!)
+        .then(() => {
+          message.success('保存成功')
+          editMenuCache.value = clone(unref(menuForm))
+          emits('afterChange')
+          saveLoading.value = false
+        })
+        .finally(() => {
+          saveLoading.value = false
+        })
     }
-
-    apiPromise
-      .then(() => {
-        message.success('保存成功')
-        editMenuCache.value = clone(unref(menuForm))
-        emits('afterChange')
-        saveLoading.value = false
-      })
-      .catch(() => {
-        message.error('保存失败')
-        saveLoading.value = false
-      })
   })
 }
 
