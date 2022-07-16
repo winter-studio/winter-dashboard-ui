@@ -3,6 +3,7 @@ import { MenuTree } from '@/router/types'
 import { PageRes } from '@/utils/request/types'
 import { AdminUserPageItem } from '@/types/response/user'
 import { UserFormModel } from '@/views/system/user/user-form'
+import { UserInfo } from '@/types/response/base'
 
 const PREFIX = '/users'
 
@@ -10,7 +11,7 @@ const PREFIX = '/users'
  * 获取用户信息
  */
 export function getUserInfo() {
-  return axios.request({
+  return axios.request<UserInfo>({
     url: `${PREFIX}/me`,
     method: 'GET'
   })

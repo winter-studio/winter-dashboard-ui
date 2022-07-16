@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei,
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
     '\5FAE\8F6F\96C5\9ED1', Arial, sans-serif;
   line-height: 1.5;
   color: #515a6e;
@@ -15,13 +15,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-//重置样式
-.anticon {
-  svg {
-    vertical-align: initial;
-  }
-}
-
 a {
   color: #2d8cf0;
   background: transparent;
@@ -29,11 +22,6 @@ a {
   outline: none;
   cursor: pointer;
   transition: color 0.2s ease;
-}
-
-a:active,
-a:hover {
-  outline-width: 0;
 }
 
 a:hover {
@@ -53,8 +41,6 @@ a:hover {
 /* 滚动条凹槽的颜色，还可以设置边框属性 */
 *::-webkit-scrollbar-track-piece {
   background-color: #f8f8f8;
-  -webkit-border-radius: 2em;
-  -moz-border-radius: 2em;
   border-radius: 2em;
 }
 
@@ -68,8 +54,6 @@ a:hover {
 *::-webkit-scrollbar-thumb {
   background-color: #ddd;
   background-clip: padding-box;
-  -webkit-border-radius: 2em;
-  -moz-border-radius: 2em;
   border-radius: 2em;
 }
 

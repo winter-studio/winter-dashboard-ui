@@ -14,7 +14,7 @@
         :collapsed="collapsed"
         :inverted="getInverted"
         mode="horizontal"
-        @update:collapsed="$emit('update:collapsed', collapsed)"
+        @update:collapsed="emits('update:collapsed', collapsed)"
       />
     </div>
     <!--左侧菜单-->
@@ -22,7 +22,7 @@
       <!-- 菜单收起 -->
       <div
         class="ml-1 layout-header-trigger layout-header-trigger-min"
-        @click="() => $emit('update:collapsed', !collapsed)"
+        @click="() => emits('update:collapsed', !collapsed)"
       >
         <n-icon v-if="collapsed" size="18">
           <menu-unfold-outlined />
@@ -71,8 +71,8 @@
     </div>
     <div class="layout-header-right">
       <div
-        v-for="item in iconList"
-        :key="item.icon"
+        v-for="(item, index) in iconList"
+        :key="index"
         class="layout-header-trigger layout-header-trigger-min"
       >
         <n-tooltip placement="bottom">
@@ -88,8 +88,9 @@
       <div class="layout-header-trigger layout-header-trigger-min">
         <n-tooltip placement="bottom">
           <template #trigger>
-            <n-icon size="18">
-              <component :is="fullscreenIcon" @click="toggleFullScreen" />
+            <n-icon size="18" @click="toggleFullScreen">
+              <fullscreen-exit-outlined v-if="isFullScreen" />
+              <fullscreen-outlined v-else />
             </n-icon>
           </template>
           <span>全屏</span>
@@ -109,12 +110,7 @@
       <div class="layout-header-trigger layout-header-trigger-min">
         <n-dropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
           <div class="avatar">
-            <n-avatar round>
-              {{ username }}
-              <template #icon>
-                <user-outlined />
-              </template>
-            </n-avatar>
+            <n-avatar round :src="userInfo?.avatar" />
           </div>
         </n-dropdown>
       </div>
@@ -124,22 +120,19 @@
   <app-preference v-model:show="showPreference" />
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs, ref, computed, unref, inject } from 'vue'
+<script setup lang="tsx">
+import { ref, computed, unref, inject } from 'vue'
 import { useRouter, useRoute, RouteLocationMatched } from 'vue-router'
 import {
   SettingOutlined,
-  SearchOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   FullscreenOutlined,
   FullscreenExitOutlined,
   GithubOutlined,
-  ReloadOutlined,
-  LogoutOutlined,
-  UserOutlined
+  LogoutOutlined
 } from '@vicons/antd'
-import { NDialogProvider, useDialog, useMessage } from 'naive-ui'
+import { useDialog, useMessage, NIcon } from 'naive-ui'
 import { useUserStore } from '@/store/modules/user'
 import AppPreference from './AppPreference.vue'
 import AsideMenu from './AsideMenu.vue'
@@ -149,215 +142,147 @@ import { RouteNames } from '@/router/base'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { storeToRefs } from 'pinia'
 
-export default defineComponent({
-  name: 'PageHeader',
-  components: {
-    SettingOutlined,
-    SearchOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    FullscreenOutlined,
-    FullscreenExitOutlined,
-    GithubOutlined,
-    ReloadOutlined,
-    LogoutOutlined,
-    UserOutlined,
-    NDialogProvider,
-    AppPreference,
-    AsideMenu,
-    Refresh
-  },
-  props: {
-    collapsed: {
-      type: Boolean
-    },
-    inverted: {
-      type: Boolean
+interface Props {
+  collapsed: boolean
+  inverted: boolean
+}
+
+const props = defineProps<Props>()
+const emits = defineEmits(['update:collapsed'])
+
+const userStore = useUserStore()
+const message = useMessage()
+const dialog = useDialog()
+const { navMode, navTheme, showHeaderReload, menuSetting, showCrumbIcon } = storeToRefs(
+  useAppPreferenceStore()
+)
+
+const { userInfo } = storeToRefs(userStore)
+
+const showPreference = ref(false)
+
+const isFullScreen = ref(false)
+
+const getInverted = computed(() => {
+  return ['light', 'header-dark'].includes(unref(navTheme)) ? props.inverted : !props.inverted
+})
+
+const getMenuLocation = computed(() => {
+  return 'header'
+})
+
+const router = useRouter()
+const route = useRoute()
+
+const generator: any = (routerMap: RouteLocationMatched[]) => {
+  return routerMap.map((item) => {
+    const currentMenu = {
+      ...item,
+      label: item.meta.title,
+      key: item.name,
+      disabled: item.path === '/',
+      virtual: item.meta.virtual
     }
-  },
-  emits: ['update:collapsed'],
-  setup(props) {
-    const userStore = useUserStore()
-    const message = useMessage()
-    const dialog = useDialog()
-    const { navMode, navTheme, showHeaderReload, menuSetting, showCrumbIcon } = storeToRefs(
-      useAppPreferenceStore()
-    )
-
-    const { username } = userStore?.info || {}
-
-    const showPreference = ref(false)
-
-    const state = reactive({
-      username: username || '',
-      fullscreenIcon: 'FullscreenOutlined'
-    })
-
-    const getInverted = computed(() => {
-      return ['light', 'header-dark'].includes(unref(navTheme)) ? props.inverted : !props.inverted
-    })
-
-    const getChangeStyle = computed(() => {
-      const { collapsed } = props
-      const { minMenuWidth, menuWidth }: any = unref(menuSetting)
-      return {
-        left: collapsed ? `${minMenuWidth}px` : `${menuWidth}px`,
-        width: `calc(100% - ${collapsed ? `${minMenuWidth}px` : `${menuWidth}px`})`
-      }
-    })
-
-    const getMenuLocation = computed(() => {
-      return 'header'
-    })
-
-    const router = useRouter()
-    const route = useRoute()
-
-    const generator: any = (routerMap: RouteLocationMatched[]) => {
-      return routerMap.map((item) => {
-        const currentMenu = {
-          ...item,
-          label: item.meta.title,
-          key: item.name,
-          disabled: item.path === '/',
-          virtual: item.meta.virtual
-        }
-        // 是否有子菜单，并递归处理
-        if (item.children && item.children.length > 0) {
-          // Recursion
-          currentMenu.children = generator(item.children, currentMenu)
-        }
-        return currentMenu
-      })
+    // 是否有子菜单，并递归处理
+    if (item.children && item.children.length > 0) {
+      // Recursion
+      currentMenu.children = generator(item.children, currentMenu)
     }
+    return currentMenu
+  })
+}
 
-    const breadcrumbList = computed(() => {
-      return generator(route.matched)
-    })
+const breadcrumbList = computed(() => {
+  return generator(route.matched)
+})
 
-    const dropdownSelect = (key: string | number) => {
-      router.push({ name: String(key) })
-    }
+const dropdownSelect = (key: string | number) => {
+  router.push({ name: String(key) })
+}
 
-    const reloadRouter: VoidFunction = inject('reloadRouter')!
+const reloadRouter: VoidFunction = inject('reloadRouter')!
 
-    // 刷新页面
-    const reloadPage = () => {
-      /* router.push({
-        path: '/redirect' + unref(route).fullPath
-      }) */
-      reloadRouter()
-    }
+// 刷新页面
+const reloadPage = () => {
+  /* router.push({
+    path: '/redirect' + unref(route).fullPath
+  }) */
+  reloadRouter()
+}
 
-    // 退出登录
-    const doLogout = () => {
-      dialog.info({
-        title: '提示',
-        content: '您确定要退出登录吗',
-        positiveText: '确定',
-        negativeText: '取消',
-        onPositiveClick: () => {
-          userStore.logout().then(() => {
-            // 移除标签页
-            localStorage.removeItem(LocalStorageType.TABS_ROUTES)
-            router
-              .replace({
-                name: RouteNames.BASE_LOGIN_NAME,
-                query: {
-                  redirect: route.fullPath
-                }
-              })
-              .finally(() => message.success('已退出'))
+// 退出登录
+const doLogout = () => {
+  dialog.info({
+    title: '提示',
+    content: '您确定要退出登录吗',
+    positiveText: '确定',
+    negativeText: '取消',
+    onPositiveClick: () => {
+      userStore.logout().then(() => {
+        // 移除标签页
+        localStorage.removeItem(LocalStorageType.TABS_ROUTES)
+        router
+          .replace({
+            name: RouteNames.BASE_LOGIN_NAME,
+            query: {
+              redirect: route.fullPath
+            }
           })
-        },
-        onNegativeClick: () => {}
+          .finally(() => message.success('已退出'))
       })
-    }
+    },
+    onNegativeClick: () => {}
+  })
+}
 
-    // 切换全屏图标
-    const toggleFullscreenIcon = () =>
-      (state.fullscreenIcon =
-        document.fullscreenElement !== null ? 'FullscreenExitOutlined' : 'FullscreenOutlined')
-
-    // 监听全屏切换事件
-    document.addEventListener('fullscreenchange', toggleFullscreenIcon)
-
-    // 全屏切换
-    const toggleFullScreen = () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen()
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen()
-        }
-      }
-    }
-
-    // 图标列表
-    const iconList = [
-      {
-        icon: 'SearchOutlined',
-        tips: '搜索'
-      },
-      {
-        icon: 'GithubOutlined',
-        tips: 'github',
-        eventObject: {
-          click: () => window.open('https://github.com/winter-studio/winter-dashboard-ui')
-        }
-      }
-    ]
-    const avatarOptions = [
-      {
-        label: '个人设置',
-        key: 1
-      },
-      {
-        label: '退出登录',
-        key: 2
-      }
-    ]
-
-    //头像下拉菜单
-    const avatarSelect = (key: number) => {
-      switch (key) {
-        case 1:
-          router.push({ name: 'Setting' })
-          break
-        case 2:
-          doLogout()
-          break
-      }
-    }
-
-    function openSetting() {
-      showPreference.value = true
-    }
-
-    return {
-      ...toRefs(state),
-      iconList,
-      toggleFullScreen,
-      doLogout,
-      route,
-      dropdownSelect,
-      avatarOptions,
-      getChangeStyle,
-      avatarSelect,
-      breadcrumbList,
-      reloadPage,
-      showPreference,
-      openSetting,
-      getInverted,
-      getMenuLocation,
-      navMode,
-      navTheme,
-      showHeaderReload,
-      menuSetting,
-      showCrumbIcon
+// 全屏切换
+const toggleFullScreen = () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen()
+    isFullScreen.value = true
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen()
+      isFullScreen.value = false
     }
   }
-})
+}
+
+// 图标列表
+const iconList = [
+  {
+    icon: GithubOutlined,
+    tips: 'github',
+    eventObject: {
+      click: () => window.open('https://github.com/winter-studio/winter-dashboard-ui')
+    }
+  }
+]
+
+const avatarOptions = [
+  {
+    label: '退出登录',
+    icon: () => (
+      <NIcon>
+        <LogoutOutlined />
+      </NIcon>
+    ),
+    key: 1
+  }
+]
+
+//头像下拉菜单
+const avatarSelect = (key: number) => {
+  switch (key) {
+    case 1:
+      doLogout()
+      break
+  }
+}
+
+function openSetting() {
+  showPreference.value = true
+}
 </script>
 
 <style lang="scss" scoped>
@@ -440,11 +365,6 @@ export default defineComponent({
     &:hover {
       background: hsla(0, 0%, 100%, 0.08);
     }
-
-    .anticon {
-      font-size: 16px;
-      color: #515a6e;
-    }
   }
 
   &-trigger-min {
@@ -464,12 +384,6 @@ export default defineComponent({
   .layout-header-left {
     ::v-deep(.n-breadcrumb .n-breadcrumb-item:last-child .n-breadcrumb-item__link) {
       color: #515a6e;
-    }
-  }
-
-  .layout-header-trigger {
-    &:hover {
-      background: #f8f8f9;
     }
   }
 }

@@ -1,16 +1,16 @@
 import { defineStore } from 'pinia'
-import { getUserMenus } from '@/api/user/user'
+import { getUserInfo, getUserMenus } from '@/api/user/user'
 import { logout } from '@/api/basis/auth'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
-import { UserLogin } from '@/types/response/base'
+import { UserInfo, UserLogin } from '@/types/response/base'
 import LocalStorageType from '@/enums/storage-types'
 
 export interface UserState {
   accessToken: string | undefined
   refreshToken: string | undefined
   refreshTokenExpireAt: number | undefined
-  info: any
+  userInfo: UserInfo | undefined
 }
 
 export const useUserStore = defineStore({
@@ -19,7 +19,7 @@ export const useUserStore = defineStore({
     accessToken: undefined,
     refreshToken: undefined,
     refreshTokenExpireAt: undefined,
-    info: {}
+    userInfo: undefined
   }),
   getters: {},
   actions: {
@@ -31,16 +31,21 @@ export const useUserStore = defineStore({
     setAccessToken(accessToken: string) {
       this.accessToken = accessToken
     },
-    setUserInfo(info: UserLogin) {
-      this.info = info
+    setUserInfo(info: UserInfo) {
+      this.userInfo = info
     },
     // 登录
     login(result: UserLogin) {
       if (result.user.status === '1') {
         throw new Error('用户被禁用')
       }
+      debugger
       this.setToken(result.accessToken, result.refreshToken, result.refreshTokenExpireIn)
-      this.setUserInfo(result)
+      this.setUserInfo(result.user)
+    },
+    async updateUserInfo() {
+      const { data } = await getUserInfo()
+      this.userInfo = data!
     },
     // 登录成功后
     async afterLogin() {
@@ -58,7 +63,7 @@ export const useUserStore = defineStore({
     // 登出
     async logout() {
       await logout(this.refreshToken)
-      this.info = undefined
+      this.userInfo = undefined
       this.accessToken = undefined
       this.refreshToken = undefined
       this.refreshTokenExpireAt = undefined
@@ -66,6 +71,7 @@ export const useUserStore = defineStore({
     }
   },
   persist: {
-    key: LocalStorageType.CURRENT_USER
+    key: LocalStorageType.CURRENT_USER,
+    paths: ['accessToken', 'refreshToken', 'refreshTokenExpireAt']
   }
 })

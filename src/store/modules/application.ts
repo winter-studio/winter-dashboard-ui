@@ -8,6 +8,7 @@ export interface AppState {
   menus?: MenuTree[]
   keepAliveComponents: Set<string>
   menuTreeOptions?: MenuTreeOptions[]
+  retryLogin: boolean
 }
 
 export const useAppStore = defineStore({
@@ -15,7 +16,8 @@ export const useAppStore = defineStore({
   state: (): AppState => ({
     menus: undefined,
     keepAliveComponents: new Set<string>(),
-    menuTreeOptions: undefined
+    menuTreeOptions: undefined,
+    retryLogin: true
   }),
   getters: {
     getKeepAliveComponents(state) {
@@ -30,6 +32,13 @@ export const useAppStore = defineStore({
         state.menuTreeOptions = buildTreeOptions(menuTrees!)
       }
       return state.menuTreeOptions
+    },
+    shouldRetryLogin(state) {
+      if (state.retryLogin) {
+        state.retryLogin = false
+        return true
+      }
+      return false
     }
   },
   actions: {}

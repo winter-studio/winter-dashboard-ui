@@ -41,6 +41,18 @@ export function setupGuards(router: Router) {
       next(redirectData)
       return
     } else {
+      if (!userStore.userInfo) {
+        try {
+          await userStore.updateUserInfo()
+        } catch (e) {
+          console.error(e)
+          // 异常时，如果存在缓存，清空信息再次尝试
+          const appStore = useAppStore()
+          if (appStore.shouldRetryLogin) {
+            await userStore.logout()
+          }
+        }
+      }
       //may need to fetch menu data
       if (appStore.menus === undefined) {
         await userStore.afterLogin()
