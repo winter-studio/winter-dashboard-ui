@@ -47,7 +47,7 @@
   </n-card>
   <n-drawer v-model:show="showDrawer" :width="500" placement="right" closable>
     <n-drawer-content :title="drawerTitle">
-      <role-menu :id="assigningKey" />
+      <role-menu v-if="assigningKey" :id="assigningKey!" />
     </n-drawer-content>
   </n-drawer>
 </template>
