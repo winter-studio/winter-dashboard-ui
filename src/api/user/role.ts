@@ -44,12 +44,12 @@ export function updateRole(id: number, role: RoleForm) {
   })
 }
 
-export function removeRoles(ids: (string | number)[]) {
+export function removeRoles(roles: number[]) {
   return axios.request({
     url: `${PREFIX}`,
     method: 'DELETE',
     data: {
-      ids
+      roles
     }
   })
 }
@@ -58,5 +58,15 @@ export function getRoleMenus(id: number) {
   return axios.request<number[]>({
     url: `${PREFIX}/${id}/menus`,
     method: 'GET'
+  })
+}
+
+export function updateRoleMenus(id: number, menus: number[]) {
+  return axios.request<number[]>({
+    url: `${PREFIX}/${id}/menus`,
+    method: 'PUT',
+    data: {
+      menus
+    }
   })
 }

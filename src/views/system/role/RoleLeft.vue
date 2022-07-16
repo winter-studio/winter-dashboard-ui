@@ -45,7 +45,7 @@
       </div>
     </div>
   </n-card>
-  <n-drawer v-model:show="showDrawer" :width="502" placement="left">
+  <n-drawer v-model:show="showDrawer" :width="500" placement="right" closable>
     <n-drawer-content :title="drawerTitle">
       <role-menu :id="assigningKey" />
     </n-drawer-content>
@@ -102,7 +102,7 @@ const renderSuffix = (item: { option: TreeOption; checked: boolean; selected: bo
       size="tiny"
       onClick={() => assignMenu(item.option.key as number, item.option.name as string)}
     >
-      菜单权限
+      分配菜单权限
     </NButton>
   )
 }
