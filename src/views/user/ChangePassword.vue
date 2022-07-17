@@ -29,11 +29,9 @@
 import { FormInst, useMessage, FormRules, FormItemRule } from 'naive-ui'
 import { ref } from 'vue'
 import { changePassword } from '@/api/user/user'
-import { useUserStore } from '@/store/modules/user'
 import { UserPassword } from '@/types/modules/user'
 import { isEqual } from 'lodash-es'
 
-const userStore = useUserStore()
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
 
@@ -77,7 +75,6 @@ function save() {
     changePassword(form.value!).then(() => {
       message.success('修改成功')
     })
-    userStore.updateUserInfo()
   })
 }
 </script>
