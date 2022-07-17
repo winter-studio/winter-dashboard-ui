@@ -132,6 +132,7 @@ import {
   GithubOutlined,
   LogoutOutlined
 } from '@vicons/antd'
+import { UserCog, Key } from '@vicons/fa'
 import { useDialog, useMessage, NIcon } from 'naive-ui'
 import { useUserStore } from '@/store/modules/user'
 import AppPreference from './AppPreference.vue'
@@ -261,20 +262,44 @@ const iconList = [
 
 const avatarOptions = [
   {
+    label: '个人设置',
+    icon: () => (
+      <NIcon>
+        <UserCog />
+      </NIcon>
+    ),
+    key: 1
+  },
+  {
+    label: '更改密码',
+    icon: () => (
+      <NIcon>
+        <Key />
+      </NIcon>
+    ),
+    key: 2
+  },
+  {
     label: '退出登录',
     icon: () => (
       <NIcon>
         <LogoutOutlined />
       </NIcon>
     ),
-    key: 1
+    key: 3
   }
 ]
 
 //头像下拉菜单
-const avatarSelect = (key: number) => {
+const avatarSelect = (key: string | number) => {
   switch (key) {
     case 1:
+      router.push({ name: RouteNames.PERSONAL_SETTING })
+      break
+    case 2:
+      router.push({ name: RouteNames.CHANGE_PASSWORD })
+      break
+    case 3:
       doLogout()
       break
   }

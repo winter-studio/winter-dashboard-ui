@@ -1,5 +1,5 @@
 import { axios } from '@/utils/request'
-import { UserLogin } from '@/types/response/base'
+import { UserLogin } from '@/types/modules/base'
 
 /**
  * 用户登录

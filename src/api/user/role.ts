@@ -1,6 +1,6 @@
 import { axios } from '@/utils/request'
 import { FormSelectOption } from '@/types/component/form'
-import { Role, RoleForm } from '@/types/response/role'
+import { Role, RoleForm } from '@/types/modules/role'
 
 const PREFIX = '/roles'
 

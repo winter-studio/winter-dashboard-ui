@@ -96,7 +96,7 @@ import { MenuType } from '@/router/types'
 import { clone, isEmpty, isEqual } from 'lodash-es'
 import { computed, ref, unref, watch } from 'vue'
 import { addMenu, getMenuById, removeMenu, updateMenu } from '@/api/basis/menu'
-import { Menu } from '@/types/response/base'
+import { Menu } from '@/types/modules/base'
 import { MenuTreeOptions } from '@/types/view/menu'
 
 interface Props {

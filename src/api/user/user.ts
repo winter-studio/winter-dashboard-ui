@@ -1,9 +1,9 @@
 import { axios } from '@/utils/request'
 import { MenuTree } from '@/router/types'
 import { PageRes } from '@/utils/request/types'
-import { AdminUserPageItem } from '@/types/response/user'
+import { AdminUserPageItem, UserPassword, UserProfile } from '@/types/modules/user'
 import { UserFormModel } from '@/views/system/user/user-form'
-import { UserInfo } from '@/types/response/base'
+import { UserInfo } from '@/types/modules/base'
 
 const PREFIX = '/users'
 
@@ -14,6 +14,28 @@ export function getUserInfo() {
   return axios.request<UserInfo>({
     url: `${PREFIX}/me`,
     method: 'GET'
+  })
+}
+
+/**
+ * 更新用户信息
+ */
+export function updateUserInfo(data: UserProfile) {
+  return axios.request<void>({
+    url: `${PREFIX}/me`,
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 更改密码
+ */
+export function changePassword(data: UserPassword) {
+  return axios.request<void>({
+    url: `${PREFIX}/me/password`,
+    method: 'PUT',
+    data
   })
 }
 

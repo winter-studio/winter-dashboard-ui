@@ -10,17 +10,42 @@ export enum RouteNames {
   //首页跳转默认路由
   BASE_HOME_REDIRECT = '/dashboard/workplace',
   // 错误
-  ERROR_PAGE_NAME = 'ErrorPage'
+  ERROR_PAGE_NAME = 'ErrorPage',
+  // 个人设置
+  PERSONAL_SETTING = 'PersonalSetting',
+  // 更改密码
+  CHANGE_PASSWORD = 'ChangePassword'
 }
 
 export const RootRoute: RouteRecordRaw = {
   path: '/',
   name: 'Root',
   redirect: RouteNames.BASE_HOME,
+  component: AppLayout,
   meta: {
     title: 'Root',
     type: MenuType.DIR
-  }
+  },
+  children: [
+    {
+      path: 'user/profile',
+      name: RouteNames.PERSONAL_SETTING,
+      component: () => import('@/views/user/ProfileSetting.vue'),
+      meta: {
+        title: '个人设置',
+        type: MenuType.VIEW
+      }
+    },
+    {
+      path: 'user/password',
+      name: RouteNames.CHANGE_PASSWORD,
+      component: () => import('@/views/user/ChangePassword.vue'),
+      meta: {
+        title: '更改密码',
+        type: MenuType.VIEW
+      }
+    }
+  ]
 }
 
 export const LoginRoute: RouteRecordRaw = {

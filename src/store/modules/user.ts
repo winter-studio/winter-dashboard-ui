@@ -3,7 +3,7 @@ import { getUserInfo, getUserMenus } from '@/api/user/user'
 import { logout } from '@/api/basis/auth'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
-import { UserInfo, UserLogin } from '@/types/response/base'
+import { UserInfo, UserLogin } from '@/types/modules/base'
 import LocalStorageType from '@/enums/storage-types'
 
 export interface UserState {
@@ -39,7 +39,6 @@ export const useUserStore = defineStore({
       if (result.user.status === '1') {
         throw new Error('用户被禁用')
       }
-      debugger
       this.setToken(result.accessToken, result.refreshToken, result.refreshTokenExpireIn)
       this.setUserInfo(result.user)
     },

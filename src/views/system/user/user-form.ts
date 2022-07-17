@@ -1,5 +1,4 @@
 import { SearchItem } from '@/types/component/table'
-import { ref } from 'vue'
 import { FormRules } from 'naive-ui/es/form/src/interface'
 import { FormItemRule } from 'naive-ui'
 import { isEmpty } from 'lodash-es'
@@ -41,7 +40,7 @@ export const searchItems: SearchItem[] = [
   }
 ]
 
-export const userFormRules = ref<FormRules>({
+export const userFormRules: FormRules = {
   username: [
     {
       required: true,
@@ -74,4 +73,4 @@ export const userFormRules = ref<FormRules>({
   ],
   status: [{ required: true, message: '请选择状态', trigger: 'change' }],
   roles: [{ type: 'array', required: true, message: '请分配角色', trigger: ['blur', 'change'] }]
-})
+}

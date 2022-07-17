@@ -7,3 +7,13 @@ export interface AdminUserPageItem {
   createTime: string
   status: string
 }
+
+export interface UserProfile {
+  avatar?: string
+  nickname: string
+}
+
+export interface UserPassword {
+  oldPassword?: string
+  newPassword: string
+}

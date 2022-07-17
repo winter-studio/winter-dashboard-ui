@@ -1,6 +1,6 @@
 import { axios } from '@/utils/request'
 import { MenuTree } from '@/router/types'
-import { Menu } from '@/types/response/base'
+import { Menu } from '@/types/modules/base'
 
 /**
  * 获取tree菜单列表
