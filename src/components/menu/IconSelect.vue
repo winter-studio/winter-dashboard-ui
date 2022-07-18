@@ -36,6 +36,8 @@
 import * as antd from '@vicons/antd'
 import { EditRegular } from '@vicons/fa'
 import { nextTick, ref, watch } from 'vue'
+import IconRender from '@/components/menu/IconRender.vue'
+import IconList from '@/components/menu/IconList.vue'
 
 const showSelectPanel = ref(false)
 const showIcon = ref(false)

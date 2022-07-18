@@ -13,13 +13,28 @@
       class="w-1/3"
     >
       <n-form-item label="当前密码" path="oldPassword">
-        <n-input v-model:value="form.oldPassword" placeholder="请输入当前密码" />
+        <n-input
+          v-model:value="form.oldPassword"
+          show-password-on="click"
+          type="password"
+          placeholder="请输入当前密码"
+        />
       </n-form-item>
       <n-form-item label="新密码" path="newPassword">
-        <n-input v-model:value="form.newPassword" placeholder="请输入新密码密码" />
+        <n-input
+          v-model:value="form.newPassword"
+          show-password-on="click"
+          type="password"
+          placeholder="请输入新密码密码"
+        />
       </n-form-item>
       <n-form-item label="新密码确认" path="confirmPassword">
-        <n-input v-model:value="form.confirmPassword" placeholder="请再输入一次新密码" />
+        <n-input
+          v-model:value="form.confirmPassword"
+          show-password-on="click"
+          type="password"
+          placeholder="请再输入一次新密码"
+        />
       </n-form-item>
     </n-form>
   </n-card>
@@ -34,20 +49,35 @@ import { isEqual } from 'lodash-es'
 
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
+const passwordTest = /^[a-zA-Z0-9_]{6,32}$/
 
 interface UserPasswordConfirm extends UserPassword {
   confirmPassword: string
 }
 
-const form = ref<UserPasswordConfirm | undefined>(undefined)
+const form = ref<UserPasswordConfirm>({
+  oldPassword: '',
+  newPassword: '',
+  confirmPassword: ''
+})
 
 const rules: FormRules = {
   oldPassword: [{ required: true, message: '请输入当前密码', trigger: 'blur' }],
   newPassword: [
     {
-      message: '密码只能由6-32位字母、数字、下划线组成',
+      required: true,
       trigger: 'blur',
-      pattern: /^[a-zA-Z0-9_]{6,32}$/
+      validator(_: FormItemRule, value: string) {
+        if (isEqual(value, form.value?.oldPassword)) {
+          return new Error('新旧密码不能相同')
+        }
+
+        if (!passwordTest.test(value)) {
+          return new Error('密码只能由6-32位字母、数字、下划线组成')
+        }
+
+        return true
+      }
     }
   ],
   confirmPassword: [
@@ -55,7 +85,7 @@ const rules: FormRules = {
       required: true,
       trigger: 'blur',
       validator(_: FormItemRule, value: string) {
-        if (isEqual(value, form.value?.newPassword)) {
+        if (!isEqual(value, form.value?.newPassword)) {
           return new Error('两次输入的密码不一致')
         }
 

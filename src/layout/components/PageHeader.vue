@@ -3,10 +3,10 @@
     <!--顶部菜单-->
     <div
       v-if="navMode === 'horizontal' || (navMode === 'horizontal-mix' && menuSetting.mixMenu)"
-      class="layout-header-left"
+      class="flex justify-center items-center"
     >
-      <div v-if="navMode === 'horizontal'" class="logo">
-        <img src="@/assets/images/logo.png" alt="" />
+      <div v-if="navMode === 'horizontal'" class="app-logo">
+        <img src="@/assets/images/logo.png" alt="" class="app-img" />
         <h2 v-show="!collapsed" class="m-0">Winter Dashboard</h2>
       </div>
       <aside-menu
@@ -18,63 +18,66 @@
       />
     </div>
     <!--左侧菜单-->
-    <div v-else class="layout-header-left">
+    <div v-else class="flex justify-center items-center ml-6">
       <!-- 菜单收起 -->
-      <div
-        class="ml-1 layout-header-trigger layout-header-trigger-min"
-        @click="() => emits('update:collapsed', !collapsed)"
-      >
-        <n-icon v-if="collapsed" size="18">
-          <menu-unfold-outlined />
-        </n-icon>
-        <n-icon v-else size="18">
-          <menu-fold-outlined />
-        </n-icon>
-      </div>
+      <n-tooltip placement="bottom">
+        <template #trigger>
+          <div class="cursor-pointer" @click="() => emits('update:collapsed', !collapsed)">
+            <n-icon v-if="collapsed" size="18">
+              <menu-unfold-outlined />
+            </n-icon>
+            <n-icon v-else size="18">
+              <menu-fold-outlined />
+            </n-icon>
+          </div>
+        </template>
+        <span>收起侧边栏</span>
+      </n-tooltip>
       <!-- 刷新 -->
-      <div
-        v-if="showHeaderReload"
-        class="mr-1 layout-header-trigger layout-header-trigger-min"
-        @click="reloadPage"
-      >
-        <n-icon size="18">
-          <refresh />
-        </n-icon>
-      </div>
+      <n-tooltip placement="bottom">
+        <template #trigger>
+          <div v-if="showHeaderReload" class="mx-4 cursor-pointer" @click="reloadPage">
+            <n-icon size="18">
+              <refresh />
+            </n-icon>
+          </div>
+        </template>
+        <span>刷新页面</span>
+      </n-tooltip>
+
       <!-- 面包屑 -->
-      <n-breadcrumb>
+      <n-breadcrumb class="pt-1">
         <template v-for="routeItem in breadcrumbList" :key="routeItem.name">
-          <n-breadcrumb-item v-if="routeItem.virtual !== true">
+          <n-breadcrumb-item
+            v-if="routeItem.virtual !== true && routeItem.name !== rootRoute"
+            class="flex justify-center items-center"
+          >
             <n-dropdown
               v-if="routeItem.children.length"
               :options="routeItem.children"
               @select="dropdownSelect"
             >
-              <span class="link-text">
+              <span class="underline decoration-sky-500">
                 <icon-render
                   v-if="showCrumbIcon && routeItem.meta.icon"
                   :icon="routeItem.meta.icon"
                 />
-                {{ routeItem.meta.title }}
+                <span>{{ routeItem.meta.title }}</span>
               </span>
             </n-dropdown>
-            <span v-else class="link-text">
+            <span v-else>
               <icon-render
                 v-if="showCrumbIcon && routeItem.meta.icon"
                 :icon="routeItem.meta.icon"
               />
-              {{ routeItem.meta.title }}
+              <span>{{ routeItem.meta.title }}</span>
             </span>
           </n-breadcrumb-item>
         </template>
       </n-breadcrumb>
     </div>
-    <div class="layout-header-right">
-      <div
-        v-for="(item, index) in iconList"
-        :key="index"
-        class="layout-header-trigger layout-header-trigger-min"
-      >
+    <div class="flex justify-center items-center mr-6">
+      <div v-for="(item, index) in iconList" :key="index" class="mx-4 cursor-pointer">
         <n-tooltip placement="bottom">
           <template #trigger>
             <n-icon size="18">
@@ -84,34 +87,10 @@
           <span>{{ item.tips }}</span>
         </n-tooltip>
       </div>
-      <!--切换全屏-->
-      <div class="layout-header-trigger layout-header-trigger-min">
-        <n-tooltip placement="bottom">
-          <template #trigger>
-            <n-icon size="18" @click="toggleFullScreen">
-              <fullscreen-exit-outlined v-if="isFullScreen" />
-              <fullscreen-outlined v-else />
-            </n-icon>
-          </template>
-          <span>全屏</span>
-        </n-tooltip>
-      </div>
-      <div class="layout-header-trigger layout-header-trigger-min" @click="openSetting">
-        <n-tooltip>
-          <template #trigger>
-            <n-icon size="18" style="font-weight: bold">
-              <setting-outlined />
-            </n-icon>
-          </template>
-          <span>个性配置</span>
-        </n-tooltip>
-      </div>
       <!-- 个人中心 -->
-      <div class="layout-header-trigger layout-header-trigger-min">
+      <div class="mx-4">
         <n-dropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
-          <div class="avatar">
-            <n-avatar round :src="userInfo?.avatar" />
-          </div>
+          <n-avatar :bordered="true" color="#cccd" round :src="userInfo?.avatar" />
         </n-dropdown>
       </div>
     </div>
@@ -123,16 +102,8 @@
 <script setup lang="tsx">
 import { ref, computed, unref, inject } from 'vue'
 import { useRouter, useRoute, RouteLocationMatched } from 'vue-router'
-import {
-  SettingOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  FullscreenOutlined,
-  FullscreenExitOutlined,
-  GithubOutlined,
-  LogoutOutlined
-} from '@vicons/antd'
-import { UserCog, Key } from '@vicons/fa'
+import { MenuFoldOutlined, MenuUnfoldOutlined, GithubOutlined } from '@vicons/antd'
+import { SettingsAdjust, Password, Logout, UserAvatar } from '@vicons/carbon'
 import { useDialog, useMessage, NIcon } from 'naive-ui'
 import { useUserStore } from '@/store/modules/user'
 import AppPreference from './AppPreference.vue'
@@ -142,6 +113,7 @@ import LocalStorageType from '@/enums/storage-types'
 import { RouteNames } from '@/router/base'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { storeToRefs } from 'pinia'
+import IconRender from '@/components/menu/IconRender.vue'
 
 interface Props {
   collapsed: boolean
@@ -158,11 +130,11 @@ const { navMode, navTheme, showHeaderReload, menuSetting, showCrumbIcon } = stor
   useAppPreferenceStore()
 )
 
+const rootRoute = RouteNames.ROOT.toString()
+
 const { userInfo } = storeToRefs(userStore)
 
 const showPreference = ref(false)
-
-const isFullScreen = ref(false)
 
 const getInverted = computed(() => {
   return ['light', 'header-dark'].includes(unref(navTheme)) ? props.inverted : !props.inverted
@@ -236,19 +208,6 @@ const doLogout = () => {
   })
 }
 
-// 全屏切换
-const toggleFullScreen = () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen()
-    isFullScreen.value = true
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen()
-      isFullScreen.value = false
-    }
-  }
-}
-
 // 图标列表
 const iconList = [
   {
@@ -265,48 +224,56 @@ const avatarOptions = [
     label: '个人设置',
     icon: () => (
       <NIcon>
-        <UserCog />
+        <UserAvatar />
       </NIcon>
     ),
-    key: 1
+    key: 'user-setting'
   },
   {
     label: '更改密码',
     icon: () => (
       <NIcon>
-        <Key />
+        <Password />
       </NIcon>
     ),
-    key: 2
+    key: 'change-password'
+  },
+  {
+    label: '个性配置',
+    icon: () => (
+      <NIcon>
+        <SettingsAdjust />
+      </NIcon>
+    ),
+    key: 'preference'
   },
   {
     label: '退出登录',
     icon: () => (
       <NIcon>
-        <LogoutOutlined />
+        <Logout />
       </NIcon>
     ),
-    key: 3
+    key: 'logout'
   }
 ]
 
 //头像下拉菜单
-const avatarSelect = (key: string | number) => {
+const avatarSelect = (key: string) => {
   switch (key) {
-    case 1:
+    case 'user-setting':
       router.push({ name: RouteNames.PERSONAL_SETTING })
       break
-    case 2:
+    case 'change-password':
       router.push({ name: RouteNames.CHANGE_PASSWORD })
       break
-    case 3:
+    case 'preference':
+      showPreference.value = true
+      break
+    case 'logout':
       doLogout()
       break
   }
-}
-
-function openSetting() {
-  showPreference.value = true
 }
 </script>
 
@@ -322,93 +289,20 @@ function openSetting() {
   width: 100%;
   z-index: 11;
 
-  &-left {
+  .app-logo {
     display: flex;
     align-items: center;
-
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 64px;
-      line-height: 64px;
-      overflow: hidden;
-      white-space: nowrap;
-      padding-left: 10px;
-
-      img {
-        width: auto;
-        height: 32px;
-        margin-right: 10px;
-      }
-    }
-
-    ::v-deep(.ant-breadcrumb span:last-child .link-text) {
-      color: #515a6e;
-    }
-
-    .n-breadcrumb {
-      display: inline-block;
-    }
-
-    &-menu {
-      color: var(--text-color);
-    }
-  }
-
-  &-right {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-
-    .avatar {
-      display: flex;
-      align-items: center;
-      height: 64px;
-    }
-
-    > * {
-      cursor: pointer;
-    }
-  }
-
-  &-trigger {
-    display: inline-block;
-    width: 64px;
+    justify-content: center;
     height: 64px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    line-height: 64px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-left: 10px;
 
-    .n-icon {
-      display: flex;
-      align-items: center;
-      height: 64px;
-      line-height: 64px;
-    }
-
-    &:hover {
-      background: hsla(0, 0%, 100%, 0.08);
-    }
-  }
-
-  &-trigger-min {
-    width: auto;
-    padding: 0 12px;
-  }
-}
-
-.layout-header-light {
-  background: #fff;
-  color: #515a6e;
-
-  .n-icon {
-    color: #515a6e;
-  }
-
-  .layout-header-left {
-    ::v-deep(.n-breadcrumb .n-breadcrumb-item:last-child .n-breadcrumb-item__link) {
-      color: #515a6e;
+    .app-img {
+      width: auto;
+      height: 32px;
+      margin-right: 10px;
     }
   }
 }
@@ -420,12 +314,4 @@ function openSetting() {
   left: 200px;
   z-index: 11;
 }
-
-//::v-deep(.menu-router-link) {
-//  color: #515a6e;
-//
-//  &:hover {
-//    color: #1890ff;
-//  }
-//}
 </style>

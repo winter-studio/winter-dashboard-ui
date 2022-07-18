@@ -92,9 +92,8 @@ function save() {
   })
   updateUserInfo(userForm.value).then(() => {
     message.success('修改成功')
+    userStore.updateUserInfo()
   })
-
-  userStore.updateUserInfo()
 }
 </script>
 

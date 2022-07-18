@@ -4,6 +4,8 @@ import { RouteRecordRaw } from 'vue-router'
 
 export enum RouteNames {
   // 登录
+  ROOT = 'Root',
+  // 登录
   BASE_LOGIN_NAME = 'Login',
   // 首页
   BASE_HOME = '/dashboard',
@@ -19,7 +21,7 @@ export enum RouteNames {
 
 export const RootRoute: RouteRecordRaw = {
   path: '/',
-  name: 'Root',
+  name: RouteNames.ROOT,
   redirect: RouteNames.BASE_HOME,
   component: AppLayout,
   meta: {

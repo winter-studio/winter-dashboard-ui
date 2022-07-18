@@ -23,7 +23,7 @@ export function getUserInfo() {
 export function updateUserInfo(data: UserProfile) {
   return axios.request<void>({
     url: `${PREFIX}/me`,
-    method: 'POST',
+    method: 'PUT',
     data
   })
 }
