@@ -49,7 +49,6 @@ import { isEqual } from 'lodash-es'
 
 const message = useMessage()
 const formRef = ref<FormInst | null>(null)
-const passwordTest = /^[a-zA-Z0-9_]{6,32}$/
 
 interface UserPasswordConfirm extends UserPassword {
   confirmPassword: string
@@ -72,7 +71,7 @@ const rules: FormRules = {
           return new Error('新旧密码不能相同')
         }
 
-        if (!passwordTest.test(value)) {
+        if (!/^[a-zA-Z0-9_]{6,32}$/.test(value)) {
           return new Error('密码只能由6-32位字母、数字、下划线组成')
         }
 
