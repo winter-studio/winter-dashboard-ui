@@ -54,15 +54,16 @@
           >
             <n-dropdown
               v-if="routeItem.children.length"
+              class="mt-2"
               :options="routeItem.children"
               @select="dropdownSelect"
             >
-              <span class="underline decoration-sky-500">
+              <span>
                 <icon-render
                   v-if="showCrumbIcon && routeItem.meta.icon"
                   :icon="routeItem.meta.icon"
                 />
-                <span>{{ routeItem.meta.title }}</span>
+                <span> {{ routeItem.meta.title }}</span>
               </span>
             </n-dropdown>
             <span v-else>
@@ -80,7 +81,7 @@
       <div v-for="(item, index) in iconList" :key="index" class="mx-4 cursor-pointer">
         <n-tooltip placement="bottom">
           <template #trigger>
-            <n-icon size="18">
+            <n-icon size="22">
               <component :is="item.icon" v-on="item.eventObject || {}" />
             </n-icon>
           </template>
@@ -88,7 +89,7 @@
         </n-tooltip>
       </div>
       <!-- 个人中心 -->
-      <div class="mx-4">
+      <div class="mx-4 cursor-pointer">
         <n-dropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
           <n-avatar :bordered="true" color="#cccd" round :src="userInfo?.avatar" />
         </n-dropdown>
