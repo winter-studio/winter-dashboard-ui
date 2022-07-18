@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { FormInst, useMessage } from 'naive-ui'
 import { onMounted, ref } from 'vue'
-import { getUser, updateUserInfo, uploadAvatar } from '@/api/user/user'
+import { getUserInfo, updateUserInfo, uploadAvatar } from '@/api/user/user'
 import { useUserStore } from '@/store/modules/user'
 import { FormRules } from 'naive-ui/es/form/src/interface'
 import { UserProfile } from '@/types/modules/user'
@@ -60,7 +60,7 @@ const userFormRules: FormRules = {
 }
 
 onMounted(() => {
-  getUser(userStore.userInfo!.userId).then((res) => {
+  getUserInfo().then((res) => {
     userForm.value.avatar = res.data!.avatar
     userForm.value.nickname = res.data!.nickname
   })
