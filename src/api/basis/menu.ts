@@ -1,5 +1,5 @@
 import { axios } from '@/utils/request'
-import { MenuTree } from '@/router/types'
+import { MenuTree } from '@/types/component/menu'
 import { Menu } from '@/types/modules/base'
 
 /**

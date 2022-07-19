@@ -1,4 +1,4 @@
-import { MenuType } from '@/router/types'
+import { MenuType } from '@/types/component/menu'
 
 export interface Menu {
   id?: number

@@ -7,16 +7,13 @@
 <script setup lang="ts">
 import { onMounted, ref, DefineComponent, markRaw } from 'vue'
 
-const props = defineProps({
-  icon: {
-    type: String,
-    required: true
-  },
-  size: {
-    type: Number,
-    required: false,
-    default: 16
-  }
+interface Props {
+  size?: number
+  icon: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 16
 })
 
 const iconComponent = ref<DefineComponent | null>(null)

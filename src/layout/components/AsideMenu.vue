@@ -22,7 +22,7 @@ import { buildMenu, buildMenuMix } from './menu-builder'
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
 import { MenuOption } from 'naive-ui'
-import { MenuType } from '@/router/types'
+import { MenuType } from '@/types/component/menu'
 
 export default defineComponent({
   name: 'AsideMenu',

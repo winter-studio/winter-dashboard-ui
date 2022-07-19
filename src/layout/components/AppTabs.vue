@@ -90,11 +90,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import { computed, inject, nextTick, onMounted, provide, reactive, ref, unref, watch } from 'vue'
 import { RouteLocationRaw, useRoute, useRouter } from 'vue-router'
 import { RouteItem, useTabsViewStore } from '@/store/modules/tabsView'
-import { useMessage, useThemeVars } from 'naive-ui'
+import { useMessage, useThemeVars, NIcon } from 'naive-ui'
 import Draggable from 'vuedraggable'
 import { RouteNames } from '@/router/base'
 import {
@@ -107,7 +107,6 @@ import {
 } from '@vicons/antd'
 import { Close } from '@vicons/ionicons5'
 import elementResizeDetectorMaker from 'element-resize-detector'
-import { renderIcon } from '@/utils/icon-utils'
 import { isString } from 'lodash-es'
 
 type RouteLocationRawEx = Omit<RouteLocationRaw, 'path'> & { path: RouteNames }
@@ -160,25 +159,25 @@ const TabsMenuOptions = computed(() => {
     {
       label: '刷新当前',
       key: '1',
-      icon: renderIcon(ReloadOutlined)
+      icon: () => <NIcon>{{ default: () => <ReloadOutlined /> }}</NIcon>
     },
     {
       label: `关闭当前`,
       key: '2',
       disabled: unref(isCurrent) || isDisabled,
-      icon: renderIcon(Close)
+      icon: () => <NIcon>{{ default: () => <Close /> }}</NIcon>
     },
     {
       label: '关闭其他',
       key: '3',
       disabled: isDisabled,
-      icon: renderIcon(ColumnWidthOutlined)
+      icon: () => <NIcon>{{ default: () => <ColumnWidthOutlined /> }}</NIcon>
     },
     {
       label: '关闭全部',
       key: '4',
       disabled: isDisabled,
-      icon: renderIcon(MinusOutlined)
+      icon: () => <NIcon>{{ default: () => <MinusOutlined /> }}</NIcon>
     }
   ]
 })

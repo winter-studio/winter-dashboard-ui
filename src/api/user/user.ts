@@ -1,6 +1,6 @@
 import { axios } from '@/utils/request'
-import { MenuTree } from '@/router/types'
-import { PageRes } from '@/utils/request/types'
+import { MenuTree } from '@/types/component/menu'
+import { PageRes } from '@/types/component/request'
 import { AdminUserPageItem, UserPassword, UserProfile } from '@/types/modules/user'
 import { UserFormModel } from '@/views/system/user/user-form'
 import { UserInfo } from '@/types/modules/base'

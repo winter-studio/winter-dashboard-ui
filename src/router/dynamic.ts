@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
-import { Component, MenuTree, MenuType } from './types'
-import { AppLayout, EmptyLayout, IFrameLayout } from './constant'
+import { Component, MenuTree, MenuType } from '@/types/component/menu'
+import { AppLayout, EmptyLayout, IFrameLayout } from './layouts'
 import router from '@/router'
 
 const modules: Record<string, () => Promise<Recordable>> = import.meta.glob('../views/**/*.vue')

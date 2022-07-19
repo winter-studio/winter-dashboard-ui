@@ -1,4 +1,4 @@
-import { MenuTree, MenuType } from '@/router/types'
+import { MenuTree, MenuType } from '@/types/component/menu'
 import { MenuTreeOptions } from '@/types/view/menu'
 import { TreeSelectOption } from 'naive-ui'
 

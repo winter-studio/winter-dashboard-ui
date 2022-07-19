@@ -1,8 +1,8 @@
-import { MenuTree } from '@/router/types'
+import { MenuTree } from '@/types/component/menu'
 import { cloneDeep } from 'lodash-es'
 import { MenuDividerOption, MenuGroupOption, MenuOption, NTag } from 'naive-ui'
-import { renderMenuIcon } from '@/utils/icon-utils'
 import { h } from 'vue'
+import IconRender from '@/components/menu/IconRender.vue'
 
 /**
  * 递归组装菜单格式
@@ -17,7 +17,7 @@ export function buildMenu(
     const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
       label: menu.title,
       key: String(menu.id),
-      icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
+      icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
       extra: menu.tags ? renderTags(menu.tags) : undefined,
       type: menu.type,
       data: menu.data
@@ -50,7 +50,7 @@ export function buildMenuMix(
       const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
         label: menu.title,
         key: String(menu.id),
-        icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
+        icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
         extra: menu.tags ? renderTags(menu.tags) : undefined,
         type: menu.type,
         data: menu.data
@@ -80,7 +80,7 @@ function buildChildren(
     const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
       label: menu.title,
       key: String(menu.id),
-      icon: menu.icon ? renderMenuIcon(menu.icon) : undefined,
+      icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
       extra: menu.tags ? renderTags(menu.tags) : undefined,
       type: menu.type,
       data: menu.data

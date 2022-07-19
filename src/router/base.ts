@@ -1,5 +1,5 @@
-import { ErrorPage, AppLayout } from '@/router/constant'
-import { MenuType } from '@/router/types'
+import { ErrorPage, AppLayout } from '@/router/layouts'
+import { MenuType } from '@/types/component/menu'
 import { RouteRecordRaw } from 'vue-router'
 
 export enum RouteNames {

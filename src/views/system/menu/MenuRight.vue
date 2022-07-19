@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import IconSelect from '@/components/menu/IconSelect.vue'
 import { FormItemRule, FormRules, TreeSelectOption, useDialog, useMessage } from 'naive-ui'
-import { MenuType } from '@/router/types'
+import { MenuType } from '@/types/component/menu'
 import { clone, isEmpty, isEqual } from 'lodash-es'
 import { computed, ref, unref, watch } from 'vue'
 import { addMenu, getMenuById, removeMenu, updateMenu } from '@/api/basis/menu'

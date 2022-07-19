@@ -1,4 +1,4 @@
-export enum ApiCodes {
+export enum ApiResCode {
   ACCESS_TOKEN_EXPIRED = 20001,
   REFRESH_TOKEN_INVALID = 20004
 }

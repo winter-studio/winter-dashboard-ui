@@ -1,10 +1,10 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { useUserStore } from '@/store/modules/user'
-import { ApiRes, ApiResponseType, ProxyAxiosResponse } from '@/utils/request/types'
+import { ApiRes, ApiResponseType, ProxyAxiosResponse } from '@/types/component/request'
 import router from '@/router'
 import { RouteNames } from '@/router/base'
 import { RouteLocationRaw } from 'vue-router'
-import { ApiCodes } from '@/utils/request/api-codes'
+import { ApiResCode } from '@/utils/request/constants'
 import { refreshToken } from '@/api/basis/auth'
 
 let refreshing: Promise<any> | undefined = undefined
@@ -75,7 +75,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
         switch (error.response.status) {
           case 401:
             const userStore = useUserStore()
-            if (error.response.data.code === ApiCodes.ACCESS_TOKEN_EXPIRED) {
+            if (error.response.data.code === ApiResCode.ACCESS_TOKEN_EXPIRED) {
               // token过期，尝试刷新token
               if (
                 userStore.refreshToken &&

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 import { setupInterceptors } from '@/utils/request/interceptor'
-import { ProxyAxiosInstance, ProxyAxiosRequestConfig } from '@/utils/request/types'
+import { ProxyAxiosInstance, ProxyAxiosRequestConfig } from '@/types/component/request'
 
 const http: ProxyAxiosInstance = axios.create(<ProxyAxiosRequestConfig>{
   baseURL: import.meta.env.VITE_APP_API_URL ?? '',
