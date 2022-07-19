@@ -4,7 +4,7 @@ import { logout } from '@/api/basis/auth'
 import { setupDynamicRoutes } from '@/router/dynamic'
 import { useAppStore } from '@/store/modules/application'
 import { UserInfo, UserLogin } from '@/types/modules/base'
-import LocalStorageType from '@/enums/storage-types'
+import LocalStorageType from '@/constants/storage-types'
 
 export interface UserState {
   accessToken: string | undefined

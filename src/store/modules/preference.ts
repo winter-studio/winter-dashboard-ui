@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import preferenceDefault from '@/settings/preference-default'
-import LocalStorageType from '@/enums/storage-types'
+import { DefaultSettings } from '@/constants/preference'
+import LocalStorageType from '@/constants/storage-types'
 
 const {
   darkTheme,
@@ -13,7 +13,7 @@ const {
   tabAnimationEnabled,
   pageAnimateType,
   showHeaderReload
-} = preferenceDefault
+} = DefaultSettings
 
 export interface ImenuSetting {
   minMenuWidth: number

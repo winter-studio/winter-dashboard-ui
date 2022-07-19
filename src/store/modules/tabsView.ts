@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { RouteLocationNormalized } from 'vue-router'
-import LocalStorageType from '@/enums/storage-types'
+import LocalStorageType from '@/constants/storage-types'
 
 // 不需要出现在标签页中的路由
 const whiteList = ['login']

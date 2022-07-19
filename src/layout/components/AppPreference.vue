@@ -29,7 +29,7 @@
           <n-divider title-placement="center">系统主题</n-divider>
           <div class="flex flex-wrap">
             <div
-              v-for="(item, index) in appThemeList"
+              v-for="(item, index) in AppThemeList"
               :key="index"
               class="color-block"
               :style="{ 'background-color': item }"
@@ -195,7 +195,7 @@
           <div class="flex justify-between items-center my-4">
             <div class="text-sm"> 动画类型</div>
             <div>
-              <n-select v-model:value="settingStore.pageAnimateType" :options="animateOptions" />
+              <n-select v-model:value="settingStore.pageAnimateType" :options="AppAnimates" />
             </div>
           </div>
         </section>
@@ -208,7 +208,7 @@
 import { watch } from 'vue'
 import { CheckOutlined } from '@vicons/antd'
 import { Moon, SunnySharp } from '@vicons/ionicons5'
-import { animates as animateOptions, appThemeList } from '@/settings/preference-values'
+import { AppAnimates, AppThemeList } from '@/constants/preference'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 
 const settingStore = useAppPreferenceStore()
