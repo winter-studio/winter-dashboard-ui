@@ -92,7 +92,7 @@
 
 <script setup lang="ts">
 import { computed, inject, nextTick, onMounted, provide, reactive, ref, unref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { RouteLocationRaw, useRoute, useRouter } from 'vue-router'
 import { RouteItem, useTabsViewStore } from '@/store/modules/tabsView'
 import { useMessage, useThemeVars } from 'naive-ui'
 import Draggable from 'vuedraggable'
@@ -107,8 +107,10 @@ import {
 } from '@vicons/antd'
 import { Close } from '@vicons/ionicons5'
 import elementResizeDetectorMaker from 'element-resize-detector'
-import { useGo } from '@/hooks/web/usePage'
 import { renderIcon } from '@/utils/icon-utils'
+import { isString } from 'lodash-es'
+
+type RouteLocationRawEx = Omit<RouteLocationRaw, 'path'> & { path: RouteNames }
 
 const message = useMessage()
 const route = useRoute()
@@ -117,7 +119,6 @@ const tabsViewStore = useTabsViewStore()
 const navScroll: any = ref(null)
 const navWrap: any = ref(null)
 const isCurrent = ref(false)
-const go = useGo()
 
 const themeVars = useThemeVars()
 
@@ -353,6 +354,25 @@ function goPage(e: any) {
   if (fullPath === route.fullPath) return
   state.activeKey = fullPath
   go(e, true)
+}
+
+function go(
+  opt: RouteNames | RouteLocationRawEx | string = RouteNames.BASE_HOME,
+  isReplace = false
+) {
+  if (!opt) {
+    return
+  }
+  if (isString(opt)) {
+    isReplace
+      ? router.replace(opt).catch((e) => console.error(e))
+      : router.push(opt).catch((e) => console.error(e))
+  } else {
+    const o = opt as RouteLocationRaw
+    isReplace
+      ? router.replace(o).catch((e) => console.error(e))
+      : router.push(o).catch((e) => console.error(e))
+  }
 }
 
 //删除tab

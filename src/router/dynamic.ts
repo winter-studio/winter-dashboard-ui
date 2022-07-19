@@ -50,6 +50,11 @@ function completeFirstLevelComponent(
 function generatorAppRoutes(menus: MenuTree[], level: number): RouteRecordRaw[] {
   const appRoutes: RouteRecordRaw[] = []
   menus.forEach((menu) => {
+    let children: RouteRecordRaw[] | undefined = undefined
+    if (menu.children?.length ?? 0 > 0) {
+      children = generatorAppRoutes(menu.children!, level + 1)
+    }
+
     const appRoute: RouteRecordRaw = {
       name: String(menu.id),
       component: () => {},
@@ -60,7 +65,7 @@ function generatorAppRoutes(menus: MenuTree[], level: number): RouteRecordRaw[] 
         keepAlive: menu.keepAlive
       },
       path: (level === 1 ? '/' : '') + menu.path,
-      children: []
+      children
     }
 
     switch (menu.type) {
@@ -84,10 +89,6 @@ function generatorAppRoutes(menus: MenuTree[], level: number): RouteRecordRaw[] 
         break
       default:
         break
-    }
-
-    if (menu.children?.length ?? 0 > 0) {
-      appRoute.children = generatorAppRoutes(menu.children!, level + 1)
     }
 
     appRoutes.push(appRoute)
