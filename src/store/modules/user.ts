@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore, PiniaPluginContext } from 'pinia'
 import { getUserInfo, getUserMenus } from '@/api/user/user'
 import { logout } from '@/api/basis/auth'
 import { setupDynamicRoutes } from '@/router/dynamic'
@@ -7,6 +7,7 @@ import { UserInfo, UserLogin } from '@/types/modules/base'
 import LocalStorageType from '@/constants/storage-types'
 
 export interface UserState {
+  rememberMe: boolean
   accessToken: string | undefined
   refreshToken: string | undefined
   refreshTokenExpireAt: number | undefined
@@ -16,6 +17,7 @@ export interface UserState {
 export const useUserStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
+    rememberMe: false,
     accessToken: undefined,
     refreshToken: undefined,
     refreshTokenExpireAt: undefined,
@@ -35,10 +37,12 @@ export const useUserStore = defineStore({
       this.userInfo = info
     },
     // 登录
-    login(result: UserLogin) {
+    login(result: UserLogin, rememberMe: boolean) {
       if (result.user.status === '1') {
         throw new Error('用户被禁用')
       }
+      this.rememberMe = rememberMe
+      sessionStorage.setItem('refresh_flag', '1')
       this.setToken(result.accessToken, result.refreshToken, result.refreshTokenExpireIn)
       this.setUserInfo(result.user)
     },
@@ -71,6 +75,17 @@ export const useUserStore = defineStore({
   },
   persist: {
     key: LocalStorageType.CURRENT_USER,
-    paths: ['accessToken', 'refreshToken', 'refreshTokenExpireAt']
+    paths: ['accessToken', 'refreshToken', 'refreshTokenExpireAt', 'rememberMe'],
+    afterRestore(context: PiniaPluginContext) {
+      if (!sessionStorage.getItem('refresh_flag')) {
+        if (!context.store.rememberMe) {
+          context.store.userInfo = undefined
+          context.store.accessToken = undefined
+          context.store.refreshToken = undefined
+          context.store.refreshTokenExpireAt = undefined
+          localStorage.removeItem(LocalStorageType.CURRENT_USER)
+        }
+      }
+    }
   }
 })

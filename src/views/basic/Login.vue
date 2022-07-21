@@ -43,10 +43,7 @@
           <n-form-item class="default-color">
             <div class="flex justify-between">
               <div class="flex-initial">
-                <n-checkbox v-model:checked="autoLogin">自动登录</n-checkbox>
-              </div>
-              <div class="flex-initial order-last">
-                <a href="javascript:">忘记密码</a>
+                <n-checkbox v-model:checked="rememberMe">自动登录</n-checkbox>
               </div>
             </div>
           </n-form-item>
@@ -102,7 +99,7 @@ const themeVars = useThemeVars()
 const formRef = ref()
 const message = useMessage()
 const loading = ref(false)
-const autoLogin = ref(true)
+const rememberMe = ref(true)
 const LOGIN_NAME = RouteNames.BASE_LOGIN_NAME
 const loginBgColor = themeVars.value.loginBgColor
 
@@ -137,7 +134,7 @@ const handleSubmit = (e: MouseEvent) => {
 
       try {
         const res = await login(params)
-        userStore.login(res.data!)
+        userStore.login(res.data!, rememberMe.value)
         await userStore.afterLogin()
         const toPath = decodeURIComponent((route.query?.redirect || '/') as string)
         if (route.name === LOGIN_NAME) {
