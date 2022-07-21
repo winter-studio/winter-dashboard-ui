@@ -27,7 +27,8 @@ import {
   zhCN,
   dateZhCN,
   darkTheme,
-  NConfigProvider
+  NConfigProvider,
+  GlobalThemeOverrides
 } from 'naive-ui'
 import { WindowTool } from './index'
 import { useAppPreferenceStore } from '@/store/modules/preference'
@@ -39,7 +40,7 @@ const designStore = useAppPreferenceStore()
 /**
  * @type import('naive-ui').GlobalThemeOverrides
  */
-const getThemeOverrides = computed(() => {
+const getThemeOverrides = computed<GlobalThemeOverrides>(() => {
   const appTheme = Color(designStore.appTheme)
 
   if (designStore.darkTheme) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-card title="搜索条件">
+    <n-card v-if="searchEnabled" title="搜索条件">
       <template #header-extra>
         <div>
           <n-button type="primary" class="mr-4" @click="search"> 查询 </n-button>
@@ -42,7 +42,12 @@
     <div class="mt-3 mb-1">
       <slot name="table-header"></slot>
     </div>
-    <n-data-table :columns="columns" :data="data" :pagination="pagination" :bordered="true" />
+    <n-data-table
+      :columns="columns"
+      :data="data"
+      :pagination="paginationEnabled ? pagination : false"
+      :bordered="true"
+    />
   </div>
 </template>
 
@@ -61,9 +66,17 @@ interface Props {
   page?: number
   pageSize?: number
   initSearch?: boolean
+  paginationEnabled?: boolean
+  searchEnabled?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), { page: 1, pageSize: 10, initSearch: true })
+const props = withDefaults(defineProps<Props>(), {
+  page: 1,
+  pageSize: 10,
+  initSearch: true,
+  paginationEnabled: true,
+  searchEnabled: true
+})
 const emits = defineEmits<{
   (e: 'search', search: SearchOptions<any>): void
 }>()

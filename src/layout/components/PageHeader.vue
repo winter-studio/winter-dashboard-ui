@@ -22,7 +22,10 @@
       <!-- 菜单收起 -->
       <n-tooltip placement="bottom">
         <template #trigger>
-          <div class="cursor-pointer" @click="() => emits('update:collapsed', !collapsed)">
+          <div
+            class="cursor-pointer flex justify-center items-center"
+            @click="() => emits('update:collapsed', !collapsed)"
+          >
             <n-icon v-if="collapsed" size="18">
               <menu-unfold-outlined />
             </n-icon>
@@ -36,7 +39,11 @@
       <!-- 刷新 -->
       <n-tooltip placement="bottom">
         <template #trigger>
-          <div v-if="showHeaderReload" class="mx-4 cursor-pointer" @click="reloadPage">
+          <div
+            v-if="showHeaderReload"
+            class="mx-4 cursor-pointer flex justify-center items-center"
+            @click="reloadPage"
+          >
             <n-icon size="18">
               <refresh />
             </n-icon>
@@ -46,7 +53,7 @@
       </n-tooltip>
 
       <!-- 面包屑 -->
-      <n-breadcrumb class="pt-1">
+      <n-breadcrumb>
         <template v-for="routeItem in breadcrumbList" :key="routeItem.name">
           <n-breadcrumb-item
             v-if="routeItem.virtual !== true && routeItem.name !== rootRoute"
@@ -63,7 +70,7 @@
                   v-if="showCrumbIcon && routeItem.meta.icon"
                   :icon="routeItem.meta.icon"
                 />
-                <span> {{ routeItem.meta.title }}</span>
+                <span class="ml-1">{{ routeItem.meta.title }}</span>
               </span>
             </n-dropdown>
             <span v-else>
@@ -71,7 +78,7 @@
                 v-if="showCrumbIcon && routeItem.meta.icon"
                 :icon="routeItem.meta.icon"
               />
-              <span>{{ routeItem.meta.title }}</span>
+              <span class="ml-1">{{ routeItem.meta.title }}</span>
             </span>
           </n-breadcrumb-item>
         </template>

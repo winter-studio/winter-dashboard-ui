@@ -3,8 +3,6 @@ import { FormRules } from 'naive-ui/es/form/src/interface'
 import { FormItemRule } from 'naive-ui'
 import { isEmpty } from 'lodash-es'
 
-const usernameTest = /^[a-zA-Z0-9_]{4,16}$/
-
 export type SearchParam = {
   username: string
   mobile: string
@@ -50,7 +48,7 @@ export const userFormRules: FormRules = {
           return new Error('请输入用户名')
         }
 
-        if (!usernameTest.test(value)) {
+        if (!/^[a-zA-Z0-9_]{4,16}$/.test(value)) {
           return new Error('用户名只能由4-16位字母、数字、下划线组成')
         }
         return true

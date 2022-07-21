@@ -31,13 +31,4 @@ import { storeToRefs } from 'pinia'
 const { userInfo } = storeToRefs(useUserStore())
 </script>
 
-<style lang="scss" scoped>
-.project-card {
-  margin-right: -6px;
-
-  &-item {
-    margin: -1px;
-    width: 33.333333%;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
