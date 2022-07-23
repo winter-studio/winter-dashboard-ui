@@ -256,7 +256,7 @@ function reset() {
   if (props.modelValue) {
     form.value = clone(unref(formCache))
   } else {
-    form.value = { code: '', name: '' }
+    form.value = { code: '', name: '', items: [] }
   }
   formRef.value?.restoreValidation()
 }
