@@ -54,7 +54,7 @@
               :rule="rules.dictKey"
             >
               <n-input
-                v-model:value="form.items[index].key"
+                v-model:value="form!.items[index].key"
                 placeholder="字典key"
                 @keydown.enter.prevent
               />
@@ -68,7 +68,7 @@
               :rule="rules.dictValue"
             >
               <n-input
-                v-model:value="form.items[index].value"
+                v-model:value="form!.items[index].value"
                 placeholder="字典value"
                 @keydown.enter.prevent
               />
@@ -82,7 +82,7 @@
               :rule="rules.dictExtra"
             >
               <n-input
-                v-model:value="form.items[index].extra"
+                v-model:value="form!.items[index].extra"
                 placeholder="字典extra"
                 @keydown.enter.prevent
               />
