@@ -2,6 +2,11 @@ import { defineStore } from 'pinia'
 import { FormSelectOption } from '@/types/component/form'
 import { getRoleOptions } from '@/api/user/role'
 import { DictItem } from '@/types/modules/dict'
+import { getDictItems } from '@/api/basis/dict'
+
+export enum DictCode {
+  UserStatus = 'user_status'
+}
 
 export interface DictState {
   roleOptions?: FormSelectOption[]
@@ -14,21 +19,22 @@ export const useDictStore = defineStore({
     roleOptions: undefined,
     dicts: new Map<string, DictItem[]>()
   }),
-  getters: {},
+  getters: {
+    async getRoleOptions(state) {
+      if (!state.roleOptions) {
+        const { data } = await getRoleOptions()
+        state.roleOptions = data
+      }
+      return state.roleOptions
+    }
+  },
   actions: {
-    load(key: 'roles') {
-      switch (key) {
-        case 'roles':
-          if (this.roleOptions) return
-          getRoleOptions().then((res) => (this.roleOptions = res.data!))
-          break
+    async getDictItems(code: DictCode) {
+      if (!this.dicts.has(code)) {
+        const { data } = await getDictItems(code)
+        this.dicts.set(code, data!)
       }
-    },
-    getDict(code: string) {
-      if (this.dicts.has(code)) {
-        //TODO
-        return this.dicts.get(code)
-      }
+      return this.dicts.get(code)
     }
   }
 })

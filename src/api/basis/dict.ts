@@ -1,14 +1,18 @@
 import { axios } from '@/utils/request'
-import { Dict, DictModel } from '@/types/modules/dict'
+import { Dict, DictItem, DictModel } from '@/types/modules/dict'
 
 const PREFIX = '/dicts'
 
-/**
- * 获取用户信息
- */
 export function getDicts() {
   return axios.request<Array<Dict>>({
     url: `${PREFIX}`,
+    method: 'GET'
+  })
+}
+
+export function getDictItems(code: string) {
+  return axios.request<Array<DictItem>>({
+    url: `${PREFIX}/${code}/items`,
     method: 'GET'
   })
 }

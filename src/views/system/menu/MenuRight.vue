@@ -176,6 +176,8 @@ watch(
   () => props.modelValue,
   (value) => {
     if (value === undefined) {
+      menuForm.value = undefined
+      editMenuCache.value = undefined
       return
     }
     if (value === editingKey.value) {
@@ -205,7 +207,7 @@ watch(
   }
 )
 
-async function editMenu(key: number | undefined) {
+async function editMenu(key: number) {
   if (key) {
     const { data } = await getMenuById(key)
     menuForm.value = data

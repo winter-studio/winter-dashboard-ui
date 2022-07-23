@@ -47,7 +47,7 @@
         >
           <div class="flex flex-1">
             <n-form-item
-              class="w-1/3"
+              class="w-1/5"
               ignore-path-change
               :show-label="false"
               :path="`items[${index}].key`"
@@ -70,6 +70,20 @@
               <n-input
                 v-model:value="form.items[index].value"
                 placeholder="字典value"
+                @keydown.enter.prevent
+              />
+            </n-form-item>
+            <div style="width: 1rem"></div>
+            <n-form-item
+              class="w-1/5"
+              ignore-path-change
+              :show-label="false"
+              :path="`items[${index}].extra`"
+              :rule="rules.dictExtra"
+            >
+              <n-input
+                v-model:value="form.items[index].extra"
+                placeholder="字典extra"
                 @keydown.enter.prevent
               />
             </n-form-item>
@@ -135,6 +149,17 @@ const rules: FormRules = {
     }
   },
   name: { required: true, message: '请输入字典名称', trigger: 'blur' },
+  items: {
+    required: true,
+    trigger: 'blur',
+    validator(_: unknown, value: Array<DictItem>) {
+      if (value.length === 0) {
+        return new Error('请添加字典项')
+      }
+
+      return true
+    }
+  },
   dictKey: {
     trigger: 'input',
     validator(_: unknown, value: string) {
@@ -159,8 +184,21 @@ const rules: FormRules = {
         return new Error('请输入字典value')
       }
 
-      if (value.length > 100) {
-        return new Error('字典value长度不能超过100')
+      if (value.length > 200) {
+        return new Error('字典value长度不能超过200')
+      }
+      return true
+    }
+  },
+  dictExtra: {
+    trigger: 'input',
+    validator(_: unknown, value: string) {
+      if (isEmpty(value)) {
+        return true
+      }
+
+      if (value.length > 200) {
+        return new Error('字典项附加值长度不能超过200')
       }
       return true
     }

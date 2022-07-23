@@ -5,6 +5,7 @@ export interface Dict {
 export interface DictItem {
   key: string
   value: string
+  extra?: string
 }
 
 export interface DictModel {

@@ -6,14 +6,14 @@
           type="info"
           secondary
           :loading="saveLoading"
-          :disabled="!isModified"
+          :disabled="!isModified || !form"
           @click="save"
         >
           保存
         </n-button>
         <n-popconfirm @positive-click="reset">
           <template #trigger>
-            <n-button :disabled="!isModified" secondary> 重置 </n-button>
+            <n-button :disabled="!isModified || !form" secondary> 重置 </n-button>
           </template>
           确认放弃当前编辑的内容
         </n-popconfirm>
@@ -57,6 +57,7 @@ watch(
   () => props.modelValue,
   (value) => {
     if (value === undefined) {
+      form.value = undefined
       return
     }
     if (value === editingKey.value) {

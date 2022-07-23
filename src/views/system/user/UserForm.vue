@@ -62,8 +62,8 @@ import { computed, onMounted, ref } from 'vue'
 import { FormInst, SelectOption, SelectRenderTag, useMessage } from 'naive-ui'
 import { editUser, getUser, uploadAvatar, addUser } from '@/api/user/user'
 import { UserFormModel, userFormRules } from '@/views/system/user/user-form'
-import { useDictStore } from '@/store/modules/dict'
-import { storeToRefs } from 'pinia'
+import { DictCode, useDictStore } from '@/store/modules/dict'
+import { FormSelectOption } from '@/types/component/form'
 
 interface Props {
   userId?: number
@@ -87,25 +87,25 @@ const userForm = ref<UserFormModel>({
 })
 
 const dictStore = useDictStore()
-const roleOptions = storeToRefs(dictStore).roleOptions
+const roleOptions = ref<FormSelectOption[]>([])
 
-const statusOptions = ref<Array<SelectOption>>([
-  {
-    label: '正常',
-    value: '0',
-    style: { color: 'green' },
-    class: 'text-green-600'
-  },
-  {
-    label: '禁用',
-    value: '1',
-    style: { color: 'red' },
-    class: 'text-red-600'
-  }
-])
+const statusOptions = ref<Array<SelectOption>>([])
+
 const renderTag: SelectRenderTag = ({ option }) => <div class={option.class}>{option.label}</div>
 onMounted(() => {
-  dictStore.load('roles')
+  dictStore.getRoleOptions.then((roles) => {
+    roleOptions.value = roles!
+  })
+  dictStore.getDictItems(DictCode.UserStatus).then((status) => {
+    console.log(status)
+    statusOptions.value = status!.map((item) => {
+      return {
+        label: item.value,
+        value: item.key,
+        style: { color: item.extra }
+      }
+    })
+  })
   userForm.value.id = props.userId
   if (props.userId) {
     formLoading.value = true
