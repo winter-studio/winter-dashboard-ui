@@ -11,5 +11,5 @@ export interface DictItem {
 export interface DictModel {
   name?: string
   code?: string
-  items?: DictItem[]
+  items: DictItem[]
 }
