@@ -10,14 +10,14 @@ export enum DictCode {
 
 export interface DictState {
   roleOptions?: FormSelectOption[]
-  dicts: Map<string, DictItem[]>
+  dictMap: Map<string, DictItem[]>
 }
 
 export const useDictStore = defineStore({
   id: 'dict',
   state: (): DictState => ({
     roleOptions: undefined,
-    dicts: new Map<string, DictItem[]>()
+    dictMap: new Map<string, DictItem[]>()
   }),
   getters: {
     async getRoleOptions(state) {
@@ -30,11 +30,11 @@ export const useDictStore = defineStore({
   },
   actions: {
     async getDictItems(code: DictCode) {
-      if (!this.dicts.has(code)) {
+      if (!this.dictMap.has(code)) {
         const { data } = await getDictItems(code)
-        this.dicts.set(code, data!)
+        this.dictMap.set(code, data!)
       }
-      return this.dicts.get(code)
+      return this.dictMap.get(code)
     }
   }
 })
