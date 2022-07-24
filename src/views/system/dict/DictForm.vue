@@ -107,7 +107,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const emits = defineEmits(['afterChange'])
+const emits = defineEmits(['afterChange', 'update:modelValue'])
 const editingKey = ref<string | null | undefined>(undefined)
 watch(
   () => props.modelValue,
@@ -206,6 +206,9 @@ const rules: FormRules = {
 }
 
 async function edit(key: string | null | undefined) {
+  if (key === editingKey.value) {
+    return
+  }
   editingKey.value = key
   if (key === undefined) {
     form.value = undefined
@@ -238,6 +241,8 @@ function save() {
         formCache.value = cloneDeep(unref(form))
         emits('afterChange')
         saveLoading.value = false
+        editingKey.value = form.value!.code
+        emits('update:modelValue', form.value!.code)
       })
       .finally(() => {
         saveLoading.value = false
