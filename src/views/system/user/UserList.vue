@@ -31,7 +31,7 @@ import { getPagedUsers, deleteUser, changeUserStatus } from '@/api/user/user'
 import { AdminUserPageItem } from '@/types/modules/user'
 import { EditOutlined, DeleteOutlined } from '@vicons/antd'
 import { Ban } from '@vicons/ionicons5'
-import { SearchParam, searchItems } from '@/views/system/user/user-form'
+import { SearchParam, searchItems } from './support'
 import UserForm from './UserForm.vue'
 
 const message = useMessage()
@@ -171,8 +171,4 @@ function add() {
 }
 </script>
 
-<style scoped lang="scss">
-.more-condition {
-  margin: 0;
-}
-</style>
+<style scoped lang="scss"></style>

@@ -61,7 +61,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { FormInst, SelectOption, SelectRenderTag, useMessage } from 'naive-ui'
 import { editUser, getUser, uploadAvatar, addUser } from '@/api/user/user'
-import { UserFormModel, userFormRules } from '@/views/system/user/user-form'
+import { UserFormModel, userFormRules } from './support'
 import { DictCode, useDictStore } from '@/store/modules/dict'
 import { FormSelectOption } from '@/types/component/form'
 
@@ -92,19 +92,19 @@ const roleOptions = ref<FormSelectOption[]>([])
 const statusOptions = ref<Array<SelectOption>>([])
 
 const renderTag: SelectRenderTag = ({ option }) => <div class={option.class}>{option.label}</div>
-onMounted(() => {
+onMounted(async () => {
+  await dictStore.init(DictCode.UserStatus)
+
   dictStore.getRoleOptions.then((roles) => {
     roleOptions.value = roles!
   })
-  dictStore.getDictItems(DictCode.UserStatus).then((status) => {
-    console.log(status)
-    statusOptions.value = status!.map((item) => {
-      return {
-        label: item.value,
-        value: item.key,
-        style: { color: item.extra }
-      }
-    })
+
+  dictStore.getDictItems(DictCode.UserStatus).map((item) => {
+    return {
+      label: item.value,
+      value: item.key,
+      style: { color: item.extra }
+    }
   })
   userForm.value.id = props.userId
   if (props.userId) {
