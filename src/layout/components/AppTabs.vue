@@ -434,7 +434,7 @@ function onElementResize() {
             border-radius: 10px 10px 0 0;
 
             & + .tabs-card-scroll-item .tabs-card-scroll-item-content {
-              border-left-color: #00000000 !important;
+              border-color: #00000000 !important;
             }
           }
 
@@ -463,7 +463,7 @@ function onElementResize() {
             display: flex;
             align-items: center;
             z-index: 100;
-            transition: background-color 0.3s, broder-color 0.3s;
+            transition: background-color 0.3s;
 
             .tabs-card-scroll-item-content {
               padding: 0 12px 0 14px;
@@ -474,7 +474,7 @@ function onElementResize() {
               display: flex;
               justify-content: space-between;
               align-items: center;
-              transition: background-color 0.3s, broder-color 0.3s;
+              transition: border-color 0.3s;
 
               span.title {
                 line-height: 20px;
@@ -482,7 +482,7 @@ function onElementResize() {
             }
 
             &:first-child .tabs-card-scroll-item-content {
-              border-left-color: #00000000;
+              border-color: #00000000;
             }
 
             &:last-child .tabs-card-scroll-item-content {
