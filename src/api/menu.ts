@@ -23,7 +23,7 @@ export function getMenuById(id: string | number) {
 
 export function addMenu(data: Menu) {
   return axios.request({
-    url: `/menus/`,
+    url: `/menus`,
     method: 'POST',
     data
   })

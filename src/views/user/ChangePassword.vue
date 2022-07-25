@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import { FormInst, useMessage, FormRules, FormItemRule } from 'naive-ui'
 import { ref } from 'vue'
-import { changePassword } from '@/api/user/user'
+import { changePassword } from '@/api/user'
 import { UserPassword } from '@/types/modules/user'
 import { isEqual } from 'lodash-es'
 

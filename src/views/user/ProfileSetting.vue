@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { FormInst, useMessage } from 'naive-ui'
 import { onMounted, ref } from 'vue'
-import { getUserInfo, updateUserInfo, uploadAvatar } from '@/api/user/user'
+import { getUserInfo, updateUserInfo, uploadAvatar } from '@/api/user'
 import { useUserStore } from '@/store/modules/user'
 import { FormRules } from 'naive-ui/es/form/src/interface'
 import { UserProfile } from '@/types/modules/user'

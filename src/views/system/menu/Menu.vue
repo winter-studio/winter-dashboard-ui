@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { TreeSelectOption } from 'naive-ui'
-import { getMenuList } from '@/api/basis/menu'
+import { getMenuList } from '@/api/menu'
 import MenuLeft from '@/views/system/menu/MenuLeft.vue'
 import MenuRight from '@/views/system/menu/MenuRight.vue'
 import { MenuTreeOptions } from '@/types/view/menu'

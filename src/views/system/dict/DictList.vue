@@ -51,7 +51,7 @@ import { NTag, NButton, TreeOption, TreeSelectOption } from 'naive-ui'
 import { ref } from 'vue'
 import { AddBoxOutlined, DeleteOutlineFilled } from '@vicons/material'
 import { SearchOutlined } from '@vicons/antd'
-import { removeDicts } from '@/api/basis/dict'
+import { removeDicts } from '@/api/dict'
 
 interface Props {
   data: Array<TreeSelectOption>

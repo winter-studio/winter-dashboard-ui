@@ -89,7 +89,7 @@ import { useUserStore } from '@/store/modules/user'
 import { FormValidationError, useMessage, useThemeVars } from 'naive-ui'
 import { LockClosedOutline, LogoFacebook, LogoGithub, PersonOutline } from '@vicons/ionicons5'
 import { RouteNames } from '@/router/base'
-import { login } from '@/api/basis/auth'
+import { login } from '@/api/auth'
 
 interface FormState {
   username: string

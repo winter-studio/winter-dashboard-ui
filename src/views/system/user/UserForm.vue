@@ -60,7 +60,7 @@
 <script setup lang="tsx">
 import { computed, onMounted, ref } from 'vue'
 import { FormInst, SelectOption, SelectRenderTag, useMessage } from 'naive-ui'
-import { editUser, getUser, uploadAvatar, addUser } from '@/api/user/user'
+import { editUser, getUser, uploadAvatar, addUser } from '@/api/user'
 import { UserFormModel, userFormRules } from './support'
 import { DictCode, useDictStore } from '@/store/modules/dict'
 import { FormSelectOption } from '@/types/component/form'

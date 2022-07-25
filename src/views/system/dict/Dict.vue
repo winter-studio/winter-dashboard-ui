@@ -13,7 +13,7 @@
 import { onMounted, ref } from 'vue'
 import { TreeSelectOption } from 'naive-ui'
 import DictList from '@/views/system/dict/DictList.vue'
-import { getDicts } from '@/api/basis/dict'
+import { getDicts } from '@/api/dict'
 import DictForm from '@/views/system/dict/DictForm.vue'
 
 const data = ref<Array<TreeSelectOption>>([])

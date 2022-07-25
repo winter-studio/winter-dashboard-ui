@@ -2,7 +2,7 @@ import { axios } from '@/utils/request'
 import { MenuTree } from '@/types/component/menu'
 import { PageRes } from '@/types/component/request'
 import { AdminUserPageItem, UserPassword, UserProfile } from '@/types/modules/user'
-import { UserFormModel } from '@/views/system/user/user-form'
+import { UserFormModel } from '@/views/system/user/support'
 import { UserInfo } from '@/types/modules/base'
 
 const PREFIX = '/users'

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { MenuTree } from '@/types/component/menu'
 import { MenuTreeOptions } from '@/types/view/menu'
-import { getMenuList } from '@/api/basis/menu'
+import { getMenuList } from '@/api/menu'
 import { buildTreeOptions } from '@/utils/menu'
 
 export interface AppState {

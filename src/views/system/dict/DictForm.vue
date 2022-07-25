@@ -100,7 +100,7 @@ import { FormRules, useMessage } from 'naive-ui'
 import { computed, ref, unref, watch } from 'vue'
 import { clone, cloneDeep, isEmpty, isEqual } from 'lodash-es'
 import { DictItem, DictModel } from '@/types/modules/dict'
-import { getDictByCode, saveDict } from '@/api/basis/dict'
+import { getDictByCode, saveDict } from '@/api/dict'
 
 interface Props {
   modelValue?: string | null

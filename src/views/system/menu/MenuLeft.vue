@@ -66,7 +66,7 @@ import {
   ExpandRound,
   VerticalAlignCenterTwotone
 } from '@vicons/material'
-import { moveMenu, removeMenus } from '@/api/basis/menu'
+import { moveMenu, removeMenus } from '@/api/menu'
 
 interface Props {
   menus: Array<TreeSelectOption>

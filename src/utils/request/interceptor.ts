@@ -5,7 +5,7 @@ import router from '@/router'
 import { RouteNames } from '@/router/base'
 import { RouteLocationRaw } from 'vue-router'
 import { ApiResCode } from '@/utils/request/constants'
-import { refreshToken } from '@/api/basis/auth'
+import { refreshToken } from '@/api/auth'
 
 let refreshing: Promise<any> | undefined = undefined
 let waiting = false

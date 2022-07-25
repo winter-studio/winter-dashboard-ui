@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { FormSelectOption } from '@/types/component/form'
-import { getRoleOptions } from '@/api/user/role'
+import { getRoleOptions } from '@/api/role'
 import { DictItem } from '@/types/modules/dict'
-import { getDictItems } from '@/api/basis/dict'
+import { getDictItems } from '@/api/dict'
 
 export enum DictCode {
   UserStatus = 'user_status'

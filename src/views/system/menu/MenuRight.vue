@@ -95,7 +95,7 @@ import { FormItemRule, FormRules, TreeSelectOption, useDialog, useMessage } from
 import { MenuType } from '@/types/component/menu'
 import { clone, isEmpty, isEqual } from 'lodash-es'
 import { computed, ref, unref, watch } from 'vue'
-import { addMenu, getMenuById, removeMenu, updateMenu } from '@/api/basis/menu'
+import { addMenu, getMenuById, removeMenu, updateMenu } from '@/api/menu'
 import { Menu } from '@/types/modules/base'
 import { MenuTreeOptions } from '@/types/view/menu'
 

@@ -44,7 +44,7 @@ import { FormRules, useMessage } from 'naive-ui'
 import { computed, ref, unref, watch } from 'vue'
 import { RoleForm } from '@/types/modules/role'
 import { clone, isEqual } from 'lodash-es'
-import { addRole, getRoleById, updateRole } from '@/api/user/role'
+import { addRole, getRoleById, updateRole } from '@/api/role'
 
 interface Props {
   modelValue?: number

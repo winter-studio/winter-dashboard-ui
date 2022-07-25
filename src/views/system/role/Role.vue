@@ -11,7 +11,7 @@
 
 <script setup lang="tsx">
 import { onMounted, ref } from 'vue'
-import { getRoles } from '@/api/user/role'
+import { getRoles } from '@/api/role'
 import { TreeSelectOption } from 'naive-ui'
 import RoleLeft from '@/views/system/role/RoleLeft.vue'
 import RoleRight from '@/views/system/role/RoleRight.vue'

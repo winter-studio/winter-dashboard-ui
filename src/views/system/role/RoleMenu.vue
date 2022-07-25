@@ -25,7 +25,7 @@
 import { onMounted, ref } from 'vue'
 import { useAppStore } from '@/store/modules/application'
 import { MenuTreeOptions } from '@/types/view/menu'
-import { getRoleMenus, updateRoleMenus } from '@/api/user/role'
+import { getRoleMenus, updateRoleMenus } from '@/api/role'
 import { SaveOutlined } from '@vicons/antd'
 import { useMessage } from 'naive-ui'
 

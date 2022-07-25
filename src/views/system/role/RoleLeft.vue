@@ -56,7 +56,7 @@
 import { NTag, NButton, TreeOption, TreeSelectOption } from 'naive-ui'
 import { ref } from 'vue'
 import { AddBoxOutlined, DeleteOutlineFilled } from '@vicons/material'
-import { removeRoles } from '@/api/user/role'
+import { removeRoles } from '@/api/role'
 import { SearchOutlined } from '@vicons/antd'
 import RoleMenu from '@/views/system/role/RoleMenu.vue'
 
