@@ -10,6 +10,7 @@
     </template>
     <n-tree
       block-line
+      cascade
       checkable
       :virtual-scroll="true"
       :data="menus"
