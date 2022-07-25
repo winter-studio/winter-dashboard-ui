@@ -117,7 +117,7 @@ const editMenuCache = ref<Menu | undefined>(undefined)
 const parentPaths = computed(() => {
   return getParentPath(menuForm.value?.parentId)
 })
-const initForm = { type: 1, title: '', path: '' }
+const initForm: Menu = { type: 1, title: '', path: '' }
 //form引用
 const formRef: any = ref(null)
 //
@@ -174,7 +174,7 @@ const rules: FormRules = {
 let skipThisWatch = false
 watch(
   () => props.modelValue,
-  (value) => {
+  (value, oldValue) => {
     if (value === undefined) {
       menuForm.value = undefined
       editMenuCache.value = undefined
@@ -194,7 +194,7 @@ watch(
         positiveText: '确认',
         negativeText: '取消',
         onPositiveClick() {
-          editMenu(value)
+          editMenu(value, oldValue)
         },
         onNegativeClick() {
           skipThisWatch = true
@@ -202,19 +202,23 @@ watch(
         }
       })
     } else {
-      editMenu(value)
+      editMenu(value, oldValue)
     }
   }
 )
 
-async function editMenu(key: number) {
+async function editMenu(key: number, oldValue?: number) {
   if (key) {
     const { data } = await getMenuById(key)
     menuForm.value = data
     editMenuCache.value = clone(data)
   } else {
-    menuForm.value = clone(initForm)
-    editMenuCache.value = clone(initForm)
+    const newForm = clone(initForm)
+    if (isDir(oldValue)) {
+      newForm.parentId = oldValue
+    }
+    menuForm.value = clone(newForm)
+    editMenuCache.value = clone(newForm)
   }
   formRef.value?.restoreValidation()
 }
@@ -224,6 +228,32 @@ function getParentPath(parentId: undefined | number): string {
     return '/'
   }
   return '/' + (buildTreeOptionPaths(parentId, props.menus) ?? '')
+}
+
+function isDir(id?: number) {
+  if (!id) {
+    return false
+  }
+
+  return find(id, props.dirMenus)
+}
+
+function find(id: number, menus?: TreeSelectOption[]) {
+  if (!menus) {
+    return false
+  }
+
+  for (const menu of menus) {
+    if (menu.key === id) {
+      return true
+    }
+
+    if (find(id, menu?.children)) {
+      return true
+    }
+  }
+
+  return false
 }
 
 function buildTreeOptionPaths(key: number, tree: Array<MenuTreeOptions>): string | undefined {

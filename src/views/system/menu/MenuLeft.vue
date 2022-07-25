@@ -104,9 +104,6 @@ function onSelectKeys(keys: Array<number> | undefined) {
 }
 
 async function handleDrop(info: TreeDropInfo) {
-  console.log(
-    `${info.dragNode.label}[${info.dragNode.key}] --${info.dropPosition}-> ${info.node.label}[${info.node.key}]`
-  )
   if (info.event.isTrusted) {
     await moveMenu(info.dragNode.key!, info.node.key!, info.dropPosition)
     emits('afterChange')
