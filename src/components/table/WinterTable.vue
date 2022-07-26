@@ -120,4 +120,8 @@ function search() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.more-condition {
+  margin: 0;
+}
+</style>
