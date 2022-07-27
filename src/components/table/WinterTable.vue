@@ -19,7 +19,7 @@
           <n-form-item-gi
             v-for="(item, index) in searchItems"
             :key="index"
-            :span="8"
+            :span="item.span ? item.span : 8"
             :label="item.label"
             :path="item.path"
           >
@@ -46,14 +46,16 @@
         </n-divider>
       </div>
     </n-card>
-    <div class="mt-3 mb-1">
+    <div class="mt-3 mb-2">
       <slot name="table-header"></slot>
     </div>
     <n-data-table
       :columns="columns"
       :data="data"
+      :row-key="rowKey"
       :pagination="paginationEnabled ? pagination : false"
       :bordered="true"
+      @update:checked-row-keys="handleCheck"
     />
   </div>
 </template>
@@ -61,8 +63,8 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from 'vue'
 import { AngleDoubleDown, AngleDoubleUp } from '@vicons/fa'
-import { DataTableColumns, NButton } from 'naive-ui'
-import { RowData } from 'naive-ui/es/data-table/src/interface'
+import { DataTableColumns, NButton, DataTableRowKey } from 'naive-ui'
+import { CreateRowKey, RowData } from 'naive-ui/es/data-table/src/interface'
 import { SearchItem, SearchOptions } from '@/types/component/table'
 import { clone } from 'lodash-es'
 
@@ -75,6 +77,8 @@ interface Props {
   initSearch?: boolean
   paginationEnabled?: boolean
   searchEnabled?: boolean
+  selection?: boolean
+  rowKey?: CreateRowKey<any>
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -82,10 +86,13 @@ const props = withDefaults(defineProps<Props>(), {
   pageSize: 10,
   initSearch: true,
   paginationEnabled: true,
-  searchEnabled: true
+  searchEnabled: true,
+  selection: false,
+  rowKey: undefined
 })
 const emits = defineEmits<{
   (e: 'search', search: SearchOptions<any>): void
+  (e: 'update:checked-row-keys', rowKeys: DataTableRowKey[]): void
 }>()
 
 const searchForm = ref<any>({})
@@ -131,6 +138,10 @@ function search() {
     pageSize: pagination.value.pageSize,
     ...clone(searchForm.value)
   })
+}
+
+function handleCheck(rowKeys: DataTableRowKey[]) {
+  emits('update:checked-row-keys', rowKeys)
 }
 
 async function toggleCollapsed() {
