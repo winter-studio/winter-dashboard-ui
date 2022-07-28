@@ -23,7 +23,16 @@
             :label="item.label"
             :path="item.path"
           >
-            <n-input v-model:value="searchForm[item.path]" :placeholder="item.placeholder" />
+            <n-input
+              v-if="!item.type || item.type === 'input'"
+              v-model:value="searchForm[item.path]"
+              :placeholder="item.placeholder"
+            />
+            <n-select
+              v-if="item.type === 'select'"
+              v-model:value="searchForm[item.path]"
+              :options="item.options"
+            />
           </n-form-item-gi>
         </n-grid>
       </n-form>

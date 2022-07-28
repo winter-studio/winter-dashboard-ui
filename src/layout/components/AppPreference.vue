@@ -194,9 +194,11 @@
 
           <div class="flex justify-between items-center my-4">
             <div class="text-sm"> 动画类型</div>
-            <div>
-              <n-select v-model:value="settingStore.pageAnimateType" :options="AppAnimates" />
-            </div>
+            <n-select
+              v-model:value="settingStore.pageAnimateType"
+              class="w-1/2"
+              :options="AppAnimates"
+            />
           </div>
         </section>
       </div>
