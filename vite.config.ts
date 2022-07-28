@@ -61,7 +61,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       target: 'es2015',
       cssTarget: 'chrome86',
       outDir: 'dist-app',
-      brotliSize: false,
+      reportCompressedSize: false,
       chunkSizeWarningLimit: 2000
     }
   }
