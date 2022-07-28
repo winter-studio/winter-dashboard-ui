@@ -32,6 +32,7 @@
               v-if="item.type === 'select'"
               v-model:value="searchForm[item.path]"
               :options="item.options"
+              clearable
             />
           </n-form-item-gi>
         </n-grid>
