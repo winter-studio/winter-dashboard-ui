@@ -11,7 +11,7 @@
         ref="formRef"
         :model="searchForm"
         label-placement="left"
-        :label-width="80"
+        label-width="auto"
         class="search-grid"
         :style="{ height: searchGridHeight }"
       >
