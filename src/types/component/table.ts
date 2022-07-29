@@ -1,4 +1,5 @@
 import { SelectOption, SelectGroupOption } from 'naive-ui'
+import { DictCode } from '@/store/modules/dict'
 
 export interface SearchItem {
   type?: 'input' | 'select'
@@ -6,8 +7,10 @@ export interface SearchItem {
   path: string
   placeholder?: string
   span?: number // total 24
-  options?: Array<SelectOption | SelectGroupOption>
+  options?: SearchItemOptions
 }
+
+export type SearchItemOptions = Array<SelectOption | SelectGroupOption> | DictCode
 
 export interface PageParam {
   page: number

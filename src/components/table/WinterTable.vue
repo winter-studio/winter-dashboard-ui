@@ -11,7 +11,7 @@
         ref="formRef"
         :model="searchForm"
         label-placement="left"
-        label-width="auto"
+        :label-width="searchLabelWidth"
         class="search-grid"
         :style="{ height: searchGridHeight }"
       >
@@ -31,7 +31,7 @@
             <n-select
               v-if="item.type === 'select'"
               v-model:value="searchForm[item.path]"
-              :options="item.options"
+              :options="getItemOptions(item.options)"
               clearable
             />
           </n-form-item-gi>
@@ -75,12 +75,14 @@ import { nextTick, onMounted, ref } from 'vue'
 import { AngleDoubleDown, AngleDoubleUp } from '@vicons/fa'
 import { DataTableColumns, NButton, DataTableRowKey } from 'naive-ui'
 import { CreateRowKey, RowData } from 'naive-ui/es/data-table/src/interface'
-import { SearchItem, SearchOptions } from '@/types/component/table'
+import { SearchItem, SearchItemOptions, SearchOptions } from '@/types/component/table'
 import { clone } from 'lodash-es'
+import { DictCode, useDictStore } from '@/store/modules/dict'
 
 interface Props {
   columns: DataTableColumns<any>
   data: RowData[]
+  searchLabelWidth: string | number
   searchItems: SearchItem[]
   page?: number
   pageSize?: number
@@ -94,6 +96,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   page: 1,
   pageSize: 10,
+  searchLabelWidth: 'auto',
   initSearch: true,
   paginationEnabled: true,
   searchEnabled: true,
@@ -109,11 +112,7 @@ const searchForm = ref<any>({})
 const collapsed = ref(true)
 const searchGridHeight = ref('100%')
 
-onMounted(() => {
-  const probe = document.getElementById('height-probe')
-  const offsetHeight = probe!.offsetHeight
-  searchGridHeight.value = `${offsetHeight}px`
-})
+const dictStore = useDictStore()
 
 const pagination = ref({
   page: props.page,
@@ -131,10 +130,35 @@ const pagination = ref({
 })
 
 onMounted(() => {
+  const probe = document.getElementById('height-probe')
+  const offsetHeight = probe!.offsetHeight
+  searchGridHeight.value = `${offsetHeight}px`
+
   if (props.initSearch) {
     search()
   }
+
+  const dictCodes: DictCode[] = []
+  for (const item of props.searchItems) {
+    if (item.type === 'select' && typeof item.options === 'string') {
+      dictCodes.push(item.options)
+    }
+  }
+  if (dictCodes.length > 0) {
+    dictStore.init(...dictCodes)
+  }
 })
+
+function getItemOptions(options: SearchItemOptions) {
+  if (typeof options === 'string') {
+    return dictStore.getDictItems(options).map((item) => ({
+      label: item.value,
+      value: item.key
+    }))
+  } else {
+    return options
+  }
+}
 
 function reset() {
   for (const argumentsKey in searchForm.value) {
