@@ -59,14 +59,6 @@ export const useDictStore = defineStore({
       }
       const dict = this.getDict(dictType)
       return dict.get(key) || ''
-    },
-    getDictKeyFromValue(dictType: DictCode, value: string) {
-      const dict = this.getDict(dictType)
-      for (const dictKey in dict) {
-        if (dict.get(dictKey) === value) {
-          return dictKey
-        }
-      }
     }
   }
 })
