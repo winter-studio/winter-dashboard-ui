@@ -78,11 +78,12 @@ import { CreateRowKey, RowData } from 'naive-ui/es/data-table/src/interface'
 import { SearchItem, SearchItemOptions, SearchOptions } from '@/types/component/table'
 import { clone } from 'lodash-es'
 import { DictCode, useDictStore } from '@/store/modules/dict'
+import { SelectMixedOption } from 'naive-ui/es/select/src/interface'
 
 interface Props {
   columns: DataTableColumns<any>
   data: RowData[]
-  searchLabelWidth: string | number
+  searchLabelWidth?: string | number
   searchItems: SearchItem[]
   page?: number
   pageSize?: number
@@ -149,7 +150,10 @@ onMounted(() => {
   }
 })
 
-function getItemOptions(options: SearchItemOptions) {
+function getItemOptions(options?: SearchItemOptions): SelectMixedOption[] {
+  if (!options) {
+    return []
+  }
   if (typeof options === 'string') {
     return dictStore.getDictItems(options).map((item) => ({
       label: item.value,
