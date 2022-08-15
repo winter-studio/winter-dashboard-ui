@@ -5,15 +5,36 @@ import { getMenuList } from '@/api/menu'
 import { buildTreeOptions } from '@/utils/menu'
 
 export interface AppState {
+  locale: string
   menus?: MenuTree[]
   keepAliveComponents: Set<string>
   menuTreeOptions?: MenuTreeOptions[]
   retryLogin: boolean
 }
 
+const supportedLocales = [
+  { test: /^en\b/, locale: 'en-US' },
+  { test: 'zh-CN', locale: 'zh-CN' }
+]
+
+function getCurrentLocale() {
+  if (navigator.languages) {
+    const locale = navigator.language
+    for (const supportedLocale of supportedLocales) {
+      if (typeof supportedLocale.test === 'string' && supportedLocale.test === locale) {
+        return supportedLocale.locale
+      } else if (supportedLocale.test instanceof RegExp && supportedLocale.test.test(locale)) {
+        return supportedLocale.locale
+      }
+    }
+  }
+  return 'en-US'
+}
+
 export const useAppStore = defineStore({
   id: 'app',
   state: (): AppState => ({
+    locale: getCurrentLocale(),
     menus: undefined,
     keepAliveComponents: new Set<string>(),
     menuTreeOptions: undefined,

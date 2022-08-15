@@ -85,14 +85,31 @@
       </n-breadcrumb>
     </div>
     <div class="flex justify-center items-center mr-6">
-      <div v-for="(item, index) in iconList" :key="index" class="mx-4 cursor-pointer">
+      <div class="mx-2">
+        <n-dropdown trigger="hover" :options="locales" @select="changeLocale">
+          <n-button quaternary circle>
+            <template #icon>
+              <n-icon size="22"> <language /></n-icon>
+            </template>
+          </n-button>
+        </n-dropdown>
+      </div>
+      <div class="mx-2">
         <n-tooltip placement="bottom">
           <template #trigger>
-            <n-icon size="22">
-              <component :is="item.icon" v-on="item.eventObject || {}" />
-            </n-icon>
+            <n-button
+              tag="a"
+              href="https://github.com/winter-studio/winter-dashboard-ui"
+              target="_blank"
+              quaternary
+              circle
+            >
+              <template #icon>
+                <n-icon size="22"> <github-outlined /></n-icon>
+              </template>
+            </n-button>
           </template>
-          <span>{{ item.tips }}</span>
+          Github
         </n-tooltip>
       </div>
       <!-- 个人中心 -->
@@ -112,6 +129,7 @@ import { ref, computed, unref, inject } from 'vue'
 import { useRouter, useRoute, RouteLocationMatched } from 'vue-router'
 import { MenuFoldOutlined, MenuUnfoldOutlined, GithubOutlined } from '@vicons/antd'
 import { SettingsAdjust, Password, Logout, UserAvatar } from '@vicons/carbon'
+import { Language } from '@vicons/ionicons5'
 import { useDialog, useMessage, NIcon } from 'naive-ui'
 import { useUserStore } from '@/store/modules/user'
 import AppPreference from './AppPreference.vue'
@@ -122,6 +140,7 @@ import { RouteNames } from '@/router/base'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { storeToRefs } from 'pinia'
 import IconRender from '@/components/menu/IconRender.vue'
+import { useAppStore } from '@/store/modules/application'
 
 interface Props {
   collapsed: boolean
@@ -131,6 +150,7 @@ interface Props {
 const props = defineProps<Props>()
 const emits = defineEmits(['update:collapsed'])
 
+const appStore = useAppStore()
 const userStore = useUserStore()
 const message = useMessage()
 const dialog = useDialog()
@@ -154,6 +174,15 @@ const getMenuLocation = computed(() => {
 
 const router = useRouter()
 const route = useRoute()
+
+const locales = [
+  { label: '中文', key: 'zh-CN' },
+  { label: 'English', key: 'en-US' }
+]
+
+function changeLocale(key: string) {
+  appStore.locale = key
+}
 
 const generator: any = (routerMap: RouteLocationMatched[]) => {
   return routerMap.map((item) => {
@@ -215,17 +244,6 @@ const doLogout = () => {
     onNegativeClick: () => {}
   })
 }
-
-// 图标列表
-const iconList = [
-  {
-    icon: GithubOutlined,
-    tips: 'github',
-    eventObject: {
-      click: () => window.open('https://github.com/winter-studio/winter-dashboard-ui')
-    }
-  }
-]
 
 const avatarOptions = [
   {

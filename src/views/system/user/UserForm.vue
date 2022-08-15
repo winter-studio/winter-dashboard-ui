@@ -93,7 +93,7 @@ const statusOptions = ref<Array<SelectOption>>([])
 
 const renderTag: SelectRenderTag = ({ option }) => <div class={option.class}>{option.label}</div>
 onMounted(async () => {
-  await dictStore.init(DictCode.UserStatus)
+  await dictStore.use(DictCode.UserStatus)
 
   dictStore.getRoleOptions.then((roles) => {
     roleOptions.value = roles!

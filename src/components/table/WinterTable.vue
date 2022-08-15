@@ -146,7 +146,7 @@ onMounted(() => {
     }
   }
   if (dictCodes.length > 0) {
-    dictStore.init(...dictCodes)
+    dictStore.use(...dictCodes)
   }
 })
 

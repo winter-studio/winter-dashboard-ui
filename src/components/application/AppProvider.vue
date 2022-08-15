@@ -1,9 +1,9 @@
 <template>
   <n-config-provider
-    :locale="zhCN"
+    :locale="localeMap.locale"
     :theme="getDarkTheme"
     :theme-overrides="getThemeOverrides"
-    :date-locale="dateZhCN"
+    :date-locale="localeMap.dateLocale"
   >
     <n-loading-bar-provider>
       <n-dialog-provider>
@@ -26,6 +26,8 @@ import {
   NLoadingBarProvider,
   zhCN,
   dateZhCN,
+  enUS,
+  dateEnUS,
   darkTheme,
   NConfigProvider,
   GlobalThemeOverrides
@@ -34,8 +36,19 @@ import { WindowTool } from './index'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { computed } from 'vue'
 import Color from 'color'
+import { useAppStore } from '@/store/modules/application'
 
 const designStore = useAppPreferenceStore()
+const appStore = useAppStore()
+
+const localeMap = computed(() => {
+  switch (appStore.locale) {
+    case 'zh-CN':
+      return { locale: zhCN, dateLocale: dateZhCN }
+    default:
+      return { locale: enUS, dateLocale: dateEnUS }
+  }
+})
 
 /**
  * @type import('naive-ui').GlobalThemeOverrides

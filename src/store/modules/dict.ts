@@ -31,7 +31,7 @@ export const useDictStore = defineStore({
     }
   },
   actions: {
-    async init(...codes: DictCode[]) {
+    async use(...codes: DictCode[]) {
       await Promise.all(
         codes.map(async (code) => {
           if (this.dictMap.has(code)) {
