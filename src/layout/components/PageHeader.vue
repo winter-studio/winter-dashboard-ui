@@ -141,6 +141,7 @@ import { useAppPreferenceStore } from '@/store/modules/preference'
 import { storeToRefs } from 'pinia'
 import IconRender from '@/components/menu/IconRender.vue'
 import { useAppStore } from '@/store/modules/application'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   collapsed: boolean
@@ -150,7 +151,7 @@ interface Props {
 const props = defineProps<Props>()
 const emits = defineEmits(['update:collapsed'])
 
-const appStore = useAppStore()
+const { locale } = useI18n()
 const userStore = useUserStore()
 const message = useMessage()
 const dialog = useDialog()
@@ -181,7 +182,7 @@ const locales = [
 ]
 
 function changeLocale(key: string) {
-  appStore.locale = key
+  locale.value = key
 }
 
 const generator: any = (routerMap: RouteLocationMatched[]) => {

@@ -36,13 +36,15 @@ import { WindowTool } from './index'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { computed } from 'vue'
 import Color from 'color'
-import { useAppStore } from '@/store/modules/application'
+import { useI18n } from 'vue-i18n'
 
 const designStore = useAppPreferenceStore()
-const appStore = useAppStore()
+// const appStore = useAppStore()
+const { locale } = useI18n()
 
 const localeMap = computed(() => {
-  switch (appStore.locale) {
+  console.log('current locale: ', locale.value)
+  switch (locale.value) {
     case 'zh-CN':
       return { locale: zhCN, dateLocale: dateZhCN }
     default:

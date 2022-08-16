@@ -52,30 +52,6 @@
               登录
             </n-button>
           </n-form-item>
-          <n-form-item class="default-color">
-            <div class="flex view-account-other">
-              <div class="flex-initial">
-                <span>其它登录方式</span>
-              </div>
-              <div class="flex-initial mx-2">
-                <a href="javascript:">
-                  <n-icon size="24" color="#2d8cf0">
-                    <logo-github />
-                  </n-icon>
-                </a>
-              </div>
-              <div class="flex-initial mx-2">
-                <a href="javascript:">
-                  <n-icon size="24" color="#2d8cf0">
-                    <logo-facebook />
-                  </n-icon>
-                </a>
-              </div>
-              <div class="flex-initial" style="margin-left: auto">
-                <a href="javascript:">注册账号</a>
-              </div>
-            </div>
-          </n-form-item>
         </n-form>
       </div>
     </div>
@@ -87,7 +63,7 @@ import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import { FormValidationError, useMessage, useThemeVars } from 'naive-ui'
-import { LockClosedOutline, LogoFacebook, LogoGithub, PersonOutline } from '@vicons/ionicons5'
+import { LockClosedOutline, PersonOutline } from '@vicons/ionicons5'
 import { RouteNames } from '@/router/base'
 import { login } from '@/api/auth'
 

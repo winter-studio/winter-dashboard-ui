@@ -13,7 +13,11 @@
                 />
               </div>
               <div>
-                <p class="px-4 text-xl">早安，{{ userInfo?.username }}，开始您一天的工作吧！</p>
+                <p class="px-4 text-xl"
+                  >{{ t('views.dashboard.workplace.hello') }}，{{
+                    userInfo?.username
+                  }}，开始您一天的工作吧！</p
+                >
                 <p class="px-4 text-gray-400">今日阴转大雨，15℃ - 25℃，出门记得带伞哦。</p>
               </div>
             </div>
@@ -27,8 +31,10 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/store/modules/user'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 
 const { userInfo } = storeToRefs(useUserStore())
+const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped></style>
