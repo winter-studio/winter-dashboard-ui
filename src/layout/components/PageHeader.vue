@@ -183,6 +183,7 @@ const locales = [
 
 function changeLocale(key: string) {
   locale.value = key
+  localStorage.setItem('winter-locale', key)
 }
 
 const generator: any = (routerMap: RouteLocationMatched[]) => {

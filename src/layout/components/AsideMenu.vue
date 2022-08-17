@@ -14,148 +14,231 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, reactive, computed, watch, toRefs, unref } from 'vue'
+<script lang="tsx" setup>
+import { ref, onMounted, computed, watch, unref, defineProps, h } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppPreferenceStore } from '@/store/modules/preference'
-import { buildMenu, buildMenuMix } from './menu-builder'
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
-import { MenuOption } from 'naive-ui'
-import { MenuType } from '@/types/component/menu'
+import { MenuDividerOption, MenuGroupOption, MenuOption, NTag } from 'naive-ui'
+import { MenuTree, MenuType } from '@/types/component/menu'
+import IconRender from '@/components/menu/IconRender.vue'
+import { cloneDeep } from 'lodash-es'
 
-export default defineComponent({
-  name: 'AsideMenu',
-  components: {},
-  props: {
-    mode: {
-      // 菜单模式
-      type: String as PropType<'vertical' | 'horizontal'>,
-      default: 'vertical'
-    },
-    collapsed: {
-      // 侧边栏菜单是否收起
-      type: Boolean
-    },
-    //位置
-    location: {
-      type: String,
-      default: 'left'
-    }
-  },
-  emits: ['update:collapsed'],
-  setup(props, { emit }) {
-    // 当前路由
-    const currentRoute = useRoute()
-    const router = useRouter()
-    const settingStore = useAppPreferenceStore()
-    const appStore = useAppStore()
-    const menus = ref<any[]>([])
-    const selectedKeys = ref<string>(currentRoute.name as string)
-    const headerMenuSelectKey = ref<string>('')
+interface Props {
+  mode?: 'vertical' | 'horizontal'
+  collapsed?: boolean
+  location?: string
+}
 
-    const { navMode } = storeToRefs(useAppPreferenceStore())
+const props = withDefaults(defineProps<Props>(), {
+  mode: 'vertical',
+  collapsed: false,
+  location: 'left'
+})
 
-    // 获取当前打开的子菜单
-    const matched = currentRoute.matched
+const emits = defineEmits(['update:collapsed'])
 
-    const getOpenKeys: string[] =
-      matched && matched.length ? matched.map((item) => item.name!.toString()) : []
+// 当前路由
+const currentRoute = useRoute()
+const router = useRouter()
+const settingStore = useAppPreferenceStore()
+const appStore = useAppStore()
+const menus = ref<any[]>([])
+const selectedKeys = ref<string>(currentRoute.name as string)
+const headerMenuSelectKey = ref<string>('')
 
-    const state = reactive({
-      openKeys: getOpenKeys
-    })
+const { navMode } = storeToRefs(useAppPreferenceStore())
 
-    const inverted = computed(() => {
-      return ['dark', 'header-dark'].includes(settingStore.navTheme)
-    })
+// 获取当前打开的子菜单
+const matched = currentRoute.matched
 
-    const getSelectedKeys = computed(() => {
-      const location = props.location
-      return location === 'left' || (location === 'header' && unref(navMode) === 'horizontal')
-        ? unref(selectedKeys)
-        : unref(headerMenuSelectKey)
-    })
+const getOpenKeys: string[] =
+  matched && matched.length ? matched.map((item) => item.name!.toString()) : []
 
-    // 监听分割菜单
-    watch(
-      () => settingStore.menuSetting.mixMenu,
-      () => {
-        updateMenu()
-        if (props.collapsed) {
-          emit('update:collapsed', !props.collapsed)
-        }
-      }
-    )
+const openKeys = ref(getOpenKeys)
 
-    // 跟随页面路由变化，切换菜单选中状态
-    watch(
-      () => currentRoute.fullPath,
-      () => {
-        const matched = currentRoute.matched
-        state.openKeys = matched.map((item) => item.name!.toString())
-        const activeMenu: string = (currentRoute.meta?.activeMenu as string) || ''
-        selectedKeys.value = activeMenu ? (activeMenu as string) : (currentRoute.name as string)
-      }
-    )
+const inverted = computed(() => {
+  return ['dark', 'header-dark'].includes(settingStore.navTheme)
+})
 
-    function updateMenu() {
-      const { menus: storeMenus } = storeToRefs(appStore)
-      if (!settingStore.menuSetting.mixMenu) {
-        menus.value = buildMenu(storeMenus?.value)
-      } else {
-        //混合菜单
-        const firstRouteName: string = (currentRoute.matched[0].name as string) || ''
-        menus.value = buildMenuMix(firstRouteName, props.location, storeMenus?.value)
-        const activeMenu: string = currentRoute?.matched[0].meta?.activeMenu as string
-        headerMenuSelectKey.value = (activeMenu ? activeMenu : firstRouteName) || ''
-      }
-    }
+const getSelectedKeys = computed(() => {
+  const location = props.location
+  return location === 'left' || (location === 'header' && unref(navMode) === 'horizontal')
+    ? unref(selectedKeys)
+    : unref(headerMenuSelectKey)
+})
 
-    // 点击菜单
-    function clickMenuItem(key: string, item: MenuOption) {
-      if (item.type === MenuType.LINK) {
-        window.open(item.data as string)
-      } else {
-        router.push({ name: key })
-      }
-      // emit('clickMenuItem' as any, key)
-    }
-
-    //展开菜单
-    function menuExpanded(openKeys: string[]) {
-      if (!openKeys) return
-      const latestOpenKey = openKeys.find((key) => state.openKeys.indexOf(key) === -1)
-      const isExistChildren = findChildrenLen(latestOpenKey as string)
-      state.openKeys = isExistChildren ? (latestOpenKey ? [latestOpenKey] : []) : openKeys
-    }
-
-    //查找是否存在子路由
-    function findChildrenLen(key: string) {
-      if (!key) return false
-      const subRouteChildren: string[] = []
-      for (const { children, key } of unref(menus)) {
-        if (children && children.length) {
-          subRouteChildren.push(key as string)
-        }
-      }
-      return subRouteChildren.includes(key)
-    }
-
-    onMounted(() => {
-      updateMenu()
-    })
-
-    return {
-      ...toRefs(state),
-      inverted,
-      menus,
-      selectedKeys,
-      headerMenuSelectKey,
-      getSelectedKeys,
-      clickMenuItem,
-      menuExpanded
+// 监听分割菜单
+watch(
+  () => settingStore.menuSetting.mixMenu,
+  () => {
+    updateMenu()
+    if (props.collapsed) {
+      emits('update:collapsed', !props.collapsed)
     }
   }
+)
+
+// 跟随页面路由变化，切换菜单选中状态
+watch(
+  () => currentRoute.fullPath,
+  () => {
+    const matched = currentRoute.matched
+    openKeys.value = matched.map((item) => item.name!.toString())
+    const activeMenu: string = (currentRoute.meta?.activeMenu as string) || ''
+    selectedKeys.value = activeMenu ? (activeMenu as string) : (currentRoute.name as string)
+  }
+)
+
+onMounted(() => {
+  updateMenu()
 })
+
+function updateMenu() {
+  const { menus: storeMenus } = storeToRefs(appStore)
+  if (!settingStore.menuSetting.mixMenu) {
+    menus.value = buildMenu(storeMenus?.value)
+  } else {
+    //混合菜单
+    const firstRouteName: string = (currentRoute.matched[0].name as string) || ''
+    menus.value = buildMenuMix(firstRouteName, props.location, storeMenus?.value)
+    const activeMenu: string = currentRoute?.matched[0].meta?.activeMenu as string
+    headerMenuSelectKey.value = (activeMenu ? activeMenu : firstRouteName) || ''
+  }
+}
+
+// 点击菜单
+function clickMenuItem(key: string, item: MenuOption) {
+  if (item.type === MenuType.LINK) {
+    window.open(item.data as string)
+  } else {
+    router.push({ name: key })
+  }
+  // emit('clickMenuItem' as any, key)
+}
+
+//展开菜单
+function menuExpanded(keys: string[]) {
+  if (!keys) return
+  const latestOpenKey = keys.find((key) => openKeys.value.indexOf(key) === -1)
+  const isExistChildren = findChildrenLen(latestOpenKey as string)
+  openKeys.value = isExistChildren ? (latestOpenKey ? [latestOpenKey] : []) : keys
+}
+
+//查找是否存在子路由
+function findChildrenLen(key: string) {
+  if (!key) return false
+  const subRouteChildren: string[] = []
+  for (const { children, key } of unref(menus)) {
+    if (children && children.length) {
+      subRouteChildren.push(key as string)
+    }
+  }
+  return subRouteChildren.includes(key)
+}
+
+/**
+ * 递归组装菜单格式
+ */
+function buildMenu(menus?: MenuTree[]): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
+  if (!menus) {
+    return []
+  }
+  return filterHiddenMenus(menus).map((menu) => {
+    const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
+      label: menu.title,
+      key: String(menu.id),
+      icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
+      extra: menu.tags ? renderTags(menu.tags) : undefined,
+      type: menu.type,
+      data: menu.data
+    }
+    // 是否有子菜单，并递归处理
+    if (menu.children?.length ?? 0 > 0) {
+      // Recursion
+      currentMenu.children = buildMenu(menu.children!)
+    }
+    return currentMenu
+  })
+}
+
+/**
+ * 混合菜单
+ * */
+function buildMenuMix(
+  routerName: string,
+  location: string,
+  menus?: MenuTree[]
+): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
+  if (!menus) {
+    return []
+  }
+  const cloneRouterMap = cloneDeep(menus)
+  if (location === 'header') {
+    const firstRouter: any[] = []
+    filterHiddenMenus(cloneRouterMap).forEach((menu) => {
+      menu.children = undefined
+      const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
+        label: menu.title,
+        key: String(menu.id),
+        icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
+        extra: menu.tags ? renderTags(menu.tags) : undefined,
+        type: menu.type,
+        data: menu.data
+      }
+      firstRouter.push(currentMenu)
+    })
+    return firstRouter
+  } else {
+    return buildChildren(cloneRouterMap.filter((item) => String(item.id) === routerName))
+  }
+}
+
+function filterHiddenMenus(menus: MenuTree[]): MenuTree[] {
+  return menus.filter((item) => item.hidden !== true)
+}
+
+/**
+ * 递归组装子菜单
+ * */
+function buildChildren(
+  menus?: MenuTree[]
+): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
+  if (!menus) {
+    return []
+  }
+  return filterHiddenMenus(menus).map((menu) => {
+    const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
+      label: menu.title,
+      key: String(menu.id),
+      icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
+      extra: menu.tags ? renderTags(menu.tags) : undefined,
+      type: menu.type,
+      data: menu.data
+    }
+    // 是否有子菜单，并递归处理
+    if (menu.children && menu.children.length > 0) {
+      // Recursion
+      currentMenu.children = buildChildren(menu.children)
+    }
+    return currentMenu
+  })
+}
+
+function renderTags(tags: string) {
+  return () =>
+    tags.split(',').map((tag: string) =>
+      h(
+        NTag as any,
+        {
+          type: 'error',
+          round: true,
+          size: 'small',
+          class: `mr-1`
+        },
+        { default: () => tag }
+      )
+    )
+}
 </script>

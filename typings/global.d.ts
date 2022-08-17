@@ -7,12 +7,14 @@ import type {
 import { LoadingBarProviderInst } from 'naive-ui/lib/loading-bar/src/LoadingBarProvider'
 import { MessageProviderInst } from 'naive-ui/lib/message/src/MessageProvider'
 import { DialogProviderInst } from 'naive-ui/lib/dialog/src/DialogProvider'
+import { Composer } from 'vue-i18n'
 
 declare global {
   interface Window {
     $loading: LoadingBarProviderInst
     $message: MessageProviderInst
     $dialog: DialogProviderInst
+    $i18n: Composer
   }
 
   // vue

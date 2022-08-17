@@ -1,10 +1,14 @@
 <template>
   <div>
-    <n-card v-if="searchEnabled" title="搜索条件">
+    <n-card v-if="searchEnabled" :title="t('components.table.winterTable.criteria')">
       <template #header-extra>
         <div>
-          <n-button type="primary" class="mr-4" @click="search"> 查询 </n-button>
-          <n-button type="default" @click="reset"> 重置 </n-button>
+          <n-button type="primary" class="mr-4" @click="search">
+            {{ t('components.table.winterTable.search') }}
+          </n-button>
+          <n-button type="default" @click="reset">
+            {{ t('components.table.winterTable.reset') }}
+          </n-button>
         </div>
       </template>
       <n-form
@@ -43,7 +47,8 @@
             <template #icon>
               <n-icon><angle-double-down /></n-icon>
             </template>
-            更多条件
+
+            {{ t('components.table.winterTable.moreCriteria') }}
           </n-button>
         </n-divider>
         <n-divider v-else class="more-condition">
@@ -51,7 +56,7 @@
             <template #icon>
               <n-icon><angle-double-up /></n-icon>
             </template>
-            收起条件
+            {{ t('components.table.winterTable.lessCriteria') }}
           </n-button>
         </n-divider>
       </div>
@@ -79,6 +84,7 @@ import { SearchItem, SearchItemOptions, SearchOptions } from '@/types/component/
 import { clone } from 'lodash-es'
 import { DictCode, useDictStore } from '@/store/modules/dict'
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   columns: DataTableColumns<any>
@@ -109,6 +115,7 @@ const emits = defineEmits<{
   (e: 'update:checked-row-keys', rowKeys: DataTableRowKey[]): void
 }>()
 
+const { t } = useI18n()
 const searchForm = ref<any>({})
 const collapsed = ref(true)
 const searchGridHeight = ref('100%')

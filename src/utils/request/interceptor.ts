@@ -6,12 +6,10 @@ import { RouteNames } from '@/router/base'
 import { RouteLocationRaw } from 'vue-router'
 import { ApiResCode } from '@/utils/request/constants'
 import { refreshToken } from '@/api/auth'
-import { useI18n } from 'vue-i18n'
 
 let refreshing: Promise<any> | undefined = undefined
 let waiting = false
 let retryCount = 0
-const { locale } = useI18n()
 
 /**
  * request interceptor
@@ -22,7 +20,7 @@ function setupRequestInterceptor(instance: AxiosInstance) {
       window.$loading.start()
       if (request.headers) {
         // set locale
-        request.headers['Accept-Language'] = locale.value
+        request.headers['Accept-Language'] = window.$i18n.locale.value
         // set header Authorization
         const token = useUserStore().accessToken
         if (token) {

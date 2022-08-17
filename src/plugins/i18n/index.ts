@@ -1,5 +1,6 @@
 import { createI18n } from 'vue-i18n'
 import { App } from 'vue'
+import messages from './messages'
 
 const supportedLocales = [
   { test: /^en\b/, locale: 'en-US' },
@@ -7,6 +8,10 @@ const supportedLocales = [
 ]
 
 function getCurrentLocale() {
+  const lsLocale = localStorage.getItem('winter-locale')
+  if (lsLocale) {
+    return lsLocale
+  }
   if (navigator.languages) {
     const locale = navigator.language
     for (const supportedLocale of supportedLocales) {
@@ -18,27 +23,6 @@ function getCurrentLocale() {
     }
   }
   return 'en-US'
-}
-
-const messages = {
-  en: {
-    views: {
-      dashboard: {
-        workplace: {
-          hello: 'Hello'
-        }
-      }
-    }
-  },
-  'zh-CN': {
-    views: {
-      dashboard: {
-        workplace: {
-          hello: '您好'
-        }
-      }
-    }
-  }
 }
 
 const i18n = createI18n({

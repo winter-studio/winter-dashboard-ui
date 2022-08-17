@@ -43,7 +43,6 @@ const designStore = useAppPreferenceStore()
 const { locale } = useI18n()
 
 const localeMap = computed(() => {
-  console.log('current locale: ', locale.value)
   switch (locale.value) {
     case 'zh-CN':
       return { locale: zhCN, dateLocale: dateZhCN }
