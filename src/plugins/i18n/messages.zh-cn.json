@@ -1,0 +1,43 @@
+{
+  "views": {
+    "dashboard": {
+      "workplace": {
+        "hello": "你好"
+      }
+    }
+  },
+  "components": {
+    "table": {
+      "winterTable": {
+        "criteria": "搜索条件",
+        "moreCriteria": "更多",
+        "lessCriteria": "收起",
+        "search": "搜索",
+        "reset": "重置"
+      }
+    }
+  },
+  "menus": {
+    "login": "登录",
+    "logout": "退出登录",
+    "profile": "个人设置",
+    "preference": "个性设置",
+    "changePassword": "更改密码",
+    "dashboard": {
+      "index": "仪表盘",
+      "workplace": "工作台"
+    },
+    "system": {
+      "index": "系统管理",
+      "user": "用户",
+      "role": "角色",
+      "menu": "菜单",
+      "dict": "数据字典"
+    },
+    "dev": {
+      "index": "开发工具",
+      "design": "页面设计"
+    },
+    "about": "关于"
+  }
+}

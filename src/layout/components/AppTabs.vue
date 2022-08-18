@@ -31,7 +31,7 @@
                   @contextmenu="handleContextMenu($event, element)"
                 >
                   <span class="tabs-card-scroll-item-content">
-                    <span class="title mr-1">{{ element.meta.title }}</span>
+                    <span class="title mr-1">{{ t(element.meta.title) }}</span>
                     <n-button
                       v-if="!element.meta.affix"
                       quaternary
@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="tsx">
-import { computed, inject, nextTick, onMounted, provide, reactive, ref, unref, watch } from 'vue'
+import { computed, inject, nextTick, onMounted, provide, ref, unref, watch } from 'vue'
 import { RouteLocationRaw, useRoute, useRouter } from 'vue-router'
 import { RouteItem, useTabsViewStore } from '@/store/modules/tabsView'
 import { useMessage, useThemeVars, NIcon } from 'naive-ui'
@@ -108,9 +108,11 @@ import {
 import { Close } from '@vicons/ionicons5'
 import elementResizeDetectorMaker from 'element-resize-detector'
 import { isString } from 'lodash-es'
+import { useI18n } from 'vue-i18n'
 
 type RouteLocationRawEx = Omit<RouteLocationRaw, 'path'> & { path: RouteNames }
 
+const { t } = useI18n()
 const message = useMessage()
 const route = useRoute()
 const router = useRouter()
@@ -126,31 +128,38 @@ const appTabsBgColorPreActive = computed(() => themeVars.value.appTabsBgColorPre
 const appTabsBgColorActive = computed(() => themeVars.value.appTabsBgColorActive)
 const getBaseColor = computed(() => themeVars.value.textColor1)
 
-watch(
-  () => route.fullPath,
-  (val) => {
-    activeKey.value = val
-  }
-)
 const activeKey = ref(route.fullPath)
 const scrollable = ref(false)
 const dropdownX = ref(0)
 const dropdownY = ref(0)
 const showDropdown = ref(false)
 
-const state = reactive({
-  activeKey: route.fullPath,
-  scrollable: false,
-  dropdownX: 0,
-  dropdownY: 0,
-  showDropdown: false
-})
+// 标签页列表
+const tabsList: any = computed(() => tabsViewStore.tabsList)
+const whiteList: string[] = [RouteNames.BASE_LOGIN_NAME, RouteNames.ERROR_PAGE_NAME]
 
 // 获取简易的路由对象
 const getSimpleRoute = (route: any): RouteItem => {
   const { fullPath, hash, meta, name, params, path, query } = route
   return { fullPath, hash, meta, name, params, path, query }
 }
+
+onMounted(() => {
+  const simpleRoute = getSimpleRoute(route)
+  // 初始化标签页
+  tabsViewStore.initTabs([simpleRoute])
+})
+
+watch(
+  () => route.fullPath,
+  (to) => {
+    if (whiteList.includes(route.name as string)) return
+    activeKey.value = to
+    tabsViewStore.addTabs(getSimpleRoute(route))
+    updateNavScroll(true)
+  },
+  { immediate: true }
+)
 
 //tags 右侧下拉菜单
 const TabsMenuOptions = computed(() => {
@@ -182,27 +191,6 @@ const TabsMenuOptions = computed(() => {
   ]
 })
 
-onMounted(() => {
-  const simpleRoute = getSimpleRoute(route)
-  // 初始化标签页
-  tabsViewStore.initTabs([simpleRoute])
-})
-
-// 标签页列表
-const tabsList: any = computed(() => tabsViewStore.tabsList)
-const whiteList: string[] = [RouteNames.BASE_LOGIN_NAME, RouteNames.ERROR_PAGE_NAME]
-
-watch(
-  () => route.fullPath,
-  (to) => {
-    if (whiteList.includes(route.name as string)) return
-    state.activeKey = to
-    tabsViewStore.addTabs(getSimpleRoute(route))
-    updateNavScroll(true)
-  },
-  { immediate: true }
-)
-
 // 关闭当前页面
 const removeTab = (route: any) => {
   if (tabsList.value.length === 1) {
@@ -210,9 +198,9 @@ const removeTab = (route: any) => {
   }
   tabsViewStore.closeCurrentTab(route)
   // 如果关闭的是当前页
-  if (state.activeKey === route.fullPath) {
+  if (activeKey.value === route.fullPath) {
     const currentRoute = tabsList.value[Math.max(0, tabsList.value.length - 1)]
-    state.activeKey = currentRoute.fullPath
+    activeKey.value = currentRoute.fullPath
     router.push(currentRoute)
   }
   updateNavScroll()
@@ -230,7 +218,7 @@ provide('reloadPage', reloadPage)
 // 关闭其他
 const closeOther = (route: any) => {
   tabsViewStore.closeOtherTabs(route)
-  state.activeKey = route.fullPath
+  activeKey.value = route.fullPath
   router.replace(route.fullPath)
   updateNavScroll()
 }
@@ -263,7 +251,7 @@ const closeHandleSelect = (key: string) => {
       break
   }
   updateNavScroll()
-  state.showDropdown = false
+  showDropdown.value = false
 }
 
 /**
@@ -313,18 +301,18 @@ async function updateNavScroll(autoScroll?: boolean) {
   const containerWidth = navScroll.value.offsetWidth
   const navWidth = navScroll.value.scrollWidth
   if (containerWidth < navWidth - 2) {
-    state.scrollable = true
+    scrollable.value = true
     if (autoScroll) {
       const tagList = navScroll.value.querySelectorAll('.tabs-card-scroll-item') || []
       ;[...tagList].forEach((tag: HTMLElement) => {
         // fix SyntaxError
-        if (tag.id === `tag${state.activeKey.split('/').join('\/')}`) {
+        if (tag.id === `tag${activeKey.value.split('/').join('\/')}`) {
           tag.scrollIntoView && tag.scrollIntoView()
         }
       })
     }
   } else {
-    state.scrollable = false
+    scrollable.value = false
   }
 }
 
@@ -335,23 +323,23 @@ function handleResize() {
 function handleContextMenu(e: any, item: any) {
   e.preventDefault()
   isCurrent.value = RouteNames.BASE_HOME_REDIRECT === item.path
-  state.showDropdown = false
+  showDropdown.value = false
   nextTick().then(() => {
-    state.showDropdown = true
-    state.dropdownX = e.clientX
-    state.dropdownY = e.clientY
+    showDropdown.value = true
+    dropdownX.value = e.clientX
+    dropdownY.value = e.clientY
   })
 }
 
 function onClickOutside() {
-  state.showDropdown = false
+  showDropdown.value = false
 }
 
 //tags 跳转页面
 function goPage(e: any) {
   const { fullPath } = e
   if (fullPath === route.fullPath) return
-  state.activeKey = fullPath
+  activeKey.value = fullPath
   go(e, true)
 }
 

@@ -70,7 +70,7 @@
                   v-if="showCrumbIcon && routeItem.meta.icon"
                   :icon="routeItem.meta.icon"
                 />
-                <span class="ml-1">{{ routeItem.meta.title }}</span>
+                <span class="ml-1">{{ t(routeItem.meta.title) }}</span>
               </span>
             </n-dropdown>
             <span v-else>
@@ -78,7 +78,7 @@
                 v-if="showCrumbIcon && routeItem.meta.icon"
                 :icon="routeItem.meta.icon"
               />
-              <span class="ml-1">{{ routeItem.meta.title }}</span>
+              <span class="ml-1">{{ t(routeItem.meta.title) }}</span>
             </span>
           </n-breadcrumb-item>
         </template>
@@ -140,7 +140,6 @@ import { RouteNames } from '@/router/base'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { storeToRefs } from 'pinia'
 import IconRender from '@/components/menu/IconRender.vue'
-import { useAppStore } from '@/store/modules/application'
 import { useI18n } from 'vue-i18n'
 
 interface Props {
@@ -151,7 +150,7 @@ interface Props {
 const props = defineProps<Props>()
 const emits = defineEmits(['update:collapsed'])
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const userStore = useUserStore()
 const message = useMessage()
 const dialog = useDialog()
@@ -184,13 +183,14 @@ const locales = [
 function changeLocale(key: string) {
   locale.value = key
   localStorage.setItem('winter-locale', key)
+  document.title = t(route?.meta?.title as string)
 }
 
 const generator: any = (routerMap: RouteLocationMatched[]) => {
   return routerMap.map((item) => {
     const currentMenu = {
       ...item,
-      label: item.meta.title,
+      label: () => t(item.meta.title),
       key: item.name,
       disabled: item.path === '/',
       virtual: item.meta.virtual
@@ -249,7 +249,7 @@ const doLogout = () => {
 
 const avatarOptions = [
   {
-    label: '个人设置',
+    label: () => t('menus.profile'),
     icon: () => (
       <NIcon>
         <UserAvatar />
@@ -258,7 +258,7 @@ const avatarOptions = [
     key: 'user-setting'
   },
   {
-    label: '更改密码',
+    label: () => t('menus.changePassword'),
     icon: () => (
       <NIcon>
         <Password />
@@ -267,7 +267,7 @@ const avatarOptions = [
     key: 'change-password'
   },
   {
-    label: '个性配置',
+    label: () => t('menus.preference'),
     icon: () => (
       <NIcon>
         <SettingsAdjust />
@@ -276,7 +276,7 @@ const avatarOptions = [
     key: 'preference'
   },
   {
-    label: '退出登录',
+    label: () => t('menus.logout'),
     icon: () => (
       <NIcon>
         <Logout />

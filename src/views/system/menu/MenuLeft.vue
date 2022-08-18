@@ -45,6 +45,7 @@
             :data="props.menus"
             :expanded-keys="expandedKeys"
             style="max-height: 650px; overflow: hidden"
+            :render-label="renderLabel"
             @drop="handleDrop"
             @update:checked-keys="onUpdateCheckedKeys"
             @update:selected-keys="onSelectKeys"
@@ -56,9 +57,9 @@
   </n-card>
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import { ref, unref } from 'vue'
-import { TreeDropInfo, TreeSelectOption } from 'naive-ui'
+import { TreeDropInfo, TreeOption, TreeSelectOption } from 'naive-ui'
 import { SearchOutlined } from '@vicons/antd'
 import {
   AddBoxOutlined,
@@ -67,6 +68,7 @@ import {
   VerticalAlignCenterTwotone
 } from '@vicons/material'
 import { moveMenu, removeMenus } from '@/api/menu'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   menus: Array<TreeSelectOption>
@@ -75,6 +77,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const emits = defineEmits(['afterChange', 'editMenu', 'update:checked'])
+const { t } = useI18n()
 
 //展开菜单Keys
 const expandedKeys = ref<Array<number>>([])
@@ -115,6 +118,10 @@ async function deleteMenus() {
     await removeMenus(checkedKeys.value)
     emits('afterChange')
   }
+}
+
+function renderLabel(item: { option: TreeOption; checked: boolean; selected: boolean }) {
+  return <div>{t(item.option.label ?? '')}</div>
 }
 </script>
 

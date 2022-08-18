@@ -9,21 +9,22 @@
     :indent="24"
     :expanded-keys="openKeys"
     :value="getSelectedKeys"
+    :render-label="renderLabel"
     @update:value="clickMenuItem"
     @update:expanded-keys="menuExpanded"
   />
 </template>
 
 <script lang="tsx" setup>
-import { ref, onMounted, computed, watch, unref, defineProps, h } from 'vue'
+import { ref, onMounted, computed, watch, unref, defineProps } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { useAppStore } from '@/store/modules/application'
 import { storeToRefs } from 'pinia'
-import { MenuDividerOption, MenuGroupOption, MenuOption, NTag } from 'naive-ui'
-import { MenuTree, MenuType } from '@/types/component/menu'
-import IconRender from '@/components/menu/IconRender.vue'
-import { cloneDeep } from 'lodash-es'
+import { MenuOption, MenuGroupOption } from 'naive-ui'
+import { MenuType } from '@/types/component/menu'
+import { buildMenu, buildMenuMix } from '@/layout/components/menu-builder'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   mode?: 'vertical' | 'horizontal'
@@ -42,6 +43,7 @@ const emits = defineEmits(['update:collapsed'])
 // 当前路由
 const currentRoute = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 const settingStore = useAppPreferenceStore()
 const appStore = useAppStore()
 const menus = ref<any[]>([])
@@ -49,7 +51,6 @@ const selectedKeys = ref<string>(currentRoute.name as string)
 const headerMenuSelectKey = ref<string>('')
 
 const { navMode } = storeToRefs(useAppPreferenceStore())
-
 // 获取当前打开的子菜单
 const matched = currentRoute.matched
 
@@ -138,107 +139,7 @@ function findChildrenLen(key: string) {
   return subRouteChildren.includes(key)
 }
 
-/**
- * 递归组装菜单格式
- */
-function buildMenu(menus?: MenuTree[]): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
-  if (!menus) {
-    return []
-  }
-  return filterHiddenMenus(menus).map((menu) => {
-    const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
-      label: menu.title,
-      key: String(menu.id),
-      icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
-      extra: menu.tags ? renderTags(menu.tags) : undefined,
-      type: menu.type,
-      data: menu.data
-    }
-    // 是否有子菜单，并递归处理
-    if (menu.children?.length ?? 0 > 0) {
-      // Recursion
-      currentMenu.children = buildMenu(menu.children!)
-    }
-    return currentMenu
-  })
-}
-
-/**
- * 混合菜单
- * */
-function buildMenuMix(
-  routerName: string,
-  location: string,
-  menus?: MenuTree[]
-): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
-  if (!menus) {
-    return []
-  }
-  const cloneRouterMap = cloneDeep(menus)
-  if (location === 'header') {
-    const firstRouter: any[] = []
-    filterHiddenMenus(cloneRouterMap).forEach((menu) => {
-      menu.children = undefined
-      const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
-        label: menu.title,
-        key: String(menu.id),
-        icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
-        extra: menu.tags ? renderTags(menu.tags) : undefined,
-        type: menu.type,
-        data: menu.data
-      }
-      firstRouter.push(currentMenu)
-    })
-    return firstRouter
-  } else {
-    return buildChildren(cloneRouterMap.filter((item) => String(item.id) === routerName))
-  }
-}
-
-function filterHiddenMenus(menus: MenuTree[]): MenuTree[] {
-  return menus.filter((item) => item.hidden !== true)
-}
-
-/**
- * 递归组装子菜单
- * */
-function buildChildren(
-  menus?: MenuTree[]
-): Array<MenuOption | MenuDividerOption | MenuGroupOption> {
-  if (!menus) {
-    return []
-  }
-  return filterHiddenMenus(menus).map((menu) => {
-    const currentMenu: MenuOption | MenuDividerOption | MenuGroupOption = {
-      label: menu.title,
-      key: String(menu.id),
-      icon: menu.icon ? () => <IconRender icon={menu.icon!} /> : undefined,
-      extra: menu.tags ? renderTags(menu.tags) : undefined,
-      type: menu.type,
-      data: menu.data
-    }
-    // 是否有子菜单，并递归处理
-    if (menu.children && menu.children.length > 0) {
-      // Recursion
-      currentMenu.children = buildChildren(menu.children)
-    }
-    return currentMenu
-  })
-}
-
-function renderTags(tags: string) {
-  return () =>
-    tags.split(',').map((tag: string) =>
-      h(
-        NTag as any,
-        {
-          type: 'error',
-          round: true,
-          size: 'small',
-          class: `mr-1`
-        },
-        { default: () => tag }
-      )
-    )
+function renderLabel(option: MenuOption | MenuGroupOption) {
+  return t(option.label as string)
 }
 </script>

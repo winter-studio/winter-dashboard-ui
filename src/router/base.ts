@@ -34,7 +34,7 @@ export const RootRoute: RouteRecordRaw = {
       name: RouteNames.PERSONAL_SETTING,
       component: () => import('@/views/user/ProfileSetting.vue'),
       meta: {
-        title: '个人设置',
+        title: 'menus.profile',
         type: MenuType.VIEW
       }
     },
@@ -43,7 +43,7 @@ export const RootRoute: RouteRecordRaw = {
       name: RouteNames.CHANGE_PASSWORD,
       component: () => import('@/views/user/ChangePassword.vue'),
       meta: {
-        title: '更改密码',
+        title: 'menus.changePassword',
         type: MenuType.VIEW
       }
     }
@@ -55,7 +55,7 @@ export const LoginRoute: RouteRecordRaw = {
   name: 'Login',
   component: () => import('@/views/basic/Login.vue'),
   meta: {
-    title: '登录',
+    title: 'menus.login',
     type: MenuType.VIEW,
     permitAll: true
   }

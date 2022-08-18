@@ -16,18 +16,20 @@
       :data="menus"
       default-expand-all
       :checked-keys="checkedKeys"
+      :render-label="renderLabel"
       @update:checked-keys="onUpdateCheckedKeys"
     />
   </n-card>
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import { onMounted, ref } from 'vue'
 import { useAppStore } from '@/store/modules/application'
 import { MenuTreeOptions } from '@/types/view/menu'
 import { getRoleMenus, updateRoleMenus } from '@/api/role'
 import { SaveOutlined } from '@vicons/antd'
-import { useMessage } from 'naive-ui'
+import { TreeOption, useMessage } from 'naive-ui'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   id: number
@@ -38,6 +40,7 @@ const appStore = useAppStore()
 const menus = ref<Array<MenuTreeOptions>>([])
 const checkedKeys = ref<Array<number>>([])
 const message = useMessage()
+const { t } = useI18n()
 
 onMounted(() => {
   // 根据角色ID查询菜单权限
@@ -57,5 +60,9 @@ function save() {
   updateRoleMenus(props.id, checkedKeys.value).then(() => {
     message.success('保存成功')
   })
+}
+
+function renderLabel(item: { option: TreeOption; checked: boolean; selected: boolean }) {
+  return <div>{t(item.option.label ?? '')}</div>
 }
 </script>

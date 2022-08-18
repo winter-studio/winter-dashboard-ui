@@ -1,0 +1,43 @@
+{
+  "views": {
+    "dashboard": {
+      "workplace": {
+        "hello": "Hello"
+      }
+    }
+  },
+  "components": {
+    "table": {
+      "winterTable": {
+        "criteria": "Criteria",
+        "moreCriteria": "More",
+        "lessCriteria": "Collapse",
+        "search": "Search",
+        "reset": "Reset"
+      }
+    }
+  },
+  "menus": {
+    "login": "Login",
+    "logout": "Logout",
+    "profile": "Profile",
+    "preference": "Preference",
+    "changePassword": "Change Password",
+    "dashboard": {
+      "index": "Dashboard",
+      "workplace": "Workplace"
+    },
+    "system": {
+      "index": "System",
+      "user": "User",
+      "role": "Role",
+      "menu": "Menu",
+      "dict": "Directory"
+    },
+    "dev": {
+      "index": "Dev",
+      "design": "Page Design"
+    },
+    "about": "About"
+  }
+}
