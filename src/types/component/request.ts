@@ -4,8 +4,9 @@ export interface PageRes<T> {
   list: T[]
   total: number
   page: number
+  pages: number
   size: number
-  hasMore: boolean
+  hasMore?: boolean
 }
 
 export enum ApiResponseType {

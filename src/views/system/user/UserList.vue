@@ -33,11 +33,12 @@ import { EditOutlined, DeleteOutlined } from '@vicons/antd'
 import { Ban } from '@vicons/ionicons5'
 import { SearchParam, searchItems } from './support'
 import UserForm from './UserForm.vue'
+import { PageRes } from '@/types/component/request'
 
 const message = useMessage()
 const showEdit = ref(false)
 
-const data = ref<AdminUserPageItem[]>([])
+const data = ref<PageRes<AdminUserPageItem>>()
 const editUserId = ref<number | undefined>(undefined)
 
 const columns: DataTableColumns<AdminUserPageItem> = [
@@ -93,7 +94,7 @@ function refresh() {
 function search(searchOptions: SearchOptions<SearchParam>) {
   curSearchOptions = searchOptions
   getPagedUsers(searchOptions).then((res) => {
-    data.value = res.data?.list ?? []
+    data.value = res.data
   })
 }
 

@@ -1,14 +1,10 @@
 <template>
-  <div>
-    <n-card v-if="searchEnabled" :title="t('components.table.winterTable.criteria')">
+  <div class="winter-table">
+    <n-card v-if="searchEnabled" class="search" title="搜索条件">
       <template #header-extra>
         <div>
-          <n-button type="primary" class="mr-4" @click="search">
-            {{ t('components.table.winterTable.search') }}
-          </n-button>
-          <n-button type="default" @click="reset">
-            {{ t('components.table.winterTable.reset') }}
-          </n-button>
+          <n-button type="primary" class="mr-4" @click="search"> 查询 </n-button>
+          <n-button type="default" @click="reset"> 重置 </n-button>
         </div>
       </template>
       <n-form
@@ -38,6 +34,14 @@
               :options="getItemOptions(item.options)"
               clearable
             />
+            <n-date-picker
+              v-if="item.type === 'daterange'"
+              v-model:formatted-value="searchForm[item.path]"
+              class="w-full"
+              type="daterange"
+              value-format="yyyy-MM-dd"
+              clearable
+            />
           </n-form-item-gi>
         </n-grid>
       </n-form>
@@ -47,8 +51,7 @@
             <template #icon>
               <n-icon><angle-double-down /></n-icon>
             </template>
-
-            {{ t('components.table.winterTable.moreCriteria') }}
+            更多条件
           </n-button>
         </n-divider>
         <n-divider v-else class="more-condition">
@@ -56,75 +59,81 @@
             <template #icon>
               <n-icon><angle-double-up /></n-icon>
             </template>
-            {{ t('components.table.winterTable.lessCriteria') }}
+            收起条件
           </n-button>
         </n-divider>
       </div>
     </n-card>
-    <div class="mt-3 mb-2">
+    <div class="action mt-3 mb-2">
       <slot name="table-header"></slot>
     </div>
     <n-data-table
+      class="data"
+      :flex-height="flexHeight"
+      :scroll-x="scrollX"
       :columns="columns"
-      :data="data"
+      :data="pageData?.list ?? []"
       :row-key="rowKey"
       :pagination="paginationEnabled ? pagination : false"
       :bordered="true"
+      :remote="true"
       @update:checked-row-keys="handleCheck"
     />
   </div>
 </template>
 
-<script setup lang="ts">
-import { nextTick, onMounted, ref } from 'vue'
+<script setup lang="tsx">
+import { nextTick, onMounted, ref, watch } from 'vue'
 import { AngleDoubleDown, AngleDoubleUp } from '@vicons/fa'
-import { DataTableColumns, NButton, DataTableRowKey } from 'naive-ui'
-import { CreateRowKey, RowData } from 'naive-ui/es/data-table/src/interface'
+import { DataTableColumns, NButton, DataTableRowKey, PaginationInfo } from 'naive-ui'
+import { CreateRowKey } from 'naive-ui/es/data-table/src/interface'
 import { SearchItem, SearchItemOptions, SearchOptions } from '@/types/component/table'
 import { clone } from 'lodash-es'
 import { DictCode, useDictStore } from '@/store/modules/dict'
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface'
-import { useI18n } from 'vue-i18n'
+import { PageRes } from '@/types/component/request'
+import { PaginationProps } from 'naive-ui/es/pagination'
 
 interface Props {
   columns: DataTableColumns<any>
-  data: RowData[]
+  pageData?: PageRes<any>
   searchLabelWidth?: string | number
   searchItems: SearchItem[]
-  page?: number
-  pageSize?: number
   initSearch?: boolean
   paginationEnabled?: boolean
   searchEnabled?: boolean
   selection?: boolean
   rowKey?: CreateRowKey<any>
+  scrollX?: number
+  flexHeight?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  page: 1,
-  pageSize: 10,
   searchLabelWidth: 'auto',
   initSearch: true,
   paginationEnabled: true,
   searchEnabled: true,
   selection: false,
-  rowKey: undefined
+  rowKey: undefined,
+  flexHeight: false,
+  pageData: undefined
 })
 const emits = defineEmits<{
   (e: 'search', search: SearchOptions<any>): void
   (e: 'update:checked-row-keys', rowKeys: DataTableRowKey[]): void
 }>()
 
-const { t } = useI18n()
 const searchForm = ref<any>({})
 const collapsed = ref(true)
 const searchGridHeight = ref('100%')
-
 const dictStore = useDictStore()
 
-const pagination = ref({
-  page: props.page,
-  pageSize: props.pageSize,
+const pagination = ref<PaginationProps>({
+  page: 0,
+  pageSize: 10,
+  pageCount: 0,
+  itemCount: 0,
+  prefix: (info: PaginationInfo) => <div>共 {info.itemCount} 项</div>,
   showSizePicker: true,
   pageSizes: [10, 20, 50],
   onChange: (page: number) => {
@@ -137,11 +146,23 @@ const pagination = ref({
   }
 })
 
+watch(
+  () => props.pageData,
+  (cb) => {
+    if (cb) {
+      pagination.value.pageCount = cb.pages
+      pagination.value.itemCount = cb.total
+      pagination.value.page = cb.page
+      pagination.value.pageSize = cb.size
+    }
+  },
+  { immediate: true }
+)
+
 onMounted(() => {
   const probe = document.getElementById('height-probe')
   const offsetHeight = probe!.offsetHeight
   searchGridHeight.value = `${offsetHeight}px`
-
   if (props.initSearch) {
     search()
   }
@@ -178,10 +199,12 @@ function reset() {
 }
 
 function search() {
+  // date iso
+  const search = clone(searchForm.value)
   emits('search', {
     page: pagination.value.page,
     pageSize: pagination.value.pageSize,
-    ...clone(searchForm.value)
+    ...search
   })
 }
 
@@ -199,13 +222,31 @@ async function toggleCollapsed() {
 </script>
 
 <style scoped lang="scss">
-.search-grid {
-  transition: height 0.2s linear;
-  height: v-bind(searchGridHeight);
-  overflow: hidden;
-}
+.winter-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
-.more-condition {
-  margin: 0;
+  .search {
+    flex: 0;
+
+    .search-grid {
+      transition: height 0.2s linear;
+      height: v-bind(searchGridHeight);
+      overflow: hidden;
+    }
+
+    .more-condition {
+      margin: 0;
+    }
+  }
+
+  .action {
+    flex: 0;
+  }
+
+  .data {
+    flex: 1;
+  }
 }
 </style>
