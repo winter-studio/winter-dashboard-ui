@@ -1,6 +1,6 @@
 <template>
   <div class="p-2">
-    <winter-table :columns="columns" :data="data" :search-items="searchItems" @search="search">
+    <winter-table :columns="columns" :page-data="data" :search-items="searchItems" @search="search">
       <template #table-header>
         <n-space>
           <n-button type="primary" @click="add">新增</n-button>
