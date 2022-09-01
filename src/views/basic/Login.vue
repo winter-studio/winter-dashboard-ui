@@ -43,13 +43,15 @@
           <n-form-item class="default-color">
             <div class="flex justify-between">
               <div class="flex-initial">
-                <n-checkbox v-model:checked="rememberMe">自动登录</n-checkbox>
+                <n-checkbox v-model:checked="rememberMe">{{
+                  t('views.login.rememberme')
+                }}</n-checkbox>
               </div>
             </div>
           </n-form-item>
           <n-form-item>
             <n-button type="primary" size="large" :loading="loading" block @click="handleSubmit">
-              登录
+              {{ t('views.login.login') }}
             </n-button>
           </n-form-item>
         </n-form>
@@ -78,7 +80,9 @@ const loading = ref(false)
 const rememberMe = ref(true)
 const LOGIN_NAME = RouteNames.BASE_LOGIN_NAME
 const loginBgColor = themeVars.value.loginBgColor
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const formInline = reactive({
   username: 'admin',
   password: '123456',
@@ -86,8 +90,8 @@ const formInline = reactive({
 })
 
 const rules = {
-  username: { required: true, message: '请输入用户名', trigger: 'blur' },
-  password: { required: true, message: '请输入密码', trigger: 'blur' }
+  username: { required: true, message: t('views.login.hint.username'), trigger: 'blur' },
+  password: { required: true, message: t('views.login.hint.password'), trigger: 'blur' }
 }
 
 const userStore = useUserStore()
@@ -100,7 +104,7 @@ const handleSubmit = (e: MouseEvent) => {
   formRef.value.validate(async (errors: Array<FormValidationError>) => {
     if (!errors) {
       const { username, password } = formInline
-      message.loading('登录中...')
+      message.loading(t('views.login.hint.logingin'))
       loading.value = true
 
       const params: FormState = {

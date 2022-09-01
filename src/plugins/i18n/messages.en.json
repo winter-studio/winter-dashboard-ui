@@ -1,5 +1,14 @@
 {
   "views": {
+    "login": {
+      "rememberme": "Remember Me",
+      "login": "Login",
+      "hint": {
+        "logingin": "Loging in",
+        "username": "please input username",
+        "password": "please input password"
+      }
+    },
     "dashboard": {
       "workplace": {
         "hello": "Hello"

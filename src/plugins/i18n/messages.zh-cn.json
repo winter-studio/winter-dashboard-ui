@@ -1,5 +1,14 @@
 {
   "views": {
+    "login": {
+      "rememberme": "自动登录",
+      "login": "登录",
+      "hint": {
+        "logingin": "登陆中",
+        "username": "请输入用户名",
+        "password": "请输入密码"
+      }
+    },
     "dashboard": {
       "workplace": {
         "hello": "你好"
