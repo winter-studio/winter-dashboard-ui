@@ -13,6 +13,57 @@
       "workplace": {
         "hello": "Hello"
       }
+    },
+    "menu":{
+      "expandAll": "Expand",
+      "collapseAll": "Collapse",
+      "add": "Add",
+      "delete": "Delete",
+      "deleteConfirm": "Confirm to delete?",
+      "save": "Save",
+      "reset": "Reset",
+      "search": "Input menu name to search",
+      "leaveConfirm": "Discard current content",
+      "types": {
+        "dir": "menu directory",
+        "view": "component view",
+        "iframe": "iframe",
+        "link": "redirect url"
+      },
+      "form": {
+        "parent": "parent menu",
+        "type": "type",
+        "title": "title",
+        "titlePlaceholder": "please input title",
+        "path": "path",
+        "pathPlaceholder": "please input path",
+        "viewPlaceholder": "please input data",
+        "view": "component",
+        "link": "link",
+        "icon": "icon",
+        "tags": "tags",
+        "hidden": "hidden",
+        "cached": "keep alive",
+        "rules": {
+          "type": "please select type",
+          "title": "please input title",
+          "path": "please input path",
+          "view": "please input component",
+          "link": "please input URL",
+          "failed": "Please complete the form"
+        },
+        "discard": {
+          "title": "Unsaved!",
+          "content": "Current content has been modified, you will discard it"
+        },
+        "messages": {
+          "saveSuccess": "Saved"
+        }
+      },
+      "hint": {
+        "title": "Tips",
+        "description": "Please click the menu item or the 'add' button to edit menu"
+      }
     }
   },
   "components": {

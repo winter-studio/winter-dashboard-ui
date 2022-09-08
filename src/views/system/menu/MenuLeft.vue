@@ -6,13 +6,13 @@
           <n-icon v-if="expandedKeys.length"><vertical-align-center-twotone /></n-icon>
           <n-icon v-else><expand-round /></n-icon>
         </template>
-        全部{{ expandedKeys.length ? '收起' : '展开' }}
+        {{ expandedKeys.length ? t('views.menu.expandAll') : t('views.menu.collapseAll') }}
       </n-button>
       <n-button secondary type="success" class="mr-2" @click="onSelectKeys([0])">
         <template #icon>
           <n-icon><add-box-outlined /></n-icon>
         </template>
-        添加菜单
+        {{ t('views.menu.add') }}
       </n-button>
       <n-popconfirm class="mr-2" @positive-click="deleteMenus">
         <template #trigger>
@@ -20,14 +20,14 @@
             <template #icon>
               <n-icon><delete-outline-filled /></n-icon>
             </template>
-            删除菜单
+            {{ t('views.menu.delete') }}
           </n-button>
         </template>
-        确认删除吗？将无法恢复
+        {{ t('views.menu.deleteConfirm') }}
       </n-popconfirm>
     </template>
     <div class="w-full">
-      <n-input v-model:value="search" type="text" placeholder="输入菜单名称搜索">
+      <n-input v-model:value="search" type="text" :placeholder="t('views.menu.search')">
         <template #suffix>
           <n-icon size="18" class="cursor-pointer">
             <search-outlined />

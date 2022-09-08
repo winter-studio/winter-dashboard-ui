@@ -16,7 +16,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { ref, onMounted, computed, watch, unref, defineProps } from 'vue'
+import { ref, onMounted, computed, watch, unref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { useAppStore } from '@/store/modules/application'

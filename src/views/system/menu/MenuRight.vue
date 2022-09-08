@@ -9,20 +9,24 @@
           :disabled="!isModified"
           @click="saveMenuForm"
         >
-          保存
+          {{ t('views.menu.save') }}
         </n-button>
         <n-popconfirm @positive-click="reset">
           <template #trigger>
-            <n-button :disabled="!isModified" secondary> 重置 </n-button>
+            <n-button :disabled="!isModified" secondary>
+              {{ t('views.menu.reset') }}
+            </n-button>
           </template>
-          确认放弃当前编辑的内容
+          {{ t('views.menu.leaveConfirm') }}
         </n-popconfirm>
 
         <n-popconfirm @positive-click="deleteMenu">
           <template #trigger>
-            <n-button :disabled="!modelValue" secondary type="error"> 删除 </n-button>
+            <n-button :disabled="!modelValue" secondary type="error">
+              {{ t('views.menu.delete') }}
+            </n-button>
           </template>
-          确认删除吗？将无法恢复
+          {{ t('views.menu.deleteConfirm') }}
         </n-popconfirm>
       </n-space>
     </template>
@@ -35,7 +39,7 @@
       :label-width="100"
       class="py-4"
     >
-      <n-form-item label="父级目录">
+      <n-form-item :label="t('views.menu.form.parent')">
         <n-tree-select
           v-model:value="menuForm.parentId"
           clearable
@@ -44,48 +48,68 @@
           @on-update:value="onUpdateParent"
         />
       </n-form-item>
-      <n-form-item label="类型" path="type">
+      <n-form-item :label="t('views.menu.form.type')" path="type">
         <n-radio-group v-model:value="menuForm.type" name="type">
           <n-space>
-            <n-radio :value="MenuType.DIR">菜单目录</n-radio>
-            <n-radio :value="MenuType.VIEW">组件页面</n-radio>
-            <n-radio :value="MenuType.IFRAME">内嵌外部链接</n-radio>
-            <n-radio :value="MenuType.LINK">跳转外部链接</n-radio>
+            <n-radio :value="MenuType.DIR">{{ t('views.menu.types.dir') }}</n-radio>
+            <n-radio :value="MenuType.VIEW">{{ t('views.menu.types.view') }}</n-radio>
+            <n-radio :value="MenuType.IFRAME">{{ t('views.menu.types.iframe') }}</n-radio>
+            <n-radio :value="MenuType.LINK">{{ t('views.menu.types.link') }}</n-radio>
           </n-space>
         </n-radio-group>
       </n-form-item>
-      <n-form-item label="标题" path="title">
-        <n-input v-model:value="menuForm.title" placeholder="请输入标题" />
+      <n-form-item :label="t('views.menu.form.title')" path="title">
+        <n-input
+          v-model:value="menuForm.title"
+          :placeholder="t('views.menu.form.titlePlaceholder')"
+        />
       </n-form-item>
-      <n-form-item label="路径" path="path">
+      <n-form-item :label="t('views.menu.form.path')" path="path">
         <n-input-group>
           <n-input-group-label :style="{ width: parentPaths.length * 12 + 'px' }">{{
             parentPaths
           }}</n-input-group-label>
-          <n-input v-model:value="menuForm.path" placeholder="请输入路径" />
+          <n-input
+            v-model:value="menuForm.path"
+            :placeholder="t('views.menu.form.pathPlaceholder')"
+          />
         </n-input-group>
       </n-form-item>
       <n-form-item
         v-if="menuForm.type !== MenuType.DIR"
-        :label="menuForm.type === MenuType.VIEW ? '页面组件' : '链接'"
+        :label="
+          menuForm.type === MenuType.VIEW ? t('views.menu.form.view') : t('views.menu.form.link')
+        "
         path="data"
       >
-        <n-input v-model:value="menuForm.data" placeholder="请输入信息" />
+        <n-input
+          v-model:value="menuForm.data"
+          :placeholder="t('views.menu.form.viewPlaceholder')"
+        />
       </n-form-item>
-      <n-form-item label="图标" path="icon">
+      <n-form-item :label="t('views.menu.form.icon')" path="icon">
         <icon-select v-model:value="menuForm.icon" />
       </n-form-item>
-      <n-form-item label="标记" path="tags">
+      <n-form-item :label="t('views.menu.form.tags')" path="tags">
         <n-dynamic-tags v-model:value="menuFormTags" />
       </n-form-item>
-      <n-form-item label="是否隐藏" path="hidden">
+      <n-form-item :label="t('views.menu.form.hidden')" path="hidden">
         <n-switch v-model:value="menuForm.hidden" />
       </n-form-item>
-      <n-form-item v-if="menuForm.type === MenuType.VIEW" label="是否缓存" path="keepAlive">
+      <n-form-item
+        v-if="menuForm.type === MenuType.VIEW"
+        :label="t('views.menu.form.cached')"
+        path="keepAlive"
+      >
         <n-switch v-model:value="menuForm.keepAlive" :default-value="true" />
       </n-form-item>
     </n-form>
-    <n-result v-else status="info" title="提示" description="请点击菜单项或者添加按钮编辑菜单" />
+    <n-result
+      v-else
+      status="info"
+      :title="t('views.menu.hint.title')"
+      :description="t('views.menu.hint.description')"
+    />
   </n-card>
 </template>
 
@@ -98,6 +122,7 @@ import { computed, ref, unref, watch } from 'vue'
 import { addMenu, getMenuById, removeMenu, updateMenu } from '@/api/menu'
 import { Menu } from '@/types/modules/base'
 import { MenuTreeOptions } from '@/types/view/menu'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   menus: Array<MenuTreeOptions>
@@ -106,6 +131,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n()
 const emits = defineEmits(['afterChange', 'update:modelValue'])
 const message = useMessage()
 const dialog = useDialog()
@@ -142,17 +168,17 @@ const rules: FormRules = {
     required: true,
     type: 'enum',
     enum: Object.values(MenuType),
-    message: '请选择类型',
+    message: () => t('views.menu.form.rules.type'),
     trigger: 'change'
   },
   title: {
     required: true,
-    message: '请输入标题',
+    message: () => t('views.menu.form.rules.title'),
     trigger: 'blur'
   },
   path: {
     required: true,
-    message: '请输入路径',
+    message: () => t('views.menu.form.rules.path'),
     trigger: 'blur'
   },
   data: {
@@ -161,9 +187,9 @@ const rules: FormRules = {
       if (isEmpty(value)) {
         const menuType = unref(menuForm)?.type
         if (menuType === MenuType.VIEW) {
-          return new Error('请输入页面组件')
+          return new Error(t('views.menu.form.rules.view'))
         } else if (menuType === MenuType.LINK || menuType === MenuType.IFRAME) {
-          return new Error('请输入链接')
+          return new Error(t('views.menu.form.rules.link'))
         }
       }
       return true
@@ -189,10 +215,8 @@ watch(
     }
     if (isModified.value) {
       dialog.info({
-        title: '未保存',
-        content: '当前编辑内容已更改，确认放弃当前编辑的内容？',
-        positiveText: '确认',
-        negativeText: '取消',
+        title: t('views.menu.form.discard.title'),
+        content: t('views.menu.form.discard.content'),
         onPositiveClick() {
           editMenu(value, oldValue)
         },
@@ -273,7 +297,7 @@ function buildTreeOptionPaths(key: number, tree: Array<MenuTreeOptions>): string
 function saveMenuForm() {
   formRef.value.validate((errors: boolean) => {
     if (errors) {
-      message.error('请填写完整信息')
+      message.error(t('views.menu.form.rules.failed'))
       return
     }
 
@@ -282,7 +306,7 @@ function saveMenuForm() {
     if (!props.modelValue) {
       addMenu(unref(menuForm)!)
         .then((res) => {
-          message.success('保存成功')
+          message.success(t('views.menu.form.messages.saveSuccess'))
           editMenuCache.value = clone(unref(menuForm))
           emits('afterChange')
           saveLoading.value = false
@@ -295,7 +319,7 @@ function saveMenuForm() {
     } else {
       updateMenu(props.modelValue, unref(menuForm)!)
         .then(() => {
-          message.success('保存成功')
+          message.success(t('views.menu.form.messages.saveSuccess'))
           editMenuCache.value = clone(unref(menuForm))
           emits('afterChange')
           saveLoading.value = false

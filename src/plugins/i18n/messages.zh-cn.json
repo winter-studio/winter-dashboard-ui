@@ -13,6 +13,57 @@
       "workplace": {
         "hello": "你好"
       }
+    },
+    "menu": {
+      "expandAll": "展开",
+      "collapseAll": "收起",
+      "add": "添加",
+      "delete": "删除",
+      "deleteConfirm": "确认删除吗？将无法恢复",
+      "save": "保存",
+      "reset": "重置",
+      "search": "输入菜单名称搜索",
+      "leaveConfirm": "确认放弃当前编辑的内容",
+      "types": {
+        "dir": "菜单目录",
+        "view": "组件页面",
+        "iframe": "内嵌外部链接",
+        "link": "跳转外部链接"
+      },
+      "form": {
+        "parent": "父级目录",
+        "type": "类型",
+        "title": "标题",
+        "titlePlaceholder": "请输入标题",
+        "path": "路径",
+        "pathPlaceholder": "请输入路径",
+        "viewPlaceholder": "请输入信息",
+        "view": "页面组件",
+        "link": "链接",
+        "icon": "图标",
+        "tags": "标记",
+        "hidden": "是否隐藏",
+        "cached": "是否缓存",
+        "rules": {
+          "type": "请选择类型",
+          "title": "请输入标题",
+          "path": "请输入路径",
+          "view": "请输入页面组件",
+          "link": "请输入链接",
+          "failed": "请填写完整信息"
+        },
+        "discard": {
+          "title": "未保存!",
+          "content": "当前编辑内容已更改，确认放弃当前编辑的内容？"
+        },
+        "messages": {
+          "saveSuccess": "保存成功"
+        }
+      },
+      "hint": {
+        "title": "提示",
+        "description": "请点击菜单项或者添加按钮编辑菜单"
+      }
     }
   },
   "components": {
