@@ -66,7 +66,7 @@ specifiers:
   vue-i18n: ^9.2.2
   vue-router: ^4.1.5
   vue-tsc: ^0.40.13
-  vuedraggable: ^2.24.3
+  vuedraggable: ^4.1.0
 
 dependencies:
   '@vueuse/core': registry.npmmirror.com/@vueuse/core/9.2.0_vue@3.2.39
@@ -82,7 +82,7 @@ dependencies:
   vue: registry.npmmirror.com/vue/3.2.39
   vue-i18n: registry.npmmirror.com/vue-i18n/9.2.2_vue@3.2.39
   vue-router: registry.npmmirror.com/vue-router/4.1.5_vue@3.2.39
-  vuedraggable: registry.npmmirror.com/vuedraggable/2.24.3
+  vuedraggable: registry.npmmirror.com/vuedraggable/4.1.0_vue@3.2.39
 
 devDependencies:
   '@rushstack/eslint-patch': registry.npmmirror.com/@rushstack/eslint-patch/1.1.4
@@ -4240,6 +4240,7 @@ packages:
       vooks: registry.npmmirror.com/vooks/0.2.12_vue@3.2.39
       vue: registry.npmmirror.com/vue/3.2.39
       vueuc: registry.npmmirror.com/vueuc/0.4.48_vue@3.2.39
+    dev: false
 
   registry.npmmirror.com/nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/nanoid/-/nanoid-3.3.4.tgz}
@@ -5139,10 +5140,10 @@ packages:
       is-fullwidth-code-point: registry.npmmirror.com/is-fullwidth-code-point/4.0.0
     dev: true
 
-  registry.npmmirror.com/sortablejs/1.10.2:
-    resolution: {integrity: sha512-YkPGufevysvfwn5rfdlGyrGjt7/CRHwvRPogD/lC+TnvcN29jDpCifKP+rBqf+LRldfXSTh+0CGLcSg0VIxq3A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sortablejs/-/sortablejs-1.10.2.tgz}
+  registry.npmmirror.com/sortablejs/1.14.0:
+    resolution: {integrity: sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sortablejs/-/sortablejs-1.14.0.tgz}
     name: sortablejs
-    version: 1.10.2
+    version: 1.14.0
     dev: false
 
   registry.npmmirror.com/source-map-js/1.0.2:
@@ -5986,12 +5987,16 @@ packages:
       '@vue/server-renderer': registry.npmmirror.com/@vue/server-renderer/3.2.39_vue@3.2.39
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.39
 
-  registry.npmmirror.com/vuedraggable/2.24.3:
-    resolution: {integrity: sha512-6/HDXi92GzB+Hcs9fC6PAAozK1RLt1ewPTLjK0anTYguXLAeySDmcnqE8IC0xa7shvSzRjQXq3/+dsZ7ETGF3g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vuedraggable/-/vuedraggable-2.24.3.tgz}
+  registry.npmmirror.com/vuedraggable/4.1.0_vue@3.2.39:
+    resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vuedraggable/-/vuedraggable-4.1.0.tgz}
+    id: registry.npmmirror.com/vuedraggable/4.1.0
     name: vuedraggable
-    version: 2.24.3
+    version: 4.1.0
+    peerDependencies:
+      vue: ^3.0.1
     dependencies:
-      sortablejs: registry.npmmirror.com/sortablejs/1.10.2
+      sortablejs: registry.npmmirror.com/sortablejs/1.14.0
+      vue: registry.npmmirror.com/vue/3.2.39
     dev: false
 
   registry.npmmirror.com/vueuc/0.4.48_vue@3.2.39:
