@@ -22,19 +22,22 @@ export type UserFormModel = {
 
 export const searchItems: SearchItem[] = [
   {
-    label: '用户名',
+    label: 'views.user.criteria.username',
     path: 'username',
-    placeholder: '用户名搜索'
+    placeholder: 'views.user.criteria.usernamePlaceholder',
+    labelWidth: 100
   },
   {
-    label: '昵称',
+    label: 'views.user.criteria.nickname',
     path: 'nickname',
-    placeholder: '昵称搜索'
+    placeholder: 'views.user.criteria.nicknamePlaceholder',
+    labelWidth: 100
   },
   {
-    label: '手机号',
+    label: 'views.user.criteria.tel',
     path: 'mobile',
-    placeholder: '手机号搜索'
+    placeholder: 'views.user.criteria.telPlaceholder',
+    labelWidth: 100
   }
 ]
 

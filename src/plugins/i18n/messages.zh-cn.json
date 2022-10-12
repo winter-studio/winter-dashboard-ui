@@ -64,6 +64,37 @@
         "title": "提示",
         "description": "请点击菜单项或者添加按钮编辑菜单"
       }
+    },
+    "user": {
+      "add": "新增",
+      "edit": "编辑",
+      "delete": "删除",
+      "disable": "禁用",
+      "enable": "启用",
+      "deleteConfirm": "确认要删除用户吗？",
+      "disableConfirm": "确认要禁用用户吗？",
+      "enableConfirm": "确认要启用用户吗？",
+      "deleteSuccess": "删除成功",
+      "opsSuccess": "操作成功",
+      "criteria": {
+        "username": "用户名",
+        "nickname": "昵称",
+        "tel": "手机号",
+        "usernamePlaceholder": "用户名搜索",
+        "nicknamePlaceholder": "昵称搜索",
+        "telPlaceholder": "手机号搜索"
+      },
+      "table": {
+        "avatar": "头像",
+        "username": "用户名",
+        "nickname": "昵称",
+        "tel": "手机号",
+        "status": "状态",
+        "createTime": "创建时间",
+        "operation": "操作",
+        "available": "正常",
+        "banned": "禁用"
+      }
     }
   },
   "components": {
@@ -73,7 +104,8 @@
         "moreCriteria": "更多",
         "lessCriteria": "收起",
         "search": "搜索",
-        "reset": "重置"
+        "reset": "重置",
+        "count": "共 {count} 项"
       }
     }
   },

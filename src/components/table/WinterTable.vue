@@ -1,10 +1,14 @@
 <template>
   <div class="winter-table">
-    <n-card v-if="searchEnabled" class="search" title="搜索条件">
+    <n-card v-if="searchEnabled" class="search" :title="t('components.table.winterTable.criteria')">
       <template #header-extra>
         <div>
-          <n-button type="primary" class="mr-4" @click="search"> 查询 </n-button>
-          <n-button type="default" @click="reset"> 重置 </n-button>
+          <n-button type="primary" class="mr-4" @click="search">
+            {{ t('components.table.winterTable.search') }}
+          </n-button>
+          <n-button type="default" @click="reset">
+            {{ t('components.table.winterTable.reset') }}
+          </n-button>
         </div>
       </template>
       <n-form
@@ -20,13 +24,14 @@
             v-for="(item, index) in searchItems"
             :key="index"
             :span="item.span ? item.span : 8"
-            :label="item.label"
+            :label-width="item.labelWidth"
+            :label="t(item.label)"
             :path="item.path"
           >
             <n-input
               v-if="!item.type || item.type === 'input'"
               v-model:value="searchForm[item.path]"
-              :placeholder="item.placeholder"
+              :placeholder="t(item.placeholder)"
             />
             <n-select
               v-if="item.type === 'select'"
@@ -51,7 +56,7 @@
             <template #icon>
               <n-icon><angle-double-down /></n-icon>
             </template>
-            更多条件
+            {{ t('components.table.winterTable.moreCriteria') }}
           </n-button>
         </n-divider>
         <n-divider v-else class="more-condition">
@@ -59,7 +64,7 @@
             <template #icon>
               <n-icon><angle-double-up /></n-icon>
             </template>
-            收起条件
+            {{ t('components.table.winterTable.lessCriteria') }}
           </n-button>
         </n-divider>
       </div>
@@ -93,6 +98,7 @@ import { DictCode, useDictStore } from '@/store/modules/dict'
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface'
 import { PageRes } from '@/types/component/request'
 import { PaginationProps } from 'naive-ui/es/pagination'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   columns: DataTableColumns<any>
@@ -127,13 +133,16 @@ const searchForm = ref<any>({})
 const collapsed = ref(true)
 const searchGridHeight = ref('100%')
 const dictStore = useDictStore()
+const { t } = useI18n()
 
 const pagination = ref<PaginationProps>({
   page: 0,
   pageSize: 10,
   pageCount: 0,
   itemCount: 0,
-  prefix: (info: PaginationInfo) => <div>共 {info.itemCount} 项</div>,
+  prefix: (info: PaginationInfo) => (
+    <div>{t('components.table.winterTable.count', { count: info.itemCount })}</div>
+  ),
   showSizePicker: true,
   pageSizes: [10, 20, 50],
   onChange: (page: number) => {

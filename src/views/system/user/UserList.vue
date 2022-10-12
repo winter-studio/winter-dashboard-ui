@@ -3,7 +3,7 @@
     <winter-table :columns="columns" :page-data="data" :search-items="searchItems" @search="search">
       <template #table-header>
         <n-space>
-          <n-button type="primary" @click="add">新增</n-button>
+          <n-button type="primary" @click="add">{{ t('views.user.add') }}</n-button>
         </n-space>
       </template>
     </winter-table>
@@ -14,7 +14,7 @@
       :mask-closable="false"
       @after-leave="refresh"
     >
-      <n-drawer-content title="编辑" closable>
+      <n-drawer-content :title="t('views.user.edit')" closable>
         <user-form :user-id="editUserId" />
       </n-drawer-content>
     </n-drawer>
@@ -34,52 +34,53 @@ import { Ban } from '@vicons/ionicons5'
 import { SearchParam, searchItems } from './support'
 import UserForm from './UserForm.vue'
 import { PageRes } from '@/types/component/request'
+import { useI18n } from 'vue-i18n'
 
 const message = useMessage()
 const showEdit = ref(false)
-
+const { t } = useI18n()
 const data = ref<PageRes<AdminUserPageItem>>()
 const editUserId = ref<number | undefined>(undefined)
 
 const columns: DataTableColumns<AdminUserPageItem> = [
   {
-    title: '头像',
+    title: () => t('views.user.table.avatar'),
     key: 'avatar',
     render: (row) => {
       return <NAvatar src={row.avatar} size="medium" color="#ccc6" />
     }
   },
   {
-    title: '用户名',
+    title: () => t('views.user.table.username'),
     key: 'username'
   },
   {
-    title: '昵称',
+    title: () => t('views.user.table.nickname'),
     key: 'nickname'
   },
   {
-    title: '手机号',
+    title: () => t('views.user.table.tel'),
     key: 'mobile'
   },
   {
-    title: '状态',
+    title: () => t('views.user.table.status'),
     key: 'status',
     render: (row) => {
-      let text = '正常'
-      let type: 'default' | 'primary' | 'info' | 'success' | 'warning' | 'error' = 'success'
+      let text = 'views.user.table.available'
+      let type: 'success' | 'error' = 'success'
       if (row.status === '1') {
-        text = '禁用'
+        text = 'views.user.table.banned'
         type = 'error'
       }
-      return <NTag type={type}>{text}</NTag>
+      return <NTag type={type}>{t(text)}</NTag>
     }
   },
   {
-    title: '创建时间',
+    title: () => t('views.user.table.createTime'),
     key: 'createTime'
   },
   {
-    title: '操作',
+    title: () => t('views.user.table.operation'),
     key: 'actions',
     render: renderActions
   }
@@ -114,17 +115,17 @@ function renderActions(row: AdminUserPageItem) {
       onClick={() => onEdit(row.id)}
     >
       {{
-        default: () => '编辑',
+        default: () => t('views.user.edit'),
         icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
       }}
     </NButton>,
     <NPopconfirm onPositiveClick={() => onDelete(row.id)}>
       {{
-        default: () => '确认要删除用户吗？',
+        default: () => t('views.user.removeConfirm'),
         trigger: () => (
           <NButton strong secondary type="error" size="small" class="mr-2">
             {{
-              default: () => '删除',
+              default: () => t('views.user.remove'),
               icon: () => <NIcon>{{ default: () => <DeleteOutlined /> }}</NIcon>
             }}
           </NButton>
@@ -133,7 +134,8 @@ function renderActions(row: AdminUserPageItem) {
     </NPopconfirm>,
     <NPopconfirm onPositiveClick={() => onChangeStatus(row.id, row.status === '0' ? '1' : '0')}>
       {{
-        default: () => `确认${row.status === '0' ? '禁用' : '解禁'}用户吗？`,
+        default: () =>
+          t(row.status === '0' ? 'views.user.disableConfirm' : 'views.user.enableConfirm'),
         trigger: () => (
           <NButton
             strong
@@ -143,7 +145,8 @@ function renderActions(row: AdminUserPageItem) {
             class="mr-2"
           >
             {{
-              default: () => (row.status === '0' ? '禁用' : '解禁'),
+              default: () =>
+                row.status === '0' ? t('views.user.disable') : t('views.user.enable'),
               icon: () => <NIcon>{{ default: () => <Ban /> }}</NIcon>
             }}
           </NButton>
@@ -155,14 +158,14 @@ function renderActions(row: AdminUserPageItem) {
 
 function onDelete(id: number) {
   deleteUser(id).then(() => {
-    message.success('删除成功')
+    message.success(t('views.user.removeSuccess'))
     refresh()
   })
 }
 
 function onChangeStatus(id: number, status: string) {
   changeUserStatus(id, status).then(() => {
-    message.success('操作成功')
+    message.success(t('views.user.opsSuccess'))
     refresh()
   })
 }

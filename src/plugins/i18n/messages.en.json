@@ -64,6 +64,37 @@
         "title": "Tips",
         "description": "Please click the menu item or the 'add' button to edit menu"
       }
+    },
+    "user": {
+      "add": "Add",
+      "edit": "Edit",
+      "remove": "Remove",
+      "disable": "Disable",
+      "enable": "Enable",
+      "removeConfirm": "Are you sure to remove this user?",
+      "disableConfirm": "Are you sure to disable this user?",
+      "enableConfirm": "Are you sure to enable this user?",
+      "removeSuccess": "Removed",
+      "opsSuccess": "Succeed",
+      "criteria": {
+        "username": "Username",
+        "nickname": "Nickname",
+        "tel": "Tel",
+        "usernamePlaceholder": "Search by username",
+        "nicknamePlaceholder": "Search by nickname",
+        "telPlaceholder": "Search by telephone number"
+      },
+      "table": {
+        "avatar": "Avatar",
+        "username": "Username",
+        "nickname": "Nickname",
+        "tel": "Tel",
+        "status": "Status",
+        "createTime": "Create Time",
+        "operation": "Operation",
+        "available": "Available",
+        "banned": "Banned"
+      }
     }
   },
   "components": {
@@ -73,7 +104,8 @@
         "moreCriteria": "More",
         "lessCriteria": "Collapse",
         "search": "Search",
-        "reset": "Reset"
+        "reset": "Reset",
+        "count": "no items | {count} item | {count} items"
       }
     }
   },

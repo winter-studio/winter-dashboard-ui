@@ -9,6 +9,7 @@ export interface SearchItem {
   startPlaceholder?: string
   endPlaceholder?: string
   span?: number // total 24
+  labelWidth?: number | string
   options?: SearchItemOptions
 }
 
