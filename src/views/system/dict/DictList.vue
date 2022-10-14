@@ -5,7 +5,7 @@
         <template #icon>
           <n-icon><add-box-outlined /></n-icon>
         </template>
-        添加字典
+        {{ t('views.dictionary.add') }}
       </n-button>
       <n-popconfirm class="mr-2" @positive-click="deleteDicts">
         <template #trigger>
@@ -13,14 +13,18 @@
             <template #icon>
               <n-icon><delete-outline-filled /></n-icon>
             </template>
-            删除字典
+            {{ t('views.dictionary.remove') }}
           </n-button>
         </template>
-        确认删除吗？将无法恢复
+        {{ t('views.dictionary.removeConfirm') }}
       </n-popconfirm>
     </template>
     <div class="w-full">
-      <n-input v-model:value="search" type="text" placeholder="输入字典名称搜索">
+      <n-input
+        v-model:value="search"
+        type="text"
+        :placeholder="t('views.dictionary.searchPlaceholder')"
+      >
         <template #suffix>
           <n-icon size="18" class="cursor-pointer">
             <search-outlined />
@@ -52,12 +56,13 @@ import { ref } from 'vue'
 import { AddBoxOutlined, DeleteOutlineFilled } from '@vicons/material'
 import { SearchOutlined } from '@vicons/antd'
 import { removeDicts } from '@/api/dict'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   data: Array<TreeSelectOption>
   loading: boolean
 }
-
+const { t } = useI18n()
 const emits = defineEmits(['afterChange', 'edit'])
 
 const props = defineProps<Props>()

@@ -9,13 +9,15 @@
           :disabled="!isModified || !form"
           @click="save"
         >
-          保存
+          {{ t('views.role.save') }}
         </n-button>
         <n-popconfirm @positive-click="reset">
           <template #trigger>
-            <n-button :disabled="!isModified || !form" secondary> 重置 </n-button>
+            <n-button :disabled="!isModified || !form" secondary>
+              {{ t('views.role.reset') }}
+            </n-button>
           </template>
-          确认放弃当前编辑的内容
+          {{ t('views.role.leaveConfirm') }}
         </n-popconfirm>
       </n-space>
     </template>
@@ -28,14 +30,14 @@
       :label-width="100"
       class="py-4"
     >
-      <n-form-item label="角色代码" path="code">
-        <n-input v-model:value="form.code" placeholder="请输入代码" />
+      <n-form-item :label="t('views.role.roleCode')" path="code">
+        <n-input v-model:value="form.code" :placeholder="t('views.role.roleCodePlaceholder')" />
       </n-form-item>
-      <n-form-item label="角色名称" path="name">
-        <n-input v-model:value="form.name" placeholder="请输入名称" />
+      <n-form-item :label="t('views.role.roleName')" path="name">
+        <n-input v-model:value="form.name" :placeholder="t('views.role.roleNamePlaceholder')" />
       </n-form-item>
     </n-form>
-    <n-result v-else status="info" title="提示" description="请点击角色项或者添加按钮编辑角色" />
+    <n-result v-else status="info" :description="t('views.role.hint.description')" />
   </n-card>
 </template>
 
@@ -45,11 +47,12 @@ import { computed, ref, unref, watch } from 'vue'
 import { RoleForm } from '@/types/modules/role'
 import { clone, isEqual } from 'lodash-es'
 import { addRole, getRoleById, updateRole } from '@/api/role'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   modelValue?: number
 }
-
+const { t } = useI18n()
 const props = defineProps<Props>()
 const emits = defineEmits(['afterChange', 'update:modelValue'])
 const editingKey = ref<number | undefined>(undefined)
@@ -81,8 +84,8 @@ const isModified = computed(() => {
 })
 //表单校验规则
 const rules: FormRules = {
-  code: { required: true, message: '请输入角色代码', trigger: 'blur' },
-  name: { required: true, message: '请输入角色名称', trigger: 'blur' }
+  code: { required: true, message: t('views.role.roleCodePlaceholder'), trigger: 'blur' },
+  name: { required: true, message: t('views.role.roleNamePlaceholder'), trigger: 'blur' }
 }
 
 async function edit(key: number) {
@@ -101,7 +104,7 @@ async function edit(key: number) {
 function save() {
   formRef.value.validate((errors: boolean) => {
     if (errors) {
-      message.error('请填写完整信息')
+      message.error(t('views.role.messages.failed'))
       return
     }
 
@@ -110,7 +113,7 @@ function save() {
     if (!props.modelValue) {
       addRole(unref(form)!)
         .then((res) => {
-          message.success('保存成功')
+          message.success(t('views.role.messages.saveSuccess'))
           formCache.value = clone(unref(form))
           emits('afterChange')
           editingKey.value = res.data!
@@ -122,7 +125,7 @@ function save() {
     } else {
       updateRole(props.modelValue, unref(form)!)
         .then(() => {
-          message.success('保存成功')
+          message.success(t('views.role.messages.saveSuccess'))
           formCache.value = clone(unref(form))
           emits('afterChange')
           saveLoading.value = false

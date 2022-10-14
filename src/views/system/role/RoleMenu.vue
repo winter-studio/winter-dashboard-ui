@@ -5,7 +5,7 @@
         <template #icon>
           <n-icon><save-outlined /></n-icon>
         </template>
-        保存
+        {{ t('views.role.save') }}
       </n-button>
     </template>
     <n-tree

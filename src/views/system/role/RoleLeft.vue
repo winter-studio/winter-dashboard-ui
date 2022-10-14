@@ -5,7 +5,7 @@
         <template #icon>
           <n-icon><add-box-outlined /></n-icon>
         </template>
-        添加角色
+        {{ t('views.role.add') }}
       </n-button>
       <n-popconfirm class="mr-2" @positive-click="deleteRoles">
         <template #trigger>
@@ -13,14 +13,14 @@
             <template #icon>
               <n-icon><delete-outline-filled /></n-icon>
             </template>
-            删除角色
+            {{ t('views.role.remove') }}
           </n-button>
         </template>
-        确认删除吗？将无法恢复
+        {{ t('views.role.removeConfirm') }}
       </n-popconfirm>
     </template>
     <div class="w-full">
-      <n-input v-model:value="search" type="text" placeholder="输入角色名称搜索">
+      <n-input v-model:value="search" type="text" :placeholder="t('views.role.searchPlaceholder')">
         <template #suffix>
           <n-icon size="18" class="cursor-pointer">
             <search-outlined />
@@ -59,6 +59,7 @@ import { AddBoxOutlined, DeleteOutlineFilled } from '@vicons/material'
 import { removeRoles } from '@/api/role'
 import { SearchOutlined } from '@vicons/antd'
 import RoleMenu from '@/views/system/role/RoleMenu.vue'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   data: Array<TreeSelectOption>
@@ -68,7 +69,7 @@ interface Props {
 const emits = defineEmits(['afterChange', 'edit'])
 
 const props = defineProps<Props>()
-
+const { t } = useI18n()
 const search = ref('')
 const checkedKeys = ref<Array<number>>([])
 const showDrawer = ref(false)
@@ -102,14 +103,14 @@ const renderSuffix = (item: { option: TreeOption; checked: boolean; selected: bo
       size="tiny"
       onClick={() => assignMenu(item.option.key as number, item.option.name as string)}
     >
-      分配菜单权限
+      {t('views.role.configMenu')}
     </NButton>
   )
 }
 
 function assignMenu(id: number, name: string) {
   showDrawer.value = true
-  drawerTitle.value = `【${name}】分配菜单`
+  drawerTitle.value = `【${name}】t('views.role.configMenu')`
   assigningKey.value = id
 }
 

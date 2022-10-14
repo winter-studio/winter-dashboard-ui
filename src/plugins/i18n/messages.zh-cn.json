@@ -18,8 +18,8 @@
       "expandAll": "展开",
       "collapseAll": "收起",
       "add": "添加",
-      "delete": "删除",
-      "deleteConfirm": "确认删除吗？将无法恢复",
+      "remove": "删除",
+      "removeConfirm": "确认删除吗？将无法恢复",
       "save": "保存",
       "reset": "重置",
       "search": "输入菜单名称搜索",
@@ -61,20 +61,19 @@
         }
       },
       "hint": {
-        "title": "提示",
         "description": "请点击菜单项或者添加按钮编辑菜单"
       }
     },
     "user": {
       "add": "新增",
       "edit": "编辑",
-      "delete": "删除",
+      "remove": "删除",
       "disable": "禁用",
       "enable": "启用",
-      "deleteConfirm": "确认要删除用户吗？",
+      "removeConfirm": " 确认要删除用户吗？",
       "disableConfirm": "确认要禁用用户吗？",
       "enableConfirm": "确认要启用用户吗？",
-      "deleteSuccess": "删除成功",
+      "removeSuccess": "删除成功",
       "opsSuccess": "操作成功",
       "criteria": {
         "username": "用户名",
@@ -94,6 +93,62 @@
         "operation": "操作",
         "available": "正常",
         "banned": "禁用"
+      }
+    },
+    "role": {
+      "add": "添加",
+      "remove": "删除",
+      "removeConfirm": " 确认删除吗？将无法恢复",
+      "save": "保存",
+      "reset": "重置",
+      "configMenu": "配置菜单权限",
+      "searchPlaceholder": "输入角色名称搜索",
+      "roleCode": "角色代码",
+      "roleCodePlaceholder": "请输入角色代码",
+      "roleName": "角色名称",
+      "roleNamePlaceholder": "请输入角色名称",
+      "leaveConfirm": "确认放弃当前编辑的内容",
+      "hint": {
+        "description": "请点击角色项或者添加按钮编辑角色"
+      },
+      "messages": {
+        "failed": "请完善表单",
+        "saveSuccess": "保存成功"
+      }
+    },
+    "dictionary": {
+      "add": "添加",
+      "remove": "删除",
+      "removeConfirm": " 确认删除吗？将无法恢复",
+      "save": "保存",
+      "reset": "重置",
+      "searchPlaceholder": "输入字典名称搜索",
+      "dictCode": "字典代码",
+      "dictCodePlaceholder": "请输入字典代码",
+      "dictName": "字典名称",
+      "dictNamePlaceholder": "请输入字典名称",
+      "dictItems": "字典项",
+      "dictItemKey": "字典项Key",
+      "dictItemValue": "字典项Value",
+      "dictItemExtra": "字典项Extra",
+      "leaveConfirm": "确认放弃当前编辑的内容",
+      "hint": {
+        "description": "请点击字典项或者添加按钮编辑字典"
+      },
+      "messages": {
+        "code": "请输入字典代码",
+        "codeLength": "字典代码长度不能超过100",
+        "codeName": "字典代码只能包含字母、数字和下划线",
+        "name": "请输入字典名称",
+        "item": "请添加字典项",
+        "itemKey": "请输入字典key",
+        "itemKeyLength": "字典key长度不能超过100",
+        "itemKeyName": "字典key只能包含字母、数字和下划线",
+        "itemValue": "请输入字典Value",
+        "itemValueLength": "字典Value长度不能超过100",
+        "itemExtraLength": "字典项附加值长度不能超过200",
+        "failed": "请完善表单",
+        "saveSuccess": "保存成功"
       }
     }
   },

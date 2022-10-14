@@ -14,12 +14,12 @@
         "hello": "Hello"
       }
     },
-    "menu":{
+    "menu": {
       "expandAll": "Expand",
       "collapseAll": "Collapse",
       "add": "Add",
-      "delete": "Delete",
-      "deleteConfirm": "Confirm to delete?",
+      "remove": "Remove",
+      "removeConfirm": "Confirm to remove?",
       "save": "Save",
       "reset": "Reset",
       "search": "Input menu name to search",
@@ -61,7 +61,6 @@
         }
       },
       "hint": {
-        "title": "Tips",
         "description": "Please click the menu item or the 'add' button to edit menu"
       }
     },
@@ -94,6 +93,62 @@
         "operation": "Operation",
         "available": "Available",
         "banned": "Banned"
+      }
+    },
+    "role": {
+      "add": "Add",
+      "remove": "Remove",
+      "removeConfirm": "Are you sure to remove?",
+      "save": "Save",
+      "reset": "Reset",
+      "configMenu": "config menu",
+      "searchPlaceholder": "Search by role name",
+      "roleCode": "Role code",
+      "roleCodePlaceholder": "Please input role code",
+      "roleName": "Role name",
+      "roleNamePlaceholder": "Please input role name",
+      "leaveConfirm": "Discard current content",
+      "hint": {
+        "description": "Please click the role item or the 'add' button to edit role"
+      },
+      "messages": {
+        "failed": "Please complete the form",
+        "saveSuccess": "Saved"
+      }
+    },
+    "dictionary": {
+      "add": "Add",
+      "remove": "Remove",
+      "removeConfirm": "Are you sure to remove?",
+      "save": "Save",
+      "reset": "Reset",
+      "searchPlaceholder": "Search by dictionary name",
+      "dictCode": "Dictionary code",
+      "dictCodePlaceholder": "please input dictionary code",
+      "dictName": "Dictionary name",
+      "dictNamePlaceholder": "please input dictionary name",
+      "dictItems": "Dictionary Items",
+      "dictItemKey": "Item Key",
+      "dictItemValue": "Item Value",
+      "dictItemExtra": "Item Extra",
+      "leaveConfirm": "Discard current content",
+      "hint": {
+        "description": "Please click the item or the 'add' button to edit dictionary"
+      },
+      "messages": {
+        "code": "Please input dictionary code",
+        "codeLength": "Length of dictionary code should less then 100",
+        "codeName": "Dictionary code can only contains alphanumeric and '_'",
+        "name": "Please input dictionary name",
+        "item": "Please add some dictionary items",
+        "itemKey": "Please input dictionary item key",
+        "itemKeyLength": "Length of dictionary item key should less then 100",
+        "itemKeyName": "Dictionary item key can only contains alphanumeric and '_'",
+        "itemValue": "Please input dictionary value",
+        "itemValueLength": "Length of dictionary item value should less then 100",
+        "itemExtraLength": "Length of dictionary item extra should less then 200",
+        "failed": "Please complete the form",
+        "saveSuccess": "Saved"
       }
     }
   },

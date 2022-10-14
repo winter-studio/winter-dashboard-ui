@@ -9,13 +9,15 @@
           :disabled="!isModified"
           @click="save"
         >
-          保存
+          {{ t('views.dictionary.save') }}
         </n-button>
         <n-popconfirm @positive-click="reset">
           <template #trigger>
-            <n-button :disabled="!isModified" secondary> 重置 </n-button>
+            <n-button :disabled="!isModified" secondary>
+              {{ t('views.dictionary.reset') }}
+            </n-button>
           </template>
-          确认放弃当前编辑的内容
+          {{ t('views.dictionary.leaveConfirm') }}
         </n-popconfirm>
       </n-space>
     </template>
@@ -28,19 +30,25 @@
       :label-width="100"
       class="py-4"
     >
-      <n-form-item label="字典代码" path="code">
-        <n-input v-model:value="form.code" placeholder="请输入代码" />
+      <n-form-item :label="t('views.dictionary.dictCode')" path="code">
+        <n-input
+          v-model:value="form.code"
+          :placeholder="t('views.dictionary.dictCodePlaceholder')"
+        />
       </n-form-item>
-      <n-form-item label="字典名称" path="name">
-        <n-input v-model:value="form.name" placeholder="请输入名称" />
+      <n-form-item :label="t('views.dictionary.dictName')" path="name">
+        <n-input
+          v-model:value="form.name"
+          :placeholder="t('views.dictionary.dictNamePlaceholder')"
+        />
       </n-form-item>
-      <n-form-item label="字典项" path="items">
+      <n-form-item :label="t('views.dictionary.dictItems')" path="items">
         <n-dynamic-input
           v-model:value="form.items"
           item-style="margin-bottom: 0;"
           preset="pair"
-          key-placeholder="字典项Key"
-          value-placeholder="字典项Value"
+          :key-placeholder="t('views.dictionary.dictItemKey')"
+          :value-placeholder="t('views.dictionary.dictItemValue')"
           #="{ index }"
           show-sort-button
           @create="onCreate"
@@ -55,7 +63,7 @@
             >
               <n-input
                 v-model:value="form.items[index].key"
-                placeholder="字典key"
+                :placeholder="t('views.dictionary.dictItemKey')"
                 @keydown.enter.prevent
               />
             </n-form-item>
@@ -69,7 +77,7 @@
             >
               <n-input
                 v-model:value="form.items[index].value"
-                placeholder="字典value"
+                :placeholder="t('views.dictionary.dictItemValue')"
                 @keydown.enter.prevent
               />
             </n-form-item>
@@ -83,7 +91,7 @@
             >
               <n-input
                 v-model:value="form.items[index].extra"
-                placeholder="字典extra"
+                :placeholder="t('views.dictionary.dictItemExtra')"
                 @keydown.enter.prevent
               />
             </n-form-item>
@@ -91,7 +99,7 @@
         </n-dynamic-input>
       </n-form-item>
     </n-form>
-    <n-result v-else status="info" title="提示" description="请点击字典项或者添加按钮编辑字典" />
+    <n-result v-else status="info" :description="t('views.dictionary.hint.description')" />
   </n-card>
 </template>
 
@@ -101,11 +109,12 @@ import { computed, ref, unref, watch } from 'vue'
 import { clone, cloneDeep, isEmpty, isEqual } from 'lodash-es'
 import { DictItem, DictModel } from '@/types/modules/dict'
 import { getDictByCode, saveDict } from '@/api/dict'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   modelValue?: string | null
 }
-
+const { t } = useI18n()
 const props = defineProps<Props>()
 const emits = defineEmits(['afterChange', 'update:modelValue'])
 const editingKey = ref<string | null | undefined>(undefined)
@@ -135,26 +144,26 @@ const rules: FormRules = {
     trigger: 'blur',
     validator(_: unknown, value: string) {
       if (isEmpty(value)) {
-        return new Error('请输入字典代码')
+        return new Error(t('views.dictionary.messages.code'))
       }
 
       if (value.length > 100) {
-        return new Error('字典代码长度不能超过100')
+        return new Error(t('views.dictionary.messages.codeLength'))
       }
 
       if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-        return new Error('字典代码只能包含字母、数字和下划线')
+        return new Error(t('views.dictionary.messages.codeName'))
       }
       return true
     }
   },
-  name: { required: true, message: '请输入字典名称', trigger: 'blur' },
+  name: { required: true, message: t('views.dictionary.messages.name'), trigger: 'blur' },
   items: {
     required: true,
     trigger: 'blur',
     validator(_: unknown, value: Array<DictItem>) {
       if (value.length === 0) {
-        return new Error('请添加字典项')
+        return new Error(t('views.dictionary.messages.item'))
       }
 
       return true
@@ -164,15 +173,15 @@ const rules: FormRules = {
     trigger: 'input',
     validator(_: unknown, value: string) {
       if (isEmpty(value)) {
-        return new Error('请输入字典key')
+        return new Error(t('views.dictionary.messages.itemKey'))
       }
 
       if (value.length > 100) {
-        return new Error('字典key长度不能超过100')
+        return new Error(t('views.dictionary.messages.itemKeyLength'))
       }
 
       if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-        return new Error('字典key只能包含字母、数字和下划线')
+        return new Error(t('views.dictionary.messages.itemKeyName'))
       }
       return true
     }
@@ -181,11 +190,11 @@ const rules: FormRules = {
     trigger: 'input',
     validator(_: unknown, value: string) {
       if (isEmpty(value)) {
-        return new Error('请输入字典value')
+        return new Error(t('views.dictionary.messages.itemValue'))
       }
 
       if (value.length > 200) {
-        return new Error('字典value长度不能超过200')
+        return new Error(t('views.dictionary.messages.itemValueLength'))
       }
       return true
     }
@@ -198,7 +207,7 @@ const rules: FormRules = {
       }
 
       if (value.length > 200) {
-        return new Error('字典项附加值长度不能超过200')
+        return new Error(t('views.dictionary.messages.itemExtraLength'))
       }
       return true
     }
@@ -229,7 +238,7 @@ async function edit(key: string | null | undefined) {
 function save() {
   formRef.value.validate((errors: boolean) => {
     if (errors) {
-      message.error('请填写完整信息')
+      message.error(t('views.dictionary.messages.failed'))
       return
     }
 
@@ -237,7 +246,7 @@ function save() {
 
     saveDict(unref(form)!)
       .then(() => {
-        message.success('保存成功')
+        message.success(t('views.dictionary.messages.saveSuccess'))
         formCache.value = cloneDeep(unref(form))
         emits('afterChange')
         saveLoading.value = false

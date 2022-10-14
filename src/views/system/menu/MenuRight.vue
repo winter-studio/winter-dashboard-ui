@@ -104,12 +104,7 @@
         <n-switch v-model:value="menuForm.keepAlive" :default-value="true" />
       </n-form-item>
     </n-form>
-    <n-result
-      v-else
-      status="info"
-      :title="t('views.menu.hint.title')"
-      :description="t('views.menu.hint.description')"
-    />
+    <n-result v-else status="info" :description="t('views.menu.hint.description')" />
   </n-card>
 </template>
 
