@@ -68,6 +68,7 @@ import { FormValidationError, useMessage, useThemeVars } from 'naive-ui'
 import { LockClosedOutline, PersonOutline } from '@vicons/ionicons5'
 import { RouteNames } from '@/router/base'
 import { login } from '@/api/auth'
+import { useI18n } from 'vue-i18n'
 
 interface FormState {
   username: string
@@ -80,7 +81,6 @@ const loading = ref(false)
 const rememberMe = ref(true)
 const LOGIN_NAME = RouteNames.BASE_LOGIN_NAME
 const loginBgColor = themeVars.value.loginBgColor
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const formInline = reactive({

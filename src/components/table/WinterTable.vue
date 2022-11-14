@@ -31,7 +31,7 @@
             <n-input
               v-if="!item.type || item.type === 'input'"
               v-model:value="searchForm[item.path]"
-              :placeholder="t(item.placeholder)"
+              :placeholder="t(item.placeholder ?? '')"
             />
             <n-select
               v-if="item.type === 'select'"
