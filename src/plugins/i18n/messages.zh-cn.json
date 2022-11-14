@@ -11,6 +11,7 @@
     },
     "dashboard": {
       "workplace": {
+        "title": "工作台",
         "hello": "你好"
       }
     },
@@ -150,6 +151,9 @@
         "failed": "请完善表单",
         "saveSuccess": "保存成功"
       }
+    },
+    "about": {
+      "title": "关于"
     }
   },
   "components": {

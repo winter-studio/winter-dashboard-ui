@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <n-card :bordered="false" title="工作台">
+      <n-card :bordered="false" :title="t('views.dashboard.workplace.title')">
         <n-grid cols="2 s:1 m:1 l:2 xl:2 2xl:2" responsive="screen">
           <n-gi>
             <div class="flex items-center">
@@ -16,9 +16,8 @@
                 <p class="px-4 text-xl"
                   >{{ t('views.dashboard.workplace.hello') }}，{{
                     userInfo?.username
-                  }}，开始您一天的工作吧！</p
+                  }}，Welcome！</p
                 >
-                <p class="px-4 text-gray-400">今日阴转大雨，15℃ - 25℃，出门记得带伞哦。</p>
               </div>
             </div>
           </n-gi>

@@ -11,6 +11,7 @@
     },
     "dashboard": {
       "workplace": {
+        "title": "Workplace",
         "hello": "Hello"
       }
     },
@@ -150,6 +151,9 @@
         "failed": "Please complete the form",
         "saveSuccess": "Saved"
       }
+    },
+    "about": {
+      "title": "About"
     }
   },
   "components": {
