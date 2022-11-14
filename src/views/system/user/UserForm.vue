@@ -1,6 +1,6 @@
 <template>
   <n-spin :show="formLoading">
-    <template #description> 加载中...</template>
+    <template #description> {{ t('general.loading') }}...</template>
     <n-form
       ref="formRef"
       :model="userForm"
@@ -11,10 +11,12 @@
     >
       <n-form-item>
         <n-space>
-          <n-button attr-type="button" type="primary" @click="save"> 保存</n-button>
+          <n-button attr-type="button" type="primary" @click="save">
+            {{ t('general.save') }}</n-button
+          >
         </n-space>
       </n-form-item>
-      <n-form-item label="头像" path="avatar">
+      <n-form-item :label="t('views.user.common.avatar')" path="avatar">
         <div class="flex flex-col">
           <n-avatar
             class="bg-gray-300 bg-opacity-60 mb-2"
@@ -22,14 +24,16 @@
             :size="84"
             :src="userForm.avatar"
           />
-          <n-button quaternary type="primary" @click="handleClickUpload"> 更换头像</n-button>
+          <n-button quaternary type="primary" @click="handleClickUpload">{{
+            t('views.user.common.changeAvatar')
+          }}</n-button>
           <input id="fileUploader" type="file" style="display: none" @change="afterUploadFile" />
         </div>
       </n-form-item>
-      <n-form-item label="用户名" path="username">
+      <n-form-item :label="t('views.user.common.username')" path="username">
         <n-input v-model:value="userForm.username" :disabled="isEdit" />
       </n-form-item>
-      <n-form-item label="密码" path="password">
+      <n-form-item :label="t('views.user.common.password')" path="password">
         <n-input
           v-model:value="userForm.password"
           type="password"
@@ -37,20 +41,20 @@
           :maxlength="32"
         />
       </n-form-item>
-      <n-form-item label="昵称" path="nickname">
+      <n-form-item :label="t('views.user.common.nickname')" path="nickname">
         <n-input v-model:value="userForm.nickname" />
       </n-form-item>
-      <n-form-item label="手机号" path="mobile">
+      <n-form-item :label="t('views.user.common.tel')" path="mobile">
         <n-input v-model:value="userForm.mobile" />
       </n-form-item>
-      <n-form-item label="状态" path="status">
+      <n-form-item :label="t('views.user.common.status')" path="status">
         <n-select
           v-model:value="userForm.status"
           :options="statusOptions"
           :render-tag="renderTag"
         />
       </n-form-item>
-      <n-form-item label="角色" path="roles">
+      <n-form-item :label="t('views.user.common.role')" path="roles">
         <n-select v-model:value="userForm.roles" multiple :options="roleOptions" />
       </n-form-item>
     </n-form>
@@ -64,12 +68,14 @@ import { editUser, getUser, uploadAvatar, addUser } from '@/api/user'
 import { UserFormModel, userFormRules } from './support'
 import { DictCode, useDictStore } from '@/store/modules/dict'
 import { FormSelectOption } from '@/types/component/form'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
   userId?: number
 }
 
 const props = defineProps<Props>()
+const { t } = useI18n()
 const message = useMessage()
 const formLoading = ref(false)
 const formRef = ref<FormInst | null>(null)
@@ -114,7 +120,7 @@ onMounted(async () => {
         if (res.data) {
           userForm.value = res.data
         } else {
-          message.error('获取用户信息失败')
+          message.error(t('general.requestFailed'))
         }
       })
       .finally(() => {
@@ -146,18 +152,18 @@ function afterUploadFile() {
 function save() {
   formRef.value?.validate((errors) => {
     if (errors) {
-      message.error('请完整填写表单')
+      message.error(t('general.dataRequiredMore'))
       return
     }
 
     if (userForm.value.id) {
       // 编辑
       editUser(userForm.value.id, userForm.value)
-      message.success('修改成功')
+      message.success(t('general.editSuccess'))
     } else {
       // 新增
       addUser(userForm.value).then((res) => {
-        message.success('添加成功')
+        message.success(t('general.addSuccess'))
         userForm.value.id = res.data!
       })
     }

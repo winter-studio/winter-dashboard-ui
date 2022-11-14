@@ -44,43 +44,43 @@ const editUserId = ref<number | undefined>(undefined)
 
 const columns: DataTableColumns<AdminUserPageItem> = [
   {
-    title: () => t('views.user.table.avatar'),
+    title: () => t('views.user.common.avatar'),
     key: 'avatar',
     render: (row) => {
       return <NAvatar src={row.avatar} size="medium" color="#ccc6" />
     }
   },
   {
-    title: () => t('views.user.table.username'),
+    title: () => t('views.user.common.username'),
     key: 'username'
   },
   {
-    title: () => t('views.user.table.nickname'),
+    title: () => t('views.user.common.nickname'),
     key: 'nickname'
   },
   {
-    title: () => t('views.user.table.tel'),
+    title: () => t('views.user.common.tel'),
     key: 'mobile'
   },
   {
-    title: () => t('views.user.table.status'),
+    title: () => t('views.user.common.status'),
     key: 'status',
     render: (row) => {
-      let text = 'views.user.table.available'
+      let text = 'views.user.common.available'
       let type: 'success' | 'error' = 'success'
       if (row.status === '1') {
-        text = 'views.user.table.banned'
+        text = 'views.user.common.banned'
         type = 'error'
       }
       return <NTag type={type}>{t(text)}</NTag>
     }
   },
   {
-    title: () => t('views.user.table.createTime'),
+    title: () => t('views.user.common.createTime'),
     key: 'createTime'
   },
   {
-    title: () => t('views.user.table.operation'),
+    title: () => t('views.user.common.operation'),
     key: 'actions',
     render: renderActions
   }

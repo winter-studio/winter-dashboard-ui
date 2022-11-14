@@ -1,4 +1,16 @@
 {
+  "general": {
+    "save": "Save",
+    "edit": "Edit",
+    "remove": "Remove",
+    "reset": "Reset",
+    "loading": "Loading",
+    "editSuccess": "Modified",
+    "removeSuccess": "Removed",
+    "addSuccess": "Added",
+    "requestFailed": "Request Failed",
+    "dataRequiredMore": "Please complete the data"
+  },
   "views": {
     "login": {
       "rememberme": "Remember Me",
@@ -84,7 +96,7 @@
         "nicknamePlaceholder": "Search by nickname",
         "telPlaceholder": "Search by telephone number"
       },
-      "table": {
+      "common": {
         "avatar": "Avatar",
         "username": "Username",
         "nickname": "Nickname",
@@ -93,7 +105,16 @@
         "createTime": "Create Time",
         "operation": "Operation",
         "available": "Available",
-        "banned": "Banned"
+        "banned": "Banned",
+        "changeAvatar": "Change Avatar",
+        "password": "Password",
+        "role": "Role"
+      },
+      "message": {
+        "nickname": {
+          "required": "Nickname is required",
+          "max": "Length of nickname should less then 20"
+        }
       }
     },
     "role": {

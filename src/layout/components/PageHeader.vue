@@ -86,13 +86,7 @@
     </div>
     <div class="flex justify-center items-center mr-6">
       <div class="mx-2">
-        <n-dropdown trigger="hover" :options="locales" @select="changeLocale">
-          <n-button quaternary circle>
-            <template #icon>
-              <n-icon size="22"> <language /></n-icon>
-            </template>
-          </n-button>
-        </n-dropdown>
+        <locale-selector />
       </div>
       <div class="mx-2">
         <n-tooltip placement="bottom">
@@ -129,7 +123,6 @@ import { ref, computed, unref, inject } from 'vue'
 import { useRouter, useRoute, RouteLocationMatched } from 'vue-router'
 import { MenuFoldOutlined, MenuUnfoldOutlined, GithubOutlined } from '@vicons/antd'
 import { SettingsAdjust, Password, Logout, UserAvatar } from '@vicons/carbon'
-import { Language } from '@vicons/ionicons5'
 import { useDialog, useMessage, NIcon } from 'naive-ui'
 import { useUserStore } from '@/store/modules/user'
 import AppPreference from './AppPreference.vue'
@@ -140,6 +133,8 @@ import { RouteNames } from '@/router/base'
 import { useAppPreferenceStore } from '@/store/modules/preference'
 import { storeToRefs } from 'pinia'
 import IconRender from '@/components/menu/IconRender.vue'
+import LocaleSelector from '@/components/application/LocaleSelector.vue'
+
 import { useI18n } from 'vue-i18n'
 
 interface Props {
@@ -150,7 +145,7 @@ interface Props {
 const props = defineProps<Props>()
 const emits = defineEmits(['update:collapsed'])
 
-const { locale, t } = useI18n()
+const { t } = useI18n()
 const userStore = useUserStore()
 const message = useMessage()
 const dialog = useDialog()
@@ -174,17 +169,6 @@ const getMenuLocation = computed(() => {
 
 const router = useRouter()
 const route = useRoute()
-
-const locales = [
-  { label: '中文', key: 'zh-CN' },
-  { label: 'English', key: 'en-US' }
-]
-
-function changeLocale(key: string) {
-  locale.value = key
-  localStorage.setItem('winter-locale', key)
-  document.title = t(route?.meta?.title as string)
-}
 
 const generator: any = (routerMap: RouteLocationMatched[]) => {
   return routerMap.map((item) => {

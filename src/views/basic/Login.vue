@@ -18,7 +18,7 @@
           :rules="rules"
         >
           <n-form-item path="username">
-            <n-input v-model:value="formInline.username" placeholder="请输入用户名">
+            <n-input v-model:value="formInline.username" placeholder="username">
               <template #prefix>
                 <n-icon size="18" color="#808695">
                   <person-outline />
@@ -31,7 +31,7 @@
               v-model:value="formInline.password"
               type="password"
               show-password-on="click"
-              placeholder="请输入密码"
+              placeholder="password"
             >
               <template #prefix>
                 <n-icon size="18" color="#808695">
@@ -55,6 +55,7 @@
             </n-button>
           </n-form-item>
         </n-form>
+        <locale-selector />
       </div>
     </div>
   </div>
@@ -69,6 +70,7 @@ import { LockClosedOutline, PersonOutline } from '@vicons/ionicons5'
 import { RouteNames } from '@/router/base'
 import { login } from '@/api/auth'
 import { useI18n } from 'vue-i18n'
+import LocaleSelector from '@/components/application/LocaleSelector.vue'
 
 interface FormState {
   username: string

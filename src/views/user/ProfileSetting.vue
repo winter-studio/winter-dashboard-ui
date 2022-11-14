@@ -1,10 +1,10 @@
 <template>
   <n-card :segmented="{ content: true }" :bordered="false" size="small" class="p-4">
     <template #header>
-      <n-button attr-type="button" type="primary" @click="save"> 保存</n-button>
+      <n-button attr-type="button" type="primary" @click="save"> {{ t('general.save') }}</n-button>
     </template>
     <n-spin :show="formLoading">
-      <template #description> 加载中...</template>
+      <template #description> {{ t('general.loading') }}...</template>
       <n-form
         ref="formRef"
         :model="userForm"
@@ -14,7 +14,7 @@
         require-mark-placement="right-hanging"
         class="w-1/3"
       >
-        <n-form-item label="头像" path="avatar">
+        <n-form-item :label="t('views.user.common.avatar')" path="avatar">
           <div class="flex flex-col">
             <n-avatar
               class="bg-gray-300 bg-opacity-60 mb-2"
@@ -22,11 +22,13 @@
               :size="84"
               :src="userForm.avatar"
             />
-            <n-button quaternary type="primary" @click="handleClickUpload"> 更换头像</n-button>
+            <n-button quaternary type="primary" @click="handleClickUpload">
+              t('views.user.common.changeAvatar')</n-button
+            >
             <input id="fileUploader" type="file" style="display: none" @change="afterUploadFile" />
           </div>
         </n-form-item>
-        <n-form-item label="昵称" path="nickname">
+        <n-form-item :label="t('views.user.common.nickname')" path="nickname">
           <n-input v-model:value="userForm.nickname" />
         </n-form-item>
       </n-form>
@@ -41,9 +43,11 @@ import { getUserInfo, updateUserInfo, uploadAvatar } from '@/api/user'
 import { useUserStore } from '@/store/modules/user'
 import { FormRules } from 'naive-ui/es/form/src/interface'
 import { UserProfile } from '@/types/modules/user'
+import { useI18n } from 'vue-i18n'
 
 const userStore = useUserStore()
 const message = useMessage()
+const { t } = useI18n()
 const formLoading = ref(false)
 const formRef = ref<FormInst | null>(null)
 
@@ -54,8 +58,8 @@ const userForm = ref<UserProfile>({
 
 const userFormRules: FormRules = {
   nickname: [
-    { required: true, message: '请输入昵称', trigger: 'blur' },
-    { max: 20, message: '昵称只能20个字符内', trigger: 'blur' }
+    { required: true, message: t('views.user.message.nickname.required'), trigger: 'blur' },
+    { max: 20, message: t('views.user.message.nickname.max'), trigger: 'blur' }
   ]
 }
 
@@ -86,12 +90,12 @@ function afterUploadFile() {
 function save() {
   formRef.value?.validate((errors) => {
     if (errors) {
-      message.error('请完整填写表单')
+      message.error(t('general.dataRequiredMore'))
       return
     }
   })
   updateUserInfo(userForm.value).then(() => {
-    message.success('修改成功')
+    message.success(t('general.editSuccess'))
     userStore.updateUserInfo()
   })
 }

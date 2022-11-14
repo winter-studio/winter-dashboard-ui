@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     IconList: typeof import('./src/components/menu/IconList.vue')['default']
     IconRender: typeof import('./src/components/menu/IconRender.vue')['default']
     IconSelect: typeof import('./src/components/menu/IconSelect.vue')['default']
+    LocaleSelector: typeof import('./src/components/application/LocaleSelector.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']
     NBadge: typeof import('naive-ui')['NBadge']
