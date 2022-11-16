@@ -23,7 +23,7 @@
               :src="userForm.avatar"
             />
             <n-button quaternary type="primary" @click="handleClickUpload">
-              t('views.user.common.changeAvatar')</n-button
+              {{ t('views.user.common.changeAvatar') }}</n-button
             >
             <input id="fileUploader" type="file" style="display: none" @change="afterUploadFile" />
           </div>

@@ -20,10 +20,10 @@
             <template #icon>
               <n-icon><delete-outline-filled /></n-icon>
             </template>
-            {{ t('views.menu.delete') }}
+            {{ t('views.menu.remove') }}
           </n-button>
         </template>
-        {{ t('views.menu.deleteConfirm') }}
+        {{ t('views.menu.removeConfirm') }}
       </n-popconfirm>
     </template>
     <div class="w-full">

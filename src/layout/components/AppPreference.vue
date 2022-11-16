@@ -1,9 +1,9 @@
 <template>
   <n-drawer :show="show" :width="280" placement="right" @update:show="updateShow">
-    <n-drawer-content title="个性配置" :native-scrollbar="false">
+    <n-drawer-content :title="t('components.preference.title')" :native-scrollbar="false">
       <div class="drawer">
         <section class="mb-4">
-          <n-divider title-placement="center">主题</n-divider>
+          <n-divider title-placement="center">{{ t('components.preference.theme') }}</n-divider>
           <div class="flex justify-center dark-switch">
             <n-tooltip placement="bottom">
               <template #trigger>
@@ -20,13 +20,17 @@
                   </template>
                 </n-switch>
               </template>
-              <span>{{ settingStore.darkTheme ? '深' : '浅' }}色主题</span>
+              <span>{{
+                settingStore.darkTheme
+                  ? t('components.preference.dark')
+                  : t('components.preference.light')
+              }}</span>
             </n-tooltip>
           </div>
         </section>
 
         <section class="mb-4">
-          <n-divider title-placement="center">系统主题</n-divider>
+          <n-divider title-placement="center">{{ t('components.preference.color') }}</n-divider>
           <div class="flex flex-wrap">
             <div
               v-for="(item, index) in AppThemeList"
@@ -43,18 +47,18 @@
         </section>
 
         <section class="mb-4">
-          <n-divider title-placement="center">导航栏模式</n-divider>
+          <n-divider title-placement="center">{{ t('components.preference.navMode') }}</n-divider>
           <div class="flex justify-between">
             <div class="flex flex-col items-center">
               <n-tooltip placement="top">
                 <template #trigger>
                   <img
                     src="~@/assets/images/nav-theme-dark.svg"
-                    alt="左侧菜单模式"
+                    :alt="t('components.preference.navMenuLeft')"
                     @click="togNavMode('vertical')"
                   />
                 </template>
-                <span>左侧菜单模式</span>
+                <span>{{ t('components.preference.navMenuLeft') }}</span>
               </n-tooltip>
               <n-badge v-show="settingStore.navMode === 'vertical'" dot color="#19be6b" />
             </div>
@@ -64,11 +68,11 @@
                 <template #trigger>
                   <img
                     src="~@/assets/images/nav-horizontal.svg"
-                    alt="顶部菜单模式"
+                    :alt="t('components.preference.navMenuTop')"
                     @click="togNavMode('horizontal')"
                   />
                 </template>
-                <span>顶部菜单模式</span>
+                <span>{{ t('components.preference.navMenuTop') }}</span>
               </n-tooltip>
               <n-badge v-show="settingStore.navMode === 'horizontal'" dot color="#19be6b" />
             </div>
@@ -78,18 +82,18 @@
                 <template #trigger>
                   <img
                     src="~@/assets/images/nav-horizontal-mix.svg"
-                    alt="顶部菜单混合模式"
+                    :alt="t('components.preference.navMenuMix')"
                     @click="togNavMode('horizontal-mix', true)"
                   />
                 </template>
-                <span>顶部菜单混合模式</span>
+                <span>{{ t('components.preference.navMenuMix') }}</span>
               </n-tooltip>
               <n-badge v-show="settingStore.navMode === 'horizontal-mix'" dot color="#19be6b" />
             </div>
           </div>
         </section>
         <section class="mb-4">
-          <n-divider title-placement="center">导航栏风格</n-divider>
+          <n-divider title-placement="center">{{ t('components.preference.navColor') }}</n-divider>
 
           <div class="flex justify-between">
             <div class="flex flex-col items-center">
@@ -97,11 +101,11 @@
                 <template #trigger>
                   <img
                     src="~@/assets/images/nav-theme-dark.svg"
-                    alt="暗色侧边栏"
+                    :alt="t('components.preference.navColorMix')"
                     @click="togNavTheme('dark')"
                   />
                 </template>
-                <span>暗色侧边栏</span>
+                <span>{{ t('components.preference.navColorMix') }}</span>
               </n-tooltip>
               <n-badge v-if="settingStore.navTheme === 'dark'" dot color="#19be6b" />
             </div>
@@ -111,11 +115,11 @@
                 <template #trigger>
                   <img
                     src="~@/assets/images/nav-theme-light.svg"
-                    alt="白色侧边栏"
+                    :alt="t('components.preference.navColorLight')"
                     @click="togNavTheme('light')"
                   />
                 </template>
-                <span>白色侧边栏</span>
+                <span>{{ t('components.preference.navColorLight') }}</span>
               </n-tooltip>
               <n-badge v-if="settingStore.navTheme === 'light'" dot color="#19be6b" />
             </div>
@@ -125,11 +129,11 @@
                 <template #trigger>
                   <img
                     src="~@/assets/images/header-theme-dark.svg"
-                    alt="暗色顶栏"
+                    :alt="t('components.preference.navColorDark')"
                     @click="togNavTheme('header-dark')"
                   />
                 </template>
-                <span>暗色顶栏</span>
+                <span>{{ t('components.preference.navColorDark') }}</span>
               </n-tooltip>
               <n-badge v-if="settingStore.navTheme === 'header-dark'" dot color="#19be6b" />
             </div>
@@ -137,10 +141,12 @@
         </section>
 
         <section class="mb-4">
-          <n-divider title-placement="center">界面功能</n-divider>
+          <n-divider title-placement="center">{{
+            t('components.preference.viewSetting')
+          }}</n-divider>
 
           <div class="flex justify-between">
-            <div class="text-sm"> 分割菜单</div>
+            <div class="text-sm"> {{ t('components.preference.splitMenu') }}</div>
             <div>
               <n-switch
                 v-model:value="settingStore.menuSetting.mixMenu"
@@ -163,37 +169,33 @@
             <div class="text-sm"> 固定多页签 </div>
             <n-switch v-model:value="settingStore.multiTabsSetting.fixed" />
           </div>-->
-        </section>
-
-        <section class="mb-4">
-          <n-divider title-placement="center">界面显示</n-divider>
 
           <div class="flex justify-between my-4">
-            <div class="text-sm"> 显示重载页面按钮</div>
+            <div class="text-sm"> {{ t('components.preference.showReloadButton') }}</div>
             <n-switch v-model:value="settingStore.showHeaderReload" />
           </div>
 
           <div class="flex justify-between my-4">
-            <div class="text-sm"> 显示面包屑显示图标</div>
+            <div class="text-sm"> {{ t('components.preference.showNavIcon') }}</div>
             <n-switch v-model:value="settingStore.showCrumbIcon" />
           </div>
 
           <div class="flex justify-between my-4">
-            <div class="text-sm"> 显示多页签</div>
+            <div class="text-sm"> {{ t('components.preference.multiTabs') }}</div>
             <n-switch v-model:value="settingStore.multiTabsEnabled" />
           </div>
         </section>
 
         <section class="mb-4">
-          <n-divider title-placement="center">动画</n-divider>
+          <n-divider title-placement="center">{{ t('components.preference.animation') }}</n-divider>
 
           <div class="flex justify-between my-4">
-            <div class="text-sm"> 启用动画</div>
+            <div class="text-sm"> {{ t('components.preference.animationEnabled') }}</div>
             <n-switch v-model:value="settingStore.tabAnimationEnabled" />
           </div>
 
           <div class="flex justify-between items-center my-4">
-            <div class="text-sm"> 动画类型</div>
+            <div class="text-sm"> {{ t('components.preference.animationType') }}</div>
             <n-select
               v-model:value="settingStore.pageAnimateType"
               class="w-1/2"
@@ -212,8 +214,10 @@ import { CheckOutlined } from '@vicons/antd'
 import { Moon, SunnySharp } from '@vicons/ionicons5'
 import { AppAnimates, AppThemeList } from '@/constants/preference'
 import { useAppPreferenceStore } from '@/store/modules/preference'
+import { useI18n } from 'vue-i18n'
 
 const settingStore = useAppPreferenceStore()
+const { t } = useI18n()
 
 defineProps({
   show: {

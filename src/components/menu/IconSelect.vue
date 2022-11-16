@@ -11,19 +11,31 @@
     <transition name="bounce-in" class="icon-select-transition">
       <n-card
         v-if="showSelectPanel"
-        title="图标选择"
+        :title="t('components.icon-select.title')"
         class="icon-select-panel"
         closable
         @close="showSelectPanel = false"
       >
         <n-tabs type="line" animated :closable="true">
-          <n-tab-pane name="Outlined" tab="线框风格" display-directive="show:lazy">
+          <n-tab-pane
+            name="Outlined"
+            :tab="t('components.icon-select.outline')"
+            display-directive="show:lazy"
+          >
             <icon-list :icons="outlinedIcons" remove-suffix="Outlined" @on-select="onSelect" />
           </n-tab-pane>
-          <n-tab-pane name="Filled" tab="实底风格" display-directive="show:lazy">
+          <n-tab-pane
+            name="Filled"
+            :tab="t('components.icon-select.filled')"
+            display-directive="show:lazy"
+          >
             <icon-list :icons="filledIcons" remove-suffix="Filled" @on-select="onSelect" />
           </n-tab-pane>
-          <n-tab-pane name="TwoTone" tab="双色风格" display-directive="show:lazy">
+          <n-tab-pane
+            name="TwoTone"
+            :tab="t('components.icon-select.twoTone')"
+            display-directive="show:lazy"
+          >
             <icon-list :icons="twoToneIcons" remove-suffix="Twotone" @on-select="onSelect" />
           </n-tab-pane>
         </n-tabs>
@@ -38,7 +50,8 @@ import { EditRegular } from '@vicons/fa'
 import { nextTick, ref, watch } from 'vue'
 import IconRender from '@/components/menu/IconRender.vue'
 import IconList from '@/components/menu/IconList.vue'
-
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const showSelectPanel = ref(false)
 const showIcon = ref(false)
 const props = defineProps({

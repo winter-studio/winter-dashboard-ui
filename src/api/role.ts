@@ -4,9 +4,6 @@ import { Role, RoleForm } from '@/types/modules/role'
 
 const PREFIX = '/roles'
 
-/**
- * 获取用户信息
- */
 export function getRoleOptions() {
   return axios.request<Array<FormSelectOption>>({
     url: `${PREFIX}/options`,

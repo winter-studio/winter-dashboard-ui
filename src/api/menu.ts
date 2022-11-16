@@ -3,8 +3,8 @@ import { MenuTree } from '@/types/component/menu'
 import { Menu } from '@/types/modules/base'
 
 /**
- * 获取tree菜单列表
- * @param params
+ * @en get menu list(tree)
+ * @zh-CN 获取tree菜单列表
  */
 export function getMenuList(params?: any) {
   return axios.request<Array<MenuTree>>({

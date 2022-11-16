@@ -166,24 +166,24 @@ const TabsMenuOptions = computed(() => {
   const isDisabled = unref(tabsList).length <= 1
   return [
     {
-      label: '刷新当前',
+      label: () => t('components.tabs.reload'),
       key: '1',
       icon: () => <NIcon>{{ default: () => <ReloadOutlined /> }}</NIcon>
     },
     {
-      label: `关闭当前`,
+      label: () => t('components.tabs.close'),
       key: '2',
       disabled: unref(isCurrent) || isDisabled,
       icon: () => <NIcon>{{ default: () => <Close /> }}</NIcon>
     },
     {
-      label: '关闭其他',
+      label: () => t('components.tabs.closeOther'),
       key: '3',
       disabled: isDisabled,
       icon: () => <NIcon>{{ default: () => <ColumnWidthOutlined /> }}</NIcon>
     },
     {
-      label: '关闭全部',
+      label: () => t('components.tabs.closeAll'),
       key: '4',
       disabled: isDisabled,
       icon: () => <NIcon>{{ default: () => <MinusOutlined /> }}</NIcon>

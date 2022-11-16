@@ -8,7 +8,8 @@ import { UserInfo } from '@/types/modules/base'
 const PREFIX = '/users'
 
 /**
- * 获取用户信息
+ * @en get user
+ * @zh-cn 获取用户信息
  */
 export function getUserInfo() {
   return axios.request<UserInfo>({
@@ -18,7 +19,8 @@ export function getUserInfo() {
 }
 
 /**
- * 更新用户信息
+ * @en update user
+ * @zh-CN 更新用户信息
  */
 export function updateUserInfo(data: UserProfile) {
   return axios.request<void>({
@@ -29,7 +31,8 @@ export function updateUserInfo(data: UserProfile) {
 }
 
 /**
- * 更改密码
+ * @en change user password
+ * @zh-CN 更改密码
  */
 export function changePassword(data: UserPassword) {
   return axios.request<void>({
@@ -40,7 +43,8 @@ export function changePassword(data: UserPassword) {
 }
 
 /**
- * 获取用户菜单
+ * @en get user menus
+ * @zh-CN 获取用户菜单
  */
 export function getUserMenus() {
   return axios.request<MenuTree[]>({
@@ -50,7 +54,8 @@ export function getUserMenus() {
 }
 
 /**
- * 分页获取用户信息
+ * @en get user list
+ * @zh-CN 分页获取用户信息
  */
 export function getPagedUsers(params: any) {
   return axios.request<PageRes<AdminUserPageItem>>({
@@ -61,7 +66,8 @@ export function getPagedUsers(params: any) {
 }
 
 /**
- * 获取用户信息
+ * @ get user by ID
+ * @zh-CN 获取用户信息
  */
 export function getUser(id: number) {
   return axios.request<UserFormModel>({
@@ -71,7 +77,8 @@ export function getUser(id: number) {
 }
 
 /**
- * 上传头像
+ * @en update user avatar
+ * @zh-CN 上传头像
  */
 export function uploadAvatar(data: any) {
   return axios.request<string>({
@@ -83,7 +90,8 @@ export function uploadAvatar(data: any) {
 }
 
 /**
- * 删除用户
+ * @ delete user
+ * @zh-CN 删除用户
  */
 export function deleteUser(id: number) {
   return axios.request<UserFormModel>({
@@ -93,7 +101,8 @@ export function deleteUser(id: number) {
 }
 
 /**
- * 更改用户状态
+ * @en update user status
+ * @zh-CN 更改用户状态
  */
 export function changeUserStatus(id: number, status: string) {
   return axios.request<UserFormModel>({
@@ -106,7 +115,8 @@ export function changeUserStatus(id: number, status: string) {
 }
 
 /**
- * 新增用户
+ * @en add user
+ * @zh-CN 新增用户
  */
 export function addUser(data: UserFormModel) {
   return axios.request<number>({
@@ -117,7 +127,8 @@ export function addUser(data: UserFormModel) {
 }
 
 /**
- * 编辑用户
+ * @en update user info
+ * @zh-CN 编辑用户
  */
 export function editUser(id: number, data: UserFormModel) {
   return axios.request<void>({

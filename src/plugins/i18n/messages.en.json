@@ -178,6 +178,12 @@
     }
   },
   "components": {
+    "tabs": {
+      "reload": "Reload",
+      "close": "Close",
+      "closeOther": "Close other",
+      "closeAll": "Close all"
+    },
     "table": {
       "winterTable": {
         "criteria": "Criteria",
@@ -187,6 +193,35 @@
         "reset": "Reset",
         "count": "no items | {count} item | {count} items"
       }
+    },
+    "icon-select": {
+      "title": "Icon Selection",
+      "outline": "Outlined",
+      "filled": "Filled",
+      "twoTone": "Two Tone"
+    },
+    "preference": {
+      "title": "preference",
+      "theme": "theme",
+      "dark": "dark",
+      "light": "light",
+      "color": "Color",
+      "navMode": "Nav Mode",
+      "navMenuLeft": "Menu Left",
+      "navMenuTop": "Menu Top",
+      "navMenuMix": "Menu Mix",
+      "navColor": "Nav Color",
+      "navColorDark": "Dark",
+      "navColorLight": "Light",
+      "navColorMix": "混合",
+      "viewSetting": "UI Settings",
+      "splitMenu": "Split menu",
+      "showReloadButton": "Show reload button",
+      "showNavIcon": "Show nav icon",
+      "multiTabs": "Multi tabs",
+      "animation": "Animation",
+      "animationEnabled": "Enabled",
+      "animationType": "Type"
     }
   },
   "menus": {

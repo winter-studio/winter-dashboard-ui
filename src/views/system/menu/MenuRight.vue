@@ -23,10 +23,10 @@
         <n-popconfirm @positive-click="deleteMenu">
           <template #trigger>
             <n-button :disabled="!modelValue" secondary type="error">
-              {{ t('views.menu.delete') }}
+              {{ t('views.menu.remove') }}
             </n-button>
           </template>
-          {{ t('views.menu.deleteConfirm') }}
+          {{ t('views.menu.removeConfirm') }}
         </n-popconfirm>
       </n-space>
     </template>

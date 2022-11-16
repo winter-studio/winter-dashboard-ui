@@ -178,6 +178,12 @@
     }
   },
   "components": {
+    "tabs": {
+      "reload": "刷新当前",
+      "close": "关闭当前",
+      "closeOther": "关闭其他",
+      "closeAll": "关闭全部"
+    },
     "table": {
       "winterTable": {
         "criteria": "搜索条件",
@@ -187,6 +193,35 @@
         "reset": "重置",
         "count": "共 {count} 项"
       }
+    },
+    "icon-select": {
+      "title": "图标选择",
+      "outline": "线框风格",
+      "filled": "实低风格",
+      "twoTone": "双色风格"
+    },
+    "preference": {
+      "title": "个性配置",
+      "theme": "主题",
+      "dark": "深色主题",
+      "light": "浅色主题",
+      "color": "主题颜色",
+      "navMode": "导航栏模式",
+      "navMenuLeft": "左侧菜单模式",
+      "navMenuTop": "顶部菜单模式",
+      "navMenuMix": "顶部菜单混合模式",
+      "navColor": "导航栏颜色",
+      "navColorDark": "暗色",
+      "navColorLight": "亮色",
+      "navColorMix": "混合",
+      "viewSetting": "界面设置",
+      "splitMenu": "分割菜单",
+      "showReloadButton": "显示重载页面按钮",
+      "showNavIcon": "显示面包屑显示图标",
+      "multiTabs": "显示多页签",
+      "animation": "动画",
+      "animationEnabled": "启用",
+      "animationType": "类型"
     }
   },
   "menus": {
