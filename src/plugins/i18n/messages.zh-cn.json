@@ -21,6 +21,11 @@
         "password": "请输入密码"
       }
     },
+    "logout": {
+      "title": "退出",
+      "confirm": "您确定要退出登录吗",
+      "msg": "已退出"
+    },
     "dashboard": {
       "workplace": {
         "title": "工作台",
@@ -175,6 +180,15 @@
     },
     "about": {
       "title": "关于"
+    },
+    "password": {
+      "curPassword": "当前密码",
+      "curPasswordRequired": "请输入当前密码",
+      "newPassword": "新密码",
+      "newPasswordSame": "新旧密码不能相同",
+      "newPasswordInvalid": "密码只能由6-32位字母、数字、下划线组成",
+      "confirmPassword": "新密码确认",
+      "confirmPasswordSame": "两次输入的密码不一致"
     }
   },
   "components": {
@@ -183,6 +197,10 @@
       "close": "关闭当前",
       "closeOther": "关闭其他",
       "closeAll": "关闭全部"
+    },
+    "header": {
+      "collapse": "收起侧边栏",
+      "reload": "刷新页面"
     },
     "table": {
       "winterTable": {

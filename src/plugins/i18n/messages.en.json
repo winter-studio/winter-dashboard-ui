@@ -21,6 +21,11 @@
         "password": "please input password"
       }
     },
+    "logout": {
+      "title": "Sign Out",
+      "confirm": "Gonna be Signed out?",
+      "msg": "Signed Out"
+    },
     "dashboard": {
       "workplace": {
         "title": "Workplace",
@@ -175,6 +180,15 @@
     },
     "about": {
       "title": "About"
+    },
+    "password": {
+      "curPassword": "Current password",
+      "curPasswordRequired": "New password",
+      "newPassword": "New password",
+      "newPasswordSame": "New password is same as the current.",
+      "newPasswordInvalid": "Password can only contains 6-32 length of alphanumeric and '_'",
+      "confirmPassword": "Confirm New password",
+      "confirmPasswordSame": "New password and confirm password is different"
     }
   },
   "components": {
@@ -183,6 +197,10 @@
       "close": "Close",
       "closeOther": "Close other",
       "closeAll": "Close all"
+    },
+    "header": {
+      "collapse": "Collapse menu",
+      "reload": "Reload"
     },
     "table": {
       "winterTable": {

@@ -1,6 +1,6 @@
 <template>
   <div class="layout-header">
-    <!--顶部菜单-->
+    <!-- top menu-->
     <div
       v-if="navMode === 'horizontal' || (navMode === 'horizontal-mix' && menuSetting.mixMenu)"
       class="flex justify-center items-center"
@@ -17,9 +17,9 @@
         @update:collapsed="emits('update:collapsed', collapsed)"
       />
     </div>
-    <!--左侧菜单-->
+    <!-- left menu -->
     <div v-else class="flex justify-center items-center ml-6">
-      <!-- 菜单收起 -->
+      <!-- collapse -->
       <n-tooltip placement="bottom">
         <template #trigger>
           <div
@@ -34,9 +34,9 @@
             </n-icon>
           </div>
         </template>
-        <span>收起侧边栏</span>
+        <span>{{ t('components.header.collapse') }}</span>
       </n-tooltip>
-      <!-- 刷新 -->
+      <!-- reload -->
       <n-tooltip placement="bottom">
         <template #trigger>
           <div
@@ -49,10 +49,10 @@
             </n-icon>
           </div>
         </template>
-        <span>刷新页面</span>
+        <span>{{ t('components.header.reload') }}</span>
       </n-tooltip>
 
-      <!-- 面包屑 -->
+      <!-- breadcrumb -->
       <n-breadcrumb>
         <template v-for="routeItem in breadcrumbList" :key="routeItem.name">
           <n-breadcrumb-item
@@ -106,7 +106,7 @@
           Github
         </n-tooltip>
       </div>
-      <!-- 个人中心 -->
+      <!-- user profile -->
       <div class="mx-4 cursor-pointer">
         <n-dropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
           <n-avatar :bordered="true" color="#cccd" round :src="userInfo?.avatar" />
@@ -114,7 +114,7 @@
       </div>
     </div>
   </div>
-  <!--个性配置-->
+  <!--preference-->
   <app-preference v-model:show="showPreference" />
 </template>
 
@@ -209,10 +209,8 @@ const reloadPage = () => {
 // 退出登录
 const doLogout = () => {
   dialog.info({
-    title: '提示',
-    content: '您确定要退出登录吗',
-    positiveText: '确定',
-    negativeText: '取消',
+    title: () => t('views.logout.title'),
+    content: () => t('views.logout.confirm'),
     onPositiveClick: () => {
       userStore.logout().then(() => {
         // 移除标签页
@@ -224,7 +222,7 @@ const doLogout = () => {
               redirect: route.fullPath
             }
           })
-          .finally(() => message.success('已退出'))
+          .finally(() => message.success(t('views.logout.msg')))
       })
     },
     onNegativeClick: () => {}
