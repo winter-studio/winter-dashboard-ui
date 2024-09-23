@@ -1,3 +1,4 @@
+import 'vite/client'
 import type {
   VNodeChild,
   ComponentPublicInstance,

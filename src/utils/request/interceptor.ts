@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios'
+import {AxiosInstance, InternalAxiosRequestConfig} from 'axios'
 import { useUserStore } from '@/store/modules/user'
 import { ApiRes, ApiResponseType, ProxyAxiosResponse } from '@/types/component/request'
 import router from '@/router'
@@ -16,7 +16,7 @@ let retryCount = 0
  */
 function setupRequestInterceptor(instance: AxiosInstance) {
   instance.interceptors.request.use(
-    (request: AxiosRequestConfig) => {
+    (request: InternalAxiosRequestConfig<ApiRes>) => {
       window.$loading.start()
       if (request.headers) {
         // set locale
@@ -51,6 +51,7 @@ function createRefreshing(token: string): Promise<ApiRes<string>> {
  */
 function setupResponseInterceptor(instance: AxiosInstance) {
   instance.interceptors.response.use(
+    //@ts-ignore
     (response: ProxyAxiosResponse) => {
       window.$loading.finish()
       const { data } = response
@@ -73,6 +74,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
           }
           break
       }
+      throw response
     },
     async (error: any) => {
       window.$loading.error()

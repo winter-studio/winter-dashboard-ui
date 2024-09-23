@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios'
 
 export interface PageRes<T> {
   list: T[]
@@ -28,8 +28,14 @@ export interface ProxyAxiosRequestConfig<D = any> extends AxiosRequestConfig<D> 
   handleError?: boolean
 }
 
+export interface ProxyInternalAxiosRequestConfig<D = any> extends InternalAxiosRequestConfig<D> {
+  handleSuccess?: boolean
+  handleFailure?: boolean
+  handleError?: boolean
+}
+
 export interface ProxyAxiosResponse<T = ApiRes, D = any> extends AxiosResponse<T, D> {
-  config: ProxyAxiosRequestConfig<D>
+  config: ProxyInternalAxiosRequestConfig<D>
 }
 
 export interface ProxyAxiosInstance extends AxiosInstance {
