@@ -11,9 +11,9 @@ export default [
   ...tseslint.configs.recommended,
   ...pluginVue.configs['flat/recommended'],
   eslintConfigPrettier,
+  eslintPluginPrettierRecommended,
   {
-    files: ['src/**/*.{js,mjs,cjs,ts,vue,jsx,tsx}'],
-    ignores: ['**/*.config.js', '**/*.config.ts', 'components.d.ts'],
+    files: ['**/*.{js,ts,vue,jsx,tsx}'],
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
       parser: vueParser,
@@ -106,6 +106,5 @@ export default [
         }
       ]
     }
-  },
-  eslintPluginPrettierRecommended
+  }
 ]

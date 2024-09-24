@@ -265,7 +265,9 @@ function scrollTo(value: number, amplitude: number): any {
     (amplitude < 0 && currentScroll + amplitude <= value)
       ? value
       : currentScroll + amplitude
-  navScroll.value && navScroll.value.scrollTo(scrollWidth, 0)
+  if (navScroll.value) {
+    navScroll.value.scrollTo(scrollWidth, 0)
+  }
   if (scrollWidth === value) return
   return window.requestAnimationFrame(() => scrollTo(value, amplitude))
 }
@@ -307,7 +309,9 @@ async function updateNavScroll(autoScroll?: boolean) {
       ;[...tagList].forEach((tag: HTMLElement) => {
         // fix SyntaxError
         if (tag.id === `tag${activeKey.value.split('/').join('/')}`) {
-          tag.scrollIntoView && tag.scrollIntoView()
+          if (tag.scrollIntoView) {
+            tag.scrollIntoView()
+          }
         }
       })
     }
@@ -351,14 +355,18 @@ function go(
     return
   }
   if (isString(opt)) {
-    isReplace
-      ? router.replace(opt).catch((e) => console.error(e))
-      : router.push(opt).catch((e) => console.error(e))
+    if (isReplace) {
+      router.replace(opt).catch((e) => console.error(e))
+    } else {
+      router.push(opt).catch((e) => console.error(e))
+    }
   } else {
     const o = opt as RouteLocationRaw
-    isReplace
-      ? router.replace(o).catch((e) => console.error(e))
-      : router.push(o).catch((e) => console.error(e))
+    if (isReplace) {
+      router.replace(o).catch((e) => console.error(e))
+    } else {
+      router.push(o).catch((e) => console.error(e))
+    }
   }
 }
 
