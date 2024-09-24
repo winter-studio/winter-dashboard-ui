@@ -1,4 +1,4 @@
-import {AxiosInstance, InternalAxiosRequestConfig} from 'axios'
+import { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
 import { useUserStore } from '@/store/modules/user'
 import { ApiRes, ApiResponseType, ProxyAxiosResponse } from '@/types/component/request'
 import router from '@/router'
@@ -80,7 +80,7 @@ function setupResponseInterceptor(instance: AxiosInstance) {
       window.$loading.error()
       if (error && error.response) {
         switch (error.response.status) {
-          case 401:
+          case 401: {
             const userStore = useUserStore()
             if (error.response.data.code === ApiResCode.ACCESS_TOKEN_EXPIRED) {
               // token过期，尝试刷新token
@@ -119,8 +119,8 @@ function setupResponseInterceptor(instance: AxiosInstance) {
                 window.$message.error(`${msg}, 请重新登录`)
               })
             })
-
             return
+          }
           case 403:
             window.$message.error('没有权限')
             break

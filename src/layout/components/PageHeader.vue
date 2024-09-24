@@ -149,9 +149,8 @@ const { t } = useI18n()
 const userStore = useUserStore()
 const message = useMessage()
 const dialog = useDialog()
-const { navMode, navTheme, showHeaderReload, menuSetting, showCrumbIcon } = storeToRefs(
-  useAppPreferenceStore()
-)
+const { navMode, navTheme, showHeaderReload, menuSetting, showCrumbIcon } =
+  storeToRefs(useAppPreferenceStore())
 
 const rootRoute = RouteNames.ROOT.toString()
 

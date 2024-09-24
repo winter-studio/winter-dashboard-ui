@@ -122,7 +122,8 @@ const props = withDefaults(defineProps<Props>(), {
   selection: false,
   rowKey: undefined,
   flexHeight: false,
-  pageData: undefined
+  pageData: undefined,
+  scrollX: undefined
 })
 const emits = defineEmits<{
   (e: 'search', search: SearchOptions<any>): void

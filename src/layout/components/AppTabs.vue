@@ -306,7 +306,7 @@ async function updateNavScroll(autoScroll?: boolean) {
       const tagList = navScroll.value.querySelectorAll('.tabs-card-scroll-item') || []
       ;[...tagList].forEach((tag: HTMLElement) => {
         // fix SyntaxError
-        if (tag.id === `tag${activeKey.value.split('/').join('\/')}`) {
+        if (tag.id === `tag${activeKey.value.split('/').join('/')}`) {
           tag.scrollIntoView && tag.scrollIntoView()
         }
       })

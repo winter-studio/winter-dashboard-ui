@@ -70,7 +70,7 @@ export function setupGuards(router: Router) {
   })
 
   router.afterEach((to, _, failure) => {
-    document.title = window.$i18n.t(to?.meta?.title as string) || document.title
+    document.title = window.$i18n.t(to?.meta?.title) || document.title
     if (isNavigationFailure(failure)) {
       //console.log('failed navigation', failure)
     }

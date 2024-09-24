@@ -82,7 +82,7 @@ const outlinedIcons = Object.keys(antd).filter((key) => key.includes('Outlined')
 const filledIcons = Object.keys(antd).filter((key) => key.includes('Filled'))
 const twoToneIcons = Object.keys(antd).filter((key) => key.includes('Twotone'))
 
-const onSelect = (item: String) => {
+const onSelect = (item: string) => {
   emits('update:value', item)
   showSelectPanel.value = false
 }

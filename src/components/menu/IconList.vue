@@ -49,7 +49,7 @@ onMounted(() => {
 
 const emits = defineEmits(['onSelect'])
 
-const selectIcon = (item: String) => {
+const selectIcon = (item: string) => {
   emits('onSelect', item)
 }
 

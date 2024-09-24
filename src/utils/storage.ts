@@ -55,6 +55,7 @@ class Storage {
         }
         this.remove(key)
       } catch (e) {
+        console.error(e)
         return def
       }
     }

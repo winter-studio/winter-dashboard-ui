@@ -34,7 +34,8 @@
     "src/**/*.vue",
     "typings/**/*.d.ts",
     "components.d.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "eslint.config.mjs"
   ],
   "exclude": ["node_modules", "dist", "**/*.js"]
 }

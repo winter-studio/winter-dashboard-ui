@@ -24,7 +24,7 @@ export function buildMenu(
     // 是否有子菜单，并递归处理
     if (menu.children?.length ?? 0 > 0) {
       // Recursion
-      currentMenu.children = buildMenu(menu.children!)
+      currentMenu.children = buildMenu(menu.children)
     }
     return currentMenu
   })

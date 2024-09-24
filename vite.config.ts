@@ -3,9 +3,7 @@ import { loadEnv } from 'vite'
 import { resolve } from 'path'
 import pkg from './package.json'
 import { format } from 'date-fns'
-// eslint-disable-next-line import/no-unresolved
 import Components from 'unplugin-vue-components/vite'
-// eslint-disable-next-line import/no-unresolved
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import vue from '@vitejs/plugin-vue'
