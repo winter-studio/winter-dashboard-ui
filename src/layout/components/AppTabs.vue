@@ -425,15 +425,6 @@ function onElementResize() {
           overflow: hidden;
           padding: 0 14px;
 
-          .tabs-card-scroll-item:hover,
-          .tabs-card-scroll-item.active-item {
-            border-radius: 10px 10px 0 0;
-
-            & + .tabs-card-scroll-item .tabs-card-scroll-item-content {
-              border-color: #00000000 !important;
-            }
-          }
-
           .tabs-card-scroll-item.active-item {
             background-color: v-bind(appTabsBgColorActive) !important;
             z-index: 103 !important;
@@ -465,7 +456,9 @@ function onElementResize() {
               padding: 0 12px 0 14px;
               height: 20px;
               border-left: 1px solid #999;
-              //border-right: 1px solid #999;
+
+              // border-right: 1px solid #999;
+
               min-width: 100px;
               display: flex;
               justify-content: space-between;
@@ -478,7 +471,7 @@ function onElementResize() {
             }
 
             &:first-child .tabs-card-scroll-item-content {
-              border-color: #00000000;
+              border-color: #0000;
             }
 
             &:last-child .tabs-card-scroll-item-content {
@@ -521,6 +514,15 @@ function onElementResize() {
               }
             }
           }
+
+          .tabs-card-scroll-item:hover,
+          .tabs-card-scroll-item.active-item {
+            border-radius: 10px 10px 0 0;
+
+            & + .tabs-card-scroll-item .tabs-card-scroll-item-content {
+              border-color: #0000 !important;
+            }
+          }
         }
       }
 
@@ -534,8 +536,7 @@ function onElementResize() {
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
-    align-content: center;
+    place-content: center center;
   }
 }
 </style>

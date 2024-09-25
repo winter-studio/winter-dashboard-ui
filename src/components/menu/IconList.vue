@@ -64,8 +64,7 @@ function load() {
 .icon-select-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
-  align-content: center;
+  place-content: center center;
   flex-direction: column;
   border: 1px dashed #aaa;
   padding: 5px 0;
@@ -76,7 +75,7 @@ function load() {
   }
 
   .icon-select-btn-text {
-    color: #666666;
+    color: #666;
   }
 }
 </style>

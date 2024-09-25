@@ -165,7 +165,7 @@ const handleSubmit = (e: MouseEvent) => {
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .view-account {
     background-image: url('../../assets/images/login.svg');
     background-repeat: no-repeat;
@@ -174,7 +174,7 @@ const handleSubmit = (e: MouseEvent) => {
   }
 
   .page-account-container {
-    padding: 32px 0 24px 0;
+    padding: 32px 0 24px;
   }
 }
 </style>

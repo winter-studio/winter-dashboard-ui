@@ -111,13 +111,6 @@ const onSelect = (item: string) => {
   min-width: 24px;
   min-height: 24px;
 
-  &:hover {
-    .icon-select-box-cover {
-      visibility: inherit;
-      opacity: 1;
-    }
-  }
-
   .icon-select-box-cover {
     visibility: hidden;
     opacity: 0;
@@ -125,14 +118,20 @@ const onSelect = (item: string) => {
     position: absolute;
     height: 100%;
     width: 100%;
-    color: #bbbbbb;
+    color: #bbb;
     top: 0;
     left: 0;
     background: #f0f0f0;
     z-index: 1003;
     align-items: center;
-    justify-content: center;
-    align-content: center;
+    place-content: center center;
+  }
+
+  &:hover {
+    .icon-select-box-cover {
+      visibility: inherit;
+      opacity: 1;
+    }
   }
 }
 

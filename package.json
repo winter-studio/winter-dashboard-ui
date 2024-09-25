@@ -9,7 +9,7 @@
     "prepare": "husky",
     "lint:eslint": "eslint src/**/*.{js,ts,vue,jsx,tsx} --fix",
     "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
-    "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
+    "lint:stylelint": "stylelint --cache --fix \"src/**/*.{vue,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "lint:lint-staged": "lint-staged --no-stash"
   },
   "dependencies": {
@@ -66,9 +66,10 @@
     "rollup": "^4.22.4",
     "sass": "^1.79.3",
     "stylelint": "^16.9.0",
-    "stylelint-config-recommended": "^14.0.1",
+    "stylelint-config-recommended-scss": "^14.1.0",
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard-scss": "13.1.0",
     "stylelint-order": "^6.0.4",
     "tailwindcss": "^3.4.13",
     "typescript": "^5.6.2",

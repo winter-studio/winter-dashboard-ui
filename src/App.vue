@@ -19,5 +19,5 @@ provide('reloadRouter', () => {
 </script>
 
 <style lang="scss">
-@import '@/styles/index.scss';
+@import '@/styles/index';
 </style>

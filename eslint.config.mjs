@@ -15,7 +15,10 @@ export default [
   {
     files: ['**/*.{js,ts,vue,jsx,tsx}'],
     languageOptions: {
-      globals: { ...globals.browser, ...globals.node },
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
       parser: vueParser,
       parserOptions: {
         ecmaVersion: 'latest',
