@@ -97,20 +97,36 @@ const renderLabel = (item: { option: TreeOption; checked: boolean; selected: boo
 
 const renderSuffix = (item: { option: TreeOption; checked: boolean; selected: boolean }) => {
   return (
-    <NButton
-      class="action-btn"
-      type="primary"
-      size="tiny"
-      onClick={() => assignMenu(item.option.key as number, item.option.name as string)}
-    >
-      {t('views.role.configMenu')}
-    </NButton>
+    <div>
+      <NButton
+        class="action-btn mr-1"
+        type="primary"
+        size="tiny"
+        onClick={() => assignApiPermissions(item.option.key as number, item.option.name as string)}
+      >
+        {t('views.role.configApi')}
+      </NButton>
+      <NButton
+        class="action-btn"
+        type="primary"
+        size="tiny"
+        onClick={() => assignMenu(item.option.key as number, item.option.name as string)}
+      >
+        {t('views.role.configMenu')}
+      </NButton>
+    </div>
   )
 }
 
 function assignMenu(id: number, name: string) {
   showDrawer.value = true
-  drawerTitle.value = `【${name}】t('views.role.configMenu')`
+  drawerTitle.value = `【${name}】${t('views.role.configMenu')}`
+  assigningKey.value = id
+}
+
+function assignApiPermissions(id: number, name: string) {
+  showDrawer.value = true
+  drawerTitle.value = `【${name}】${t('views.role.configApi')}`
   assigningKey.value = id
 }
 
