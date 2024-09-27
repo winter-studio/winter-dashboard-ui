@@ -94,7 +94,7 @@ export function uploadAvatar(data: any) {
  * @zh-CN 删除用户
  */
 export function deleteUser(id: number) {
-  return axios.request<UserFormModel>({
+  return axios.request<void>({
     url: `${PREFIX}/${id}`,
     method: 'DELETE'
   })
@@ -105,7 +105,7 @@ export function deleteUser(id: number) {
  * @zh-CN 更改用户状态
  */
 export function changeUserStatus(id: number, status: string) {
-  return axios.request<UserFormModel>({
+  return axios.request<void>({
     url: `${PREFIX}/${id}/status`,
     method: 'PUT',
     params: {

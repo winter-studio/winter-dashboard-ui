@@ -9,12 +9,12 @@
           :disabled="!isModified"
           @click="saveMenuForm"
         >
-          {{ t('views.menu.save') }}
+          {{ t('general.save') }}
         </n-button>
         <n-popconfirm @positive-click="reset">
           <template #trigger>
             <n-button :disabled="!isModified" secondary>
-              {{ t('views.menu.reset') }}
+              {{ t('general.reset') }}
             </n-button>
           </template>
           {{ t('views.menu.leaveConfirm') }}
@@ -23,10 +23,10 @@
         <n-popconfirm @positive-click="deleteMenu">
           <template #trigger>
             <n-button :disabled="!modelValue" secondary type="error">
-              {{ t('views.menu.remove') }}
+              {{ t('general.remove') }}
             </n-button>
           </template>
-          {{ t('views.menu.removeConfirm') }}
+          {{ t('general.removeConfirm') }}
         </n-popconfirm>
       </n-space>
     </template>

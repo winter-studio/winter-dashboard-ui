@@ -38,7 +38,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
           api: 'modern-compiler',
           modifyVars: {},
           javascriptEnabled: true,
-          additionalData: `@import "src/styles/var.scss";`
+          additionalData: `@import "@/styles/var.scss";`
         }
       }
     },

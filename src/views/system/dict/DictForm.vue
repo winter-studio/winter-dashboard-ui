@@ -9,12 +9,12 @@
           :disabled="!isModified"
           @click="save"
         >
-          {{ t('views.dictionary.save') }}
+          {{ t('general.save') }}
         </n-button>
         <n-popconfirm @positive-click="reset">
           <template #trigger>
             <n-button :disabled="!isModified" secondary>
-              {{ t('views.dictionary.reset') }}
+              {{ t('general.reset') }}
             </n-button>
           </template>
           {{ t('views.dictionary.leaveConfirm') }}

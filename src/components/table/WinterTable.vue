@@ -7,7 +7,7 @@
             {{ t('components.table.winterTable.search') }}
           </n-button>
           <n-button type="default" @click="reset">
-            {{ t('components.table.winterTable.reset') }}
+            {{ t('general.reset') }}
           </n-button>
         </div>
       </template>

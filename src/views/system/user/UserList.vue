@@ -14,7 +14,7 @@
       :mask-closable="false"
       @after-leave="refresh"
     >
-      <n-drawer-content :title="t('views.user.edit')" closable>
+      <n-drawer-content :title="t('general.edit')" closable>
         <user-form :user-id="editUserId" />
       </n-drawer-content>
     </n-drawer>
@@ -115,17 +115,17 @@ function renderActions(row: AdminUserPageItem) {
       onClick={() => onEdit(row.id)}
     >
       {{
-        default: () => t('views.user.edit'),
+        default: () => t('general.edit'),
         icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
       }}
     </NButton>,
     <NPopconfirm onPositiveClick={() => onDelete(row.id)}>
       {{
-        default: () => t('views.user.removeConfirm'),
+        default: () => t('general.removeConfirm'),
         trigger: () => (
           <NButton strong secondary type="error" size="small" class="mr-2">
             {{
-              default: () => t('views.user.remove'),
+              default: () => t('general.remove'),
               icon: () => <NIcon>{{ default: () => <DeleteOutlined /> }}</NIcon>
             }}
           </NButton>
@@ -158,7 +158,7 @@ function renderActions(row: AdminUserPageItem) {
 
 function onDelete(id: number) {
   deleteUser(id).then(() => {
-    message.success(t('views.user.removeSuccess'))
+    message.success(t('general.removeSuccess'))
     refresh()
   })
 }

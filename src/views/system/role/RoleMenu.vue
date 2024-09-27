@@ -5,7 +5,7 @@
         <template #icon>
           <n-icon><save-outlined /></n-icon>
         </template>
-        {{ t('views.role.save') }}
+        {{ t('general.save') }}
       </n-button>
     </template>
     <n-tree

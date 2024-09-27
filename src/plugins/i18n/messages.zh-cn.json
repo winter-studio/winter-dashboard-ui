@@ -2,6 +2,7 @@
   "general": {
     "save": "保存",
     "edit": "编辑",
+    "add": "新增",
     "remove": "删除",
     "reset": "重置",
     "loading": "加载中",
@@ -35,11 +36,7 @@
     "menu": {
       "expandAll": "展开",
       "collapseAll": "收起",
-      "add": "添加",
-      "remove": "删除",
       "removeConfirm": "确认删除吗？将无法恢复",
-      "save": "保存",
-      "reset": "重置",
       "search": "输入菜单名称搜索",
       "leaveConfirm": "确认放弃当前编辑的内容",
       "types": {
@@ -84,8 +81,6 @@
     },
     "user": {
       "add": "新增",
-      "edit": "编辑",
-      "remove": "删除",
       "disable": "禁用",
       "enable": "启用",
       "removeConfirm": " 确认要删除用户吗？",
@@ -123,11 +118,7 @@
       }
     },
     "role": {
-      "add": "添加",
-      "remove": "删除",
       "removeConfirm": " 确认删除吗？将无法恢复",
-      "save": "保存",
-      "reset": "重置",
       "operation": "操作",
       "configApi": "配置API权限",
       "configMenu": "配置菜单权限",
@@ -145,11 +136,7 @@
       }
     },
     "dictionary": {
-      "add": "添加",
-      "remove": "删除",
       "removeConfirm": " 确认删除吗？将无法恢复",
-      "save": "保存",
-      "reset": "重置",
       "searchPlaceholder": "输入字典名称搜索",
       "dictCode": "字典代码",
       "dictCodePlaceholder": "请输入字典代码",
@@ -209,7 +196,6 @@
         "moreCriteria": "更多",
         "lessCriteria": "收起",
         "search": "搜索",
-        "reset": "重置",
         "count": "共 {count} 项"
       }
     },

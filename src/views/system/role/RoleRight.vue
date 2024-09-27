@@ -9,12 +9,12 @@
           :disabled="!isModified || !form"
           @click="save"
         >
-          {{ t('views.role.save') }}
+          {{ t('general.save') }}
         </n-button>
         <n-popconfirm @positive-click="reset">
           <template #trigger>
             <n-button :disabled="!isModified || !form" secondary>
-              {{ t('views.role.reset') }}
+              {{ t('general.reset') }}
             </n-button>
           </template>
           {{ t('views.role.leaveConfirm') }}

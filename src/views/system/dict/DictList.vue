@@ -5,7 +5,7 @@
         <template #icon>
           <n-icon><add-box-outlined /></n-icon>
         </template>
-        {{ t('views.dictionary.add') }}
+        {{ t('general.add') }}
       </n-button>
       <n-popconfirm class="mr-2" @positive-click="deleteDicts">
         <template #trigger>
@@ -13,10 +13,10 @@
             <template #icon>
               <n-icon><delete-outline-filled /></n-icon>
             </template>
-            {{ t('views.dictionary.remove') }}
+            {{ t('general.remove') }}
           </n-button>
         </template>
-        {{ t('views.dictionary.removeConfirm') }}
+        {{ t('general.removeConfirm') }}
       </n-popconfirm>
     </template>
     <div class="w-full">

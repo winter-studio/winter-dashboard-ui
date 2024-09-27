@@ -12,7 +12,7 @@
         <template #icon>
           <n-icon><add-box-outlined /></n-icon>
         </template>
-        {{ t('views.menu.add') }}
+        {{ t('general.add') }}
       </n-button>
       <n-popconfirm class="mr-2" @positive-click="deleteMenus">
         <template #trigger>
@@ -20,10 +20,10 @@
             <template #icon>
               <n-icon><delete-outline-filled /></n-icon>
             </template>
-            {{ t('views.menu.remove') }}
+            {{ t('general.remove') }}
           </n-button>
         </template>
-        {{ t('views.menu.removeConfirm') }}
+        {{ t('general.removeConfirm') }}
       </n-popconfirm>
     </template>
     <div class="w-full">

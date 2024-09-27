@@ -35,11 +35,7 @@
     "menu": {
       "expandAll": "Expand",
       "collapseAll": "Collapse",
-      "add": "Add",
-      "remove": "Remove",
       "removeConfirm": "Confirm to remove?",
-      "save": "Save",
-      "reset": "Reset",
       "search": "Input menu name to search",
       "leaveConfirm": "Discard current content",
       "types": {
@@ -83,9 +79,6 @@
       }
     },
     "user": {
-      "add": "Add",
-      "edit": "Edit",
-      "remove": "Remove",
       "disable": "Disable",
       "enable": "Enable",
       "removeConfirm": "Are you sure to remove this user?",
@@ -123,11 +116,7 @@
       }
     },
     "role": {
-      "add": "Add",
-      "remove": "Remove",
       "removeConfirm": "Are you sure to remove?",
-      "save": "Save",
-      "reset": "Reset",
       "operation": "Operation",
       "configApi": "API Permission",
       "configMenu": "Menu Permission",
@@ -145,11 +134,7 @@
       }
     },
     "dictionary": {
-      "add": "Add",
-      "remove": "Remove",
       "removeConfirm": "Are you sure to remove?",
-      "save": "Save",
-      "reset": "Reset",
       "searchPlaceholder": "Search by dictionary name",
       "dictCode": "Dictionary code",
       "dictCodePlaceholder": "please input dictionary code",
@@ -209,7 +194,6 @@
         "moreCriteria": "More",
         "lessCriteria": "Collapse",
         "search": "Search",
-        "reset": "Reset",
         "count": "no items | {count} item | {count} items"
       }
     },

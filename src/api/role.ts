@@ -1,6 +1,7 @@
 import { axios } from '@/utils/request'
 import { FormSelectOption } from '@/types/component/form'
 import { Role, RoleForm } from '@/types/modules/role'
+import { PageRes } from '@/types/component/request'
 
 const PREFIX = '/roles'
 
@@ -65,5 +66,28 @@ export function updateRoleMenus(id: number, menus: number[]) {
     data: {
       menus
     }
+  })
+}
+
+/**
+ * @en delete role
+ * @zh-CN 删除角色
+ */
+export function deleteRole(id: number) {
+  return axios.request<void>({
+    url: `${PREFIX}/${id}`,
+    method: 'DELETE'
+  })
+}
+
+/**
+ * @en get role list
+ * @zh-CN 分页获取角色信息
+ */
+export function getPagedRoles(params: any) {
+  return axios.request<PageRes<Role>>({
+    url: `${PREFIX}`,
+    method: 'GET',
+    params
   })
 }
