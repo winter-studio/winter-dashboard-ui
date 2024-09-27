@@ -35,6 +35,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
     css: {
       preprocessorOptions: {
         scss: {
+          api: 'modern-compiler',
           modifyVars: {},
           javascriptEnabled: true,
           additionalData: `@import "src/styles/var.scss";`
