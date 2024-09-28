@@ -4,33 +4,33 @@ import { FormItemRule } from 'naive-ui'
 import { isEmpty } from 'lodash-es'
 
 export type SearchParam = {
-  roleName: string
-  roleCode: string
+  name: string
+  code: string
 }
 
 export type RoleFormModel = {
   id?: number
-  roleName: string
-  roleCode: string
+  name: string
+  code: string
 }
 
 export const searchItems: SearchItem[] = [
   {
     label: 'views.role.roleName',
-    path: 'roleName',
+    path: 'name',
     placeholder: 'views.role.roleNamePlaceholder',
     labelWidth: 100
   },
   {
     label: 'views.role.roleCode',
-    path: 'roleCode',
+    path: 'code',
     placeholder: 'views.role.roleCodePlaceholder',
     labelWidth: 100
   }
 ]
 
 export const formRules: FormRules = {
-  roleCode: [
+  code: [
     {
       required: true,
       trigger: 'blur',
@@ -46,8 +46,8 @@ export const formRules: FormRules = {
       }
     }
   ],
-  roleName: [
-    { required: true, message: '请输入昵称', trigger: 'blur' },
-    { max: 30, message: '昵称只能30个字符内', trigger: 'blur' }
+  name: [
+    { required: true, message: '请输入角色名称', trigger: 'blur' },
+    { max: 30, message: '角色名称应在30个字符内', trigger: 'blur' }
   ]
 }

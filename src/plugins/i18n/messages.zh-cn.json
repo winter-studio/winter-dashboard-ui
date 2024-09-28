@@ -10,7 +10,8 @@
     "removeSuccess": "删除成功",
     "addSuccess": "添加成功",
     "requestFailed": "请求失败",
-    "dataRequiredMore": "请完善信息"
+    "dataRequiredMore": "请完善信息",
+    "removeConfirm": "确认删除吗？"
   },
   "views": {
     "login": {

@@ -18,6 +18,11 @@
         <role-form :id="editId" />
       </n-drawer-content>
     </n-drawer>
+    <n-drawer v-model:show="showDrawer" :width="500" placement="right" closable>
+      <n-drawer-content :title="drawerTitle">
+        <role-menu v-if="assigningKey" :id="assigningKey" />
+      </n-drawer-content>
+    </n-drawer>
   </div>
 </template>
 
@@ -27,7 +32,6 @@ import { NButton, NIcon, NPopconfirm, useMessage, NSpace } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import WinterTable from '@/components/table/WinterTable.vue'
 import { SearchOptions } from '@/types/component/table'
-import { getPagedUsers, deleteUser } from '@/api/user'
 import { getPagedRoles, deleteRole } from '@/api/role'
 import { AdminUserPageItem } from '@/types/modules/user'
 import { EditOutlined, DeleteOutlined } from '@vicons/antd'
@@ -35,21 +39,26 @@ import { SearchParam, searchItems } from './support'
 import RoleForm from './RoleForm.vue'
 import { PageRes } from '@/types/component/request'
 import { useI18n } from 'vue-i18n'
+import { Role } from '@/types/modules/role'
+import RoleMenu from '@/views/system/role/RoleMenu.vue'
 
 const message = useMessage()
 const showEdit = ref(false)
 const { t } = useI18n()
-const data = ref<PageRes<AdminUserPageItem>>()
+const data = ref<PageRes<Role>>()
 const editId = ref<number | undefined>(undefined)
+const showDrawer = ref(false)
+const drawerTitle = ref('')
+const assigningKey = ref<number | undefined>(undefined)
 
-const columns: DataTableColumns<AdminUserPageItem> = [
+const columns: DataTableColumns<Role> = [
   {
     title: () => t('views.role.roleName'),
-    key: 'roleName'
+    key: 'name'
   },
   {
     title: () => t('views.role.roleCode'),
-    key: 'roleCode'
+    key: 'code'
   },
   {
     title: () => t('views.role.operation'),
@@ -103,7 +112,19 @@ function renderActions(row: AdminUserPageItem) {
           </NButton>
         )
       }}
-    </NPopconfirm>
+    </NPopconfirm>,
+    <NButton strong secondary size="small" class="mr-2" onClick={() => assignMenu(row)}>
+      {{
+        default: () => t('views.role.configApi'),
+        icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
+      }}
+    </NButton>,
+    <NButton strong secondary size="small" class="mr-2" onClick={() => assignMenu(row)}>
+      {{
+        default: () => t('views.role.configMenu'),
+        icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
+      }}
+    </NButton>
   ]
 }
 
@@ -116,6 +137,12 @@ function onDelete(id: number) {
 
 function add() {
   onEdit()
+}
+
+function assignMenu(row: Role) {
+  showDrawer.value = true
+  drawerTitle.value = `【${row.name}】${t('views.role.configMenu')}`
+  assigningKey.value = row.id
 }
 </script>
 

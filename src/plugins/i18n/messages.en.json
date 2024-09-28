@@ -2,6 +2,7 @@
   "general": {
     "save": "Save",
     "edit": "Edit",
+    "add": "Add",
     "remove": "Remove",
     "reset": "Reset",
     "loading": "Loading",
@@ -9,7 +10,8 @@
     "removeSuccess": "Removed",
     "addSuccess": "Added",
     "requestFailed": "Request Failed",
-    "dataRequiredMore": "Please complete the data"
+    "dataRequiredMore": "Please complete the data",
+    "removeConfirm": "Are you sure to remove?"
   },
   "views": {
     "login": {

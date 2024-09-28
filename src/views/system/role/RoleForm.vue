@@ -16,11 +16,11 @@
           >
         </n-space>
       </n-form-item>
-      <n-form-item :label="t('views.role.roleName')" path="roleName">
-        <n-input v-model:value="form.roleName" />
+      <n-form-item :label="t('views.role.roleName')" path="name">
+        <n-input v-model:value="form.name" />
       </n-form-item>
-      <n-form-item :label="t('views.role.roleCode')" path="roleCode">
-        <n-input v-model:value="form.roleCode" />
+      <n-form-item :label="t('views.role.roleCode')" path="code">
+        <n-input v-model:value="form.code" />
       </n-form-item>
     </n-form>
   </n-spin>
@@ -29,9 +29,9 @@
 <script setup lang="tsx">
 import { onMounted, ref } from 'vue'
 import { FormInst, SelectOption, useMessage } from 'naive-ui'
-import { editUser, getUser, addUser } from '@/api/user'
 import { RoleFormModel, formRules } from './support'
 import { useI18n } from 'vue-i18n'
+import { addRole, getRoleById, updateRole } from '@/api/role'
 
 interface Props {
   id?: number
@@ -44,8 +44,8 @@ const formLoading = ref(false)
 const formRef = ref<FormInst | null>(null)
 
 const form = ref<RoleFormModel>({
-  roleName: '',
-  roleCode: ''
+  name: '',
+  code: ''
 })
 
 ref<Array<SelectOption>>([])
@@ -53,7 +53,7 @@ onMounted(async () => {
   form.value.id = props.id
   if (props.id) {
     formLoading.value = true
-    getUser(props.id)
+    getRoleById(props.id)
       .then((res) => {
         if (res.data) {
           form.value = res.data
@@ -75,11 +75,11 @@ function save() {
 
     if (form.value.id) {
       // edit
-      editUser(form.value.id, form.value)
+      updateRole(form.value.id, form.value)
       message.success(t('general.editSuccess'))
     } else {
       // add
-      addUser(form.value).then((res) => {
+      addRole(form.value).then((res) => {
         message.success(t('general.addSuccess'))
         form.value.id = res.data!
       })
