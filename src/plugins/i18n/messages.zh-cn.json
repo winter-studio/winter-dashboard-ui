@@ -121,8 +121,10 @@
     "role": {
       "removeConfirm": " 确认删除吗？将无法恢复",
       "operation": "操作",
-      "configApi": "配置API权限",
-      "configMenu": "配置菜单权限",
+      "config": {
+        "api": "配置API权限",
+        "menu": "配置菜单权限"
+      },
       "roleCode": "角色代码",
       "roleCodePlaceholder": "请输入角色代码",
       "roleName": "角色名称",

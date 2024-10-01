@@ -20,7 +20,8 @@
     </n-drawer>
     <n-drawer v-model:show="showDrawer" :width="500" placement="right" closable>
       <n-drawer-content :title="drawerTitle">
-        <role-menu v-if="assigningKey" :id="assigningKey" />
+        <role-menu v-if="selectingKey && configType === 'menu'" :id="selectingKey" />
+        <role-api v-if="selectingKey && configType === 'api'" :id="selectingKey" />
       </n-drawer-content>
     </n-drawer>
   </div>
@@ -41,6 +42,7 @@ import { PageRes } from '@/types/component/request'
 import { useI18n } from 'vue-i18n'
 import { Role } from '@/types/modules/role'
 import RoleMenu from '@/views/system/role/RoleMenu.vue'
+import RoleApi from '@/views/system/role/RoleApi.vue'
 
 const message = useMessage()
 const showEdit = ref(false)
@@ -49,7 +51,8 @@ const data = ref<PageRes<Role>>()
 const editId = ref<number | undefined>(undefined)
 const showDrawer = ref(false)
 const drawerTitle = ref('')
-const assigningKey = ref<number | undefined>(undefined)
+const selectingKey = ref<number | undefined>(undefined)
+const configType = ref<'menu' | 'api'>('menu')
 
 const columns: DataTableColumns<Role> = [
   {
@@ -113,15 +116,15 @@ function renderActions(row: AdminUserPageItem) {
         )
       }}
     </NPopconfirm>,
-    <NButton strong secondary size="small" class="mr-2" onClick={() => assignMenu(row)}>
+    <NButton strong secondary size="small" class="mr-2" onClick={() => configRole(row, 'api')}>
       {{
-        default: () => t('views.role.configApi'),
+        default: () => t('views.role.config.api'),
         icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
       }}
     </NButton>,
-    <NButton strong secondary size="small" class="mr-2" onClick={() => assignMenu(row)}>
+    <NButton strong secondary size="small" class="mr-2" onClick={() => configRole(row, 'menu')}>
       {{
-        default: () => t('views.role.configMenu'),
+        default: () => t('views.role.config.menu'),
         icon: () => <NIcon>{{ default: () => <EditOutlined /> }}</NIcon>
       }}
     </NButton>
@@ -139,10 +142,11 @@ function add() {
   onEdit()
 }
 
-function assignMenu(row: Role) {
+function configRole(row: Role, type: 'menu' | 'api') {
+  configType.value = type
   showDrawer.value = true
-  drawerTitle.value = `【${row.name}】${t('views.role.configMenu')}`
-  assigningKey.value = row.id
+  drawerTitle.value = `【${row.name}】${t(`views.role.config.${type}`)}`
+  selectingKey.value = row.id
 }
 </script>
 

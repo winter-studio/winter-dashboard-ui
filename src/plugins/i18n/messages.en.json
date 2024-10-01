@@ -120,8 +120,10 @@
     "role": {
       "removeConfirm": "Are you sure to remove?",
       "operation": "Operation",
-      "configApi": "API Permission",
-      "configMenu": "Menu Permission",
+      "config": {
+        "api": "API Permission",
+        "menu": "Menu Permission"
+      },
       "roleCode": "Role code",
       "roleCodePlaceholder": "Please input role code",
       "roleName": "Role name",
