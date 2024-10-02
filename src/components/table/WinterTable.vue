@@ -94,7 +94,7 @@ import { DataTableColumns, NButton, DataTableRowKey, PaginationInfo } from 'naiv
 import { CreateRowKey } from 'naive-ui/es/data-table/src/interface'
 import { SearchItem, SearchItemOptions, SearchOptions } from '@/types/component/table'
 import { clone } from 'lodash-es'
-import { DictCode, useDictStore } from '@/store/modules/dict'
+import { useDictStore } from '@/store/modules/dict'
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface'
 import { PageRes } from '@/types/component/request'
 import { PaginationProps } from 'naive-ui/es/pagination'
@@ -176,24 +176,15 @@ onMounted(() => {
   if (props.initSearch) {
     search()
   }
-
-  const dictCodes: DictCode[] = []
-  for (const item of props.searchItems) {
-    if (item.type === 'select' && typeof item.options === 'string') {
-      dictCodes.push(item.options)
-    }
-  }
-  if (dictCodes.length > 0) {
-    dictStore.use(...dictCodes)
-  }
 })
 
-function getItemOptions(options?: SearchItemOptions): SelectMixedOption[] {
+async function getItemOptions(options?: SearchItemOptions): SelectMixedOption[] {
   if (!options) {
     return []
   }
   if (typeof options === 'string') {
-    return dictStore.getDictItems(options).map((item) => ({
+    const dictItems = await dictStore.getDictItems(options)
+    return dictItems.map((item) => ({
       label: item.value,
       value: item.key
     }))

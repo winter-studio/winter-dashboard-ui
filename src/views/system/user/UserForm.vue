@@ -99,18 +99,18 @@ const statusOptions = ref<Array<SelectOption>>([])
 
 const renderTag: SelectRenderTag = ({ option }) => <div class={option.class}>{option.label}</div>
 onMounted(async () => {
-  await dictStore.use(DictCode.UserStatus)
-
   dictStore.getRoleOptions.then((roles) => {
     roleOptions.value = roles!
   })
 
-  dictStore.getDictItems(DictCode.UserStatus).map((item) => {
-    return {
-      label: item.value,
-      value: item.key,
-      style: { color: item.extra }
-    }
+  dictStore.getDictItems(DictCode.UserStatus).then((items) => {
+    statusOptions.value = items.map((item) => {
+      return {
+        label: item.value,
+        value: item.key,
+        style: { color: item.extra }
+      }
+    })
   })
   userForm.value.id = props.userId
   if (props.userId) {
