@@ -11,6 +11,7 @@ Using:
 - TypeScript
 - Naive UI
 
-preview: https://dashboard.iamkyun.com/
+preview:
+![preview](./doc/preview.png)
 
 Backend Project(Java): https://github.com/winter-studio/winter-dashboard-api
